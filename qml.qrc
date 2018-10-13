@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>sambaConfig.qml</file>
+        <file>menu.qml</file>
     </qresource>
 </RCC>
