@@ -12,6 +12,9 @@ class MainWindow : public QObject
 public:
     explicit MainWindow(QObject *parent = nullptr);
 
+public slots:
+    void bSave_onClicked(QString text);
+
 };
 
 #endif // MAINWINDOW_H

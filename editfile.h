@@ -6,6 +6,10 @@ class EditFile
 {
 public:
     EditFile();
+    void OpenFile();
+
+private:
+
 };
 
 #endif // EDITFILE_H

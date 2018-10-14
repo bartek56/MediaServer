@@ -33,6 +33,7 @@ ApplicationWindow{
         ToolButton {
             id: bSambaConfig
             text: qsTr("Samba")
+            autoExclusive: true
             font.wordSpacing: 1
             font.letterSpacing: 1
             Layout.preferredHeight: 80

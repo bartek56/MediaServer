@@ -1,4 +1,5 @@
-QT += quick
+QT += qml quick
+
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -11,12 +12,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+static {
+    QT += svg
+    QTPLUGIN += qtvirtualkeyboardplugin
+}
 
 SOURCES += \
-    start.cpp \
+    editfile.cpp \
     mainwindow.cpp \
     sambaconfig.cpp \
-    editfile.cpp
+    start.cpp
 
 RESOURCES += qml.qrc
 
@@ -35,3 +40,21 @@ HEADERS += \
     mainwindow.h \
     sambaconfig.h \
     editfile.h
+
+FORMS +=
+
+disable-xcb {
+    message("The disable-xcb option has been deprecated. Please use disable-desktop instead.")
+    CONFIG += disable-desktop
+}
+
+DEFINES += MAIN_QML=\\\"Basic.qml\\\"
+
+OTHER_FILES += \
+    Basic.qml \
+    basic-b2qt.qml \
+    content/AutoScroller.qml \
+    content/HandwritingModeButton.qml \
+    content/TextArea.qml \
+    content/TextField.qml l
+
