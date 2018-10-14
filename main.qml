@@ -2,6 +2,8 @@ import QtQuick 2.9
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 
+
+
 ApplicationWindow{
 
     id: mainWindow
@@ -17,6 +19,11 @@ ApplicationWindow{
         source:"menu.qml";
       }
 
+    Loader {
+        id:loaderConfigWindow
+      }
+
+
     GridLayout {
         id: gridLayout
         rows: 3
@@ -31,7 +38,11 @@ ApplicationWindow{
             Layout.preferredHeight: 80
             Layout.preferredWidth: 160
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            onClicked: MainWindow.bSambaConfig_onClicked()
+            onClicked:
+            {
+                loaderConfigWindow.setSource("sambaConfig.qml")
+            }
+
         }
 
         ToolButton {

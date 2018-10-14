@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QtQuick>
+#include <QQmlComponent>
 
 class MainWindow : public QObject
 {
@@ -10,10 +12,6 @@ class MainWindow : public QObject
 public:
     explicit MainWindow(QObject *parent = nullptr);
 
-signals:
-
-public slots:
-    void bSambaConfig_onClicked();
 };
 
 #endif // MAINWINDOW_H

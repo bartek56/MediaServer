@@ -3,18 +3,33 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
-ApplicationWindow {
-
+Dialog {
+    id:dialog
     visible: true
     width: 800
-    height: 480
-    title: qsTr("Raspberry Pi 3")
+    height: 440
+    topMargin: 40
+    margins: 0
+    padding: 1
+    modal: true
 
-    Loader {
-        anchors.right: parent.right
-        anchors.left: parent.left
-        anchors.top: parent.top
-        source:"menu.qml";
-      }
+    //standardButtons: Dialog.Save | Dialog.RestoreDefaults | Dialog.Cancel
 
+    footer: DialogButtonBox
+    {
+
+        Button{
+             text: "Save"
+         }
+
+       Button{
+            text: "Close"
+            onClicked:
+            {
+                dialog.close()
+            }
+        }
+
+
+    }
 }
