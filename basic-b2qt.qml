@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,12 +30,12 @@
 import QtQuick 2.0
 import QtQuick.Window 2.2
 import QtQuick.VirtualKeyboard 2.2
-//import QtQuick.VirtualKeyboard.Settings 2.2
+import QtQuick.VirtualKeyboard.Settings 2.2
 import "content"
 
 Item {
-    width: 1280
-    height: 720
+    width: 800
+    height: 480
 
     Item {
         id: appContainer

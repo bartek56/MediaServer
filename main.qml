@@ -2,15 +2,13 @@ import QtQuick 2.9
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 
-
-
-ApplicationWindow{
+Rectangle{
 
     id: mainWindow
     visible: true
     width: 800
     height: 480
-    title: qsTr("Raspberry Pi 3")
+    //title: qsTr("Raspberry Pi 3")
 
     Loader {
         anchors.right: parent.right
@@ -42,6 +40,7 @@ ApplicationWindow{
             onClicked:
             {
                 loaderConfigWindow.setSource("sambaConfig.qml")
+                //g_mainWindow.bSave_onClicked("clock")
             }
 
         }
@@ -90,5 +89,7 @@ ApplicationWindow{
             Layout.preferredHeight: 80
             Layout.preferredWidth: 160
         }
+
     }
+
 }

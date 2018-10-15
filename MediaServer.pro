@@ -48,13 +48,5 @@ disable-xcb {
     CONFIG += disable-desktop
 }
 
-DEFINES += MAIN_QML=\\\"Basic.qml\\\"
 
-OTHER_FILES += \
-    Basic.qml \
-    basic-b2qt.qml \
-    content/AutoScroller.qml \
-    content/HandwritingModeButton.qml \
-    content/TextArea.qml \
-    content/TextField.qml l
 
