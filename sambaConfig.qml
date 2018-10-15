@@ -3,6 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
+import SambaConfigLib 1.0
 
 Dialog {
     id: dialog
@@ -13,6 +14,12 @@ Dialog {
     margins: 0
     padding: 1
     modal: true
+
+    SambaConfig
+    {
+        id:sambaConfig
+    }
+
 
     TextField {
         id: tfWorkgroup
@@ -78,10 +85,9 @@ Dialog {
             text: "Save"
              onClicked:
              {
-                g_mainWindow.bSave_onClicked(tfWorkgroup.getText(0,tfWorkgroup.length))
-             }
-         }
-
+                 sambaConfig.bSave_onClicked(tfWorkgroup.getText(0,tfWorkgroup.length));
+                }
+        }
 
         Button{
             text: "Close"
@@ -94,3 +100,4 @@ Dialog {
        }
     }
 }
+

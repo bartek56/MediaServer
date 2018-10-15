@@ -8,6 +8,7 @@ class SambaConfig : public QObject
     Q_OBJECT
 public:
     explicit SambaConfig(QObject *parent = nullptr);
+    Q_INVOKABLE void bSave_onClicked(QString text);
 
 public slots:
 

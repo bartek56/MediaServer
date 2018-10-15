@@ -19,8 +19,8 @@ static {
 
 SOURCES += \
     editfile.cpp \
-    mainwindow.cpp \
-    sambaconfig.cpp \
+    ViewModel/mainwindow.cpp \
+    ViewModel/sambaconfig.cpp \
     start.cpp
 
 RESOURCES += qml.qrc
@@ -37,8 +37,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    mainwindow.h \
-    sambaconfig.h \
+    ViewModel/mainwindow.h \
+    ViewModel/sambaconfig.h \
     editfile.h
 
 FORMS +=
