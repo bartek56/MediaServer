@@ -1,9 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-
 #include "editfile.h"
 #include <ViewModel/mainwindow.h>
-#include <QtQuickControls2/QtQuickControls2>
 #include "ViewModel/sambaconfig.h"
 
 int main(int argc, char *argv[])
