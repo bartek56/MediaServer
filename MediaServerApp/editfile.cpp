@@ -44,6 +44,8 @@ std::map<QString,std::map<QByteArray,QByteArray>> EditFile::OpenFile(QString fil
     configParametersMap.insert(std::make_pair(parameterName,mConfigParameters));
     mConfigParameters.clear();
 
+
+
     return configParametersMap;
 
 }
