@@ -1,13 +1,18 @@
 include(gtest_dependency.pri)
 
+
+
 TEMPLATE = app
-CONFIG += console
+#CONFIG += console
 CONFIG -= app_bundle
 CONFIG += thread
-CONFIG -= qt
+#CONFIG -= qt
 
 HEADERS += \
-    test.h
+    test.h \
+    ../MediaServerApp/editfile.h
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+    editfiletest.cpp \
+    ../MediaServerApp/editfile.cpp

@@ -1,50 +1,50 @@
 #include "editfile.h"
 #include <QFile>
 #include <QDebug>
-#include <string>
-#include <vector>
-#include <map>
-#include <utility>
 
+#include <utility>
+/*
 EditFile::EditFile()
 {
 
 }
-
-void EditFile::OpenFile()
+*/
+std::map<QString,std::map<QByteArray,QByteArray>> EditFile::OpenFile(QString fileLocation)
 {
 
-    std::vector<std::string> vConfigName;
-    std::vector<std::map<std::string,std::string>> vConfigParameters;
-    std::map<std::string,std::string> mConfigParameters;
+    QFile file (fileLocation);
+    std::map<QString,std::map<QByteArray,QByteArray>> configParametersMap;
+    std::map<QByteArray,QByteArray> mConfigParameters;
 
-    QFile file ("/etc/samba/smb.conf");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
+        return configParametersMap;
 
-
+    QByteArray parameterName;
     while (!file.atEnd())
     {
         QByteArray line = file.readLine();
-        qDebug() << line;
-        std::string str(line);
-        if(!str.find('['))
+        std::string strLine(line);
+
+        if(!strLine.find('['))
         {
-            vConfigName.push_back(str);
-            //mConfigParameters.clear();
+            if(!mConfigParameters.empty())
+            {
+                configParametersMap.insert(std::make_pair(parameterName,mConfigParameters));
+                mConfigParameters.clear();
+            }
+            parameterName=line.remove(line.length()-1,1);
         }
         else
         {
-
-            //auto test = str.split('=');
-
-            //auto ds = std::to_string(test[0]);
-            //mConfigParameters[test[0]]=test[1];
-            //mConfigParameters.insert(std::make_pair(test[0],test[1]));
+            auto test = line.split('=');
+            test[1].remove(test[1].length()-1,1); // remove '\n' on last sign
+            mConfigParameters.insert(std::make_pair(test[0],test[1]));
         }
-
-        //auto test = line.split('=');
-
-
     }
+    configParametersMap.insert(std::make_pair(parameterName,mConfigParameters));
+    mConfigParameters.clear();
+
+    return configParametersMap;
+
 }
+
