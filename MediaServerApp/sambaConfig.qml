@@ -62,6 +62,7 @@ Dialog
                 TextField
                 {
                     id: tfWorkgroup
+                    text: "fdsf"
                     width: 158
                     height: 40
                     placeholderText: "WORKGROUP"
@@ -272,11 +273,13 @@ Dialog
         sambaConfig.setWorkGroupTextField(tfWorkgroup);
         sambaConfig.setServerStringTextField(tfServerString);
         sambaConfig.setNetBiosTextField(tfNetbiosName);
+        /*
         sambaConfig.setBrowsableCheckBox(cbBrowseable);
         sambaConfig.setLocalMastercheckBox(cbLocalMaster);
         sambaConfig.setDomainMasterCheckBox(cbDomainMaster);
         sambaConfig.setSecurityComboBox(cbSecurity);
         sambaConfig.setMapToGuestComboBox(cbMapToGuest);
+        */
         sambaConfig.openFile();
     }
 }

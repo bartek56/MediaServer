@@ -11,14 +11,22 @@ public:
 TEST_F(editFileTest, fileHasThreeMainConfigurations)
 {
     EditFile editFile;
-    auto configMap = editFile.OpenFile(location);
-    ASSERT_EQ(configMap.size(), 3);
+    auto configsVector = editFile.OpenFile(location);
+    ASSERT_EQ(configsVector.size(), 3);
 }
 
 TEST_F(editFileTest, firstConfigurationHasEightOptions)
 {
     EditFile editFile;
-    auto configMap = editFile.OpenFile(location);
-    auto firstConfiguration = configMap.at("[GLOBAL]");
-    ASSERT_EQ(firstConfiguration.size(), 8);
+    auto configs = editFile.OpenFile(location);
+    auto firstConfiguration = configs[0];
+    ASSERT_EQ(firstConfiguration.configs.size(), 8);
+}
+
+TEST_F(editFileTest, firstConfigurationHasNameGlobal)
+{
+    EditFile editFile;
+    auto configs = editFile.OpenFile(location);
+    auto firstConfiguration = configs[0];
+    ASSERT_EQ(firstConfiguration.name, "[GLOBAL]");
 }

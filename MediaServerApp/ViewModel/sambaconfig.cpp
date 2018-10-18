@@ -15,27 +15,28 @@ void SambaConfig::bSave_onClicked(QString text)
 void SambaConfig::openFile()
 {
     EditFile editFile;
-    auto configsMap = editFile.OpenFile("/etc/samba/smb.conf");
+    auto configs = editFile.OpenFile("/etc/samba/smb.conf");
 
-    for(auto a : configsMap)
-    {
-        workGroupTextField->setProperty("text",QVariant(a.first));
-        serverStringTextFieldMyObject->setProperty("text",QVariant(a.second.at("server string")));
-    }
+    auto globalConfig = configs[0];
+    workGroupTextField->setProperty("text",QVariant(globalConfig.name));
+
+    auto configsParameters = globalConfig.configs;
+    serverStringTextField->setProperty("text",QVariant(configsParameters.at("server string")));
+    netBiosTextField->setProperty("text",QVariant(configsParameters.at("netbios name")));
 }
 
-void SambaConfig::setWorkGroupTextField(QObject *obj)
+void SambaConfig::setWorkGroupTextField(QObject* obj)
 {
-    workGroupTextField = obj;
+    workGroupTextField = QSharedPointer<QObject>(obj);
 }
 
 void SambaConfig::setServerStringTextField(QObject *obj)
 {
-    serverStringTextFieldMyObject = obj;
+    serverStringTextField = QSharedPointer<QObject>(obj);
 }
 void SambaConfig::setNetBiosTextField(QObject *obj)
 {
-    netBiosTextField = obj;
+    netBiosTextField = QSharedPointer<QObject>(obj);
 }
 /*
 void SambaConfig::setBrowsableCheckBox(std::unique_ptr<QObject> obj)

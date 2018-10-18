@@ -5,11 +5,18 @@
 #include <vector>
 #include <map>
 
+struct ConfigsName {
+    QString name;
+    std::map<QString, QString> configs;
+    ConfigsName(QString const & name, std::map<QString, QString> const & configs)
+    : name(name), configs(configs) {
+    }
+};
+
 class EditFile
 {
 public:
-    //EditFile();
-    std::map<QString,std::map<QByteArray,QByteArray>> OpenFile(QString fileLocation);
+    std::vector<ConfigsName> OpenFile(QString fileLocation);
     void ReadFile();
 
 private:

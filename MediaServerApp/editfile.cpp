@@ -1,7 +1,7 @@
 #include "editfile.h"
 #include <QFile>
 #include <QDebug>
-
+#include <vector>
 #include <utility>
 /*
 EditFile::EditFile()
@@ -9,15 +9,15 @@ EditFile::EditFile()
 
 }
 */
-std::map<QString,std::map<QByteArray,QByteArray>> EditFile::OpenFile(QString fileLocation)
+std::vector<ConfigsName> EditFile::OpenFile(QString fileLocation)
 {
 
     QFile file (fileLocation);
-    std::map<QString,std::map<QByteArray,QByteArray>> configParametersMap;
-    std::map<QByteArray,QByteArray> mConfigParameters;
+    std::vector<ConfigsName> vConfigsName;
+    std::map<QString, QString> mConfigsParameters;
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return configParametersMap;
+        return vConfigsName;
 
     QByteArray parameterName;
     while (!file.atEnd())
@@ -27,26 +27,26 @@ std::map<QString,std::map<QByteArray,QByteArray>> EditFile::OpenFile(QString fil
 
         if(!strLine.find('['))
         {
-            if(!mConfigParameters.empty())
+            if(!mConfigsParameters.empty())
             {
-                configParametersMap.insert(std::make_pair(parameterName,mConfigParameters));
-                mConfigParameters.clear();
+                vConfigsName.push_back(ConfigsName(parameterName,mConfigsParameters));
+                mConfigsParameters.clear();
             }
             parameterName=line.remove(line.length()-1,1);
         }
         else
         {
-            auto test = line.split('=');
-            test[1].remove(test[1].length()-1,1); // remove '\n' on last sign
-            mConfigParameters.insert(std::make_pair(test[0],test[1]));
+            auto parameter = line.split('=');
+            auto parameterName = parameter[0];
+            auto parameterValue = parameter[1];
+
+            parameterValue.remove(parameter[1].length()-1,1); // remove '\n' on last sign
+            mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
         }
     }
-    configParametersMap.insert(std::make_pair(parameterName,mConfigParameters));
-    mConfigParameters.clear();
+    vConfigsName.push_back(ConfigsName(parameterName,mConfigsParameters));
+    mConfigsParameters.clear();
 
-
-
-    return configParametersMap;
-
+    return vConfigsName;
 }
 
