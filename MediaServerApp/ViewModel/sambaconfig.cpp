@@ -18,18 +18,33 @@ void SambaConfig::openFile()
     auto configs = editFile.OpenFile("/etc/samba/smb.conf");
 
     auto globalConfig = configs[0];
-    workGroupTextField->setProperty("text",QVariant(globalConfig.name));
-
     auto configsParameters = globalConfig.configs;
+
+    workGroupTextField->setProperty("text",QVariant(configsParameters.at("workgroup")));
     serverStringTextField->setProperty("text",QVariant(configsParameters.at("server string")));
     netBiosTextField->setProperty("text",QVariant(configsParameters.at("netbios name")));
+
+    setCheckboxesFromFileSettings(configsParameters.at("browseable"), browsableCheckBox);
+    setCheckboxesFromFileSettings(configsParameters.at("local master"), localMastercheckBox);
+    setCheckboxesFromFileSettings(configsParameters.at("domain master"), domainMasterCheckBox);
 }
 
+
+void SambaConfig::setCheckboxesFromFileSettings(const QString configsParameters, QSharedPointer<QObject> checkbox)
+{
+    if(!configsParameters.compare("yes"))
+    {
+        checkbox->setProperty("checked",QVariant(true));
+    }
+    else
+    {
+        checkbox->setProperty("checked",QVariant(false));
+    }
+}
 void SambaConfig::setWorkGroupTextField(QObject* obj)
 {
     workGroupTextField = QSharedPointer<QObject>(obj);
 }
-
 void SambaConfig::setServerStringTextField(QObject *obj)
 {
     serverStringTextField = QSharedPointer<QObject>(obj);
@@ -38,27 +53,24 @@ void SambaConfig::setNetBiosTextField(QObject *obj)
 {
     netBiosTextField = QSharedPointer<QObject>(obj);
 }
-/*
-void SambaConfig::setBrowsableCheckBox(std::unique_ptr<QObject> obj)
+void SambaConfig::setBrowsableCheckBox(QObject *obj)
 {
-    browsableCheckBox = std::make_unique<QObject>(obj);
+    browsableCheckBox = QSharedPointer<QObject>(obj);
 }
-void SambaConfig::setLocalMastercheckBox(std::unique_ptr<QObject> obj)
+void SambaConfig::setLocalMastercheckBox(QObject *obj)
 {
-    localMastercheckBox = std::make_unique<QObject>(obj);
+    localMastercheckBox = QSharedPointer<QObject>(obj);
 }
-void SambaConfig::setDomainMasterCheckBox(std::unique_ptr<QObject> obj)
+void SambaConfig::setDomainMasterCheckBox(QObject *obj)
 {
-    domainMasterCheckBox = std::make_unique<QObject>(obj);
+    domainMasterCheckBox = QSharedPointer<QObject>(obj);
+}
+void SambaConfig::setSecurityComboBox(QObject *obj)
+{
+    securityComboBox = QSharedPointer<QObject>(obj);
+}
+void SambaConfig::setMapToGuestComboBox(QObject *obj)
+{
+    mapToGuestComboBox = QSharedPointer<QObject>(obj);
 }
 
-void SambaConfig::setSecurityComboBox(std::unique_ptr<QObject> obj)
-{
-    securityComboBox = std::make_unique<QObject>(obj);
-}
-
-void SambaConfig::setMapToGuestComboBox(std::unique_ptr<QObject> obj)
-{
-    mapToGuestComboBox = std::make_unique<QObject>(obj);
-}
-*/

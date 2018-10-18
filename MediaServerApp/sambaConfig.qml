@@ -43,10 +43,10 @@ Dialog
 
             GridLayout {
                 id: gridLayout
-                x: 0
-                y: 46
+                x: 35
+                y: 62
                 width: 446
-                height: 323
+                height: 312
                 rows: 5
                 columns: 2
 
@@ -56,26 +56,23 @@ Dialog
                     width: 132
                     height: 40
                     text: qsTr("workgroup")
-                    font.pixelSize: 21
+                    font.pixelSize: 18
                 }
 
                 TextField
                 {
                     id: tfWorkgroup
-                    text: "fdsf"
                     width: 158
                     height: 40
-                    placeholderText: "WORKGROUP"
                 }
 
                 Text
                 {
                     id: lServerString
-
                     width: 132
                     height: 40
                     text: qsTr("server string")
-                    font.pixelSize: 21
+                    font.pixelSize: 18
                 }
 
                 TextField
@@ -83,7 +80,6 @@ Dialog
                     id: tfServerString
                     width: 158
                     height: 40
-                    placeholderText: "Server"
                 }
 
                 Text
@@ -92,7 +88,7 @@ Dialog
                     width: 132
                     height: 40
                     text: qsTr("netbios name")
-                    font.pixelSize: 21
+                    font.pixelSize: 18
                 }
 
                 TextField
@@ -101,7 +97,6 @@ Dialog
                     width: 158
                     height: 40
                     text: ""
-                    placeholderText: "Server"
                 }
 
                 Text
@@ -110,11 +105,12 @@ Dialog
                     width: 132
                     height: 40
                     text: qsTr("security")
-                    font.pixelSize: 21
+                    font.pixelSize: 18
                 }
 
                 ComboBox {
                     id: cbSecurity
+                    Layout.preferredWidth: tfServerString.width
                     model: ListModel {
 
                         ListElement {
@@ -133,13 +129,15 @@ Dialog
                     width: 132
                     height: 40
                     text: qsTr("map to guest")
-                    font.pixelSize: 21
+                    font.pixelSize: 18
                 }
 
                 ComboBox {
                     id: cbMapToGuest
+                    Layout.preferredWidth: tfServerString.width
                     textRole: "key"
                     model: ListModel {
+                        id:mapToGuestListModel
                         ListElement { key: "Bad User"; }
                         ListElement { key: "Bad Password";}
                         ListElement { key: "Never";}
@@ -181,8 +179,6 @@ Dialog
             id: activityTab
         }
     }
-
-
 
     InputPanel
     {
@@ -273,13 +269,11 @@ Dialog
         sambaConfig.setWorkGroupTextField(tfWorkgroup);
         sambaConfig.setServerStringTextField(tfServerString);
         sambaConfig.setNetBiosTextField(tfNetbiosName);
-        /*
         sambaConfig.setBrowsableCheckBox(cbBrowseable);
         sambaConfig.setLocalMastercheckBox(cbLocalMaster);
         sambaConfig.setDomainMasterCheckBox(cbDomainMaster);
         sambaConfig.setSecurityComboBox(cbSecurity);
         sambaConfig.setMapToGuestComboBox(cbMapToGuest);
-        */
         sambaConfig.openFile();
     }
 }
