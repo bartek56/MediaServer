@@ -5,6 +5,8 @@
 #include <vector>
 #include <map>
 
+
+
 struct ConfigsName {
     QString name;
     std::map<QString, QString> configs;
@@ -17,7 +19,7 @@ class EditFile
 {
 public:
     std::vector<ConfigsName> OpenFile(QString fileLocation);
-    void ReadFile();
+    void SaveFile(QString fileLocation,std::vector<ConfigsName> vConfigs);
 
 private:
 };

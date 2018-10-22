@@ -64,6 +64,10 @@ Dialog
                     id: tfWorkgroup
                     width: 158
                     height: 40
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfWorkgroup_onEditingFinished(tfWorkgroup.getText(0,tfWorkgroup.length));
+                    }
                 }
 
                 Text
@@ -80,6 +84,10 @@ Dialog
                     id: tfServerString
                     width: 158
                     height: 40
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfServerString_onEditingFinished(tfServerString.getText(0,tfServerString.length));
+                    }
                 }
 
                 Text
@@ -97,6 +105,10 @@ Dialog
                     width: 158
                     height: 40
                     text: ""
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfNetbiosName_onEditingFinished(tfNetbiosName.getText(0,tfNetbiosName.length));
+                    }
                 }
 
                 Text
@@ -121,6 +133,11 @@ Dialog
                         }
                     }
                     textRole: "key"
+
+                    onDisplayTextChanged:
+                    {
+                        sambaConfig.cbSecurity_onDisplayTextChanged(cbSecurity.currentText);
+                    }
                 }
 
                 Text
@@ -142,6 +159,10 @@ Dialog
                         ListElement { key: "Bad Password";}
                         ListElement { key: "Never";}
                     }
+                    onDisplayTextChanged:
+                    {
+                        sambaConfig.cbMapToGuest_onDisplayTextChanged(cbMapToGuest.currentText);
+                    }
                 }
             }
 
@@ -157,18 +178,30 @@ Dialog
                     id: cbBrowseable
                     text: qsTr("browseable")
                     checkable: true
+                    onClicked:
+                    {
+                        sambaConfig.cbBrowseable_onClicked(cbBrowseable.checked);
+                    }
                 }
 
                 CheckBox {
                     id: cbLocalMaster
                     text: qsTr("local master")
                     checkable: true
+                    onClicked:
+                    {
+                        sambaConfig.cbLocalMaster_onClicked(cbLocalMaster.checked);
+                    }
                 }
 
                 CheckBox {
                     id: cbDomainMaster
                     text: qsTr("domain master")
                     checkable: true
+                    onClicked:
+                    {
+                        sambaConfig.cbDomainMaster_onClicked(cbDomainMaster.checked);
+                    }
                 }
             }
         }
@@ -238,6 +271,14 @@ Dialog
                 cbDomainMaster.checked=true
                 cbSecurity.currentIndex=0
                 cbMapToGuest.currentIndex=0
+                sambaConfig.tfWorkgroup_onEditingFinished(tfWorkgroup.getText(0,tfWorkgroup.length));
+                sambaConfig.tfServerString_onEditingFinished(tfServerString.getText(0,tfServerString.length));
+                sambaConfig.tfNetbiosName_onEditingFinished(tfNetbiosName.getText(0,tfNetbiosName.length));
+                sambaConfig.cbSecurity_onDisplayTextChanged(cbSecurity.currentText);
+                sambaConfig.cbMapToGuest_onDisplayTextChanged(cbMapToGuest.currentText);
+                sambaConfig.cbBrowseable_onClicked(cbBrowseable.checked);
+                sambaConfig.cbLocalMaster_onClicked(cbLocalMaster.checked);
+                sambaConfig.cbDomainMaster_onClicked(cbDomainMaster.checked);
             }
         }
 
@@ -248,7 +289,7 @@ Dialog
             text: "Save"
             onClicked:
             {
-                sambaConfig.bSave_onClicked(tfWorkgroup.getText(0,tfWorkgroup.length));
+                sambaConfig.bSave_onClicked();
             }
         }
 

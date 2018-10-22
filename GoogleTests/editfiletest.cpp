@@ -1,7 +1,6 @@
 #include "editfiletest.h"
 #include <gtest/gtest.h>
 #include <QDebug>
-#include <filesystem>
 #include "../MediaServerApp/editfile.h"
 
 class openFileTest : public ::testing::Test {
@@ -36,3 +35,4 @@ TEST_F(openFileTest, firstConfigurationHasNameGlobal)
     auto firstConfiguration = configs[0];
     ASSERT_EQ(firstConfiguration.name, "[GLOBAL]");
 }
+
