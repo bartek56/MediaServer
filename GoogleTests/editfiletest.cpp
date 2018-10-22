@@ -2,20 +2,20 @@
 #include <gtest/gtest.h>
 #include "../MediaServerApp/editfile.h"
 
-class editFileTest : public ::testing::Test {
+class openFileTest : public ::testing::Test {
 public:
     QString location = "/etc/samba/smb.conf";
 
 };
 
-TEST_F(editFileTest, fileHasThreeMainConfigurations)
+TEST_F(openFileTest, fileHasThreeMainConfigurations)
 {
     EditFile editFile;
     auto configsVector = editFile.OpenFile(location);
     ASSERT_EQ(configsVector.size(), 3);
 }
 
-TEST_F(editFileTest, firstConfigurationHasEightOptions)
+TEST_F(openFileTest, firstConfigurationHasEightOptions)
 {
     EditFile editFile;
     auto configs = editFile.OpenFile(location);
@@ -23,7 +23,7 @@ TEST_F(editFileTest, firstConfigurationHasEightOptions)
     ASSERT_EQ(firstConfiguration.configs.size(), 8);
 }
 
-TEST_F(editFileTest, firstConfigurationHasNameGlobal)
+TEST_F(openFileTest, firstConfigurationHasNameGlobal)
 {
     EditFile editFile;
     auto configs = editFile.OpenFile(location);

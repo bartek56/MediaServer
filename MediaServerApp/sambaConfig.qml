@@ -231,8 +231,8 @@ Dialog
             onClicked:
             {
                 tfWorkgroup.text="WORKGROUP"
-                tfServerString.text="Server"
-                tfNetbiosName.text="Server"
+                tfServerString.text="SambaServer"
+                tfNetbiosName.text="DataServer"
                 cbBrowseable.checked=true
                 cbLocalMaster.checked=true
                 cbDomainMaster.checked=true
