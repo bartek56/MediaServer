@@ -57,6 +57,8 @@ void SambaConfig::cbBrowseable_onClicked(bool checked)
 void SambaConfig::bSave_onClicked()
 {
     editFile.SaveFile("/etc/samba/smb.conf", vConfigs);
+    QProcess::execute("systemctl restart nmbd");
+    QProcess::execute("systemctl restart smbd");
 }
 
 void SambaConfig::openFile()
