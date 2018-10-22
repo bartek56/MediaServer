@@ -1,12 +1,19 @@
 #include "editfiletest.h"
 #include <gtest/gtest.h>
+#include <QDebug>
+#include <filesystem>
 #include "../MediaServerApp/editfile.h"
 
 class openFileTest : public ::testing::Test {
 public:
-    QString location = "/etc/samba/smb.conf";
+    QString location=PATH_TO_TEST_FILES;
 
+    virtual void SetUp()
+    {
+        location.push_back("/filesToTests/smb.conf");
+    }
 };
+
 
 TEST_F(openFileTest, fileHasThreeMainConfigurations)
 {

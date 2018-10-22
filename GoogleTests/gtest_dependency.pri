@@ -1,10 +1,8 @@
 isEmpty(GOOGLETEST_DIR):GOOGLETEST_DIR=$$(GOOGLETEST_DIR)
-#GOOGLETEST_DIR = $(PWD)/googletest
-GOOGLETEST_DIR = /home/programmer/googletest
+GOOGLETEST_DIR = $$system(pwd)/googletest
+#GOOGLETEST_DIR = /home/programmer/googletest
 isEmpty(GOOGLETEST_DIR) {
     warning("Using googletest src dir specified at Qt Creator wizard")
-    message("set GOOGLETEST_DIR as environment variable or qmake variable to get rid of this message $$(PWD)")
-    #GOOGLETEST_DIR = /home/programmer/Documents/QTCreator/googletest
     message("set GOOGLETEST_DIR as environment variable or qmake variable to get rid of this message $$GOOGLETEST_DIR")
 }
 
