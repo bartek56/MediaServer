@@ -9,7 +9,6 @@ CONFIG += thread
 DEFINES += PATH_TO_TEST_FILES=\\\"$$PWD\\\"
 
 HEADERS += \
-    test.h \
     ../MediaServerApp/editfile.h
 
 SOURCES += \

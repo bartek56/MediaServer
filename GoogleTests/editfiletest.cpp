@@ -14,7 +14,6 @@ public:
     }
 };
 
-
 TEST_F(openFileTest, fileHasThreeMainConfigurations)
 {
     EditFile editFile;

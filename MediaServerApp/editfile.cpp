@@ -3,12 +3,8 @@
 #include <QDebug>
 #include <vector>
 #include <utility>
-/*
-EditFile::EditFile()
-{
+#include <QDebug>
 
-}
-*/
 std::vector<ConfigsName> EditFile::OpenFile(QString fileLocation)
 {
 
@@ -20,6 +16,7 @@ std::vector<ConfigsName> EditFile::OpenFile(QString fileLocation)
         return vConfigsName;
 
     QByteArray parameterName;
+
     while (!file.atEnd())
     {
         QByteArray line = file.readLine();

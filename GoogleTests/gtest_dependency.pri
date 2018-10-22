@@ -13,7 +13,7 @@ isEmpty(GOOGLETEST_DIR) {
 
 requires(exists($$GTEST_SRCDIR):exists($$GMOCK_SRCDIR))
 
-!exists($$GOOGLETEST_DIR):message("No googletest src dir found - set GOOGLETEST_DIR to enable.")
+!exists($$GOOGLETEST_DIR):message("No googletest src dir found - set GOOGLETEST_DIR to enable. message $$GOOGLETEST_DIR")
 
 
 INCLUDEPATH *= \

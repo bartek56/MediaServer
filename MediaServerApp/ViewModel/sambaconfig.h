@@ -5,7 +5,6 @@
 #include <memory>
 #include <QSharedPointer>
 
-
 class SambaConfig : public QObject
 {
     Q_OBJECT
