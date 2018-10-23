@@ -1,6 +1,48 @@
 #include "sambaconfig.h"
 #include <QObject>
 
+
+void SambaConfig::tfComment_onEditingFinished(QString text)
+{
+    vConfigs[1].configs.at(configName.COMMENT)=text;
+    vConfigs[1].name="["+text+"]";
+}
+
+void SambaConfig::tfPath_onEditingFinished(QString text)
+{
+    vConfigs[1].configs.at(configName.PATH)=text;
+}
+
+void SambaConfig::tfCreateMode_onEditingFinished(QString text)
+{
+    vConfigs[1].configs.at(configName.CREATE_MODE)=text;
+}
+
+void SambaConfig::tfDirectoryMode_onEditingFinished(QString text)
+{
+    vConfigs[1].configs.at(configName.DIRECTORY_MODE)=text;
+}
+
+void SambaConfig::chbBrowseable_onClicked(bool checked)
+{
+    setSettingFromCheckboxes(1,configName.BROWSEABLE,checked);
+}
+
+void SambaConfig::chbWritable_onClicked(bool checked)
+{
+    setSettingFromCheckboxes(1,configName.WRITABLE,checked);
+}
+
+void SambaConfig::chbGuestOk_onClicked(bool checked)
+{
+    setSettingFromCheckboxes(1,configName.GUEST_OK,checked);
+}
+
+void SambaConfig::chbReadOnly_onClicked(bool checked)
+{
+    setSettingFromCheckboxes(1,configName.READ_ONLY,checked);
+}
+
 void SambaConfig::setCommentTextField(QObject* obj)
 {
     commentTextField = QSharedPointer<QObject>(obj);
@@ -36,3 +78,7 @@ void SambaConfig::setGuestOkCheckBox(QObject* obj)
     guestOkCheckBox = QSharedPointer<QObject>(obj);
 }
 
+void SambaConfig::setReadOnlyCheckBox(QObject* obj)
+{
+    readOnlyCheckBox = QSharedPointer<QObject>(obj);
+}

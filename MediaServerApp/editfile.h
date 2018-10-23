@@ -6,7 +6,6 @@
 #include <map>
 
 
-
 struct ConfigsName {
     QString name;
     std::map<QString, QString> configs;

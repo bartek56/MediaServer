@@ -35,3 +35,8 @@ void SambaConfig::setGuestOkCheckBox2(QObject* obj)
 
 }
 
+void SambaConfig::setReadOnlyCheckBox2(QObject* obj)
+{
+
+}
+

@@ -21,6 +21,7 @@ struct ConfigName {
     const QString DIRECTORY_MODE = "directory mode";
     const QString WRITABLE = "writable";
     const QString GUEST_OK = "guest ok";
+    const QString READ_ONLY = "read only";
   };
 
 class SambaConfig : public QObject
@@ -43,6 +44,7 @@ public:
     QSharedPointer<QObject> browsableCheckBox;
     QSharedPointer<QObject> writablecheckBox;
     QSharedPointer<QObject> guestOkCheckBox;
+    QSharedPointer<QObject> readOnlyCheckBox;
 
     QSharedPointer<QObject> commentTextField1;
     QSharedPointer<QObject> pathTextField1;
@@ -51,6 +53,7 @@ public:
     QSharedPointer<QObject> browsableCheckBox1;
     QSharedPointer<QObject> writablecheckBox1;
     QSharedPointer<QObject> guestOkCheckBox1;
+    QSharedPointer<QObject> readOnlyCheckBox1;
 
     QSharedPointer<QObject> commentTextField2;
     QSharedPointer<QObject> pathTextField2;
@@ -59,6 +62,7 @@ public:
     QSharedPointer<QObject> browsableCheckBox2;
     QSharedPointer<QObject> writablecheckBox2;
     QSharedPointer<QObject> guestOkCheckBox2;
+    QSharedPointer<QObject> readOnlyCheckBox2;
 
     QSharedPointer<QObject> commentTextField3;
     QSharedPointer<QObject> pathTextField3;
@@ -67,6 +71,7 @@ public:
     QSharedPointer<QObject> browsableCheckBox3;
     QSharedPointer<QObject> writablecheckBox3;
     QSharedPointer<QObject> guestOkCheckBox3;
+    QSharedPointer<QObject> readOnlyCheckBox3;
 
     explicit SambaConfig(QObject *parent = nullptr);
 
@@ -74,10 +79,11 @@ public:
     Q_INVOKABLE void setServerStringTextField(QObject* obj);
     Q_INVOKABLE void setNetBiosTextField(QObject* obj);
     Q_INVOKABLE void setGlobalBrowsableCheckBox(QObject* obj);
-    Q_INVOKABLE void setLocalMastercheckBox(QObject* obj);
+    Q_INVOKABLE void setLocalMasterCheckBox(QObject* obj);
     Q_INVOKABLE void setDomainMasterCheckBox(QObject* obj);
     Q_INVOKABLE void setSecurityComboBox(QObject* obj);
     Q_INVOKABLE void setMapToGuestComboBox(QObject* obj);
+
 
     Q_INVOKABLE void setCommentTextField(QObject* obj);
     Q_INVOKABLE void setPathTextField(QObject* obj);
@@ -86,6 +92,7 @@ public:
     Q_INVOKABLE void setBrowsableCheckBox(QObject* obj);
     Q_INVOKABLE void setWritablecheckBox(QObject* obj);
     Q_INVOKABLE void setGuestOkCheckBox(QObject* obj);
+    Q_INVOKABLE void setReadOnlyCheckBox(QObject* obj);
 
     Q_INVOKABLE void setCommentTextField1(QObject* obj);
     Q_INVOKABLE void setPathTextField1(QObject* obj);
@@ -94,6 +101,7 @@ public:
     Q_INVOKABLE void setBrowsableCheckBox1(QObject* obj);
     Q_INVOKABLE void setWritablecheckBox1(QObject* obj);
     Q_INVOKABLE void setGuestOkCheckBox1(QObject* obj);
+    Q_INVOKABLE void setReadOnlyCheckBox1(QObject* obj);
 
     Q_INVOKABLE void setCommentTextField2(QObject* obj);
     Q_INVOKABLE void setPathTextField2(QObject* obj);
@@ -102,6 +110,7 @@ public:
     Q_INVOKABLE void setBrowsableCheckBox2(QObject* obj);
     Q_INVOKABLE void setWritablecheckBox2(QObject* obj);
     Q_INVOKABLE void setGuestOkCheckBox2(QObject* obj);
+    Q_INVOKABLE void setReadOnlyCheckBox2(QObject* obj);
 
     Q_INVOKABLE void setCommentTextField3(QObject* obj);
     Q_INVOKABLE void setPathTextField3(QObject* obj);
@@ -110,6 +119,7 @@ public:
     Q_INVOKABLE void setBrowsableCheckBox3(QObject* obj);
     Q_INVOKABLE void setWritablecheckBox3(QObject* obj);
     Q_INVOKABLE void setGuestOkCheckBox3(QObject* obj);
+    Q_INVOKABLE void setReadOnlyCheckBox3(QObject* obj);
 
     Q_INVOKABLE void bSave_onClicked();
 
@@ -121,7 +131,16 @@ public:
     Q_INVOKABLE void cbSecurity_onDisplayTextChanged(QString text);
     Q_INVOKABLE void cbLocalMaster_onClicked(bool checked);
     Q_INVOKABLE void cbDomainMaster_onClicked(bool checked);
-    Q_INVOKABLE void cbBrowseable_onClicked(bool checked);
+    Q_INVOKABLE void cbGlobalBrowseable_onClicked(bool checked);
+
+    Q_INVOKABLE void tfComment_onEditingFinished(QString text);
+    Q_INVOKABLE void tfPath_onEditingFinished(QString text);
+    Q_INVOKABLE void tfCreateMode_onEditingFinished(QString text);
+    Q_INVOKABLE void tfDirectoryMode_onEditingFinished(QString text);
+    Q_INVOKABLE void chbBrowseable_onClicked(bool checked);
+    Q_INVOKABLE void chbWritable_onClicked(bool checked);
+    Q_INVOKABLE void chbGuestOk_onClicked(bool checked);
+    Q_INVOKABLE void chbReadOnly_onClicked(bool checked);
 
     Q_INVOKABLE void openFile();
 
@@ -130,7 +149,7 @@ private:
     std::vector<ConfigsName> vConfigs;
     ConfigName configName;
     void setCheckboxesFromFileSettings(QString configsParameters, QSharedPointer<QObject> checkbox);
-    void setSettingFromCheckboxes(QString configName, bool configsParameters);
+    void setSettingFromCheckboxes(unsigned long row,QString configName, bool configsParameters);
     void loadGlobalConfigs();
     void loadLocalConfigs();
 

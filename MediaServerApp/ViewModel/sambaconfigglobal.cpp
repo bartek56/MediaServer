@@ -33,17 +33,17 @@ void SambaConfig::cbSecurity_onDisplayTextChanged(QString text)
 
 void SambaConfig::cbLocalMaster_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(configName.LOCAL_MASTER,checked);
+    setSettingFromCheckboxes(0,configName.LOCAL_MASTER,checked);
 }
 
 void SambaConfig::cbDomainMaster_onClicked(bool checked)
 {
-   setSettingFromCheckboxes(configName.DOMAIN_MASTER, checked);
+   setSettingFromCheckboxes(0,configName.DOMAIN_MASTER, checked);
 }
 
-void SambaConfig::cbBrowseable_onClicked(bool checked)
+void SambaConfig::cbGlobalBrowseable_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(configName.BROWSEABLE,checked);
+    setSettingFromCheckboxes(0,configName.BROWSEABLE,checked);
 }
 
 void SambaConfig::setWorkGroupTextField(QObject* obj)
@@ -66,7 +66,7 @@ void SambaConfig::setGlobalBrowsableCheckBox(QObject *obj)
     globalBrowsableCheckBox = QSharedPointer<QObject>(obj);
 }
 
-void SambaConfig::setLocalMastercheckBox(QObject *obj)
+void SambaConfig::setLocalMasterCheckBox(QObject *obj)
 {
     localMastercheckBox = QSharedPointer<QObject>(obj);
 }

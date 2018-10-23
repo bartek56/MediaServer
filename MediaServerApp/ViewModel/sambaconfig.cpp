@@ -54,15 +54,15 @@ void SambaConfig::bSave_onClicked()
     QProcess::execute("systemctl restart smbd");
 }
 
-void SambaConfig::setSettingFromCheckboxes(QString configName,bool checked)
+void SambaConfig::setSettingFromCheckboxes(unsigned long row, QString configName,bool checked)
 {
     if(checked)
     {
-        vConfigs[0].configs.at(configName) = "yes";
+        vConfigs[row].configs.at(configName) = "yes";
     }
     else
     {
-        vConfigs[0].configs.at(configName) = "no";
+        vConfigs[row].configs.at(configName) = "no";
     }
 }
 

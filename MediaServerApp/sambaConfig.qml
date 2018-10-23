@@ -248,6 +248,10 @@ Dialog
                     width: 80
                     height: 20
                     font.pixelSize: 18
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfComment_onEditingFinished(tfComment.getText(0,tfComment.length));
+                    }
                 }
 
                 Text {
@@ -264,6 +268,10 @@ Dialog
                     height: 20
                     Layout.preferredWidth: tfComment.width
                     font.pixelSize: tfComment.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfPath_onEditingFinished(tfComment.getText(0,tfComment.length));
+                    }
                 }
 
                 Text
@@ -282,6 +290,10 @@ Dialog
                     height: 20
                     Layout.preferredWidth: tfComment.width
                     font.pixelSize: tfComment.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfCreateMode_onEditingFinished(tfCreateMode.getText(0,tfCreateMode.length));
+                    }
                 }
 
                 Text
@@ -300,6 +312,10 @@ Dialog
                     height: 20
                     Layout.preferredWidth: tfComment.width
                     font.pixelSize: tfComment.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfDirectoryMode_onEditingFinished(tfDirectoryMode.getText(0,tfDirectoryMode.length));
+                    }
                 }
             }
 
@@ -309,22 +325,43 @@ Dialog
                 y: 62
                 width: 192
                 height: 292
-                rows: 3
+                rows: 4
                 columns: 1
 
                 CheckBox {
                     id: chbBrowseable
                     text: qsTr("Browseable")
+                    onClicked:
+                    {
+                        sambaConfig.chbBrowseable_onClicked(chbBrowseable.checked);
+                    }
                 }
 
                 CheckBox {
                     id: chbWritable
                     text: qsTr("Writable")
+                    onClicked:
+                    {
+                        sambaConfig.chbWritable_onClicked(chbWritable.checked);
+                    }
                 }
 
                 CheckBox {
-                    id: chBGuestOk
+                    id: chbGuestOk
                     text: qsTr("Guest ok")
+                    onClicked:
+                    {
+                        sambaConfig.chbGuestOk_onClicked(chbGuestOk.checked);
+                    }
+                }
+
+                CheckBox {
+                    id: chbReadOnly
+                    text: qsTr("Read only")
+                    onClicked:
+                    {
+                        sambaConfig.chbReadOnly_onClicked(chbReadOnly.checked);
+                    }
                 }
             }
         }
@@ -423,7 +460,12 @@ Dialog
                     id: chBGuestOk1
                     text: qsTr("Guest ok")
                 }
-                rows: 3
+
+                CheckBox {
+                    id: chbReadOnly1
+                    text: qsTr("Read only")
+                }
+                rows: 4
             }
         }
         Item {
@@ -436,6 +478,7 @@ Dialog
                 width: 348
                 height: 280
                 columns: 2
+                rows: 4
                 Text {
                     id: tComment2
                     width: 171
@@ -497,7 +540,7 @@ Dialog
                     Layout.preferredWidth: tfComment2.width
                     font.pixelSize: tfComment2.font.pixelSize
                 }
-                rows: 4
+
             }
 
             GridLayout {
@@ -507,6 +550,7 @@ Dialog
                 width: 192
                 height: 292
                 columns: 1
+                rows: 4
                 CheckBox {
                     id: chbBrowseable2
                     text: qsTr("Browseable")
@@ -521,7 +565,11 @@ Dialog
                     id: chBGuestOk2
                     text: qsTr("Guest ok")
                 }
-                rows: 3
+
+                CheckBox {
+                    id: chbReadOnly2
+                    text: qsTr("Read only")
+                }
             }
         }
         Item {
@@ -619,7 +667,12 @@ Dialog
                     id: chBGuestOk3
                     text: qsTr("Guest ok")
                 }
-                rows: 3
+
+                CheckBox {
+                    id: chbReadOnly3
+                    text: qsTr("Read only")
+                }
+                rows: 4
             }
         }
     }
@@ -722,7 +775,7 @@ Dialog
         sambaConfig.setServerStringTextField(tfServerString);
         sambaConfig.setNetBiosTextField(tfNetbiosName);
         sambaConfig.setGlobalBrowsableCheckBox(cbGlobalBrowseable);
-        sambaConfig.setLocalMastercheckBox(cbLocalMaster);
+        sambaConfig.setLocalMasterCheckBox(cbLocalMaster);
         sambaConfig.setDomainMasterCheckBox(cbDomainMaster);
         sambaConfig.setSecurityComboBox(cbSecurity);
         sambaConfig.setMapToGuestComboBox(cbMapToGuest);
@@ -733,7 +786,8 @@ Dialog
         sambaConfig.setDirectoryModeTextField(tfDirectoryMode);
         sambaConfig.setBrowsableCheckBox(chbBrowseable);
         sambaConfig.setWritablecheckBox(chbWritable);
-        sambaConfig.setGuestOkCheckBox(chBGuestOk);
+        sambaConfig.setGuestOkCheckBox(chbGuestOk);
+        sambaConfig.setReadOnlyCheckBox(chbReadOnly);
 
         sambaConfig.setCommentTextField1(tfComment1);
         sambaConfig.setPathTextField1(tfPath1);
@@ -742,6 +796,7 @@ Dialog
         sambaConfig.setBrowsableCheckBox1(chbBrowseable1);
         sambaConfig.setWritablecheckBox1(chbWritable1);
         sambaConfig.setGuestOkCheckBox1(chBGuestOk1);
+        sambaConfig.setReadOnlyCheckBox1(chbReadOnly1);
 
         sambaConfig.setCommentTextField2(tfComment2);
         sambaConfig.setPathTextField2(tfPath2);
@@ -750,6 +805,7 @@ Dialog
         sambaConfig.setBrowsableCheckBox2(chbBrowseable2);
         sambaConfig.setWritablecheckBox2(chbWritable2);
         sambaConfig.setGuestOkCheckBox2(chBGuestOk2);
+        sambaConfig.setReadOnlyCheckBox2(chbReadOnly2);
 
         sambaConfig.setCommentTextField3(tfComment3);
         sambaConfig.setPathTextField3(tfPath3);
@@ -758,12 +814,13 @@ Dialog
         sambaConfig.setBrowsableCheckBox3(chbBrowseable3);
         sambaConfig.setWritablecheckBox3(chbWritable3);
         sambaConfig.setGuestOkCheckBox3(chBGuestOk3);
+        sambaConfig.setReadOnlyCheckBox3(chbReadOnly3);
 
         sambaConfig.openFile();
     }
 }
 
 /*##^## Designer {
-    D{i:9;invisible:true}
+    D{i:10;invisible:true}D{i:33;invisible:true}D{i:48;invisible:true}D{i:9;invisible:true}
 }
  ##^##*/
