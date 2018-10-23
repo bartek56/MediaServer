@@ -11,6 +11,7 @@ Dialog
     visible: true
     width: 800
     height: 440
+    property alias globalTag: globalTag
     topMargin: 40
     margins: 0
     padding: 1
@@ -25,13 +26,25 @@ Dialog
         id: tabBar
         width: parent.width
         TabButton {
-            text: qsTr("Home")
+            text: qsTr("Global")
         }
         TabButton {
-            text: qsTr("Discover")
+            text: qsTr("Local Share")
         }
         TabButton {
-            text: qsTr("Activity")
+            text: qsTr("External Device 1")
+        }
+        TabButton {
+            text: qsTr("External Device 2")
+        }
+        TabButton {
+            text: qsTr("External Device 3")
+        }
+
+        GridLayout {
+            id: gridLayout2
+            width: 100
+            height: 100
         }
     }
 
@@ -39,7 +52,46 @@ Dialog
         width: parent.width
         currentIndex: tabBar.currentIndex
         Item {
-            id: homeTab
+            id: globalTag
+
+            GridLayout {
+                id: gridLayout1
+                x: 531
+                y: 62
+                width: 192
+                height: 292
+                columns: 1
+
+                CheckBox {
+                    id: cbBrowseable
+                    text: qsTr("browseable")
+                    checkable: true
+                    onClicked:
+                    {
+                        sambaConfig.cbBrowseable_onClicked(cbBrowseable.checked);
+                    }
+                }
+
+                CheckBox {
+                    id: cbLocalMaster
+                    text: qsTr("local master")
+                    checkable: true
+                    onClicked:
+                    {
+                        sambaConfig.cbLocalMaster_onClicked(cbLocalMaster.checked);
+                    }
+                }
+
+                CheckBox {
+                    id: cbDomainMaster
+                    text: qsTr("domain master")
+                    checkable: true
+                    onClicked:
+                    {
+                        sambaConfig.cbDomainMaster_onClicked(cbDomainMaster.checked);
+                    }
+                }
+            }
 
             GridLayout {
                 id: gridLayout
@@ -53,7 +105,7 @@ Dialog
                 Text
                 {
                     id: lWorkgroup
-                    width: 132
+                    width: 140
                     height: 40
                     text: qsTr("workgroup")
                     font.pixelSize: 18
@@ -165,51 +217,407 @@ Dialog
                     }
                 }
             }
+        }
+        Item {
+            id: localShareTab
 
             GridLayout {
-                id: gridLayout1
+                id: gridLayout3
+                x: 51
+                y: 70
+                width: 348
+                height: 280
+                rows: 4
+                columns: 2
+
+                Text {
+                    id: tComment
+                    width: 171
+                    text: qsTr("Comment")
+                    Layout.preferredWidth: 140
+                    wrapMode: Text.NoWrap
+                    font.pixelSize: 18
+                }
+
+                TextField
+                {
+                    id: etComment
+                    width: 80
+                    height: 20
+                    font.pixelSize: 18
+                }
+
+                Text {
+                    id: tPath
+                    text: qsTr("Path")
+                    Layout.preferredWidth: tComment.width
+                    font.pixelSize: tComment.font.pixelSize
+                }
+
+                TextField
+                {
+                    id: etPath
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment.width
+                    font.pixelSize: etComment.font.pixelSize
+                }
+
+                Text
+                {
+                    id: tCreateMode
+                    text: qsTr("Create Mode")
+                    Layout.preferredWidth: tComment.width
+                    font.pixelSize: tComment.font.pixelSize
+
+                }
+
+                TextField
+                {
+                    id: etCreateMode
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment.width
+                    font.pixelSize: etComment.font.pixelSize
+                }
+
+                Text
+                {
+                    id: tDirectoryMode
+                    text: qsTr("Directory Mode")
+                    wrapMode: Text.NoWrap
+                    Layout.preferredWidth: tComment.width
+                    font.pixelSize: tComment.font.pixelSize
+                }
+
+                TextField
+                {
+                    id: etDirectoryMode
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment.width
+                    font.pixelSize: etComment.font.pixelSize
+                }
+            }
+
+            GridLayout {
+                id: gridLayout4
+                x: 531
+                y: 62
+                width: 192
+                height: 292
+                rows: 3
+                columns: 1
+
+                CheckBox {
+                    id: chbBrowseable
+                    text: qsTr("Browseable")
+                }
+
+                CheckBox {
+                    id: chbWritable
+                    text: qsTr("Writable")
+                }
+
+                CheckBox {
+                    id: chBGuestOk
+                    text: qsTr("Guest ok")
+                }
+            }
+        }
+        Item {
+            id: externalDevice1Tab
+
+            GridLayout {
+                id: gridLayout5
+                x: 51
+                y: 70
+                width: 348
+                height: 280
+                columns: 2
+                Text {
+                    id: tComment1
+                    width: 171
+                    text: qsTr("Comment")
+                    Layout.preferredWidth: 140
+                    font.pixelSize: 18
+                    wrapMode: Text.NoWrap
+                }
+
+                TextField {
+                    id: etComment1
+                    width: 80
+                    height: 20
+                    font.pixelSize: 18
+                }
+
+                Text {
+                    id: tPath1
+                    text: qsTr("Path")
+                    Layout.preferredWidth: tComment1.width
+                    font.pixelSize: tComment1.font.pixelSize
+                }
+
+                TextField {
+                    id: etPath1
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment1.width
+                    font.pixelSize: etComment1.font.pixelSize
+                }
+
+                Text {
+                    id: tCreateMode1
+                    text: qsTr("Create Mode")
+                    Layout.preferredWidth: tComment1.width
+                    font.pixelSize: tComment1.font.pixelSize
+                }
+
+                TextField {
+                    id: etCreateMode1
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment1.width
+                    font.pixelSize: etComment1.font.pixelSize
+                }
+
+                Text {
+                    id: tDirectoryMode1
+                    text: qsTr("Directory Mode")
+                    Layout.preferredWidth: tComment1.width
+                    font.pixelSize: tComment1.font.pixelSize
+                    wrapMode: Text.NoWrap
+                }
+
+                TextField {
+                    id: etDirectoryMode1
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment1.width
+                    font.pixelSize: etComment1.font.pixelSize
+                }
+                rows: 4
+            }
+
+            GridLayout {
+                id: gridLayout6
                 x: 531
                 y: 62
                 width: 192
                 height: 292
                 columns: 1
-
                 CheckBox {
-                    id: cbBrowseable
-                    text: qsTr("browseable")
-                    checkable: true
-                    onClicked:
-                    {
-                        sambaConfig.cbBrowseable_onClicked(cbBrowseable.checked);
-                    }
+                    id: chbBrowseable1
+                    text: qsTr("Browseable")
                 }
 
                 CheckBox {
-                    id: cbLocalMaster
-                    text: qsTr("local master")
-                    checkable: true
-                    onClicked:
-                    {
-                        sambaConfig.cbLocalMaster_onClicked(cbLocalMaster.checked);
-                    }
+                    id: chbWritable1
+                    text: qsTr("Writable")
                 }
 
                 CheckBox {
-                    id: cbDomainMaster
-                    text: qsTr("domain master")
-                    checkable: true
-                    onClicked:
-                    {
-                        sambaConfig.cbDomainMaster_onClicked(cbDomainMaster.checked);
-                    }
+                    id: chBGuestOk1
+                    text: qsTr("Guest ok")
                 }
+                rows: 3
             }
         }
         Item {
-            id: discoverTab
+            id: externalDevice2Tab
+
+            GridLayout {
+                id: gridLayout7
+                x: 51
+                y: 70
+                width: 348
+                height: 280
+                columns: 2
+                Text {
+                    id: tComment2
+                    width: 171
+                    text: qsTr("Comment")
+                    Layout.preferredWidth: 140
+                    font.pixelSize: 18
+                    wrapMode: Text.NoWrap
+                }
+
+                TextField {
+                    id: etComment2
+                    width: 80
+                    height: 20
+                    font.pixelSize: 18
+                }
+
+                Text {
+                    id: tPath2
+                    text: qsTr("Path")
+                    Layout.preferredWidth: tComment2.width
+                    font.pixelSize: tComment2.font.pixelSize
+                }
+
+                TextField {
+                    id: etPath2
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment2.width
+                    font.pixelSize: etComment2.font.pixelSize
+                }
+
+                Text {
+                    id: tCreateMode2
+                    text: qsTr("Create Mode")
+                    Layout.preferredWidth: tComment2.width
+                    font.pixelSize: tComment2.font.pixelSize
+                }
+
+                TextField {
+                    id: etCreateMode2
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment2.width
+                    font.pixelSize: etComment2.font.pixelSize
+                }
+
+                Text {
+                    id: tDirectoryMode2
+                    text: qsTr("Directory Mode")
+                    Layout.preferredWidth: tComment2.width
+                    font.pixelSize: tComment2.font.pixelSize
+                    wrapMode: Text.NoWrap
+                }
+
+                TextField {
+                    id: etDirectoryMode2
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment2.width
+                    font.pixelSize: etComment2.font.pixelSize
+                }
+                rows: 4
+            }
+
+            GridLayout {
+                id: gridLayout8
+                x: 531
+                y: 62
+                width: 192
+                height: 292
+                columns: 1
+                CheckBox {
+                    id: chbBrowseable2
+                    text: qsTr("Browseable")
+                }
+
+                CheckBox {
+                    id: chbWritable2
+                    text: qsTr("Writable")
+                }
+
+                CheckBox {
+                    id: chBGuestOk2
+                    text: qsTr("Guest ok")
+                }
+                rows: 3
+            }
         }
         Item {
-            id: activityTab
+            id: externalDevice3Tab
+
+            GridLayout {
+                id: gridLayout9
+                x: 51
+                y: 70
+                width: 348
+                height: 280
+                columns: 2
+                Text {
+                    id: tComment3
+                    width: 171
+                    text: qsTr("Comment")
+                    Layout.preferredWidth: 140
+                    font.pixelSize: 18
+                    wrapMode: Text.NoWrap
+                }
+
+                TextField {
+                    id: etComment3
+                    width: 80
+                    height: 20
+                    font.pixelSize: 18
+                }
+
+                Text {
+                    id: tPath3
+                    text: qsTr("Path")
+                    Layout.preferredWidth: tComment3.width
+                    font.pixelSize: tComment3.font.pixelSize
+                }
+
+                TextField {
+                    id: etPath3
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment3.width
+                    font.pixelSize: etComment3.font.pixelSize
+                }
+
+                Text {
+                    id: tCreateMode3
+                    text: qsTr("Create Mode")
+                    Layout.preferredWidth: tComment3.width
+                    font.pixelSize: tComment3.font.pixelSize
+                }
+
+                TextField {
+                    id: etCreateMode3
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment3.width
+                    font.pixelSize: etComment3.font.pixelSize
+                }
+
+                Text {
+                    id: tDirectoryMode3
+                    text: qsTr("Directory Mode")
+                    Layout.preferredWidth: tComment3.width
+                    font.pixelSize: tComment3.font.pixelSize
+                    wrapMode: Text.NoWrap
+                }
+
+                TextField {
+                    id: etDirectoryMode3
+                    width: 80
+                    height: 20
+                    Layout.preferredWidth: etComment3.width
+                    font.pixelSize: etComment3.font.pixelSize
+                }
+                rows: 4
+            }
+
+            GridLayout {
+                id: gridLayout10
+                x: 531
+                y: 62
+                width: 192
+                height: 292
+                columns: 1
+                CheckBox {
+                    id: chbBrowseable3
+                    text: qsTr("Browseable")
+                }
+
+                CheckBox {
+                    id: chbWritable3
+                    text: qsTr("Writable")
+                }
+
+                CheckBox {
+                    id: chBGuestOk3
+                    text: qsTr("Guest ok")
+                }
+                rows: 3
+            }
         }
     }
 
@@ -319,3 +727,8 @@ Dialog
     }
 }
 
+
+/*##^## Designer {
+    D{i:9;invisible:true}
+}
+ ##^##*/

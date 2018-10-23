@@ -28,7 +28,6 @@ void SambaConfig::cbMapToGuest_onDisplayTextChanged(QString text)
     {
         vConfigs[0].configs.at(configName.MAP_TO_GUEST)=text;
     }
-
 }
 
 void SambaConfig::cbSecurity_onDisplayTextChanged(QString text)
