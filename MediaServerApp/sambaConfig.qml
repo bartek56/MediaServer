@@ -63,12 +63,12 @@ Dialog
                 columns: 1
 
                 CheckBox {
-                    id: cbBrowseable
+                    id: cbGlobalBrowseable
                     text: qsTr("browseable")
                     checkable: true
                     onClicked:
                     {
-                        sambaConfig.cbBrowseable_onClicked(cbBrowseable.checked);
+                        sambaConfig.cbGlobalBrowseable_onClicked(cbGlobalBrowseable.checked);
                     }
                 }
 
@@ -172,7 +172,8 @@ Dialog
                     font.pixelSize: 18
                 }
 
-                ComboBox {
+                ComboBox
+                {
                     id: cbSecurity
                     Layout.preferredWidth: tfServerString.width
                     model: ListModel {
@@ -201,7 +202,9 @@ Dialog
                     font.pixelSize: 18
                 }
 
-                ComboBox {
+
+                ComboBox
+                {
                     id: cbMapToGuest
                     Layout.preferredWidth: tfServerString.width
                     textRole: "key"
@@ -241,7 +244,7 @@ Dialog
 
                 TextField
                 {
-                    id: etComment
+                    id: tfComment
                     width: 80
                     height: 20
                     font.pixelSize: 18
@@ -256,11 +259,11 @@ Dialog
 
                 TextField
                 {
-                    id: etPath
+                    id: tfPath
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment.width
-                    font.pixelSize: etComment.font.pixelSize
+                    Layout.preferredWidth: tfComment.width
+                    font.pixelSize: tfComment.font.pixelSize
                 }
 
                 Text
@@ -274,11 +277,11 @@ Dialog
 
                 TextField
                 {
-                    id: etCreateMode
+                    id: tfCreateMode
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment.width
-                    font.pixelSize: etComment.font.pixelSize
+                    Layout.preferredWidth: tfComment.width
+                    font.pixelSize: tfComment.font.pixelSize
                 }
 
                 Text
@@ -292,11 +295,11 @@ Dialog
 
                 TextField
                 {
-                    id: etDirectoryMode
+                    id: tfDirectoryMode
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment.width
-                    font.pixelSize: etComment.font.pixelSize
+                    Layout.preferredWidth: tfComment.width
+                    font.pixelSize: tfComment.font.pixelSize
                 }
             }
 
@@ -345,7 +348,7 @@ Dialog
                 }
 
                 TextField {
-                    id: etComment1
+                    id: tfComment1
                     width: 80
                     height: 20
                     font.pixelSize: 18
@@ -359,11 +362,11 @@ Dialog
                 }
 
                 TextField {
-                    id: etPath1
+                    id: tfPath1
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment1.width
-                    font.pixelSize: etComment1.font.pixelSize
+                    Layout.preferredWidth: tfComment1.width
+                    font.pixelSize: tfComment1.font.pixelSize
                 }
 
                 Text {
@@ -374,11 +377,11 @@ Dialog
                 }
 
                 TextField {
-                    id: etCreateMode1
+                    id: tfCreateMode1
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment1.width
-                    font.pixelSize: etComment1.font.pixelSize
+                    Layout.preferredWidth: tfComment1.width
+                    font.pixelSize: tfComment1.font.pixelSize
                 }
 
                 Text {
@@ -390,11 +393,11 @@ Dialog
                 }
 
                 TextField {
-                    id: etDirectoryMode1
+                    id: tfDirectoryMode1
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment1.width
-                    font.pixelSize: etComment1.font.pixelSize
+                    Layout.preferredWidth: tfComment1.width
+                    font.pixelSize: tfComment1.font.pixelSize
                 }
                 rows: 4
             }
@@ -443,7 +446,7 @@ Dialog
                 }
 
                 TextField {
-                    id: etComment2
+                    id: tfComment2
                     width: 80
                     height: 20
                     font.pixelSize: 18
@@ -457,11 +460,11 @@ Dialog
                 }
 
                 TextField {
-                    id: etPath2
+                    id: tfPath2
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment2.width
-                    font.pixelSize: etComment2.font.pixelSize
+                    Layout.preferredWidth: tfComment2.width
+                    font.pixelSize: tfComment2.font.pixelSize
                 }
 
                 Text {
@@ -472,11 +475,11 @@ Dialog
                 }
 
                 TextField {
-                    id: etCreateMode2
+                    id: tfCreateMode2
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment2.width
-                    font.pixelSize: etComment2.font.pixelSize
+                    Layout.preferredWidth: tfComment2.width
+                    font.pixelSize: tfComment2.font.pixelSize
                 }
 
                 Text {
@@ -488,11 +491,11 @@ Dialog
                 }
 
                 TextField {
-                    id: etDirectoryMode2
+                    id: tfDirectoryMode2
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment2.width
-                    font.pixelSize: etComment2.font.pixelSize
+                    Layout.preferredWidth: tfComment2.width
+                    font.pixelSize: tfComment2.font.pixelSize
                 }
                 rows: 4
             }
@@ -541,7 +544,7 @@ Dialog
                 }
 
                 TextField {
-                    id: etComment3
+                    id: tfComment3
                     width: 80
                     height: 20
                     font.pixelSize: 18
@@ -555,11 +558,11 @@ Dialog
                 }
 
                 TextField {
-                    id: etPath3
+                    id: tfPath3
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment3.width
-                    font.pixelSize: etComment3.font.pixelSize
+                    Layout.preferredWidth: tfComment3.width
+                    font.pixelSize: tfComment3.font.pixelSize
                 }
 
                 Text {
@@ -570,11 +573,11 @@ Dialog
                 }
 
                 TextField {
-                    id: etCreateMode3
+                    id: tfCreateMode3
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment3.width
-                    font.pixelSize: etComment3.font.pixelSize
+                    Layout.preferredWidth: tfComment3.width
+                    font.pixelSize: tfComment3.font.pixelSize
                 }
 
                 Text {
@@ -586,11 +589,11 @@ Dialog
                 }
 
                 TextField {
-                    id: etDirectoryMode3
+                    id: tfDirectoryMode3
                     width: 80
                     height: 20
-                    Layout.preferredWidth: etComment3.width
-                    font.pixelSize: etComment3.font.pixelSize
+                    Layout.preferredWidth: tfComment3.width
+                    font.pixelSize: tfComment3.font.pixelSize
                 }
                 rows: 4
             }
@@ -684,7 +687,7 @@ Dialog
                 sambaConfig.tfNetbiosName_onEditingFinished(tfNetbiosName.getText(0,tfNetbiosName.length));
                 sambaConfig.cbSecurity_onDisplayTextChanged(cbSecurity.currentText);
                 sambaConfig.cbMapToGuest_onDisplayTextChanged(cbMapToGuest.currentText);
-                sambaConfig.cbBrowseable_onClicked(cbBrowseable.checked);
+                sambaConfig.cbBrowseable_onClicked(cbGlobalBrowseable.checked);
                 sambaConfig.cbLocalMaster_onClicked(cbLocalMaster.checked);
                 sambaConfig.cbDomainMaster_onClicked(cbDomainMaster.checked);
             }
@@ -718,15 +721,47 @@ Dialog
         sambaConfig.setWorkGroupTextField(tfWorkgroup);
         sambaConfig.setServerStringTextField(tfServerString);
         sambaConfig.setNetBiosTextField(tfNetbiosName);
-        sambaConfig.setBrowsableCheckBox(cbBrowseable);
+        sambaConfig.setGlobalBrowsableCheckBox(cbGlobalBrowseable);
         sambaConfig.setLocalMastercheckBox(cbLocalMaster);
         sambaConfig.setDomainMasterCheckBox(cbDomainMaster);
         sambaConfig.setSecurityComboBox(cbSecurity);
         sambaConfig.setMapToGuestComboBox(cbMapToGuest);
+
+        sambaConfig.setCommentTextField(tfComment);
+        sambaConfig.setPathTextField(tfPath);
+        sambaConfig.setCreateModeTextField(tfCreateMode);
+        sambaConfig.setDirectoryModeTextField(tfDirectoryMode);
+        sambaConfig.setBrowsableCheckBox(chbBrowseable);
+        sambaConfig.setWritablecheckBox(chbWritable);
+        sambaConfig.setGuestOkCheckBox(chBGuestOk);
+
+        sambaConfig.setCommentTextField1(tfComment1);
+        sambaConfig.setPathTextField1(tfPath1);
+        sambaConfig.setCreateModeTextField1(tfCreateMode1);
+        sambaConfig.setDirectoryModeTextField1(tfDirectoryMode1);
+        sambaConfig.setBrowsableCheckBox1(chbBrowseable1);
+        sambaConfig.setWritablecheckBox1(chbWritable1);
+        sambaConfig.setGuestOkCheckBox1(chBGuestOk1);
+
+        sambaConfig.setCommentTextField2(tfComment2);
+        sambaConfig.setPathTextField2(tfPath2);
+        sambaConfig.setCreateModeTextField2(tfCreateMode2);
+        sambaConfig.setDirectoryModeTextField2(tfDirectoryMode2);
+        sambaConfig.setBrowsableCheckBox2(chbBrowseable2);
+        sambaConfig.setWritablecheckBox2(chbWritable2);
+        sambaConfig.setGuestOkCheckBox2(chBGuestOk2);
+
+        sambaConfig.setCommentTextField3(tfComment3);
+        sambaConfig.setPathTextField3(tfPath3);
+        sambaConfig.setCreateModeTextField3(tfCreateMode3);
+        sambaConfig.setDirectoryModeTextField3(tfDirectoryMode3);
+        sambaConfig.setBrowsableCheckBox3(chbBrowseable3);
+        sambaConfig.setWritablecheckBox3(chbWritable3);
+        sambaConfig.setGuestOkCheckBox3(chBGuestOk3);
+
         sambaConfig.openFile();
     }
 }
-
 
 /*##^## Designer {
     D{i:9;invisible:true}

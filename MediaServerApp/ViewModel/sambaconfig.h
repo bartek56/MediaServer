@@ -1,7 +1,7 @@
 #ifndef SAMBACONFIG_H
 #define SAMBACONFIG_H
 
-#include <QObject>
+
 #include <memory>
 #include <QSharedPointer>
 #include "editfile.h"
@@ -15,6 +15,12 @@ struct ConfigName {
     const QString BROWSEABLE = "browseable";
     const QString LOCAL_MASTER = "local master";
     const QString DOMAIN_MASTER = "domain master";
+    const QString COMMENT = "comment";
+    const QString PATH = "path";
+    const QString CREATE_MODE = "create mode";
+    const QString DIRECTORY_MODE = "directory mode";
+    const QString WRITABLE = "writable";
+    const QString GUEST_OK = "guest ok";
   };
 
 class SambaConfig : public QObject
@@ -24,31 +30,99 @@ public:
     QSharedPointer<QObject> workGroupTextField;
     QSharedPointer<QObject> serverStringTextField;
     QSharedPointer<QObject> netBiosTextField;
-    QSharedPointer<QObject> browsableCheckBox;
+    QSharedPointer<QObject> globalBrowsableCheckBox;
     QSharedPointer<QObject> localMastercheckBox;
     QSharedPointer<QObject> domainMasterCheckBox;
     QSharedPointer<QObject> securityComboBox;
     QSharedPointer<QObject> mapToGuestComboBox;
+
+    QSharedPointer<QObject> commentTextField;
+    QSharedPointer<QObject> pathTextField;
+    QSharedPointer<QObject> createModeTextField;
+    QSharedPointer<QObject> directoryModeTextField;
+    QSharedPointer<QObject> browsableCheckBox;
+    QSharedPointer<QObject> writablecheckBox;
+    QSharedPointer<QObject> guestOkCheckBox;
+
+    QSharedPointer<QObject> commentTextField1;
+    QSharedPointer<QObject> pathTextField1;
+    QSharedPointer<QObject> createModeTextField1;
+    QSharedPointer<QObject> directoryModeTextField1;
+    QSharedPointer<QObject> browsableCheckBox1;
+    QSharedPointer<QObject> writablecheckBox1;
+    QSharedPointer<QObject> guestOkCheckBox1;
+
+    QSharedPointer<QObject> commentTextField2;
+    QSharedPointer<QObject> pathTextField2;
+    QSharedPointer<QObject> createModeTextField2;
+    QSharedPointer<QObject> directoryModeTextField2;
+    QSharedPointer<QObject> browsableCheckBox2;
+    QSharedPointer<QObject> writablecheckBox2;
+    QSharedPointer<QObject> guestOkCheckBox2;
+
+    QSharedPointer<QObject> commentTextField3;
+    QSharedPointer<QObject> pathTextField3;
+    QSharedPointer<QObject> createModeTextField3;
+    QSharedPointer<QObject> directoryModeTextField3;
+    QSharedPointer<QObject> browsableCheckBox3;
+    QSharedPointer<QObject> writablecheckBox3;
+    QSharedPointer<QObject> guestOkCheckBox3;
 
     explicit SambaConfig(QObject *parent = nullptr);
 
     Q_INVOKABLE void setWorkGroupTextField(QObject* obj);
     Q_INVOKABLE void setServerStringTextField(QObject* obj);
     Q_INVOKABLE void setNetBiosTextField(QObject* obj);
-    Q_INVOKABLE void setBrowsableCheckBox(QObject* obj);
+    Q_INVOKABLE void setGlobalBrowsableCheckBox(QObject* obj);
     Q_INVOKABLE void setLocalMastercheckBox(QObject* obj);
     Q_INVOKABLE void setDomainMasterCheckBox(QObject* obj);
     Q_INVOKABLE void setSecurityComboBox(QObject* obj);
     Q_INVOKABLE void setMapToGuestComboBox(QObject* obj);
+
+    Q_INVOKABLE void setCommentTextField(QObject* obj);
+    Q_INVOKABLE void setPathTextField(QObject* obj);
+    Q_INVOKABLE void setCreateModeTextField(QObject* obj);
+    Q_INVOKABLE void setDirectoryModeTextField(QObject* obj);
+    Q_INVOKABLE void setBrowsableCheckBox(QObject* obj);
+    Q_INVOKABLE void setWritablecheckBox(QObject* obj);
+    Q_INVOKABLE void setGuestOkCheckBox(QObject* obj);
+
+    Q_INVOKABLE void setCommentTextField1(QObject* obj);
+    Q_INVOKABLE void setPathTextField1(QObject* obj);
+    Q_INVOKABLE void setCreateModeTextField1(QObject* obj);
+    Q_INVOKABLE void setDirectoryModeTextField1(QObject* obj);
+    Q_INVOKABLE void setBrowsableCheckBox1(QObject* obj);
+    Q_INVOKABLE void setWritablecheckBox1(QObject* obj);
+    Q_INVOKABLE void setGuestOkCheckBox1(QObject* obj);
+
+    Q_INVOKABLE void setCommentTextField2(QObject* obj);
+    Q_INVOKABLE void setPathTextField2(QObject* obj);
+    Q_INVOKABLE void setCreateModeTextField2(QObject* obj);
+    Q_INVOKABLE void setDirectoryModeTextField2(QObject* obj);
+    Q_INVOKABLE void setBrowsableCheckBox2(QObject* obj);
+    Q_INVOKABLE void setWritablecheckBox2(QObject* obj);
+    Q_INVOKABLE void setGuestOkCheckBox2(QObject* obj);
+
+    Q_INVOKABLE void setCommentTextField3(QObject* obj);
+    Q_INVOKABLE void setPathTextField3(QObject* obj);
+    Q_INVOKABLE void setCreateModeTextField3(QObject* obj);
+    Q_INVOKABLE void setDirectoryModeTextField3(QObject* obj);
+    Q_INVOKABLE void setBrowsableCheckBox3(QObject* obj);
+    Q_INVOKABLE void setWritablecheckBox3(QObject* obj);
+    Q_INVOKABLE void setGuestOkCheckBox3(QObject* obj);
+
     Q_INVOKABLE void bSave_onClicked();
+
     Q_INVOKABLE void tfNetbiosName_onEditingFinished(QString text);
     Q_INVOKABLE void tfWorkgroup_onEditingFinished(QString text);
     Q_INVOKABLE void tfServerString_onEditingFinished(QString text);
+
     Q_INVOKABLE void cbMapToGuest_onDisplayTextChanged(QString text);
     Q_INVOKABLE void cbSecurity_onDisplayTextChanged(QString text);
     Q_INVOKABLE void cbLocalMaster_onClicked(bool checked);
     Q_INVOKABLE void cbDomainMaster_onClicked(bool checked);
     Q_INVOKABLE void cbBrowseable_onClicked(bool checked);
+
     Q_INVOKABLE void openFile();
 
 private:
@@ -57,7 +131,8 @@ private:
     ConfigName configName;
     void setCheckboxesFromFileSettings(QString configsParameters, QSharedPointer<QObject> checkbox);
     void setSettingFromCheckboxes(QString configName, bool configsParameters);
-    void loadConfigs();
+    void loadGlobalConfigs();
+    void loadLocalConfigs();
 
 public slots:
 

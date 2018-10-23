@@ -57,15 +57,11 @@ void EditFile::SaveFile(QString fileLocation, std::vector<ConfigsName> vConfigs)
 
     for (auto it = std::begin(vConfigs); it!=std::end(vConfigs); ++it)
     {
-        auto globalConfigs = vConfigs[0];
         out << it->name << "\n";
-        qDebug() << it->name;
         auto configMap = it->configs;
         for (std::map<QString, QString>::iterator it2=configMap.begin(); it2!=configMap.end(); ++it2)
         {
-            qDebug() << it2->first << "=" << it2->second;
             out << it2->first << "=" << it2->second << "\n";
         }
     }
 }
-

@@ -2,71 +2,37 @@
 
 #include <QDebug>
 #include <QProcess>
+#include <QObject>
+
 SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 {
 
 }
 
-void SambaConfig::tfNetbiosName_onEditingFinished(QString text)
-{
-    vConfigs[0].configs.at(configName.NETBIOS_NAME)=text;
-}
-
-void SambaConfig::tfWorkgroup_onEditingFinished(QString text)
-{
-    vConfigs[0].configs.at(configName.WORKGROUP)=text;
-}
-
-void SambaConfig::tfServerString_onEditingFinished(QString text)
-{
-    vConfigs[0].configs.at(configName.SERVER_STRING)=text;
-}
-
-void SambaConfig::cbMapToGuest_onDisplayTextChanged(QString text)
-{
-    if(!vConfigs.empty())
-    {
-        vConfigs[0].configs.at(configName.MAP_TO_GUEST)=text;
-    }
-}
-
-void SambaConfig::cbSecurity_onDisplayTextChanged(QString text)
-{
-    if(!vConfigs.empty())
-    {
-        vConfigs[0].configs.at(configName.SECURITY)=text;
-    }
-}
-
-void SambaConfig::cbLocalMaster_onClicked(bool checked)
-{
-    setSettingFromCheckboxes(configName.LOCAL_MASTER,checked);
-}
-
-void SambaConfig::cbDomainMaster_onClicked(bool checked)
-{
-   setSettingFromCheckboxes(configName.DOMAIN_MASTER, checked);
-}
-
-void SambaConfig::cbBrowseable_onClicked(bool checked)
-{
-    setSettingFromCheckboxes(configName.BROWSEABLE,checked);
-}
-
-void SambaConfig::bSave_onClicked()
-{
-    editFile.SaveFile("/etc/samba/smb.conf", vConfigs);
-    QProcess::execute("systemctl restart nmbd");
-    QProcess::execute("systemctl restart smbd");
-}
-
 void SambaConfig::openFile()
 {
     vConfigs = editFile.OpenFile("/etc/samba/smb.conf");
-    loadConfigs();
+    loadGlobalConfigs();
+    loadLocalConfigs();
 }
 
-void SambaConfig::loadConfigs()
+void SambaConfig::loadLocalConfigs()
+{
+    auto localConfig = vConfigs[1];
+    auto configsParameters = localConfig.configs;
+
+    commentTextField->setProperty("text", QVariant(configsParameters.at(configName.COMMENT)));
+    pathTextField->setProperty("text", QVariant(configsParameters.at(configName.PATH)));
+    createModeTextField->setProperty("text", QVariant(configsParameters.at(configName.CREATE_MODE)));
+    directoryModeTextField->setProperty("text", QVariant(configsParameters.at(configName.DIRECTORY_MODE)));
+
+    setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox);
+    setCheckboxesFromFileSettings(configsParameters.at(configName.WRITABLE), writablecheckBox);
+    setCheckboxesFromFileSettings(configsParameters.at(configName.GUEST_OK), guestOkCheckBox);
+
+}
+
+void SambaConfig::loadGlobalConfigs()
 {
     auto globalConfig = vConfigs[0];
     auto configsParameters = globalConfig.configs;
@@ -75,9 +41,17 @@ void SambaConfig::loadConfigs()
     serverStringTextField->setProperty("text",QVariant(configsParameters.at(configName.SERVER_STRING)));
     netBiosTextField->setProperty("text",QVariant(configsParameters.at(configName.NETBIOS_NAME)));
 
-    setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox);
+    setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), globalBrowsableCheckBox);
     setCheckboxesFromFileSettings(configsParameters.at(configName.LOCAL_MASTER), localMastercheckBox);
     setCheckboxesFromFileSettings(configsParameters.at(configName.DOMAIN_MASTER), domainMasterCheckBox);
+}
+
+
+void SambaConfig::bSave_onClicked()
+{
+    editFile.SaveFile("/etc/samba/smb.conf", vConfigs);
+    QProcess::execute("systemctl restart nmbd");
+    QProcess::execute("systemctl restart smbd");
 }
 
 void SambaConfig::setSettingFromCheckboxes(QString configName,bool checked)
@@ -103,36 +77,3 @@ void SambaConfig::setCheckboxesFromFileSettings(const QString configsParameters,
         checkbox->setProperty("checked",QVariant(false));
     }
 }
-void SambaConfig::setWorkGroupTextField(QObject* obj)
-{
-    workGroupTextField = QSharedPointer<QObject>(obj);
-}
-void SambaConfig::setServerStringTextField(QObject *obj)
-{
-    serverStringTextField = QSharedPointer<QObject>(obj);
-}
-void SambaConfig::setNetBiosTextField(QObject *obj)
-{
-    netBiosTextField = QSharedPointer<QObject>(obj);
-}
-void SambaConfig::setBrowsableCheckBox(QObject *obj)
-{
-    browsableCheckBox = QSharedPointer<QObject>(obj);
-}
-void SambaConfig::setLocalMastercheckBox(QObject *obj)
-{
-    localMastercheckBox = QSharedPointer<QObject>(obj);
-}
-void SambaConfig::setDomainMasterCheckBox(QObject *obj)
-{
-    domainMasterCheckBox = QSharedPointer<QObject>(obj);
-}
-void SambaConfig::setSecurityComboBox(QObject *obj)
-{
-    securityComboBox = QSharedPointer<QObject>(obj);
-}
-void SambaConfig::setMapToGuestComboBox(QObject *obj)
-{
-    mapToGuestComboBox = QSharedPointer<QObject>(obj);
-}
-

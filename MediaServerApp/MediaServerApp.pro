@@ -19,7 +19,12 @@ SOURCES += \
     editfile.cpp \
     ViewModel/mainwindow.cpp \
     ViewModel/sambaconfig.cpp \
-    start.cpp
+    start.cpp \
+    ViewModel/sambaconfigexternaldevice1.cpp \
+    ViewModel/sambaconfigexternaldevice2.cpp \
+    ViewModel/sambaconfigexternaldevice3.cpp \
+    ViewModel/sambaconfiglocal.cpp \
+    ViewModel/sambaconfigglobal.cpp
 
 
 RESOURCES += qml.qrc
