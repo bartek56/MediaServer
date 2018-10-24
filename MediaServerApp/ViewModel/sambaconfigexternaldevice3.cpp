@@ -1,5 +1,7 @@
 #include "sambaconfig.h"
 
+
+
 void SambaConfig::setCommentTextField3(QObject* obj)
 {
 
@@ -33,3 +35,4 @@ void SambaConfig::setReadOnlyCheckBox3(QObject* obj)
 {
 
 }
+

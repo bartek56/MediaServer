@@ -11,7 +11,6 @@ Dialog
     visible: true
     width: 800
     height: 440
-    property alias globalTag: globalTag
     topMargin: 40
     margins: 0
     padding: 1
@@ -19,7 +18,7 @@ Dialog
 
     SambaConfig
     {
-        id:sambaConfig
+        id: sambaConfig
     }
 
     TabBar {
@@ -32,19 +31,19 @@ Dialog
             text: qsTr("Local Share")
         }
         TabButton {
+            id: tbExternalDevice1
             text: qsTr("External Device 1")
+            visible: false
         }
         TabButton {
+            id: tbExternalDevice2
             text: qsTr("External Device 2")
+            visible: false
         }
         TabButton {
+            id: tbExternalDevice3
             text: qsTr("External Device 3")
-        }
-
-        GridLayout {
-            id: gridLayout2
-            width: 100
-            height: 100
+            visible: false
         }
     }
 
@@ -365,9 +364,9 @@ Dialog
                 }
             }
         }
+
         Item {
             id: externalDevice1Tab
-
             GridLayout {
                 id: gridLayout5
                 x: 51
@@ -574,7 +573,6 @@ Dialog
         }
         Item {
             id: externalDevice3Tab
-
             GridLayout {
                 id: gridLayout9
                 x: 51
@@ -675,6 +673,7 @@ Dialog
                 rows: 4
             }
         }
+
     }
 
     InputPanel
@@ -730,7 +729,7 @@ Dialog
                 tfWorkgroup.text="WORKGROUP"
                 tfServerString.text="SambaServer"
                 tfNetbiosName.text="DataServer"
-                cbBrowseable.checked=true
+                chbBrowseable.checked=true
                 cbLocalMaster.checked=true
                 cbDomainMaster.checked=true
                 cbSecurity.currentIndex=0
@@ -740,7 +739,7 @@ Dialog
                 sambaConfig.tfNetbiosName_onEditingFinished(tfNetbiosName.getText(0,tfNetbiosName.length));
                 sambaConfig.cbSecurity_onDisplayTextChanged(cbSecurity.currentText);
                 sambaConfig.cbMapToGuest_onDisplayTextChanged(cbMapToGuest.currentText);
-                sambaConfig.cbBrowseable_onClicked(cbGlobalBrowseable.checked);
+                sambaConfig.cbGlobalBrowseable_onClicked(cbGlobalBrowseable.checked);
                 sambaConfig.cbLocalMaster_onClicked(cbLocalMaster.checked);
                 sambaConfig.cbDomainMaster_onClicked(cbDomainMaster.checked);
             }
@@ -771,6 +770,7 @@ Dialog
 
     Component.onCompleted:
     {
+
         sambaConfig.setWorkGroupTextField(tfWorkgroup);
         sambaConfig.setServerStringTextField(tfServerString);
         sambaConfig.setNetBiosTextField(tfNetbiosName);
@@ -789,6 +789,7 @@ Dialog
         sambaConfig.setGuestOkCheckBox(chbGuestOk);
         sambaConfig.setReadOnlyCheckBox(chbReadOnly);
 
+
         sambaConfig.setCommentTextField1(tfComment1);
         sambaConfig.setPathTextField1(tfPath1);
         sambaConfig.setCreateModeTextField1(tfCreateMode1);
@@ -797,6 +798,7 @@ Dialog
         sambaConfig.setWritablecheckBox1(chbWritable1);
         sambaConfig.setGuestOkCheckBox1(chBGuestOk1);
         sambaConfig.setReadOnlyCheckBox1(chbReadOnly1);
+
 
         sambaConfig.setCommentTextField2(tfComment2);
         sambaConfig.setPathTextField2(tfPath2);
@@ -807,6 +809,8 @@ Dialog
         sambaConfig.setGuestOkCheckBox2(chBGuestOk2);
         sambaConfig.setReadOnlyCheckBox2(chbReadOnly2);
 
+
+
         sambaConfig.setCommentTextField3(tfComment3);
         sambaConfig.setPathTextField3(tfPath3);
         sambaConfig.setCreateModeTextField3(tfCreateMode3);
@@ -816,11 +820,11 @@ Dialog
         sambaConfig.setGuestOkCheckBox3(chBGuestOk3);
         sambaConfig.setReadOnlyCheckBox3(chbReadOnly3);
 
+
+        sambaConfig.setExternalDeviceTabButton1(tbExternalDevice1);
+        //sambaConfig.setExternalDeviceTabButton2(tbExternalDevice2);
+        //sambaConfig.setExternalDeviceTabButton3(tbExternalDevice3);
+        sambaConfig.checkExternalDevices();
         sambaConfig.openFile();
     }
 }
-
-/*##^## Designer {
-    D{i:10;invisible:true}D{i:33;invisible:true}D{i:48;invisible:true}D{i:9;invisible:true}
-}
- ##^##*/

@@ -7,11 +7,9 @@
 
 std::vector<ConfigsName> EditFile::OpenFile(QString fileLocation)
 {
-
     QFile file (fileLocation);
     std::vector<ConfigsName> vConfigsName;
     std::map<QString, QString> mConfigsParameters;
-
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return vConfigsName;
 
