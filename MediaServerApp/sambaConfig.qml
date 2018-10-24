@@ -951,7 +951,10 @@ Dialog
         sambaConfig.setExternalDiskTabButton1(tbExternalDisk1);
         sambaConfig.setExternalDiskTabButton2(tbExternalDisk2);
         sambaConfig.setExternalDiskTabButton3(tbExternalDisk3);
+
         sambaConfig.checkExternalDisks();
+        sambaConfig.mountExternalDisks();
         sambaConfig.openFile();
+
     }
 }

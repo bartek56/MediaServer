@@ -63,3 +63,4 @@ void EditFile::SaveFile(QString fileLocation, std::vector<ConfigsName> vConfigs)
         }
     }
 }
+

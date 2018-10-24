@@ -82,8 +82,6 @@ public:
     QSharedPointer<QObject> guestOkCheckBox3;
     QSharedPointer<QObject> readOnlyCheckBox3;
 
-
-
     explicit SambaConfig(QObject *parent = nullptr);
 
     Q_INVOKABLE void setStackLayout(QObject* obj);
@@ -190,6 +188,7 @@ public:
 
     Q_INVOKABLE void openFile();
     Q_INVOKABLE void checkExternalDisks();
+    Q_INVOKABLE void mountExternalDisks();
 
 private:
     EditFile editFile;
@@ -203,7 +202,7 @@ private:
     bool externalDisk3IsMounted;
 
     void removeConfig(QString const configName);
-    int indexOfExternalDiskConfiguration(QString diskName);
+    unsigned int indexOfExternalDiskConfiguration(QString diskName);
     void setCheckboxesFromFileSettings(QString configsParameters, QSharedPointer<QObject> checkbox);
     void setSettingFromCheckboxes(unsigned long row,QString configName, bool configsParameters);
     void loadGlobalConfigs();
@@ -211,6 +210,7 @@ private:
     void loadExternalDisk1Configs();
     void loadExternalDisk2Configs();
     void loadExternalDisk3Configs();
+    void checkingIfDisksAreMounted();
 
 public slots:
 
