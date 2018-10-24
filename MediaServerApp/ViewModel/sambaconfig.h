@@ -47,7 +47,7 @@ public:
     QSharedPointer<QObject> readOnlyCheckBox;
 
 
-    QObject* externalDeviceTabButton1;
+    QObject* externalDiskTabButton1;
 
     QSharedPointer<QObject> commentTextField1;
     QSharedPointer<QObject> pathTextField1;
@@ -58,7 +58,7 @@ public:
     QSharedPointer<QObject> guestOkCheckBox1;
     QSharedPointer<QObject> readOnlyCheckBox1;
 
-    QSharedPointer<QObject> externalDeviceTabButton2;
+    QSharedPointer<QObject> externalDiskTabButton2;
 
     QSharedPointer<QObject> commentTextField2;
     QSharedPointer<QObject> pathTextField2;
@@ -69,7 +69,7 @@ public:
     QSharedPointer<QObject> guestOkCheckBox2;
     QSharedPointer<QObject> readOnlyCheckBox2;
 
-    QSharedPointer<QObject> externalDeviceTabButton3;
+    QSharedPointer<QObject> externalDiskTabButton3;
 
     QSharedPointer<QObject> commentTextField3;
     QSharedPointer<QObject> pathTextField3;
@@ -102,7 +102,7 @@ public:
     Q_INVOKABLE void setGuestOkCheckBox(QObject* obj);
     Q_INVOKABLE void setReadOnlyCheckBox(QObject* obj);
 
-    Q_INVOKABLE void setExternalDeviceTabButton1(QObject* obj);
+    Q_INVOKABLE void setExternalDiskTabButton1(QObject* obj);
 
     Q_INVOKABLE void setCommentTextField1(QObject* obj);
     Q_INVOKABLE void setPathTextField1(QObject* obj);
@@ -113,7 +113,7 @@ public:
     Q_INVOKABLE void setGuestOkCheckBox1(QObject* obj);
     Q_INVOKABLE void setReadOnlyCheckBox1(QObject* obj);
 
-    Q_INVOKABLE void setExternalDeviceTabButton2(QObject* obj);
+    Q_INVOKABLE void setExternalDiskTabButton2(QObject* obj);
 
     Q_INVOKABLE void setCommentTextField2(QObject* obj);
     Q_INVOKABLE void setPathTextField2(QObject* obj);
@@ -124,7 +124,7 @@ public:
     Q_INVOKABLE void setGuestOkCheckBox2(QObject* obj);
     Q_INVOKABLE void setReadOnlyCheckBox2(QObject* obj);
 
-    Q_INVOKABLE void setExternalDeviceTabButton3(QObject* obj);
+    Q_INVOKABLE void setExternalDiskTabButton3(QObject* obj);
 
     Q_INVOKABLE void setCommentTextField3(QObject* obj);
     Q_INVOKABLE void setPathTextField3(QObject* obj);
@@ -157,8 +157,17 @@ public:
     Q_INVOKABLE void chbGuestOk_onClicked(bool checked);
     Q_INVOKABLE void chbReadOnly_onClicked(bool checked);
 
+    Q_INVOKABLE void tfComment1_onEditingFinished(QString text);
+    Q_INVOKABLE void tfPath1_onEditingFinished(QString text);
+    Q_INVOKABLE void tfCreateMode1_onEditingFinished(QString text);
+    Q_INVOKABLE void tfDirectoryMode1_onEditingFinished(QString text);
+    Q_INVOKABLE void chbBrowseable1_onClicked(bool checked);
+    Q_INVOKABLE void chbWritable1_onClicked(bool checked);
+    Q_INVOKABLE void chbGuestOk1_onClicked(bool checked);
+    Q_INVOKABLE void chbReadOnly1_onClicked(bool checked);
+
     Q_INVOKABLE void openFile();
-    Q_INVOKABLE void checkExternalDevices();
+    Q_INVOKABLE void checkExternalDisks();
 
 private:
     EditFile editFile;
@@ -168,7 +177,7 @@ private:
     void setSettingFromCheckboxes(unsigned long row,QString configName, bool configsParameters);
     void loadGlobalConfigs();
     void loadLocalConfigs();
-    void loadExternalDevice1Configs();
+    void loadExternalDisk1Configs();
     int countExternalDevice;
 
 public slots:

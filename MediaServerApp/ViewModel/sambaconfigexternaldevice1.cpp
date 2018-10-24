@@ -1,7 +1,45 @@
 #include "sambaconfig.h"
 
 
+void SambaConfig::tfComment1_onEditingFinished(QString text)
+{
+    vConfigs[2].configs.at(configName.COMMENT)=text;
+    vConfigs[2].name="["+text+"]";
+}
+void SambaConfig::tfPath1_onEditingFinished(QString text)
+{
+    vConfigs[2].configs.at(configName.PATH)=text;
+}
 
+void SambaConfig::tfCreateMode1_onEditingFinished(QString text)
+{
+    vConfigs[2].configs.at(configName.CREATE_MODE)=text;
+}
+
+void SambaConfig::tfDirectoryMode1_onEditingFinished(QString text)
+{
+    vConfigs[2].configs.at(configName.DIRECTORY_MODE)=text;
+}
+
+void SambaConfig::chbBrowseable1_onClicked(bool checked)
+{
+    setSettingFromCheckboxes(2,configName.BROWSEABLE,checked);
+}
+
+void SambaConfig::chbWritable1_onClicked(bool checked)
+{
+    setSettingFromCheckboxes(2,configName.WRITABLE,checked);
+}
+
+void SambaConfig::chbGuestOk1_onClicked(bool checked)
+{
+    setSettingFromCheckboxes(2,configName.GUEST_OK,checked);
+}
+
+void SambaConfig::chbReadOnly1_onClicked(bool checked)
+{
+    setSettingFromCheckboxes(2,configName.READ_ONLY,checked);
+}
 
 void SambaConfig::setCommentTextField1(QObject* obj)
 {

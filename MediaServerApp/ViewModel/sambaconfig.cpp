@@ -11,18 +11,18 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 }
 
 
-void SambaConfig::checkExternalDevices()
+void SambaConfig::checkExternalDisks()
 {
     QFile file ("/dev/sda");
     countExternalDevice=0;
     if(file.exists())
     {
-        externalDeviceTabButton1->setProperty("visible",QVariant(true));
+        externalDiskTabButton1->setProperty("visible",QVariant(true));
         countExternalDevice++;
     }
     else
     {
-        externalDeviceTabButton1->setProperty("visible",QVariant(false));
+        externalDiskTabButton1->setProperty("visible",QVariant(false));
     }
 }
 
@@ -34,7 +34,7 @@ void SambaConfig::openFile()
 
     if(countExternalDevice==1)
     {
-        loadExternalDevice1Configs();
+        loadExternalDisk1Configs();
     }
     else
     {
@@ -76,20 +76,20 @@ void SambaConfig::loadGlobalConfigs()
     setCheckboxesFromFileSettings(configsParameters.at(configName.DOMAIN_MASTER), domainMasterCheckBox);
 }
 
-void SambaConfig::loadExternalDevice1Configs()
+void SambaConfig::loadExternalDisk1Configs()
 {
     if(vConfigs.size() < 3)
     {
         std::map<QString, QString> mConfigsParameters;
         mConfigsParameters.insert(std::make_pair(configName.PATH,"/home/Samba"));
-        mConfigsParameters.insert(std::make_pair(configName.COMMENT,"ExternalDevice1"));
+        mConfigsParameters.insert(std::make_pair(configName.COMMENT,"ExternalDisk1"));
         mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE,"yes"));
         mConfigsParameters.insert(std::make_pair(configName.WRITABLE,"yes"));
         mConfigsParameters.insert(std::make_pair(configName.GUEST_OK,"yes"));
         mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
         mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
         mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-        vConfigs.push_back(ConfigsName("[ExternalDevice1]",mConfigsParameters));
+        vConfigs.push_back(ConfigsName("[ExternalDisk1]",mConfigsParameters));
     }
 
     auto localConfig = vConfigs[2];
@@ -136,20 +136,20 @@ void SambaConfig::setCheckboxesFromFileSettings(const QString configsParameters,
     }
 }
 
-void SambaConfig::setExternalDeviceTabButton1(QObject* obj)
+void SambaConfig::setExternalDiskTabButton1(QObject* obj)
 {
     //externalDeviceTabButtona = QSharedPointer<QObject>(obj);
-    externalDeviceTabButton1 = obj;
+    externalDiskTabButton1 = obj;
 }
 
-void SambaConfig::setExternalDeviceTabButton2(QObject* obj)
+void SambaConfig::setExternalDiskTabButton2(QObject* obj)
 {
-    externalDeviceTabButton2 = QSharedPointer<QObject>(obj);
+    externalDiskTabButton2 = QSharedPointer<QObject>(obj);
 }
 
-void SambaConfig::setExternalDeviceTabButton3(QObject* obj)
+void SambaConfig::setExternalDiskTabButton3(QObject* obj)
 {
-    externalDeviceTabButton3 = QSharedPointer<QObject>(obj);
+    externalDiskTabButton3 = QSharedPointer<QObject>(obj);
 }
 
 

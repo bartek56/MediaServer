@@ -31,17 +31,17 @@ Dialog
             text: qsTr("Local Share")
         }
         TabButton {
-            id: tbExternalDevice1
+            id: tbExternalDisk1
             text: qsTr("External Device 1")
             visible: false
         }
         TabButton {
-            id: tbExternalDevice2
+            id: tbExternalDisk2
             text: qsTr("External Device 2")
             visible: false
         }
         TabButton {
-            id: tbExternalDevice3
+            id: tbExternalDisk3
             text: qsTr("External Device 3")
             visible: false
         }
@@ -366,7 +366,7 @@ Dialog
         }
 
         Item {
-            id: externalDevice1Tab
+            id: externalDisk1Tab
             GridLayout {
                 id: gridLayout5
                 x: 51
@@ -388,6 +388,10 @@ Dialog
                     width: 80
                     height: 20
                     font.pixelSize: 18
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfComment1_onEditingFinished(tfComment1.getText(0,tfComment1.length));
+                    }
                 }
 
                 Text {
@@ -403,6 +407,10 @@ Dialog
                     height: 20
                     Layout.preferredWidth: tfComment1.width
                     font.pixelSize: tfComment1.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfPath1_onEditingFinished(tfPath1.getText(0,tfPath1.length));
+                    }
                 }
 
                 Text {
@@ -418,6 +426,10 @@ Dialog
                     height: 20
                     Layout.preferredWidth: tfComment1.width
                     font.pixelSize: tfComment1.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfCreateMode1_onEditingFinished(tfComment1.getText(0,tfCreateMode1.length));
+                    }
                 }
 
                 Text {
@@ -434,6 +446,10 @@ Dialog
                     height: 20
                     Layout.preferredWidth: tfComment1.width
                     font.pixelSize: tfComment1.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfDirectoryMode1_onEditingFinished(tfDirectoryMode1.getText(0,tfDirectoryMode1.length));
+                    }
                 }
                 rows: 4
             }
@@ -448,27 +464,43 @@ Dialog
                 CheckBox {
                     id: chbBrowseable1
                     text: qsTr("Browseable")
+                    onClicked:
+                    {
+                        sambaConfig.chbBrowseable1_onClicked(chbBrowseable1.checked);
+                    }
                 }
 
                 CheckBox {
                     id: chbWritable1
                     text: qsTr("Writable")
+                    onClicked:
+                    {
+                        sambaConfig.chbWritable1_onClicked(chbWritable1.checked);
+                    }
                 }
 
                 CheckBox {
-                    id: chBGuestOk1
+                    id: chbGuestOk1
                     text: qsTr("Guest ok")
+                    onClicked:
+                    {
+                        sambaConfig.chbbGuestOk1_onClicked(chbGuestOk1.checked);
+                    }
                 }
 
                 CheckBox {
                     id: chbReadOnly1
                     text: qsTr("Read only")
+                    onClicked:
+                    {
+                        sambaConfig.chbReadOnly_onClicked(chbReadOnly1.checked);
+                    }
                 }
                 rows: 4
             }
         }
         Item {
-            id: externalDevice2Tab
+            id: externalDisk2Tab
 
             GridLayout {
                 id: gridLayout7
@@ -572,7 +604,7 @@ Dialog
             }
         }
         Item {
-            id: externalDevice3Tab
+            id: externalDisk3Tab
             GridLayout {
                 id: gridLayout9
                 x: 51
@@ -796,7 +828,7 @@ Dialog
         sambaConfig.setDirectoryModeTextField1(tfDirectoryMode1);
         sambaConfig.setBrowsableCheckBox1(chbBrowseable1);
         sambaConfig.setWritablecheckBox1(chbWritable1);
-        sambaConfig.setGuestOkCheckBox1(chBGuestOk1);
+        sambaConfig.setGuestOkCheckBox1(chbGuestOk1);
         sambaConfig.setReadOnlyCheckBox1(chbReadOnly1);
 
 
@@ -821,10 +853,10 @@ Dialog
         sambaConfig.setReadOnlyCheckBox3(chbReadOnly3);
 
 
-        sambaConfig.setExternalDeviceTabButton1(tbExternalDevice1);
-        //sambaConfig.setExternalDeviceTabButton2(tbExternalDevice2);
-        //sambaConfig.setExternalDeviceTabButton3(tbExternalDevice3);
-        sambaConfig.checkExternalDevices();
+        sambaConfig.setExternalDiskTabButton1(tbExternalDisk1);
+        //sambaConfig.setExternalDiskTabButton2(tbExternalDisk2);
+        //sambaConfig.setExternalDiskTabButton3(tbExternalDisk3);
+        sambaConfig.checkExternalDisks();
         sambaConfig.openFile();
     }
 }
