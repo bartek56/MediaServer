@@ -1,7 +1,7 @@
 #ifndef SAMBACONFIG_H
 #define SAMBACONFIG_H
 
-
+#include <QProcess>
 #include <memory>
 #include <QSharedPointer>
 #include "editfile.h"
@@ -28,6 +28,8 @@ class SambaConfig : public QObject
 {
     Q_OBJECT
 public:
+    QSharedPointer<QObject> stackLayout;
+
     QSharedPointer<QObject> workGroupTextField;
     QSharedPointer<QObject> serverStringTextField;
     QSharedPointer<QObject> netBiosTextField;
@@ -37,7 +39,7 @@ public:
     QSharedPointer<QObject> securityComboBox;
     QSharedPointer<QObject> mapToGuestComboBox;
 
-    QSharedPointer<QObject> commentTextField;
+    QSharedPointer<QObject> nameTextField;
     QSharedPointer<QObject> pathTextField;
     QSharedPointer<QObject> createModeTextField;
     QSharedPointer<QObject> directoryModeTextField;
@@ -49,7 +51,7 @@ public:
 
     QObject* externalDiskTabButton1;
 
-    QSharedPointer<QObject> commentTextField1;
+    QSharedPointer<QObject> nameTextField1;
     QSharedPointer<QObject> pathTextField1;
     QSharedPointer<QObject> createModeTextField1;
     QSharedPointer<QObject> directoryModeTextField1;
@@ -58,9 +60,9 @@ public:
     QSharedPointer<QObject> guestOkCheckBox1;
     QSharedPointer<QObject> readOnlyCheckBox1;
 
-    QSharedPointer<QObject> externalDiskTabButton2;
+    QObject* externalDiskTabButton2;
 
-    QSharedPointer<QObject> commentTextField2;
+    QSharedPointer<QObject> nameTextField2;
     QSharedPointer<QObject> pathTextField2;
     QSharedPointer<QObject> createModeTextField2;
     QSharedPointer<QObject> directoryModeTextField2;
@@ -69,9 +71,9 @@ public:
     QSharedPointer<QObject> guestOkCheckBox2;
     QSharedPointer<QObject> readOnlyCheckBox2;
 
-    QSharedPointer<QObject> externalDiskTabButton3;
+    QObject* externalDiskTabButton3;
 
-    QSharedPointer<QObject> commentTextField3;
+    QSharedPointer<QObject> nameTextField3;
     QSharedPointer<QObject> pathTextField3;
     QSharedPointer<QObject> createModeTextField3;
     QSharedPointer<QObject> directoryModeTextField3;
@@ -81,7 +83,10 @@ public:
     QSharedPointer<QObject> readOnlyCheckBox3;
 
 
+
     explicit SambaConfig(QObject *parent = nullptr);
+
+    Q_INVOKABLE void setStackLayout(QObject* obj);
 
     Q_INVOKABLE void setWorkGroupTextField(QObject* obj);
     Q_INVOKABLE void setServerStringTextField(QObject* obj);
@@ -103,7 +108,6 @@ public:
     Q_INVOKABLE void setReadOnlyCheckBox(QObject* obj);
 
     Q_INVOKABLE void setExternalDiskTabButton1(QObject* obj);
-
     Q_INVOKABLE void setCommentTextField1(QObject* obj);
     Q_INVOKABLE void setPathTextField1(QObject* obj);
     Q_INVOKABLE void setCreateModeTextField1(QObject* obj);
@@ -114,7 +118,6 @@ public:
     Q_INVOKABLE void setReadOnlyCheckBox1(QObject* obj);
 
     Q_INVOKABLE void setExternalDiskTabButton2(QObject* obj);
-
     Q_INVOKABLE void setCommentTextField2(QObject* obj);
     Q_INVOKABLE void setPathTextField2(QObject* obj);
     Q_INVOKABLE void setCreateModeTextField2(QObject* obj);
@@ -125,7 +128,6 @@ public:
     Q_INVOKABLE void setReadOnlyCheckBox2(QObject* obj);
 
     Q_INVOKABLE void setExternalDiskTabButton3(QObject* obj);
-
     Q_INVOKABLE void setCommentTextField3(QObject* obj);
     Q_INVOKABLE void setPathTextField3(QObject* obj);
     Q_INVOKABLE void setCreateModeTextField3(QObject* obj);
@@ -134,7 +136,6 @@ public:
     Q_INVOKABLE void setWritablecheckBox3(QObject* obj);
     Q_INVOKABLE void setGuestOkCheckBox3(QObject* obj);
     Q_INVOKABLE void setReadOnlyCheckBox3(QObject* obj);
-
 
     Q_INVOKABLE void bSave_onClicked();
 
@@ -148,7 +149,7 @@ public:
     Q_INVOKABLE void cbDomainMaster_onClicked(bool checked);
     Q_INVOKABLE void cbGlobalBrowseable_onClicked(bool checked);
 
-    Q_INVOKABLE void tfComment_onEditingFinished(QString text);
+    Q_INVOKABLE void tfName_onEditingFinished(QString text);
     Q_INVOKABLE void tfPath_onEditingFinished(QString text);
     Q_INVOKABLE void tfCreateMode_onEditingFinished(QString text);
     Q_INVOKABLE void tfDirectoryMode_onEditingFinished(QString text);
@@ -157,7 +158,7 @@ public:
     Q_INVOKABLE void chbGuestOk_onClicked(bool checked);
     Q_INVOKABLE void chbReadOnly_onClicked(bool checked);
 
-    Q_INVOKABLE void tfComment1_onEditingFinished(QString text);
+    Q_INVOKABLE void tfName1_onEditingFinished(QString text);
     Q_INVOKABLE void tfPath1_onEditingFinished(QString text);
     Q_INVOKABLE void tfCreateMode1_onEditingFinished(QString text);
     Q_INVOKABLE void tfDirectoryMode1_onEditingFinished(QString text);
@@ -165,6 +166,27 @@ public:
     Q_INVOKABLE void chbWritable1_onClicked(bool checked);
     Q_INVOKABLE void chbGuestOk1_onClicked(bool checked);
     Q_INVOKABLE void chbReadOnly1_onClicked(bool checked);
+    Q_INVOKABLE void bUmount1_onClicked();
+
+    Q_INVOKABLE void tfName2_onEditingFinished(QString text);
+    Q_INVOKABLE void tfPath2_onEditingFinished(QString text);
+    Q_INVOKABLE void tfCreateMode2_onEditingFinished(QString text);
+    Q_INVOKABLE void tfDirectoryMode2_onEditingFinished(QString text);
+    Q_INVOKABLE void chbBrowseable2_onClicked(bool checked);
+    Q_INVOKABLE void chbWritable2_onClicked(bool checked);
+    Q_INVOKABLE void chbGuestOk2_onClicked(bool checked);
+    Q_INVOKABLE void chbReadOnly2_onClicked(bool checked);
+    Q_INVOKABLE void bUmount2_onClicked();
+
+    Q_INVOKABLE void tfName3_onEditingFinished(QString text);
+    Q_INVOKABLE void tfPath3_onEditingFinished(QString text);
+    Q_INVOKABLE void tfCreateMode3_onEditingFinished(QString text);
+    Q_INVOKABLE void tfDirectoryMode3_onEditingFinished(QString text);
+    Q_INVOKABLE void chbBrowseable3_onClicked(bool checked);
+    Q_INVOKABLE void chbWritable3_onClicked(bool checked);
+    Q_INVOKABLE void chbGuestOk3_onClicked(bool checked);
+    Q_INVOKABLE void chbReadOnly3_onClicked(bool checked);
+    Q_INVOKABLE void bUmount3_onClicked();
 
     Q_INVOKABLE void openFile();
     Q_INVOKABLE void checkExternalDisks();
@@ -173,12 +195,22 @@ private:
     EditFile editFile;
     std::vector<ConfigsName> vConfigs;
     ConfigName configName;
+    bool externalDisk1IsConnected;
+    bool externalDisk2IsConnected;
+    bool externalDisk3IsConnected;
+    bool externalDisk1IsMounted;
+    bool externalDisk2IsMounted;
+    bool externalDisk3IsMounted;
+
+    void removeConfig(QString const configName);
+    int indexOfExternalDiskConfiguration(QString diskName);
     void setCheckboxesFromFileSettings(QString configsParameters, QSharedPointer<QObject> checkbox);
     void setSettingFromCheckboxes(unsigned long row,QString configName, bool configsParameters);
     void loadGlobalConfigs();
     void loadLocalConfigs();
     void loadExternalDisk1Configs();
-    int countExternalDevice;
+    void loadExternalDisk2Configs();
+    void loadExternalDisk3Configs();
 
 public slots:
 

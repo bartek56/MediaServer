@@ -2,7 +2,7 @@
 #include <QObject>
 
 
-void SambaConfig::tfComment_onEditingFinished(QString text)
+void SambaConfig::tfName_onEditingFinished(QString text)
 {
     vConfigs[1].configs.at(configName.COMMENT)=text;
     vConfigs[1].name="["+text+"]";
@@ -45,7 +45,7 @@ void SambaConfig::chbReadOnly_onClicked(bool checked)
 
 void SambaConfig::setCommentTextField(QObject* obj)
 {
-    commentTextField = QSharedPointer<QObject>(obj);
+    nameTextField = QSharedPointer<QObject>(obj);
 }
 
 void SambaConfig::setPathTextField(QObject* obj)

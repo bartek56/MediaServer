@@ -85,3 +85,8 @@ void SambaConfig::setMapToGuestComboBox(QObject *obj)
 {
     mapToGuestComboBox = QSharedPointer<QObject>(obj);
 }
+
+void SambaConfig::setStackLayout(QObject *obj)
+{
+    stackLayout=QSharedPointer<QObject>(obj);
+}

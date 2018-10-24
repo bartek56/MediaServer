@@ -32,22 +32,23 @@ Dialog
         }
         TabButton {
             id: tbExternalDisk1
-            text: qsTr("External Device 1")
+            text: qsTr("External Disk 1")
             visible: false
         }
         TabButton {
             id: tbExternalDisk2
-            text: qsTr("External Device 2")
+            text: qsTr("External Disk 2")
             visible: false
         }
         TabButton {
             id: tbExternalDisk3
-            text: qsTr("External Device 3")
+            text: qsTr("External Disk 3")
             visible: false
         }
     }
 
     StackLayout {
+        id: stackLayout
         width: parent.width
         currentIndex: tabBar.currentIndex
         Item {
@@ -233,9 +234,9 @@ Dialog
                 columns: 2
 
                 Text {
-                    id: tComment
+                    id: tName
                     width: 171
-                    text: qsTr("Comment")
+                    text: qsTr("Name")
                     Layout.preferredWidth: 140
                     wrapMode: Text.NoWrap
                     font.pixelSize: 18
@@ -243,21 +244,21 @@ Dialog
 
                 TextField
                 {
-                    id: tfComment
+                    id: tfName
                     width: 80
                     height: 20
                     font.pixelSize: 18
                     onEditingFinished:
                     {
-                        sambaConfig.tfComment_onEditingFinished(tfComment.getText(0,tfComment.length));
+                        sambaConfig.tfName_onEditingFinished(tfName.getText(0,tfName.length));
                     }
                 }
 
                 Text {
                     id: tPath
                     text: qsTr("Path")
-                    Layout.preferredWidth: tComment.width
-                    font.pixelSize: tComment.font.pixelSize
+                    Layout.preferredWidth: tName.width
+                    font.pixelSize: tName.font.pixelSize
                 }
 
                 TextField
@@ -265,11 +266,11 @@ Dialog
                     id: tfPath
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment.width
-                    font.pixelSize: tfComment.font.pixelSize
+                    Layout.preferredWidth: tfName.width
+                    font.pixelSize: tfName.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfPath_onEditingFinished(tfComment.getText(0,tfComment.length));
+                        sambaConfig.tfPath_onEditingFinished(tfName.getText(0,tfName.length));
                     }
                 }
 
@@ -277,8 +278,8 @@ Dialog
                 {
                     id: tCreateMode
                     text: qsTr("Create Mode")
-                    Layout.preferredWidth: tComment.width
-                    font.pixelSize: tComment.font.pixelSize
+                    Layout.preferredWidth: tName.width
+                    font.pixelSize: tName.font.pixelSize
 
                 }
 
@@ -287,8 +288,8 @@ Dialog
                     id: tfCreateMode
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment.width
-                    font.pixelSize: tfComment.font.pixelSize
+                    Layout.preferredWidth: tfName.width
+                    font.pixelSize: tfName.font.pixelSize
                     onEditingFinished:
                     {
                         sambaConfig.tfCreateMode_onEditingFinished(tfCreateMode.getText(0,tfCreateMode.length));
@@ -300,8 +301,8 @@ Dialog
                     id: tDirectoryMode
                     text: qsTr("Directory Mode")
                     wrapMode: Text.NoWrap
-                    Layout.preferredWidth: tComment.width
-                    font.pixelSize: tComment.font.pixelSize
+                    Layout.preferredWidth: tName.width
+                    font.pixelSize: tName.font.pixelSize
                 }
 
                 TextField
@@ -309,8 +310,8 @@ Dialog
                     id: tfDirectoryMode
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment.width
-                    font.pixelSize: tfComment.font.pixelSize
+                    Layout.preferredWidth: tfName.width
+                    font.pixelSize: tfName.font.pixelSize
                     onEditingFinished:
                     {
                         sambaConfig.tfDirectoryMode_onEditingFinished(tfDirectoryMode.getText(0,tfDirectoryMode.length));
@@ -375,38 +376,38 @@ Dialog
                 height: 280
                 columns: 2
                 Text {
-                    id: tComment1
+                    id: tName1
                     width: 171
-                    text: qsTr("Comment")
+                    text: qsTr("Name")
                     Layout.preferredWidth: 140
                     font.pixelSize: 18
                     wrapMode: Text.NoWrap
                 }
 
                 TextField {
-                    id: tfComment1
+                    id: tfName1
                     width: 80
                     height: 20
                     font.pixelSize: 18
                     onEditingFinished:
                     {
-                        sambaConfig.tfComment1_onEditingFinished(tfComment1.getText(0,tfComment1.length));
+                        sambaConfig.tfName1_onEditingFinished(tfName1.getText(0,tfName1.length));
                     }
                 }
 
                 Text {
                     id: tPath1
                     text: qsTr("Path")
-                    Layout.preferredWidth: tComment1.width
-                    font.pixelSize: tComment1.font.pixelSize
+                    Layout.preferredWidth: tName1.width
+                    font.pixelSize: tName1.font.pixelSize
                 }
 
                 TextField {
                     id: tfPath1
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment1.width
-                    font.pixelSize: tfComment1.font.pixelSize
+                    Layout.preferredWidth: tfName1.width
+                    font.pixelSize: tfName1.font.pixelSize
                     onEditingFinished:
                     {
                         sambaConfig.tfPath1_onEditingFinished(tfPath1.getText(0,tfPath1.length));
@@ -416,27 +417,27 @@ Dialog
                 Text {
                     id: tCreateMode1
                     text: qsTr("Create Mode")
-                    Layout.preferredWidth: tComment1.width
-                    font.pixelSize: tComment1.font.pixelSize
+                    Layout.preferredWidth: tName1.width
+                    font.pixelSize: tName1.font.pixelSize
                 }
 
                 TextField {
                     id: tfCreateMode1
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment1.width
-                    font.pixelSize: tfComment1.font.pixelSize
+                    Layout.preferredWidth: tfName1.width
+                    font.pixelSize: tfName1.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfCreateMode1_onEditingFinished(tfComment1.getText(0,tfCreateMode1.length));
+                        sambaConfig.tfCreateMode1_onEditingFinished(tfName1.getText(0,tfCreateMode1.length));
                     }
                 }
 
                 Text {
                     id: tDirectoryMode1
                     text: qsTr("Directory Mode")
-                    Layout.preferredWidth: tComment1.width
-                    font.pixelSize: tComment1.font.pixelSize
+                    Layout.preferredWidth: tName1.width
+                    font.pixelSize: tName1.font.pixelSize
                     wrapMode: Text.NoWrap
                 }
 
@@ -444,8 +445,8 @@ Dialog
                     id: tfDirectoryMode1
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment1.width
-                    font.pixelSize: tfComment1.font.pixelSize
+                    Layout.preferredWidth: tfName1.width
+                    font.pixelSize: tfName1.font.pixelSize
                     onEditingFinished:
                     {
                         sambaConfig.tfDirectoryMode1_onEditingFinished(tfDirectoryMode1.getText(0,tfDirectoryMode1.length));
@@ -456,10 +457,10 @@ Dialog
 
             GridLayout {
                 id: gridLayout6
-                x: 531
-                y: 62
+                x: 530
+                y: 48
                 width: 192
-                height: 292
+                height: 312
                 columns: 1
                 CheckBox {
                     id: chbBrowseable1
@@ -496,7 +497,18 @@ Dialog
                         sambaConfig.chbReadOnly_onClicked(chbReadOnly1.checked);
                     }
                 }
-                rows: 4
+
+                Button {
+                    id: bUmount1
+                    text: qsTr("umount")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    highlighted: true
+                    onClicked:
+                    {
+                        sambaConfig.bUmount1_onClicked();
+                    }
+                }
+                rows: 5
             }
         }
         Item {
@@ -511,56 +523,68 @@ Dialog
                 columns: 2
                 rows: 4
                 Text {
-                    id: tComment2
+                    id: tName2
                     width: 171
-                    text: qsTr("Comment")
+                    text: qsTr("Name")
                     Layout.preferredWidth: 140
                     font.pixelSize: 18
                     wrapMode: Text.NoWrap
                 }
 
                 TextField {
-                    id: tfComment2
+                    id: tfName2
                     width: 80
                     height: 20
                     font.pixelSize: 18
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfName2_onEditingFinished(tfName2.getText(0,tfName2.length));
+                    }
                 }
 
                 Text {
                     id: tPath2
                     text: qsTr("Path")
-                    Layout.preferredWidth: tComment2.width
-                    font.pixelSize: tComment2.font.pixelSize
+                    Layout.preferredWidth: tName2.width
+                    font.pixelSize: tName2.font.pixelSize
                 }
 
                 TextField {
                     id: tfPath2
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment2.width
-                    font.pixelSize: tfComment2.font.pixelSize
+                    Layout.preferredWidth: tfName2.width
+                    font.pixelSize: tfName2.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfPath2_onEditingFinished(tfPath2.getText(0,tfPath2.length));
+                    }
                 }
 
                 Text {
                     id: tCreateMode2
                     text: qsTr("Create Mode")
-                    Layout.preferredWidth: tComment2.width
-                    font.pixelSize: tComment2.font.pixelSize
+                    Layout.preferredWidth: tName2.width
+                    font.pixelSize: tName2.font.pixelSize
                 }
 
                 TextField {
                     id: tfCreateMode2
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment2.width
-                    font.pixelSize: tfComment2.font.pixelSize
+                    Layout.preferredWidth: tfName2.width
+                    font.pixelSize: tfName2.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfCreateMode2_onEditingFinished(tfCreateMode2.getText(0,tfCreateMode2.length));
+                    }
                 }
 
                 Text {
                     id: tDirectoryMode2
                     text: qsTr("Directory Mode")
-                    Layout.preferredWidth: tComment2.width
-                    font.pixelSize: tComment2.font.pixelSize
+                    Layout.preferredWidth: tName2.width
+                    font.pixelSize: tName2.font.pixelSize
                     wrapMode: Text.NoWrap
                 }
 
@@ -568,8 +592,12 @@ Dialog
                     id: tfDirectoryMode2
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment2.width
-                    font.pixelSize: tfComment2.font.pixelSize
+                    Layout.preferredWidth: tfName2.width
+                    font.pixelSize: tfName2.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfDirectoryMode2_onEditingFinished(tfDirectoryMode2.getText(0,tfDirectoryMode2.length));
+                    }
                 }
 
             }
@@ -581,25 +609,52 @@ Dialog
                 width: 192
                 height: 292
                 columns: 1
-                rows: 4
+                rows: 5
                 CheckBox {
                     id: chbBrowseable2
                     text: qsTr("Browseable")
+                    onClicked:
+                    {
+                        sambaConfig.chbBrowseable2_onClicked(chbBrowseable2.checked);
+                    }
                 }
 
                 CheckBox {
                     id: chbWritable2
                     text: qsTr("Writable")
+                    onClicked:
+                    {
+                        sambaConfig.chbWritable2_onClicked(chbWritable2.checked);
+                    }
                 }
 
                 CheckBox {
-                    id: chBGuestOk2
+                    id: chbGuestOk2
                     text: qsTr("Guest ok")
+                    onClicked:
+                    {
+                        sambaConfig.chbGuestOk2_onClicked(chbGuestOk2);
+                    }
                 }
 
                 CheckBox {
                     id: chbReadOnly2
                     text: qsTr("Read only")
+                    onClicked:
+                    {
+                        sambaConfig.chbReadOnly2_onClicked(chbReadOnly2.checked);
+                    }
+                }
+
+                Button {
+                    id: bUmount2
+                    text: qsTr("umount")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    highlighted: true
+                    onClicked:
+                    {
+                        sambaConfig.bUmount2_onClicked();
+                    }
                 }
             }
         }
@@ -613,56 +668,69 @@ Dialog
                 height: 280
                 columns: 2
                 Text {
-                    id: tComment3
+                    id: tName3
                     width: 171
-                    text: qsTr("Comment")
+                    text: qsTr("Name")
                     Layout.preferredWidth: 140
                     font.pixelSize: 18
                     wrapMode: Text.NoWrap
                 }
 
                 TextField {
-                    id: tfComment3
+                    id: tfName3
                     width: 80
                     height: 20
                     font.pixelSize: 18
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfName3_onEditingFinished(tfName3.getText(0,tfName3.length));
+                    }
+
                 }
 
                 Text {
                     id: tPath3
                     text: qsTr("Path")
-                    Layout.preferredWidth: tComment3.width
-                    font.pixelSize: tComment3.font.pixelSize
+                    Layout.preferredWidth: tName3.width
+                    font.pixelSize: tName3.font.pixelSize
                 }
 
                 TextField {
                     id: tfPath3
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment3.width
-                    font.pixelSize: tfComment3.font.pixelSize
+                    Layout.preferredWidth: tfName3.width
+                    font.pixelSize: tfName3.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfPath3_onEditingFinished(tfPath3.getText(0,tfPath3.length));
+                    }
                 }
 
                 Text {
                     id: tCreateMode3
                     text: qsTr("Create Mode")
-                    Layout.preferredWidth: tComment3.width
-                    font.pixelSize: tComment3.font.pixelSize
+                    Layout.preferredWidth: tName3.width
+                    font.pixelSize: tName3.font.pixelSize
                 }
 
                 TextField {
                     id: tfCreateMode3
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment3.width
-                    font.pixelSize: tfComment3.font.pixelSize
+                    Layout.preferredWidth: tfName3.width
+                    font.pixelSize: tfName3.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfCreateMode3_onEditingFinished(tfCreateMode3.getText(0,tfCreateMode3.length));
+                    }
                 }
 
                 Text {
                     id: tDirectoryMode3
                     text: qsTr("Directory Mode")
-                    Layout.preferredWidth: tComment3.width
-                    font.pixelSize: tComment3.font.pixelSize
+                    Layout.preferredWidth: tName3.width
+                    font.pixelSize: tName3.font.pixelSize
                     wrapMode: Text.NoWrap
                 }
 
@@ -670,8 +738,12 @@ Dialog
                     id: tfDirectoryMode3
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfComment3.width
-                    font.pixelSize: tfComment3.font.pixelSize
+                    Layout.preferredWidth: tfName3.width
+                    font.pixelSize: tfName3.font.pixelSize
+                    onEditingFinished:
+                    {
+                        sambaConfig.tfDirectoryMode3_onEditingFinished(tfDirectoryMode3.getText(0,tfDirectoryMode3.length));
+                    }
                 }
                 rows: 4
             }
@@ -686,23 +758,49 @@ Dialog
                 CheckBox {
                     id: chbBrowseable3
                     text: qsTr("Browseable")
+                    onClicked:
+                    {
+                        sambaConfig.chbBrowseable3_onClicked(chbBrowseable3.checked);
+                    }
                 }
 
                 CheckBox {
                     id: chbWritable3
                     text: qsTr("Writable")
+                    onClicked:
+                    {
+                        sambaConfig.chbWritable3_onClicked(chbWritable3.checked);
+                    }
                 }
 
                 CheckBox {
-                    id: chBGuestOk3
+                    id: chbGuestOk3
                     text: qsTr("Guest ok")
+                    onClicked:
+                    {
+                        sambaConfig.chbGuestOk3_onClicked(chbGuestOk3.checked);
+                    }
                 }
 
                 CheckBox {
                     id: chbReadOnly3
                     text: qsTr("Read only")
+                    onClicked:
+                    {
+                        sambaConfig.chbReadOnly3_onClicked(chbReadOnly3.checked);
+                    }
                 }
-                rows: 4
+                Button {
+                    id: bUmount3
+                    text: qsTr("umount")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    highlighted: true
+                    onClicked:
+                    {
+                        sambaConfig.bUmount3_onClicked();
+                    }
+                }
+                rows: 5
             }
         }
 
@@ -802,6 +900,7 @@ Dialog
 
     Component.onCompleted:
     {
+        sambaConfig.setStackLayout(stackLayout);
 
         sambaConfig.setWorkGroupTextField(tfWorkgroup);
         sambaConfig.setServerStringTextField(tfServerString);
@@ -812,7 +911,7 @@ Dialog
         sambaConfig.setSecurityComboBox(cbSecurity);
         sambaConfig.setMapToGuestComboBox(cbMapToGuest);
 
-        sambaConfig.setCommentTextField(tfComment);
+        sambaConfig.setCommentTextField(tfName);
         sambaConfig.setPathTextField(tfPath);
         sambaConfig.setCreateModeTextField(tfCreateMode);
         sambaConfig.setDirectoryModeTextField(tfDirectoryMode);
@@ -822,7 +921,7 @@ Dialog
         sambaConfig.setReadOnlyCheckBox(chbReadOnly);
 
 
-        sambaConfig.setCommentTextField1(tfComment1);
+        sambaConfig.setCommentTextField1(tfName1);
         sambaConfig.setPathTextField1(tfPath1);
         sambaConfig.setCreateModeTextField1(tfCreateMode1);
         sambaConfig.setDirectoryModeTextField1(tfDirectoryMode1);
@@ -831,31 +930,27 @@ Dialog
         sambaConfig.setGuestOkCheckBox1(chbGuestOk1);
         sambaConfig.setReadOnlyCheckBox1(chbReadOnly1);
 
-
-        sambaConfig.setCommentTextField2(tfComment2);
+        sambaConfig.setCommentTextField2(tfName2);
         sambaConfig.setPathTextField2(tfPath2);
         sambaConfig.setCreateModeTextField2(tfCreateMode2);
         sambaConfig.setDirectoryModeTextField2(tfDirectoryMode2);
         sambaConfig.setBrowsableCheckBox2(chbBrowseable2);
         sambaConfig.setWritablecheckBox2(chbWritable2);
-        sambaConfig.setGuestOkCheckBox2(chBGuestOk2);
+        sambaConfig.setGuestOkCheckBox2(chbGuestOk2);
         sambaConfig.setReadOnlyCheckBox2(chbReadOnly2);
 
-
-
-        sambaConfig.setCommentTextField3(tfComment3);
+        sambaConfig.setCommentTextField3(tfName3);
         sambaConfig.setPathTextField3(tfPath3);
         sambaConfig.setCreateModeTextField3(tfCreateMode3);
         sambaConfig.setDirectoryModeTextField3(tfDirectoryMode3);
         sambaConfig.setBrowsableCheckBox3(chbBrowseable3);
         sambaConfig.setWritablecheckBox3(chbWritable3);
-        sambaConfig.setGuestOkCheckBox3(chBGuestOk3);
+        sambaConfig.setGuestOkCheckBox3(chbGuestOk3);
         sambaConfig.setReadOnlyCheckBox3(chbReadOnly3);
 
-
         sambaConfig.setExternalDiskTabButton1(tbExternalDisk1);
-        //sambaConfig.setExternalDiskTabButton2(tbExternalDisk2);
-        //sambaConfig.setExternalDiskTabButton3(tbExternalDisk3);
+        sambaConfig.setExternalDiskTabButton2(tbExternalDisk2);
+        sambaConfig.setExternalDiskTabButton3(tbExternalDisk3);
         sambaConfig.checkExternalDisks();
         sambaConfig.openFile();
     }

@@ -1,11 +1,11 @@
 #include "sambaconfig.h"
 
 
-void SambaConfig::tfComment1_onEditingFinished(QString text)
+void SambaConfig::tfName1_onEditingFinished(QString text)
 {
-    vConfigs[2].configs.at(configName.COMMENT)=text;
     vConfigs[2].name="["+text+"]";
 }
+
 void SambaConfig::tfPath1_onEditingFinished(QString text)
 {
     vConfigs[2].configs.at(configName.PATH)=text;
@@ -43,7 +43,7 @@ void SambaConfig::chbReadOnly1_onClicked(bool checked)
 
 void SambaConfig::setCommentTextField1(QObject* obj)
 {
-    commentTextField1 = QSharedPointer<QObject>(obj);
+    nameTextField1 = QSharedPointer<QObject>(obj);
 }
 
 void SambaConfig::setPathTextField1(QObject* obj)
