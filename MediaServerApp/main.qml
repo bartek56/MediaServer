@@ -8,7 +8,6 @@ Rectangle{
     visible: true
     width: 800
     height: 480
-    //title: qsTr("Raspberry Pi 3")
 
     Loader {
         anchors.right: parent.right

@@ -44,41 +44,41 @@ void SambaConfig::chbReadOnly2_onClicked(bool checked)
 
 void SambaConfig::setCommentTextField2(QObject* obj)
 {
-    nameTextField2 = QSharedPointer<QObject>(obj);
+    nameTextField2 = obj;
 }
 
 void SambaConfig::setPathTextField2(QObject* obj)
 {
-    pathTextField2 = QSharedPointer<QObject>(obj);
+    pathTextField2 = obj;
 }
 
 void SambaConfig::setCreateModeTextField2(QObject* obj)
 {
-    createModeTextField2 = QSharedPointer<QObject>(obj);
+    createModeTextField2 = obj;
 }
 
 void SambaConfig::setDirectoryModeTextField2(QObject* obj)
 {
-    directoryModeTextField2 = QSharedPointer<QObject>(obj);
+    directoryModeTextField2 = obj;
 }
 
 void SambaConfig::setBrowsableCheckBox2(QObject* obj)
 {
-    browsableCheckBox2 = QSharedPointer<QObject>(obj);
+    browsableCheckBox2 = obj;
 }
 
 void SambaConfig::setWritablecheckBox2(QObject* obj)
 {
-    writablecheckBox2 = QSharedPointer<QObject>(obj);
+    writablecheckBox2 = obj;
 }
 
 void SambaConfig::setGuestOkCheckBox2(QObject* obj)
 {
-    guestOkCheckBox2 = QSharedPointer<QObject>(obj);
+    guestOkCheckBox2 = obj;
 }
 
 void SambaConfig::setReadOnlyCheckBox2(QObject* obj)
 {
-    readOnlyCheckBox2 = QSharedPointer<QObject>(obj);
+    readOnlyCheckBox2 = obj;
 }
 

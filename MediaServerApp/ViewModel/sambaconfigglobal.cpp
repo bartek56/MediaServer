@@ -48,45 +48,45 @@ void SambaConfig::cbGlobalBrowseable_onClicked(bool checked)
 
 void SambaConfig::setWorkGroupTextField(QObject* obj)
 {
-    workGroupTextField = QSharedPointer<QObject>(obj);
+    workGroupTextField = obj;
 }
 
 void SambaConfig::setServerStringTextField(QObject *obj)
 {
-    serverStringTextField = QSharedPointer<QObject>(obj);
+    serverStringTextField = obj;
 }
 
 void SambaConfig::setNetBiosTextField(QObject *obj)
 {
-    netBiosTextField = QSharedPointer<QObject>(obj);
+    netBiosTextField = obj;
 }
 
 void SambaConfig::setGlobalBrowsableCheckBox(QObject *obj)
 {
-    globalBrowsableCheckBox = QSharedPointer<QObject>(obj);
+    globalBrowsableCheckBox = obj;
 }
 
 void SambaConfig::setLocalMasterCheckBox(QObject *obj)
 {
-    localMastercheckBox = QSharedPointer<QObject>(obj);
+    localMastercheckBox = obj;
 }
 
 void SambaConfig::setDomainMasterCheckBox(QObject *obj)
 {
-    domainMasterCheckBox = QSharedPointer<QObject>(obj);
+    domainMasterCheckBox = obj;
 }
 
 void SambaConfig::setSecurityComboBox(QObject *obj)
 {
-    securityComboBox = QSharedPointer<QObject>(obj);
+    securityComboBox = obj;
 }
 
 void SambaConfig::setMapToGuestComboBox(QObject *obj)
 {
-    mapToGuestComboBox = QSharedPointer<QObject>(obj);
+    mapToGuestComboBox = obj;
 }
 
 void SambaConfig::setStackLayout(QObject *obj)
 {
-    stackLayout=QSharedPointer<QObject>(obj);
+    stackLayout=obj;
 }

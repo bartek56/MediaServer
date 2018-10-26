@@ -955,6 +955,5 @@ Dialog
         sambaConfig.checkExternalDisks();
         sambaConfig.mountExternalDisks();
         sambaConfig.openFile();
-
     }
 }

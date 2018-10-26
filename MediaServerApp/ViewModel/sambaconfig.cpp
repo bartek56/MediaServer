@@ -276,7 +276,7 @@ void SambaConfig::setSettingFromCheckboxes(unsigned long row, QString configName
     }
 }
 
-void SambaConfig::setCheckboxesFromFileSettings(const QString configsParameters, QSharedPointer<QObject> checkbox)
+void SambaConfig::setCheckboxesFromFileSettings(const QString configsParameters, QObject* checkbox)
 {
     if(!configsParameters.compare("yes"))
     {

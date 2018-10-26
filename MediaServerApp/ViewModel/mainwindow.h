@@ -1,10 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
-#include <QObject>
-#include <QDebug>
 #include <QtQuick>
-#include <QQmlComponent>
 
 class MainWindow : public QObject
 {
@@ -13,6 +9,8 @@ public:
     explicit MainWindow(QObject *parent = nullptr);
 
 public slots:
+
+private:
 };
 
 #endif // MAINWINDOW_H

@@ -28,59 +28,59 @@ class SambaConfig : public QObject
 {
     Q_OBJECT
 public:
-    QSharedPointer<QObject> stackLayout;
+    QObject* stackLayout;
 
-    QSharedPointer<QObject> workGroupTextField;
-    QSharedPointer<QObject> serverStringTextField;
-    QSharedPointer<QObject> netBiosTextField;
-    QSharedPointer<QObject> globalBrowsableCheckBox;
-    QSharedPointer<QObject> localMastercheckBox;
-    QSharedPointer<QObject> domainMasterCheckBox;
-    QSharedPointer<QObject> securityComboBox;
-    QSharedPointer<QObject> mapToGuestComboBox;
+    QObject* workGroupTextField;
+    QObject* serverStringTextField;
+    QObject* netBiosTextField;
+    QObject* globalBrowsableCheckBox;
+    QObject* localMastercheckBox;
+    QObject* domainMasterCheckBox;
+    QObject* securityComboBox;
+    QObject* mapToGuestComboBox;
 
-    QSharedPointer<QObject> nameTextField;
-    QSharedPointer<QObject> pathTextField;
-    QSharedPointer<QObject> createModeTextField;
-    QSharedPointer<QObject> directoryModeTextField;
-    QSharedPointer<QObject> browsableCheckBox;
-    QSharedPointer<QObject> writablecheckBox;
-    QSharedPointer<QObject> guestOkCheckBox;
-    QSharedPointer<QObject> readOnlyCheckBox;
+    QObject* nameTextField;
+    QObject* pathTextField;
+    QObject* createModeTextField;
+    QObject* directoryModeTextField;
+    QObject* browsableCheckBox;
+    QObject* writablecheckBox;
+    QObject* guestOkCheckBox;
+    QObject* readOnlyCheckBox;
 
 
     QObject* externalDiskTabButton1;
 
-    QSharedPointer<QObject> nameTextField1;
-    QSharedPointer<QObject> pathTextField1;
-    QSharedPointer<QObject> createModeTextField1;
-    QSharedPointer<QObject> directoryModeTextField1;
-    QSharedPointer<QObject> browsableCheckBox1;
-    QSharedPointer<QObject> writablecheckBox1;
-    QSharedPointer<QObject> guestOkCheckBox1;
-    QSharedPointer<QObject> readOnlyCheckBox1;
+    QObject* nameTextField1;
+    QObject* pathTextField1;
+    QObject* createModeTextField1;
+    QObject* directoryModeTextField1;
+    QObject* browsableCheckBox1;
+    QObject* writablecheckBox1;
+    QObject* guestOkCheckBox1;
+    QObject* readOnlyCheckBox1;
 
     QObject* externalDiskTabButton2;
 
-    QSharedPointer<QObject> nameTextField2;
-    QSharedPointer<QObject> pathTextField2;
-    QSharedPointer<QObject> createModeTextField2;
-    QSharedPointer<QObject> directoryModeTextField2;
-    QSharedPointer<QObject> browsableCheckBox2;
-    QSharedPointer<QObject> writablecheckBox2;
-    QSharedPointer<QObject> guestOkCheckBox2;
-    QSharedPointer<QObject> readOnlyCheckBox2;
+    QObject* nameTextField2;
+    QObject* pathTextField2;
+    QObject* createModeTextField2;
+    QObject* directoryModeTextField2;
+    QObject* browsableCheckBox2;
+    QObject* writablecheckBox2;
+    QObject* guestOkCheckBox2;
+    QObject* readOnlyCheckBox2;
 
     QObject* externalDiskTabButton3;
 
-    QSharedPointer<QObject> nameTextField3;
-    QSharedPointer<QObject> pathTextField3;
-    QSharedPointer<QObject> createModeTextField3;
-    QSharedPointer<QObject> directoryModeTextField3;
-    QSharedPointer<QObject> browsableCheckBox3;
-    QSharedPointer<QObject> writablecheckBox3;
-    QSharedPointer<QObject> guestOkCheckBox3;
-    QSharedPointer<QObject> readOnlyCheckBox3;
+    QObject* nameTextField3;
+    QObject* pathTextField3;
+    QObject* createModeTextField3;
+    QObject* directoryModeTextField3;
+    QObject* browsableCheckBox3;
+    QObject* writablecheckBox3;
+    QObject* guestOkCheckBox3;
+    QObject* readOnlyCheckBox3;
 
     explicit SambaConfig(QObject *parent = nullptr);
 
@@ -203,8 +203,8 @@ private:
 
     void removeConfig(QString const configName);
     unsigned int indexOfExternalDiskConfiguration(QString diskName);
-    void setCheckboxesFromFileSettings(QString configsParameters, QSharedPointer<QObject> checkbox);
-    void setSettingFromCheckboxes(unsigned long row,QString configName, bool configsParameters);
+    void setCheckboxesFromFileSettings(QString configsParameters, QObject* checkbox);
+    void setSettingFromCheckboxes(unsigned long row, QString configName, bool configsParameters);
     void loadGlobalConfigs();
     void loadLocalConfigs();
     void loadExternalDisk1Configs();
@@ -215,6 +215,5 @@ private:
 public slots:
 
 };
-
 
 #endif // SAMBACONFIG_H
