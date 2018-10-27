@@ -19,6 +19,11 @@ Dialog
     {
         id: ftpConfig
     }
+    BusyIndicator
+    {
+        id: busyIndication
+        anchors.centerIn: parent
+    }
 
     RowLayout
     {
@@ -192,6 +197,7 @@ Dialog
     Component.onCompleted:
     {
         ftpConfig.setUsersComboBox(userComboBox)
+        busyIndication.running = false
     }
 
 }

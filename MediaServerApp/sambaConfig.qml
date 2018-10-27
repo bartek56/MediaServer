@@ -16,6 +16,12 @@ Dialog
     padding: 1
     modal: true
 
+    BusyIndicator
+    {
+        id: busyIndication
+        anchors.centerIn: parent
+    }
+
     SambaConfig
     {
         id: sambaConfig
@@ -47,7 +53,8 @@ Dialog
         }
     }
 
-    StackLayout {
+    StackLayout
+    {
         id: stackLayout
         width: parent.width
         currentIndex: tabBar.currentIndex
@@ -882,7 +889,9 @@ Dialog
             text: "Save"
             onClicked:
             {
+                busyIndication.running = true
                 sambaConfig.bSave_onClicked();
+                busyIndication.running = false
             }
         }
 
@@ -900,8 +909,8 @@ Dialog
 
     Component.onCompleted:
     {
-        sambaConfig.setStackLayout(stackLayout);
 
+        sambaConfig.setStackLayout(stackLayout);
         sambaConfig.setWorkGroupTextField(workgroupTextField);
         sambaConfig.setServerStringTextField(serverStringTextField);
         sambaConfig.setNetBiosTextField(netbiosNameTextField);
@@ -955,5 +964,7 @@ Dialog
         sambaConfig.checkExternalDisks();
         sambaConfig.mountExternalDisks();
         sambaConfig.openFile();
+
+        busyIndication.running = false
     }
 }
