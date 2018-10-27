@@ -39,7 +39,6 @@ Rectangle{
             onClicked:
             {
                 loaderConfigWindow.setSource("sambaConfig.qml")
-                //g_mainWindow.bSave_onClicked("clock")
             }
 
         }
@@ -53,6 +52,10 @@ Rectangle{
             Layout.preferredHeight: 80
             Layout.preferredWidth: 160
             leftPadding: 6
+            onClicked:
+            {
+                loaderConfigWindow.setSource("ftpConfig.qml")
+            }
         }
 
         ToolButton {

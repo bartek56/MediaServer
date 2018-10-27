@@ -24,8 +24,8 @@ SOURCES += \
     ViewModel/sambaconfigexternaldevice2.cpp \
     ViewModel/sambaconfigexternaldevice3.cpp \
     ViewModel/sambaconfiglocal.cpp \
-    ViewModel/sambaconfigglobal.cpp
-
+    ViewModel/sambaconfigglobal.cpp \
+    ViewModel/ftpconfig.cpp
 
 RESOURCES += qml.qrc
 
@@ -45,7 +45,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     ViewModel/mainwindow.h \
     ViewModel/sambaconfig.h \
-    editfile.h
+    editfile.h \
+    ViewModel/ftpconfig.h
 
 FORMS +=
 

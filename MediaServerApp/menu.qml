@@ -28,12 +28,12 @@ ToolBar
         Text
         {
             id: tClock
+            anchors.right:parent.right
             font
             {
                 family: "Comic Sans MS"
                 pixelSize: 20
             }
-            anchors.right: parent.right
          }
      }
 

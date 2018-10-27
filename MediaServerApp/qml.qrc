@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>sambaConfig.qml</file>
         <file>menu.qml</file>
+        <file>ftpConfig.qml</file>
     </qresource>
 </RCC>
