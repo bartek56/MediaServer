@@ -7,7 +7,7 @@ import SambaConfigLib 1.0
 
 Dialog
 {
-    id: dialog
+    id: sambaConfigDialog
     visible: true
     width: 800
     height: 440
@@ -31,17 +31,17 @@ Dialog
             text: qsTr("Local Share")
         }
         TabButton {
-            id: tbExternalDisk1
+            id: externalDisk1TabButton
             text: qsTr("External Disk 1")
             visible: false
         }
         TabButton {
-            id: tbExternalDisk2
+            id: externalDisk2TabButton
             text: qsTr("External Disk 2")
             visible: false
         }
         TabButton {
-            id: tbExternalDisk3
+            id: externalDisk3TabButton
             text: qsTr("External Disk 3")
             visible: false
         }
@@ -63,32 +63,32 @@ Dialog
                 columns: 1
 
                 CheckBox {
-                    id: cbGlobalBrowseable
+                    id: globalBrowseableCheckBox
                     text: qsTr("browseable")
                     checkable: true
                     onClicked:
                     {
-                        sambaConfig.cbGlobalBrowseable_onClicked(cbGlobalBrowseable.checked);
+                        sambaConfig.cbGlobalBrowseable_onClicked(globalBrowseableCheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: cbLocalMaster
+                    id: localMasterCheckBox
                     text: qsTr("local master")
                     checkable: true
                     onClicked:
                     {
-                        sambaConfig.cbLocalMaster_onClicked(cbLocalMaster.checked);
+                        sambaConfig.cbLocalMaster_onClicked(localMasterCheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: cbDomainMaster
+                    id: domainMasterCheckBox
                     text: qsTr("domain master")
                     checkable: true
                     onClicked:
                     {
-                        sambaConfig.cbDomainMaster_onClicked(cbDomainMaster.checked);
+                        sambaConfig.cbDomainMaster_onClicked(domainMasterCheckBox.checked);
                     }
                 }
             }
@@ -104,7 +104,7 @@ Dialog
 
                 Text
                 {
-                    id: lWorkgroup
+                    id: workgroupText
                     width: 140
                     height: 40
                     text: qsTr("workgroup")
@@ -113,18 +113,18 @@ Dialog
 
                 TextField
                 {
-                    id: tfWorkgroup
+                    id: workgroupTextField
                     width: 158
                     height: 40
                     onEditingFinished:
                     {
-                        sambaConfig.tfWorkgroup_onEditingFinished(tfWorkgroup.getText(0,tfWorkgroup.length));
+                        sambaConfig.tfWorkgroup_onEditingFinished(workgroupTextField.getText(0,workgroupTextField.length));
                     }
                 }
 
                 Text
                 {
-                    id: lServerString
+                    id: serverStringText
                     width: 132
                     height: 40
                     text: qsTr("server string")
@@ -133,18 +133,18 @@ Dialog
 
                 TextField
                 {
-                    id: tfServerString
+                    id: serverStringTextField
                     width: 158
                     height: 40
                     onEditingFinished:
                     {
-                        sambaConfig.tfServerString_onEditingFinished(tfServerString.getText(0,tfServerString.length));
+                        sambaConfig.tfServerString_onEditingFinished(serverStringTextField.getText(0,serverStringTextField.length));
                     }
                 }
 
                 Text
                 {
-                    id: lNetbiosName
+                    id: netbiosNameText
                     width: 132
                     height: 40
                     text: qsTr("netbios name")
@@ -153,19 +153,19 @@ Dialog
 
                 TextField
                 {
-                    id: tfNetbiosName
+                    id: netbiosNameTextField
                     width: 158
                     height: 40
                     text: ""
                     onEditingFinished:
                     {
-                        sambaConfig.tfNetbiosName_onEditingFinished(tfNetbiosName.getText(0,tfNetbiosName.length));
+                        sambaConfig.tfNetbiosName_onEditingFinished(netbiosNameTextField.getText(0,netbiosNameTextField.length));
                     }
                 }
 
                 Text
                 {
-                    id: lSecurity
+                    id: securityText
                     width: 132
                     height: 40
                     text: qsTr("security")
@@ -174,8 +174,8 @@ Dialog
 
                 ComboBox
                 {
-                    id: cbSecurity
-                    Layout.preferredWidth: tfServerString.width
+                    id: securityComboBox
+                    Layout.preferredWidth: serverStringTextField.width
                     model: ListModel {
 
                         ListElement {
@@ -189,13 +189,13 @@ Dialog
 
                     onDisplayTextChanged:
                     {
-                        sambaConfig.cbSecurity_onDisplayTextChanged(cbSecurity.currentText);
+                        sambaConfig.cbSecurity_onDisplayTextChanged(securityComboBox.currentText);
                     }
                 }
 
                 Text
                 {
-                    id: lMapToGuest
+                    id: mapToGuestText
                     width: 132
                     height: 40
                     text: qsTr("map to guest")
@@ -205,8 +205,8 @@ Dialog
 
                 ComboBox
                 {
-                    id: cbMapToGuest
-                    Layout.preferredWidth: tfServerString.width
+                    id: mapToGuestComboBox
+                    Layout.preferredWidth: serverStringTextField.width
                     textRole: "key"
                     model: ListModel {
                         id:mapToGuestListModel
@@ -216,7 +216,7 @@ Dialog
                     }
                     onDisplayTextChanged:
                     {
-                        sambaConfig.cbMapToGuest_onDisplayTextChanged(cbMapToGuest.currentText);
+                        sambaConfig.cbMapToGuest_onDisplayTextChanged(mapToGuestComboBox.currentText);
                     }
                 }
             }
@@ -234,7 +234,7 @@ Dialog
                 columns: 2
 
                 Text {
-                    id: tName
+                    id: nameText
                     width: 171
                     text: qsTr("Name")
                     Layout.preferredWidth: 140
@@ -244,77 +244,77 @@ Dialog
 
                 TextField
                 {
-                    id: tfName
+                    id: nameTextField
                     width: 80
                     height: 20
                     font.pixelSize: 18
                     onEditingFinished:
                     {
-                        sambaConfig.tfName_onEditingFinished(tfName.getText(0,tfName.length));
+                        sambaConfig.tfName_onEditingFinished(nameTextField.getText(0,nameTextField.length));
                     }
                 }
 
                 Text {
                     id: tPath
                     text: qsTr("Path")
-                    Layout.preferredWidth: tName.width
-                    font.pixelSize: tName.font.pixelSize
+                    Layout.preferredWidth: nameText.width
+                    font.pixelSize: nameText.font.pixelSize
                 }
 
                 TextField
                 {
-                    id: tfPath
+                    id: pathTextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName.width
-                    font.pixelSize: tfName.font.pixelSize
+                    Layout.preferredWidth: nameTextField.width
+                    font.pixelSize: nameTextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfPath_onEditingFinished(tfName.getText(0,tfName.length));
+                        sambaConfig.tfPath_onEditingFinished(nameTextField.getText(0,nameTextField.length));
                     }
                 }
 
                 Text
                 {
-                    id: tCreateMode
+                    id: createModeText
                     text: qsTr("Create Mode")
-                    Layout.preferredWidth: tName.width
-                    font.pixelSize: tName.font.pixelSize
+                    Layout.preferredWidth: nameText.width
+                    font.pixelSize: nameText.font.pixelSize
 
                 }
 
                 TextField
                 {
-                    id: tfCreateMode
+                    id: createModeTextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName.width
-                    font.pixelSize: tfName.font.pixelSize
+                    Layout.preferredWidth: nameTextField.width
+                    font.pixelSize: nameTextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfCreateMode_onEditingFinished(tfCreateMode.getText(0,tfCreateMode.length));
+                        sambaConfig.tfCreateMode_onEditingFinished(createModeTextField.getText(0,createModeTextField.length));
                     }
                 }
 
                 Text
                 {
-                    id: tDirectoryMode
+                    id: directoryModeText
                     text: qsTr("Directory Mode")
                     wrapMode: Text.NoWrap
-                    Layout.preferredWidth: tName.width
-                    font.pixelSize: tName.font.pixelSize
+                    Layout.preferredWidth: nameText.width
+                    font.pixelSize: nameText.font.pixelSize
                 }
 
                 TextField
                 {
-                    id: tfDirectoryMode
+                    id: directoryModeTextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName.width
-                    font.pixelSize: tfName.font.pixelSize
+                    Layout.preferredWidth: nameTextField.width
+                    font.pixelSize: nameTextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfDirectoryMode_onEditingFinished(tfDirectoryMode.getText(0,tfDirectoryMode.length));
+                        sambaConfig.tfDirectoryMode_onEditingFinished(directoryModeTextField.getText(0,directoryModeTextField.length));
                     }
                 }
             }
@@ -329,38 +329,38 @@ Dialog
                 columns: 1
 
                 CheckBox {
-                    id: chbBrowseable
+                    id: browseableCheckBox
                     text: qsTr("Browseable")
                     onClicked:
                     {
-                        sambaConfig.chbBrowseable_onClicked(chbBrowseable.checked);
+                        sambaConfig.chbBrowseable_onClicked(browseableCheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: chbWritable
+                    id: writableCheckBox
                     text: qsTr("Writable")
                     onClicked:
                     {
-                        sambaConfig.chbWritable_onClicked(chbWritable.checked);
+                        sambaConfig.chbWritable_onClicked(writableCheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: chbGuestOk
+                    id: guestOkCheckBox
                     text: qsTr("Guest ok")
                     onClicked:
                     {
-                        sambaConfig.chbGuestOk_onClicked(chbGuestOk.checked);
+                        sambaConfig.chbGuestOk_onClicked(guestOkCheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: chbReadOnly
+                    id: readOnlyCheckBox
                     text: qsTr("Read only")
                     onClicked:
                     {
-                        sambaConfig.chbReadOnly_onClicked(chbReadOnly.checked);
+                        sambaConfig.chbReadOnly_onClicked(readOnlyCheckBox.checked);
                     }
                 }
             }
@@ -376,7 +376,7 @@ Dialog
                 height: 280
                 columns: 2
                 Text {
-                    id: tName1
+                    id: name1Text
                     width: 171
                     text: qsTr("Name")
                     Layout.preferredWidth: 140
@@ -385,71 +385,71 @@ Dialog
                 }
 
                 TextField {
-                    id: tfName1
+                    id: name1TextField
                     width: 80
                     height: 20
                     font.pixelSize: 18
                     onEditingFinished:
                     {
-                        sambaConfig.tfName1_onEditingFinished(tfName1.getText(0,tfName1.length));
+                        sambaConfig.tfName1_onEditingFinished(name1TextField.getText(0,name1TextField.length));
                     }
                 }
 
                 Text {
-                    id: tPath1
+                    id: path1Text
                     text: qsTr("Path")
-                    Layout.preferredWidth: tName1.width
-                    font.pixelSize: tName1.font.pixelSize
+                    Layout.preferredWidth: name1Text.width
+                    font.pixelSize: name1Text.font.pixelSize
                 }
 
                 TextField {
-                    id: tfPath1
+                    id: path1TextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName1.width
-                    font.pixelSize: tfName1.font.pixelSize
+                    Layout.preferredWidth: name1TextField.width
+                    font.pixelSize: name1TextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfPath1_onEditingFinished(tfPath1.getText(0,tfPath1.length));
+                        sambaConfig.tfPath1_onEditingFinished(path1TextField.getText(0,path1TextField.length));
                     }
                 }
 
                 Text {
-                    id: tCreateMode1
+                    id: createMode1Text
                     text: qsTr("Create Mode")
-                    Layout.preferredWidth: tName1.width
-                    font.pixelSize: tName1.font.pixelSize
+                    Layout.preferredWidth: name1Text.width
+                    font.pixelSize: name1Text.font.pixelSize
                 }
 
                 TextField {
-                    id: tfCreateMode1
+                    id: createMode1TextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName1.width
-                    font.pixelSize: tfName1.font.pixelSize
+                    Layout.preferredWidth: name1TextField.width
+                    font.pixelSize: name1TextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfCreateMode1_onEditingFinished(tfName1.getText(0,tfCreateMode1.length));
+                        sambaConfig.tfCreateMode1_onEditingFinished(name1TextField.getText(0,createMode1TextField.length));
                     }
                 }
 
                 Text {
-                    id: tDirectoryMode1
+                    id: directoryMode1Text
                     text: qsTr("Directory Mode")
-                    Layout.preferredWidth: tName1.width
-                    font.pixelSize: tName1.font.pixelSize
+                    Layout.preferredWidth: name1Text.width
+                    font.pixelSize: name1Text.font.pixelSize
                     wrapMode: Text.NoWrap
                 }
 
                 TextField {
-                    id: tfDirectoryMode1
+                    id: directoryMode1TextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName1.width
-                    font.pixelSize: tfName1.font.pixelSize
+                    Layout.preferredWidth: name1TextField.width
+                    font.pixelSize: name1TextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfDirectoryMode1_onEditingFinished(tfDirectoryMode1.getText(0,tfDirectoryMode1.length));
+                        sambaConfig.tfDirectoryMode1_onEditingFinished(directoryMode1TextField.getText(0,directoryMode1TextField.length));
                     }
                 }
                 rows: 4
@@ -463,43 +463,43 @@ Dialog
                 height: 312
                 columns: 1
                 CheckBox {
-                    id: chbBrowseable1
+                    id: browseable1CheckBox
                     text: qsTr("Browseable")
                     onClicked:
                     {
-                        sambaConfig.chbBrowseable1_onClicked(chbBrowseable1.checked);
+                        sambaConfig.chbBrowseable1_onClicked(browseable1CheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: chbWritable1
+                    id: writable1CheckBox
                     text: qsTr("Writable")
                     onClicked:
                     {
-                        sambaConfig.chbWritable1_onClicked(chbWritable1.checked);
+                        sambaConfig.chbWritable1_onClicked(writable1CheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: chbGuestOk1
+                    id: guestOk1CheckBox
                     text: qsTr("Guest ok")
                     onClicked:
                     {
-                        sambaConfig.chbbGuestOk1_onClicked(chbGuestOk1.checked);
+                        sambaConfig.chbbGuestOk1_onClicked(guestOk1CheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: chbReadOnly1
+                    id: readOnly1CheckBox
                     text: qsTr("Read only")
                     onClicked:
                     {
-                        sambaConfig.chbReadOnly_onClicked(chbReadOnly1.checked);
+                        sambaConfig.chbReadOnly_onClicked(readOnly1CheckBox.checked);
                     }
                 }
 
                 Button {
-                    id: bUmount1
+                    id: umount1Button
                     text: qsTr("umount")
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     highlighted: true
@@ -532,13 +532,13 @@ Dialog
                 }
 
                 TextField {
-                    id: tfName2
+                    id: name2TextField
                     width: 80
                     height: 20
                     font.pixelSize: 18
                     onEditingFinished:
                     {
-                        sambaConfig.tfName2_onEditingFinished(tfName2.getText(0,tfName2.length));
+                        sambaConfig.tfName2_onEditingFinished(name2TextField.getText(0,name2TextField.length));
                     }
                 }
 
@@ -550,14 +550,14 @@ Dialog
                 }
 
                 TextField {
-                    id: tfPath2
+                    id: path2TextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName2.width
-                    font.pixelSize: tfName2.font.pixelSize
+                    Layout.preferredWidth: name2TextField.width
+                    font.pixelSize: name2TextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfPath2_onEditingFinished(tfPath2.getText(0,tfPath2.length));
+                        sambaConfig.tfPath2_onEditingFinished(path2TextField.getText(0,path2TextField.length));
                     }
                 }
 
@@ -569,14 +569,14 @@ Dialog
                 }
 
                 TextField {
-                    id: tfCreateMode2
+                    id: createMode2TextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName2.width
-                    font.pixelSize: tfName2.font.pixelSize
+                    Layout.preferredWidth: name2TextField.width
+                    font.pixelSize: name2TextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfCreateMode2_onEditingFinished(tfCreateMode2.getText(0,tfCreateMode2.length));
+                        sambaConfig.tfCreateMode2_onEditingFinished(createMode2TextField.getText(0,createMode2TextField.length));
                     }
                 }
 
@@ -589,14 +589,14 @@ Dialog
                 }
 
                 TextField {
-                    id: tfDirectoryMode2
+                    id: directoryMode2TextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName2.width
-                    font.pixelSize: tfName2.font.pixelSize
+                    Layout.preferredWidth: name2TextField.width
+                    font.pixelSize: name2TextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfDirectoryMode2_onEditingFinished(tfDirectoryMode2.getText(0,tfDirectoryMode2.length));
+                        sambaConfig.tfDirectoryMode2_onEditingFinished(directoryMode2TextField.getText(0,directoryMode2TextField.length));
                     }
                 }
 
@@ -611,38 +611,38 @@ Dialog
                 columns: 1
                 rows: 5
                 CheckBox {
-                    id: chbBrowseable2
+                    id: browseable2CheckBox
                     text: qsTr("Browseable")
                     onClicked:
                     {
-                        sambaConfig.chbBrowseable2_onClicked(chbBrowseable2.checked);
+                        sambaConfig.chbBrowseable2_onClicked(browseable2CheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: chbWritable2
+                    id: writable2CheckBox
                     text: qsTr("Writable")
                     onClicked:
                     {
-                        sambaConfig.chbWritable2_onClicked(chbWritable2.checked);
+                        sambaConfig.chbWritable2_onClicked(writable2CheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: chbGuestOk2
+                    id: guestOk2CheckBox
                     text: qsTr("Guest ok")
                     onClicked:
                     {
-                        sambaConfig.chbGuestOk2_onClicked(chbGuestOk2);
+                        sambaConfig.chbGuestOk2_onClicked(guestOk2CheckBox);
                     }
                 }
 
                 CheckBox {
-                    id: chbReadOnly2
+                    id: readOnly2CheckBox
                     text: qsTr("Read only")
                     onClicked:
                     {
-                        sambaConfig.chbReadOnly2_onClicked(chbReadOnly2.checked);
+                        sambaConfig.chbReadOnly2_onClicked(readOnly2CheckBox.checked);
                     }
                 }
 
@@ -677,13 +677,13 @@ Dialog
                 }
 
                 TextField {
-                    id: tfName3
+                    id: name3TextField
                     width: 80
                     height: 20
                     font.pixelSize: 18
                     onEditingFinished:
                     {
-                        sambaConfig.tfName3_onEditingFinished(tfName3.getText(0,tfName3.length));
+                        sambaConfig.tfName3_onEditingFinished(name3TextField.getText(0,name3TextField.length));
                     }
 
                 }
@@ -696,14 +696,14 @@ Dialog
                 }
 
                 TextField {
-                    id: tfPath3
+                    id: path3TextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName3.width
-                    font.pixelSize: tfName3.font.pixelSize
+                    Layout.preferredWidth: name3TextField.width
+                    font.pixelSize: name3TextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfPath3_onEditingFinished(tfPath3.getText(0,tfPath3.length));
+                        sambaConfig.tfPath3_onEditingFinished(path3TextField.getText(0,path3TextField.length));
                     }
                 }
 
@@ -715,14 +715,14 @@ Dialog
                 }
 
                 TextField {
-                    id: tfCreateMode3
+                    id: createMode3TextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName3.width
-                    font.pixelSize: tfName3.font.pixelSize
+                    Layout.preferredWidth: name3TextField.width
+                    font.pixelSize: name3TextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfCreateMode3_onEditingFinished(tfCreateMode3.getText(0,tfCreateMode3.length));
+                        sambaConfig.tfCreateMode3_onEditingFinished(createMode3TextField.getText(0,createMode3TextField.length));
                     }
                 }
 
@@ -735,14 +735,14 @@ Dialog
                 }
 
                 TextField {
-                    id: tfDirectoryMode3
+                    id: directoryMode3TextField
                     width: 80
                     height: 20
-                    Layout.preferredWidth: tfName3.width
-                    font.pixelSize: tfName3.font.pixelSize
+                    Layout.preferredWidth: name3TextField.width
+                    font.pixelSize: name3TextField.font.pixelSize
                     onEditingFinished:
                     {
-                        sambaConfig.tfDirectoryMode3_onEditingFinished(tfDirectoryMode3.getText(0,tfDirectoryMode3.length));
+                        sambaConfig.tfDirectoryMode3_onEditingFinished(directoryMode3TextField.getText(0,directoryMode3TextField.length));
                     }
                 }
                 rows: 4
@@ -756,38 +756,38 @@ Dialog
                 height: 292
                 columns: 1
                 CheckBox {
-                    id: chbBrowseable3
+                    id: browseable3CheckBox
                     text: qsTr("Browseable")
                     onClicked:
                     {
-                        sambaConfig.chbBrowseable3_onClicked(chbBrowseable3.checked);
+                        sambaConfig.chbBrowseable3_onClicked(browseable3CheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: chbWritable3
+                    id: writable3CheckBox
                     text: qsTr("Writable")
                     onClicked:
                     {
-                        sambaConfig.chbWritable3_onClicked(chbWritable3.checked);
+                        sambaConfig.chbWritable3_onClicked(writable3CheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: chbGuestOk3
+                    id: guestOk3CheckBox
                     text: qsTr("Guest ok")
                     onClicked:
                     {
-                        sambaConfig.chbGuestOk3_onClicked(chbGuestOk3.checked);
+                        sambaConfig.chbGuestOk3_onClicked(guestOk3CheckBox.checked);
                     }
                 }
 
                 CheckBox {
-                    id: chbReadOnly3
+                    id: readOnly3CheckBox
                     text: qsTr("Read only")
                     onClicked:
                     {
-                        sambaConfig.chbReadOnly3_onClicked(chbReadOnly3.checked);
+                        sambaConfig.chbReadOnly3_onClicked(readOnly3CheckBox.checked);
                     }
                 }
                 Button {
@@ -811,8 +811,8 @@ Dialog
         id: inputPanel
         z: 99
         x: 0
-        y: dialog.height
-        width: dialog.width
+        y: sambaConfigDialog.height
+        width: sambaConfigDialog.width
 
         states: State
         {
@@ -821,7 +821,7 @@ Dialog
             PropertyChanges
             {
                 target: inputPanel
-                y: dialog.height - inputPanel.height
+                y: sambaConfigDialog.height - inputPanel.height
             }
         }
 
@@ -856,22 +856,22 @@ Dialog
             height: 40
             onClicked:
             {
-                tfWorkgroup.text="WORKGROUP"
-                tfServerString.text="SambaServer"
-                tfNetbiosName.text="DataServer"
-                chbBrowseable.checked=true
-                cbLocalMaster.checked=true
-                cbDomainMaster.checked=true
-                cbSecurity.currentIndex=0
-                cbMapToGuest.currentIndex=0
-                sambaConfig.tfWorkgroup_onEditingFinished(tfWorkgroup.getText(0,tfWorkgroup.length));
-                sambaConfig.tfServerString_onEditingFinished(tfServerString.getText(0,tfServerString.length));
-                sambaConfig.tfNetbiosName_onEditingFinished(tfNetbiosName.getText(0,tfNetbiosName.length));
-                sambaConfig.cbSecurity_onDisplayTextChanged(cbSecurity.currentText);
-                sambaConfig.cbMapToGuest_onDisplayTextChanged(cbMapToGuest.currentText);
-                sambaConfig.cbGlobalBrowseable_onClicked(cbGlobalBrowseable.checked);
-                sambaConfig.cbLocalMaster_onClicked(cbLocalMaster.checked);
-                sambaConfig.cbDomainMaster_onClicked(cbDomainMaster.checked);
+                workgroupTextField.text="WORKGROUP"
+                serverStringTextField.text="SambaServer"
+                netbiosNameTextField.text="DataServer"
+                browseableCheckBox.checked=true
+                localMasterCheckBox.checked=true
+                domainMasterCheckBox.checked=true
+                securityComboBox.currentIndex=0
+                mapToGuestComboBox.currentIndex=0
+                sambaConfig.tfWorkgroup_onEditingFinished(workgroupTextField.getText(0,workgroupTextField.length));
+                sambaConfig.tfServerString_onEditingFinished(serverStringTextField.getText(0,serverStringTextField.length));
+                sambaConfig.tfNetbiosName_onEditingFinished(netbiosNameTextField.getText(0,netbiosNameTextField.length));
+                sambaConfig.cbSecurity_onDisplayTextChanged(securityComboBox.currentText);
+                sambaConfig.cbMapToGuest_onDisplayTextChanged(mapToGuestComboBox.currentText);
+                sambaConfig.cbGlobalBrowseable_onClicked(globalBrowseableCheckBox.checked);
+                sambaConfig.cbLocalMaster_onClicked(localMasterCheckBox.checked);
+                sambaConfig.cbDomainMaster_onClicked(domainMasterCheckBox.checked);
             }
         }
 
@@ -893,7 +893,7 @@ Dialog
             height: 40
             onClicked:
             {
-                dialog.close()
+                sambaConfigDialog.close()
             }
         }
     }
@@ -902,55 +902,55 @@ Dialog
     {
         sambaConfig.setStackLayout(stackLayout);
 
-        sambaConfig.setWorkGroupTextField(tfWorkgroup);
-        sambaConfig.setServerStringTextField(tfServerString);
-        sambaConfig.setNetBiosTextField(tfNetbiosName);
-        sambaConfig.setGlobalBrowsableCheckBox(cbGlobalBrowseable);
-        sambaConfig.setLocalMasterCheckBox(cbLocalMaster);
-        sambaConfig.setDomainMasterCheckBox(cbDomainMaster);
-        sambaConfig.setSecurityComboBox(cbSecurity);
-        sambaConfig.setMapToGuestComboBox(cbMapToGuest);
+        sambaConfig.setWorkGroupTextField(workgroupTextField);
+        sambaConfig.setServerStringTextField(serverStringTextField);
+        sambaConfig.setNetBiosTextField(netbiosNameTextField);
+        sambaConfig.setGlobalBrowsableCheckBox(globalBrowseableCheckBox);
+        sambaConfig.setLocalMasterCheckBox(localMasterCheckBox);
+        sambaConfig.setDomainMasterCheckBox(domainMasterCheckBox);
+        sambaConfig.setSecurityComboBox(securityComboBox);
+        sambaConfig.setMapToGuestComboBox(mapToGuestComboBox);
 
-        sambaConfig.setCommentTextField(tfName);
-        sambaConfig.setPathTextField(tfPath);
-        sambaConfig.setCreateModeTextField(tfCreateMode);
-        sambaConfig.setDirectoryModeTextField(tfDirectoryMode);
-        sambaConfig.setBrowsableCheckBox(chbBrowseable);
-        sambaConfig.setWritablecheckBox(chbWritable);
-        sambaConfig.setGuestOkCheckBox(chbGuestOk);
-        sambaConfig.setReadOnlyCheckBox(chbReadOnly);
+        sambaConfig.setCommentTextField(nameTextField);
+        sambaConfig.setPathTextField(pathTextField);
+        sambaConfig.setCreateModeTextField(createModeTextField);
+        sambaConfig.setDirectoryModeTextField(directoryModeTextField);
+        sambaConfig.setBrowsableCheckBox(browseableCheckBox);
+        sambaConfig.setWritablecheckBox(writableCheckBox);
+        sambaConfig.setGuestOkCheckBox(guestOkCheckBox);
+        sambaConfig.setReadOnlyCheckBox(readOnlyCheckBox);
 
 
-        sambaConfig.setCommentTextField1(tfName1);
-        sambaConfig.setPathTextField1(tfPath1);
-        sambaConfig.setCreateModeTextField1(tfCreateMode1);
-        sambaConfig.setDirectoryModeTextField1(tfDirectoryMode1);
-        sambaConfig.setBrowsableCheckBox1(chbBrowseable1);
-        sambaConfig.setWritablecheckBox1(chbWritable1);
-        sambaConfig.setGuestOkCheckBox1(chbGuestOk1);
-        sambaConfig.setReadOnlyCheckBox1(chbReadOnly1);
+        sambaConfig.setCommentTextField1(name1TextField);
+        sambaConfig.setPathTextField1(path1TextField);
+        sambaConfig.setCreateModeTextField1(createMode1TextField);
+        sambaConfig.setDirectoryModeTextField1(directoryMode1TextField);
+        sambaConfig.setBrowsableCheckBox1(browseable1CheckBox);
+        sambaConfig.setWritablecheckBox1(writable1CheckBox);
+        sambaConfig.setGuestOkCheckBox1(guestOk1CheckBox);
+        sambaConfig.setReadOnlyCheckBox1(readOnly1CheckBox);
 
-        sambaConfig.setCommentTextField2(tfName2);
-        sambaConfig.setPathTextField2(tfPath2);
-        sambaConfig.setCreateModeTextField2(tfCreateMode2);
-        sambaConfig.setDirectoryModeTextField2(tfDirectoryMode2);
-        sambaConfig.setBrowsableCheckBox2(chbBrowseable2);
-        sambaConfig.setWritablecheckBox2(chbWritable2);
-        sambaConfig.setGuestOkCheckBox2(chbGuestOk2);
-        sambaConfig.setReadOnlyCheckBox2(chbReadOnly2);
+        sambaConfig.setCommentTextField2(name2TextField);
+        sambaConfig.setPathTextField2(path2TextField);
+        sambaConfig.setCreateModeTextField2(createMode2TextField);
+        sambaConfig.setDirectoryModeTextField2(directoryMode2TextField);
+        sambaConfig.setBrowsableCheckBox2(browseable2CheckBox);
+        sambaConfig.setWritablecheckBox2(writable2CheckBox);
+        sambaConfig.setGuestOkCheckBox2(guestOk2CheckBox);
+        sambaConfig.setReadOnlyCheckBox2(readOnly2CheckBox);
 
-        sambaConfig.setCommentTextField3(tfName3);
-        sambaConfig.setPathTextField3(tfPath3);
-        sambaConfig.setCreateModeTextField3(tfCreateMode3);
-        sambaConfig.setDirectoryModeTextField3(tfDirectoryMode3);
-        sambaConfig.setBrowsableCheckBox3(chbBrowseable3);
-        sambaConfig.setWritablecheckBox3(chbWritable3);
-        sambaConfig.setGuestOkCheckBox3(chbGuestOk3);
-        sambaConfig.setReadOnlyCheckBox3(chbReadOnly3);
+        sambaConfig.setCommentTextField3(name3TextField);
+        sambaConfig.setPathTextField3(path3TextField);
+        sambaConfig.setCreateModeTextField3(createMode3TextField);
+        sambaConfig.setDirectoryModeTextField3(directoryMode3TextField);
+        sambaConfig.setBrowsableCheckBox3(browseable3CheckBox);
+        sambaConfig.setWritablecheckBox3(writable3CheckBox);
+        sambaConfig.setGuestOkCheckBox3(guestOk3CheckBox);
+        sambaConfig.setReadOnlyCheckBox3(readOnly3CheckBox);
 
-        sambaConfig.setExternalDiskTabButton1(tbExternalDisk1);
-        sambaConfig.setExternalDiskTabButton2(tbExternalDisk2);
-        sambaConfig.setExternalDiskTabButton3(tbExternalDisk3);
+        sambaConfig.setExternalDiskTabButton1(externalDisk1TabButton);
+        sambaConfig.setExternalDiskTabButton2(externalDisk2TabButton);
+        sambaConfig.setExternalDiskTabButton3(externalDisk3TabButton);
 
         sambaConfig.checkExternalDisks();
         sambaConfig.mountExternalDisks();

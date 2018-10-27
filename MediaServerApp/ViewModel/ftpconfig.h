@@ -5,12 +5,14 @@
 class FtpConfig : public QObject
 {
     Q_OBJECT
+
 public:
     explicit FtpConfig(QObject *parent = nullptr);
 
-signals:
+    QObject* usersCombobox;
+    Q_INVOKABLE void setUsersComboBox(QObject* obj);
+    Q_INVOKABLE void cbUser_onDisplayTextChanged(QString text);
 
-public slots:
 };
 
 #endif // FTPCONFIG_H

@@ -67,8 +67,13 @@ Dialog
         }
 
         ComboBox {
-            id: comboBox
+            id: userComboBox
+            Layout.preferredWidth: 210
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+            onDisplayTextChanged:
+            {
+                ftpConfig.cbUser_onDisplayTextChanged(userComboBox.currentText);
+            }
         }
 
     }
@@ -125,12 +130,27 @@ Dialog
         }
 
         Button {
+            id: removeUserButton
+            text: qsTr("Remove User")
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            onClicked:
+            {
+                //remove user action
+            }
+
+
+        }
+
+        Button {
             id: newUserButton
             text: qsTr("Add/Update User")
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.columnSpan: 2
-            Layout.rowSpan: 1
+            onClicked:
+            {
+                //add user action
+            }
         }
+
     }
 
     InputPanel
@@ -168,4 +188,10 @@ Dialog
             }
         }
     }
+
+    Component.onCompleted:
+    {
+        ftpConfig.setUsersComboBox(userComboBox)
+    }
+
 }

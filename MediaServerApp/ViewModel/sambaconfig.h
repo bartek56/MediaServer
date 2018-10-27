@@ -4,7 +4,7 @@
 #include <QProcess>
 #include <memory>
 #include <QSharedPointer>
-#include "editfile.h"
+#include "editsambaconfigfile.h"
 
 struct ConfigName {
     const QString WORKGROUP = "workgroup";
@@ -191,7 +191,7 @@ public:
     Q_INVOKABLE void mountExternalDisks();
 
 private:
-    EditFile editFile;
+    EditSambaConfigFile editFile;
     std::vector<ConfigsName> vConfigs;
     ConfigName configName;
     bool externalDisk1IsConnected;

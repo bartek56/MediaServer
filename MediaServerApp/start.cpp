@@ -2,9 +2,10 @@
 #include <QQmlApplicationEngine>
 #include <QApplication>
 #include <QtQuick>
-#include "editfile.h"
+#include "editsambaconfigfile.h"
 #include "ViewModel/mainwindow.h"
 #include "ViewModel/sambaconfig.h"
+#include "ViewModel/ftpconfig.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +15,8 @@ int main(int argc, char *argv[])
     if (view.status() == QQuickView::Error)
         return -1;
     qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfig");
+    qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");
+
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setSource(QString("qrc:/main.qml"));
 

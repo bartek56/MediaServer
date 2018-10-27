@@ -1,5 +1,5 @@
-#ifndef EDITFILE_H
-#define EDITFILE_H
+#ifndef EDITSAMBACONFIGFILE_H
+#define EDITSAMBACONFIGFILE_H
 
 #include <QString>
 #include <vector>
@@ -14,7 +14,7 @@ struct ConfigsName {
     }
 };
 
-class EditFile
+class EditSambaConfigFile
 {
 public:
     std::vector<ConfigsName> OpenFile(QString fileLocation);

@@ -1,9 +1,9 @@
 #include "editfiletest.h"
 #include <gtest/gtest.h>
 #include <QDebug>
-#include "../MediaServerApp/editfile.h"
+#include "../MediaServerApp/editsambaconfigfile.h"
 
-class openFileTest : public ::testing::Test {
+class openSambaFileTest : public ::testing::Test {
 public:
     QString location=PATH_TO_TEST_FILES;
 
@@ -13,24 +13,24 @@ public:
     }
 };
 
-TEST_F(openFileTest, fileHasThreeMainConfigurations)
+TEST_F(openSambaFileTest, fileHasThreeMainConfigurations)
 {
-    EditFile editFile;
+    EditSambaConfigFile editFile;
     auto configsVector = editFile.OpenFile(location);
     ASSERT_EQ(configsVector.size(), 3);
 }
 
-TEST_F(openFileTest, firstConfigurationHasEightOptions)
+TEST_F(openSambaFileTest, firstConfigurationHasEightOptions)
 {
-    EditFile editFile;
+    EditSambaConfigFile editFile;
     auto configs = editFile.OpenFile(location);
     auto firstConfiguration = configs[0];
     ASSERT_EQ(firstConfiguration.configs.size(), 8);
 }
 
-TEST_F(openFileTest, firstConfigurationHasNameGlobal)
+TEST_F(openSambaFileTest, firstConfigurationHasNameGlobal)
 {
-    EditFile editFile;
+    EditSambaConfigFile editFile;
     auto configs = editFile.OpenFile(location);
     auto firstConfiguration = configs[0];
     ASSERT_EQ(firstConfiguration.name, "[GLOBAL]");

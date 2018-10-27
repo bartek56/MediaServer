@@ -1,11 +1,11 @@
-#include "editfile.h"
+#include "editsambaconfigfile.h"
 #include <QFile>
 #include <QDebug>
 #include <vector>
 #include <utility>
 #include <QDebug>
 
-std::vector<ConfigsName> EditFile::OpenFile(QString fileLocation)
+std::vector<ConfigsName> EditSambaConfigFile::OpenFile(QString fileLocation)
 {
     QFile file (fileLocation);
     std::vector<ConfigsName> vConfigsName;
@@ -45,7 +45,7 @@ std::vector<ConfigsName> EditFile::OpenFile(QString fileLocation)
     return vConfigsName;
 }
 
-void EditFile::SaveFile(QString fileLocation, std::vector<ConfigsName> vConfigs)
+void EditSambaConfigFile::SaveFile(QString fileLocation, std::vector<ConfigsName> vConfigs)
 {
     QFile file(fileLocation);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))

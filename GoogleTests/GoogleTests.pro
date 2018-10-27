@@ -9,9 +9,12 @@ CONFIG += thread
 DEFINES += PATH_TO_TEST_FILES=\\\"$$PWD\\\"
 
 HEADERS += \
-    ../MediaServerApp/editfile.h
+    ../MediaServerApp/editsambaconfigfile.h \
+    ../MediaServerApp/editftpconfigfile.h
 
 SOURCES += \
         main.cpp \
-    editfiletest.cpp \
-    ../MediaServerApp/editfile.cpp
+    ../MediaServerApp/editsambaconfigfile.cpp \
+    ../MediaServerApp/editftpconfigfile.cpp \
+    editsambafiletest.cpp \
+    editftpfiletest.cpp
