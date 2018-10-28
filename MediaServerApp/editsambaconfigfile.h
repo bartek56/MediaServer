@@ -9,7 +9,7 @@
 struct ConfigsName {
     QString name;
     std::map<QString, QString> configs;
-    ConfigsName(QString const & name, std::map<QString, QString> const & configs)
+    ConfigsName(QString const &name, std::map<QString, QString> const &configs)
     : name(name), configs(configs) {
     }
 };

@@ -39,7 +39,7 @@ Dialog
             text: "Save"
             onClicked:
             {
-                //save action
+                ftpConfig.bSave_onClicked()
             }
         }
 
@@ -55,107 +55,172 @@ Dialog
         }
     }
 
-    GridLayout {
-        id: gridLayout
-        x: 17
-        y: 8
-        width: 326
-        height: 93
-        rows: 2
-        columns: 2
+    RowLayout {
+        id: rowLayout1
+        x: 8
+        y: 0
+        width: 792
+        height: 369
 
-        Text {
-            id: text1
-            text: qsTr("Users")
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            font.pixelSize: 18
-        }
+        GroupBox {
+            id: groupBox1
+            Layout.preferredHeight: 320
+            Layout.preferredWidth: 400
+            title: qsTr("Edit User")
 
-        ComboBox {
-            id: userComboBox
-            Layout.preferredWidth: 210
-            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-            onDisplayTextChanged:
-            {
-                ftpConfig.cbUser_onDisplayTextChanged(userComboBox.currentText);
+            GridLayout {
+                id: gridLayout
+                x: -12
+                y: -7
+                width: 388
+                height: 287
+                rows: 3
+                columns: 2
+
+                Text {
+                    id: text1
+                    text: qsTr("Users")
+                    rightPadding: 0
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    font.pixelSize: 18
+                }
+
+                ComboBox {
+                    id: userComboBox
+                    x: 180
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    padding: 5
+                    Layout.preferredWidth: 210
+                    onDisplayTextChanged:
+                    {
+                        busyIndication.running = true
+                        ftpConfig.cbUser_onDisplayTextChanged(userComboBox.currentText);
+                        busyIndication.running = false
+                    }
+                }
+
+                Text {
+                    id: text2
+                    text: qsTr("Catalog")
+                    font.pixelSize: 18
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                }
+
+                TextField {
+                    id: catalogTextField1
+                    x: 190
+                    width: 80
+                    height: 20
+                    text: qsTr("Text Edit")
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    font.pixelSize: 18
+                    onEditingFinished:
+                    {
+
+                    }
+                }
+
+                Button {
+                    id: removeUserButton
+                    text: qsTr("Remove")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        busyIndication.running = true
+                        //remove user action
+                        busyIndication.running = false
+                    }
+                }
+
+                Button {
+                    id: updateUserButton
+                    text: qsTr("Update")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        busyIndication.running = true
+                        //remove user action
+                        busyIndication.running = false
+                    }
+                }
             }
         }
 
-    }
+        GroupBox {
+            id: groupBox2
+            x: 441
+            y: 35
+            Layout.preferredHeight: 350
+            title: qsTr("Add User")
 
-    GridLayout {
-        id: gridLayout1
-        x: 409
-        y: 8
-        width: 367
-        height: 368
-        columns: 2
+            GridLayout {
+                id: gridLayout1
+                width: 327
+                height: 282
+                columns: 2
 
-        Text {
-            id: userNameText
-            text: qsTr("User")
-            font.pixelSize: 18
-        }
+                Text {
+                    id: userNameText
+                    text: qsTr("User")
+                    font.pixelSize: 18
+                }
 
-        TextField {
-            id: userNameTextField
-            width: 80
-            height: 20
-            text: qsTr("Text Edit")
-            font.pixelSize: 18
-        }
+                TextField {
+                    id: newUserNameTextField
+                    width: 80
+                    height: 20
+                    text: qsTr("Text Edit")
+                    font.pixelSize: 18
+                }
 
-        Text {
-            id: passwordText
-            text: qsTr("password")
-            font.pixelSize: 18
-        }
+                Text {
+                    id: passwordText
+                    text: qsTr("password")
+                    font.pixelSize: 18
+                }
 
-        TextField {
-            id: passwordTextField
-            width: 80
-            height: 20
-            text: qsTr("Text Edit")
-            font.pixelSize: 18
-            echoMode: TextInput.PasswordEchoOnEdit
-        }
+                TextField {
+                    id: passwordTextField
+                    width: 80
+                    height: 20
+                    text: qsTr("Text Edit")
+                    font.pixelSize: 18
+                    echoMode: TextInput.PasswordEchoOnEdit
+                }
 
-        Text {
-            id: catalogText
-            text: qsTr("Catalog")
-            font.pixelSize: 18
-        }
+                Text {
+                    id: catalogText
+                    text: qsTr("Catalog")
+                    font.pixelSize: 18
+                }
 
-        TextField {
-            id: catalogTextField
-            width: 80
-            height: 20
-            text: qsTr("Text Edit")
-            font.pixelSize: 18
-        }
+                TextField {
+                    id: catalogTextField2
+                    width: 80
+                    height: 20
+                    text: qsTr("Text Edit")
+                    font.pixelSize: 18
+                }
 
-        Button {
-            id: removeUserButton
-            text: qsTr("Remove User")
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            onClicked:
-            {
-                //remove user action
+                Button {
+                    id: newUserButton
+                    text: qsTr("Add User")
+                    Layout.columnSpan: 2
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        ftpConfig.bAddUser_onClicked(
+                                    newUserNameTextField.getText(0,newUserNameTextField.length),
+                                    passwordTextField.getText(0,passwordTextField.length),
+                                    catalogTextField2.getText(0,catalogTextField2.length));
+                        newUserNameTextField.text=""
+                        passwordTextField.text=""
+                        catalogTextField2.text=""
+                    }
+                }
+
             }
-
-
         }
-
-        Button {
-            id: newUserButton
-            text: qsTr("Add/Update User")
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            onClicked:
-            {
-                //add user action
-            }
-        }
-
     }
 
     InputPanel
@@ -194,10 +259,11 @@ Dialog
         }
     }
 
+
     Component.onCompleted:
     {
+        ftpConfig.setPathTextField(catalogTextField1)
         ftpConfig.setUsersComboBox(userComboBox)
         busyIndication.running = false
     }
-
 }
