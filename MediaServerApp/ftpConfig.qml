@@ -39,7 +39,9 @@ Dialog
             text: "Save"
             onClicked:
             {
+                busyIndication.running = true
                 ftpConfig.bSave_onClicked()
+                busyIndication.running = false
             }
         }
 
@@ -93,9 +95,7 @@ Dialog
                     Layout.preferredWidth: 210
                     onDisplayTextChanged:
                     {
-                        busyIndication.running = true
                         ftpConfig.cbUser_onDisplayTextChanged(userComboBox.currentText);
-                        busyIndication.running = false
                     }
                 }
 
@@ -114,10 +114,7 @@ Dialog
                     text: qsTr("Text Edit")
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     font.pixelSize: 18
-                    onEditingFinished:
-                    {
 
-                    }
                 }
 
                 Button {
@@ -126,9 +123,7 @@ Dialog
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     onClicked:
                     {
-                        busyIndication.running = true
-                        //remove user action
-                        busyIndication.running = false
+                        ftpConfig.bRemoveUser_onClick(userComboBox.currentText);
                     }
                 }
 
@@ -138,9 +133,7 @@ Dialog
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     onClicked:
                     {
-                        busyIndication.running = true
-                        //remove user action
-                        busyIndication.running = false
+                        ftpConfig.bUpdateUser_onClick(userComboBox.currentText,catalogTextField1.text);
                     }
                 }
             }
@@ -169,13 +162,12 @@ Dialog
                     id: newUserNameTextField
                     width: 80
                     height: 20
-                    text: qsTr("Text Edit")
                     font.pixelSize: 18
                 }
 
                 Text {
                     id: passwordText
-                    text: qsTr("password")
+                    text: qsTr("Password")
                     font.pixelSize: 18
                 }
 
@@ -183,7 +175,6 @@ Dialog
                     id: passwordTextField
                     width: 80
                     height: 20
-                    text: qsTr("Text Edit")
                     font.pixelSize: 18
                     echoMode: TextInput.PasswordEchoOnEdit
                 }
@@ -198,7 +189,6 @@ Dialog
                     id: catalogTextField2
                     width: 80
                     height: 20
-                    text: qsTr("Text Edit")
                     font.pixelSize: 18
                 }
 

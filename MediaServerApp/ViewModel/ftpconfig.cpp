@@ -11,6 +11,20 @@ void FtpConfig::tfUser_onEditingFinished(const QString text)
     qDebug() << text;
 }
 
+void FtpConfig::bRemoveUser_onClick(const QString userName)
+{
+    auto user = std::make_shared<QString>(userName);
+    vRemoveUsersConfig.push_back(user);
+    users.removeOne(userName);
+    cbUsers->setProperty("model",QVariant(users));
+}
+
+void FtpConfig::bUpdateUser_onClick(const QString userName,const QString path)
+{
+    auto user = std::make_shared<FtpUser>(userName,"p",path);
+    vUpdateUsersConfig.push_back(std::move(user));
+}
+
 void FtpConfig::bAddUser_onClicked(const QString userName, const QString password, const QString catalog)
 {
     foreach (const QString &str, users)
@@ -22,7 +36,7 @@ void FtpConfig::bAddUser_onClicked(const QString userName, const QString passwor
         }
     }
 
-    for (auto iter=vUserConfig.begin(); iter != vUserConfig.end();++iter)
+    for (auto iter=vNewUsersConfig.begin(); iter != vNewUsersConfig.end();++iter)
     {
         auto a = *iter;
         if(a->name==userName)
@@ -31,8 +45,11 @@ void FtpConfig::bAddUser_onClicked(const QString userName, const QString passwor
             return;
         }
     }
+
     auto user = std::make_shared<FtpUser>(userName,password,catalog);
-    vUserConfig.push_back(std::move(user));
+    vNewUsersConfig.push_back(std::move(user));
+    users.push_back(userName);
+    cbUsers->setProperty("model",QVariant(users));
 }
 
 void FtpConfig::setUsersComboBox(QObject* obj)
@@ -45,40 +62,88 @@ void FtpConfig::setUsersComboBox(QObject* obj)
 
 void FtpConfig::cbUser_onDisplayTextChanged(const QString userName)
 {
-    QString pathTofile="/etc/vsftpd_user_conf/";
-    pathTofile.push_back(userName);
-    QString path = editFile.OpenUserPathFile(pathTofile);
+
+    QString path = getUpdateUserPath(userName);
+    if(path==nullptr)
+    {
+        QString pathTofile="/etc/vsftpd_user_conf/";
+        pathTofile.push_back(userName);
+        path = editFile.OpenUserPathFile(pathTofile);
+        if(path.size()<2)
+        {
+            path = getNewUserPath(userName);
+        }
+    }
     tfPath->setProperty("text",QVariant(path));
+}
+
+QString FtpConfig::getUpdateUserPath(const QString &userName)
+{
+    for (auto iter=vUpdateUsersConfig.begin(); iter != vUpdateUsersConfig.end();++iter)
+    {
+        auto ftpUser = *iter;
+        if(ftpUser->name==userName)
+        {
+            return ftpUser->pathToFiles;
+        }
+    }
+    return nullptr;
+}
+
+QString FtpConfig::getNewUserPath(const QString &userName)
+{
+    for (auto iter=vNewUsersConfig.begin(); iter != vNewUsersConfig.end();++iter)
+    {
+        auto ftpUser = *iter;
+        if(ftpUser->name==userName)
+        {
+            return ftpUser->pathToFiles;
+        }
+    }
+    return nullptr;
 }
 
 void FtpConfig::bSave_onClicked()
 {
     SaveUsers();
-    CreateUserConfigFile();
+    UpdateUsers();
+    DeleteUsers();
     QProcess::execute("systemctl restart vsftpd");
 }
 
 void FtpConfig::SaveUsers()
 {
-    for (auto iter=vUserConfig.begin(); iter != vUserConfig.end();++iter)
+    for (auto iter=vNewUsersConfig.begin(); iter != vNewUsersConfig.end();++iter)
     {
         auto ftpUser = *iter;
         editFile.AddUser(ftpUser->name,ftpUser->password);
+        editFile.CreateOrEditUserConfigFile(ftpUser->name,ftpUser->pathToFiles);
     }
+    vNewUsersConfig.clear();
 }
 
-void FtpConfig::CreateUserConfigFile()
+void FtpConfig::DeleteUsers()
 {
-    for (auto iter=vUserConfig.begin(); iter != vUserConfig.end();++iter)
+    for (auto iter=vRemoveUsersConfig.begin(); iter != vRemoveUsersConfig.end();++iter)
+    {
+        auto removeFtpUser = *iter;
+        editFile.DeleteUser(*removeFtpUser);
+        editFile.DeleteUsersFile(*removeFtpUser);
+    }
+    vRemoveUsersConfig.clear();
+}
+
+void FtpConfig::UpdateUsers()
+{
+    for (auto iter=vUpdateUsersConfig.begin(); iter != vUpdateUsersConfig.end();++iter)
     {
         auto ftpUser = *iter;
-        editFile.CreateUserConfigFile(ftpUser->name,ftpUser->pathToFiles);
+        editFile.CreateOrEditUserConfigFile(ftpUser->name,ftpUser->pathToFiles);
     }
+    vUpdateUsersConfig.clear();
 }
 
 void FtpConfig::setPathTextField(QObject* obj)
 {
     tfPath = obj;
 }
-
-

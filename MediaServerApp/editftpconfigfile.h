@@ -29,7 +29,7 @@ public:
     //void DeleteUserFromFile(QString const fileLocation,QString const usser);
     void AddUser(const QString userName, const QString password);
     void DeleteUser(const QString userName);
-    void CreateUserConfigFile(const QString userName, const QString pathToFile);
+    void CreateOrEditUserConfigFile(const QString userName, const QString pathToFile);
 
 private:
     //FtpUser ftpUser;

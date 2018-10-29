@@ -73,7 +73,7 @@ void EditFtpConfigFile::DeleteUser(const QString userName)
     QProcess::execute(commend);
 }
 
-void EditFtpConfigFile::CreateUserConfigFile(const QString userName, const QString pathToFile)
+void EditFtpConfigFile::CreateOrEditUserConfigFile(const QString userName, const QString pathToFile)
 {
         QString filename="/etc/vsftpd_user_conf/";
         filename.push_back(userName);

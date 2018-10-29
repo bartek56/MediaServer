@@ -17,6 +17,8 @@ public:
     Q_INVOKABLE void tfUser_onEditingFinished(const QString text);
     Q_INVOKABLE void bAddUser_onClicked(const QString userName, const QString password, const QString catalog);
     Q_INVOKABLE void bSave_onClicked();
+    Q_INVOKABLE void bRemoveUser_onClick(const QString userName);
+    Q_INVOKABLE void bUpdateUser_onClick(const QString userName, const QString path);
 
 
 private:
@@ -26,9 +28,14 @@ private:
     QObject* tfPath;
     EditFtpConfigFile editFile;
     QStringList users;
-    std::vector<std::shared_ptr<FtpUser>> vUserConfig;
+    std::vector<std::shared_ptr<FtpUser>> vNewUsersConfig;
+    std::vector<std::shared_ptr<QString>> vRemoveUsersConfig;
+    std::vector<std::shared_ptr<FtpUser>> vUpdateUsersConfig;
+    QString getNewUserPath(const QString &userName);
+    QString getUpdateUserPath(const QString &userName);
     void SaveUsers();
-    void CreateUserConfigFile();
+    void DeleteUsers();
+    void UpdateUsers();
 
 };
 
