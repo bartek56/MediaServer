@@ -1,7 +1,9 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick.Dialogs 1.0
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
+
 import FtpConfigLib 1.0
 
 Dialog
@@ -25,6 +27,35 @@ Dialog
         anchors.centerIn: parent
     }
 
+
+    FileDialog {
+        id: fileDialog1
+        selectFolder: true
+        onAccepted:
+        {
+            ftpConfig.bFileDialog1_onAccepted(fileDialog1.folder)
+            ftpConfigDialog.visible=true
+        }
+        onRejected:
+        {
+            ftpConfigDialog.visible=true
+        }
+    }
+
+    FileDialog {
+        id: fileDialog2
+        selectFolder: true
+        onAccepted:
+        {
+            ftpConfig.bFileDialog2_onAccepted(fileDialog2.folder)
+            ftpConfigDialog.visible=true
+        }
+        onRejected:
+        {
+            ftpConfigDialog.visible=true
+        }
+    }
+
     RowLayout
     {
         id: rowLayout
@@ -34,7 +65,6 @@ Dialog
 
         Button
         {
-            width: 160
             height: 40
             text: "Save"
             onClicked:
@@ -66,6 +96,7 @@ Dialog
 
         GroupBox {
             id: groupBox1
+            width: 412
             Layout.preferredHeight: 320
             Layout.preferredWidth: 400
             title: qsTr("Edit User")
@@ -74,10 +105,10 @@ Dialog
                 id: gridLayout
                 x: -12
                 y: -7
-                width: 388
+                width: 393
                 height: 287
                 rows: 3
-                columns: 2
+                columns: 3
 
                 Text {
                     id: text1
@@ -89,15 +120,16 @@ Dialog
 
                 ComboBox {
                     id: userComboBox
-                    x: 180
+                    Layout.preferredWidth: 200
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.columnSpan: 2
                     padding: 5
-                    Layout.preferredWidth: 210
                     onDisplayTextChanged:
                     {
                         ftpConfig.cbUser_onDisplayTextChanged(userComboBox.currentText);
                     }
                 }
+
 
                 Text {
                     id: text2
@@ -108,19 +140,30 @@ Dialog
 
                 TextField {
                     id: catalogTextField1
-                    x: 190
-                    width: 80
-                    height: 20
-                    text: qsTr("Text Edit")
+                    text: qsTr("/home/ftp")
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     font.pixelSize: 18
+                    readOnly: true
 
+                }
+
+                Button {
+                    id: bOpenCatalog1
+                    width: 87
+                    text: "Open"
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.preferredWidth: 60
+                    onClicked:
+                    {
+                        fileDialog1.open()
+                        ftpConfigDialog.visible=false
+                    }
                 }
 
                 Button {
                     id: removeUserButton
                     text: qsTr("Remove")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     onClicked:
                     {
                         ftpConfig.bRemoveUser_onClick(userComboBox.currentText);
@@ -130,27 +173,32 @@ Dialog
                 Button {
                     id: updateUserButton
                     text: qsTr("Update")
+                    Layout.columnSpan: 2
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     onClicked:
                     {
                         ftpConfig.bUpdateUser_onClick(userComboBox.currentText,catalogTextField1.text);
                     }
                 }
+
             }
         }
 
         GroupBox {
             id: groupBox2
-            x: 441
+            x: 424
             y: 35
-            Layout.preferredHeight: 350
+            width: 354
+            height: 334
+            Layout.preferredWidth: 353
+            Layout.preferredHeight: 320
             title: qsTr("Add User")
 
             GridLayout {
                 id: gridLayout1
                 width: 327
                 height: 282
-                columns: 2
+                columns: 3
 
                 Text {
                     id: userNameText
@@ -162,6 +210,8 @@ Dialog
                     id: newUserNameTextField
                     width: 80
                     height: 20
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.columnSpan: 2
                     font.pixelSize: 18
                 }
 
@@ -175,6 +225,8 @@ Dialog
                     id: passwordTextField
                     width: 80
                     height: 20
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.columnSpan: 2
                     font.pixelSize: 18
                     echoMode: TextInput.PasswordEchoOnEdit
                 }
@@ -187,9 +239,24 @@ Dialog
 
                 TextField {
                     id: catalogTextField2
-                    width: 80
-                    height: 20
+                    text: qsTr("/home/ftp")
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.preferredWidth: 134
                     font.pixelSize: 18
+                    readOnly: true
+                }
+
+                Button {
+                    id: bOpenCatalog2
+                    width: 87
+                    text: "Open"
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.preferredWidth: 60
+                    onClicked:
+                    {
+                        fileDialog2.open()
+                        ftpConfigDialog.visible=false
+                    }
                 }
 
                 Button {
@@ -208,6 +275,7 @@ Dialog
                         catalogTextField2.text=""
                     }
                 }
+
 
             }
         }
@@ -252,7 +320,8 @@ Dialog
 
     Component.onCompleted:
     {
-        ftpConfig.setPathTextField(catalogTextField1)
+        ftpConfig.setPathTextField1(catalogTextField1)
+        ftpConfig.setPathTextField2(catalogTextField2)
         ftpConfig.setUsersComboBox(userComboBox)
         busyIndication.running = false
     }

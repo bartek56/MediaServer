@@ -74,7 +74,20 @@ void FtpConfig::cbUser_onDisplayTextChanged(const QString userName)
             path = getNewUserPath(userName);
         }
     }
-    tfPath->setProperty("text",QVariant(path));
+    tfPath1->setProperty("text",QVariant(path));
+}
+
+void FtpConfig::bFileDialog1_onAccepted(QString catalog)
+{
+    QString path = catalog.remove(0,7);
+    tfPath1->setProperty("text",QVariant(path));
+
+}
+
+void FtpConfig::bFileDialog2_onAccepted(QString catalog)
+{
+    QString path = catalog.remove(0,7);
+    tfPath2->setProperty("text",QVariant(path));
 }
 
 QString FtpConfig::getUpdateUserPath(const QString &userName)
@@ -143,7 +156,13 @@ void FtpConfig::UpdateUsers()
     vUpdateUsersConfig.clear();
 }
 
-void FtpConfig::setPathTextField(QObject* obj)
+void FtpConfig::setPathTextField1(QObject* obj)
 {
-    tfPath = obj;
+    tfPath1 = obj;
 }
+void FtpConfig::setPathTextField2(QObject* obj)
+{
+    tfPath2 = obj;
+}
+
+

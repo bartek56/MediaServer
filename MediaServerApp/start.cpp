@@ -10,7 +10,9 @@
 int main(int argc, char *argv[])
 {
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
-    QGuiApplication app(argc, argv);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+        QApplication app(argc, argv);
+    //QGuiApplication app(argc, argv);
     QQuickView view;
     if (view.status() == QQuickView::Error)
         return -1;
