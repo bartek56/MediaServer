@@ -1,6 +1,7 @@
 #include "settings.h"
 #include <QDebug>
 #include <QFile>
+#include <map>
 
 Settings::Settings(QObject *parent) : QObject(parent)
 {
@@ -24,7 +25,7 @@ void Settings::searchNetworks(QObject* obj)
 {
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("iw dev wlan0 scan");
+    process.start("bash", QStringList() << "-c" << "iw wlan0 scan | egrep 'SSID|freq|signal|capability'");
 
     process.setReadChannel(QProcess::StandardOutput);
     QStringList networksList;
@@ -44,33 +45,87 @@ void Settings::searchNetworks(QObject* obj)
            networksList.push_back(qstrNetworkName);
        }
     }
-
     obj->setProperty("model",QVariant(networksList));
 }
 
-void Settings::connect(QString networkName, QString password)
+void Settings::connect(const QString networkName,const QString password)
 {
-    QString filename="/etc/wpa_supplicant.conf";
-    QFile file(filename);
-
-    if (file.open(QIODevice::ReadWrite |  QIODevice::Append))
+    bool networkExist=false;
+    for (auto iter=vWifiConfigs.begin(); iter != vWifiConfigs.end();++iter)
     {
-        QTextStream stream(&file);
-        stream << "network={" << "\n";
-        stream << "ssid=\""<<networkName<<"\""<<"\n";
-        stream << "psk=\""<<password<<"\""<<"\n";
-        stream << "}" << "\n\n";
+        auto &mConfigs = iter->configs;
+        if(mConfigs.at("ssid")==networkName)
+        {
+            mConfigs.at("psk")=password;
+            networkExist=true;
+            break;
+        }
     }
-    file.close();
 
-    /*
-    QString commend = "wpa_passphrase ";
-    commend.push_back(networkName);
-    commend.push_back(" ");
-    commend.push_back(password);
-    commend.push_back(" >> /etc/wpa_supplicant.conf");
-    QProcess::execute(commend);
-    */
+    if(!networkExist)
+    {
+        std::vector<WifiConfigsName> vConfigsName;
+        std::map<QString, QString> mConfigsParameters;
+        mConfigsParameters.insert(std::make_pair("ssid", networkName));
+        mConfigsParameters.insert(std::make_pair("psk", password));
+        vWifiConfigs.push_back(WifiConfigsName(mConfigsParameters));
+    }
+
+    editWifiConfigFile.SaveWifiConfigs(vWifiConfigs);
+    QProcess::execute("systemctl restart wpa_supplicant");
 }
 
+void Settings::cbNetworks_onDisplayTextChanged(QString networkName, QObject *obj)
+{
 
+    QProcess process;
+    QString commend = "iw wlan0 scan | egrep 'SSID|freq|signal|capability' | egrep -B1 '";
+    commend.push_back(networkName);
+    commend.push_back("'");
+    process.start("bash", QStringList() << "-c" << commend);
+
+    QStringList networksList;
+    while(process.waitForFinished());
+
+    obj->setProperty("text",QVariant(process.readAll()));
+}
+
+void Settings::sWifiOn_OnCheckedChanged(bool wifiOnSwitch)
+{
+    if(wifiOnSwitch)
+    {
+        QProcess::execute("ifconfig wlan0 up");
+    }
+    else if(!wifiOnSwitch)
+    {
+        QProcess::execute("ifconfig wlan0 down");
+    }
+}
+
+void Settings::checkWifi(QObject *obj)
+{
+    QProcess process;
+    process.start("iw wlan0 info");
+
+    QStringList networksList;
+    while(process.waitForFinished());
+
+
+    auto line = process.readAll();
+    std::string strLine(line);
+    if (strLine.find("txpower")!=std::string::npos)
+    {
+        wifiIsOn=true;
+        obj->setProperty("checked",QVariant("true"));
+    }
+    else
+    {
+        wifiIsOn=false;
+        obj->setProperty("checked",QVariant("false"));
+    }
+}
+
+void Settings::loadWifiConfigFile()
+{
+    vWifiConfigs = editWifiConfigFile.OpenFile("/etc/wpa_supplicent.conf");
+}

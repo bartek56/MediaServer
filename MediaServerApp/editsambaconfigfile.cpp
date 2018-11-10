@@ -5,10 +5,10 @@
 #include <utility>
 #include <QDebug>
 
-std::vector<ConfigsName> EditSambaConfigFile::OpenFile(QString fileLocation)
+std::vector<SambaConfigsName> EditSambaConfigFile::OpenFile(QString fileLocation)
 {
     QFile file (fileLocation);
-    std::vector<ConfigsName> vConfigsName;
+    std::vector<SambaConfigsName> vConfigsName;
     std::map<QString, QString> mConfigsParameters;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return vConfigsName;
@@ -24,7 +24,7 @@ std::vector<ConfigsName> EditSambaConfigFile::OpenFile(QString fileLocation)
         {
             if(!mConfigsParameters.empty())
             {
-                vConfigsName.push_back(ConfigsName(parameterName,mConfigsParameters));
+                vConfigsName.push_back(SambaConfigsName(parameterName,mConfigsParameters));
                 mConfigsParameters.clear();
             }
             parameterName=line.remove(line.length()-1,1);
@@ -39,13 +39,13 @@ std::vector<ConfigsName> EditSambaConfigFile::OpenFile(QString fileLocation)
             mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
         }
     }
-    vConfigsName.push_back(ConfigsName(parameterName,mConfigsParameters));
+    vConfigsName.push_back(SambaConfigsName(parameterName,mConfigsParameters));
     mConfigsParameters.clear();
 
     return vConfigsName;
 }
 
-void EditSambaConfigFile::SaveFile(QString fileLocation, std::vector<ConfigsName> vConfigs)
+void EditSambaConfigFile::SaveFile(QString fileLocation, std::vector<SambaConfigsName> vConfigs)
 {
     QFile file(fileLocation);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))

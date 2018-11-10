@@ -1,15 +1,15 @@
 #ifndef EDITSAMBACONFIGFILE_H
 #define EDITSAMBACONFIGFILE_H
 
-#include <QString>
 #include <vector>
+#include <QString>
 #include <map>
 
 
-struct ConfigsName {
+struct SambaConfigsName {
     QString name;
     std::map<QString, QString> configs;
-    ConfigsName(QString const &name, std::map<QString, QString> const &configs)
+    SambaConfigsName(QString const &name, std::map<QString, QString> const &configs)
     : name(name), configs(configs) {
     }
 };
@@ -17,8 +17,8 @@ struct ConfigsName {
 class EditSambaConfigFile
 {
 public:
-    std::vector<ConfigsName> OpenFile(QString fileLocation);
-    void SaveFile(QString fileLocation,std::vector<ConfigsName> vConfigs);
+    std::vector<SambaConfigsName> OpenFile(QString fileLocation);
+    void SaveFile(QString fileLocation,std::vector<SambaConfigsName> vConfigs);
 
 private:
 };

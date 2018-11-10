@@ -3,7 +3,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.0
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
-
 import SettingsLib 1.0
 
 Dialog
@@ -57,18 +56,33 @@ Dialog
 
                 Text {
                     id: networkText
-                    text: qsTr("Network")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    text: qsTr("SSID")
+                    bottomPadding: 9
+                    verticalAlignment: Text.AlignTop
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
                     horizontalAlignment: Text.AlignLeft
-                    Layout.columnSpan: 2
+                    Layout.columnSpan: 1
                     font.pixelSize: 16
                 }
 
                 ComboBox {
                     id: networksComboBox
-                    Layout.preferredWidth: 250
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    Layout.preferredWidth: 200
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
+                    onDisplayTextChanged:
+                    {
+                        settings.cbNetworks_onDisplayTextChanged(networksComboBox.currentText,networkInfoText);
+                    }
+                }
+
+                Text {
+                    id: networkInfoText
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignTop
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
                     Layout.columnSpan: 2
+                    font.pixelSize: 12
+
                 }
 
                 Text {
@@ -81,16 +95,27 @@ Dialog
                     id: passwordTextField
                     width: 80
                     height: 20
-                    text: qsTr("password")
+                    text: qsTr("")
                     horizontalAlignment: Text.AlignHCenter
                     font.pixelSize: 16
                 }
 
                 Button {
-                    id: button
+                    id: scanNetworkButton
+                    text: qsTr("Scan Network")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        busyIndication.running = true
+                        settings.searchNetworks(networksComboBox)
+                        busyIndication.running = false
+                    }
+                }
+
+                Button {
+                    id: connectButton
                     text: qsTr("Connect")
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    Layout.columnSpan: 2
                     onClicked:
                     {
                         settings.connect(networksComboBox.currentText,passwordTextField.text)
@@ -120,19 +145,53 @@ Dialog
 
                 Text {
                     id: infoText2
-                    text: qsTr("")
-                    Layout.preferredHeight: 280
+                    Layout.preferredHeight: 210
                     Layout.preferredWidth: 370
                     wrapMode: Text.WordWrap
                     font.family: "Tahoma"
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 12
+                    function set() {
+                        settings.updateStatus(infoText2)
+                    }
+                }
+                Switch {
+                    id: wifiOnSwitch
+                    text: qsTr("Power on")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    function updatestate()
+                    {
+                        if (checked === true)
+                        {
+                            connectButton.enabled=true
+                            scanNetworkButton.enabled=true
+                            networksComboBox.enabled=true
+                        }
+                        else
+                        {
+                            networksComboBox.enabled=false
+                            connectButton.enabled=false
+                            scanNetworkButton.enabled=false
+                        }
+                    }
+                    onCheckedChanged:
+                    {
+                        settings.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
+                        updatestate()
+                    }
+                }
+
+                Timer {
+                    id: textTimer
+                    interval: 2000
+                    repeat: true
+                    running: true
+                    triggeredOnStart: true
+                    onTriggered: infoText2.set()
                 }
             }
-
         }
-
     }
 
     InputPanel
@@ -171,23 +230,12 @@ Dialog
         }
     }
 
-
     RowLayout {
         id: rowLayout
-        anchors.bottomMargin: 8
+        anchors.rightMargin: 15
+        anchors.bottomMargin: 15
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-
-        Button
-        {
-            width: 160
-            height: 40
-            text: "Refresh"
-            onClicked:
-            {
-                settings.updateStatus(infoText2)
-            }
-        }
 
         Button
         {
@@ -203,11 +251,9 @@ Dialog
 
     Component.onCompleted:
     {
-        settings.updateStatus(infoText2)
-        settings.searchNetworks(networksComboBox)
-
+        settings.checkWifi(wifiOnSwitch);
+        wifiOnSwitch.updatestate();
+        settings.loadWifiConfigFile();
         busyIndication.running = false
     }
-
-
 }

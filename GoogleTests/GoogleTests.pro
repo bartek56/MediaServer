@@ -16,5 +16,7 @@ SOURCES += \
         main.cpp \
     ../MediaServerApp/editsambaconfigfile.cpp \
     ../MediaServerApp/editftpconfigfile.cpp \
+    ../MediaServerApp/editwificonfigfile.cpp \
     editsambafiletest.cpp \
-    editftpfiletest.cpp
+    editftpfiletest.cpp \
+    editwififiletest.cpp

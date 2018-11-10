@@ -1,7 +1,6 @@
 #include "sambaconfig.h"
 
 #include <QDebug>
-
 #include <QObject>
 #include <QFile>
 
@@ -167,7 +166,7 @@ void SambaConfig::loadExternalDisk1Configs()
         mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
         mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
         mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-        vConfigs.push_back(ConfigsName("[ExternalDisk1]",mConfigsParameters));
+        vConfigs.push_back(SambaConfigsName("[ExternalDisk1]",mConfigsParameters));
         index = indexOfExternalDiskConfiguration("sda");
     }
     auto localConfig = vConfigs[index];
@@ -200,7 +199,7 @@ void SambaConfig::loadExternalDisk2Configs()
         mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
         mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
         mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-        vConfigs.push_back(ConfigsName("[ExternalDisk2]",mConfigsParameters));
+        vConfigs.push_back(SambaConfigsName("[ExternalDisk2]",mConfigsParameters));
         index = indexOfExternalDiskConfiguration("sdb");
     }
 
@@ -238,7 +237,7 @@ void SambaConfig::loadExternalDisk3Configs()
         mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
         mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
         mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-        vConfigs.push_back(ConfigsName("[ExternalDisk3]",mConfigsParameters));
+        vConfigs.push_back(SambaConfigsName("[ExternalDisk3]",mConfigsParameters));
         index = indexOfExternalDiskConfiguration("sdc");
     }
 

@@ -192,7 +192,7 @@ public:
 
 private:
     EditSambaConfigFile editFile;
-    std::vector<ConfigsName> vConfigs;
+    std::vector<SambaConfigsName> vConfigs;
     ConfigName configName;
     bool externalDisk1IsConnected;
     bool externalDisk2IsConnected;
