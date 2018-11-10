@@ -810,7 +810,6 @@ Dialog
                 rows: 5
             }
         }
-
     }
 
     InputPanel

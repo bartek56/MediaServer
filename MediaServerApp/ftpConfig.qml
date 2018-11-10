@@ -144,7 +144,6 @@ Dialog
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     font.pixelSize: 18
                     readOnly: true
-
                 }
 
                 Button {

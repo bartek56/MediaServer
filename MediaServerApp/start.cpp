@@ -6,6 +6,7 @@
 #include "ViewModel/mainwindow.h"
 #include "ViewModel/sambaconfig.h"
 #include "ViewModel/ftpconfig.h"
+#include "ViewModel/settings.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +19,7 @@ int main(int argc, char *argv[])
         return -1;
     qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfig");
     qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");
+    qmlRegisterType<Settings>("SettingsLib", 1, 0, "Settings");
 
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setSource(QString("qrc:/main.qml"));

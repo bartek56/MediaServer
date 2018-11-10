@@ -6,7 +6,6 @@
 #include <map>
 #include <memory>
 
-
 struct FtpUser {
     QString name;
     QString password;

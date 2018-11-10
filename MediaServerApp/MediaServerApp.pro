@@ -26,7 +26,8 @@ SOURCES += \
     ViewModel/sambaconfigglobal.cpp \
     ViewModel/ftpconfig.cpp \
     editsambaconfigfile.cpp \
-    editftpconfigfile.cpp
+    editftpconfigfile.cpp \
+    ViewModel/settings.cpp
 
 RESOURCES += qml.qrc
 
@@ -48,7 +49,8 @@ HEADERS += \
     ViewModel/sambaconfig.h \
     ViewModel/ftpconfig.h \
     editsambaconfigfile.h \
-    editftpconfigfile.h
+    editftpconfigfile.h \
+    ViewModel/settings.h
 
 FORMS +=
 

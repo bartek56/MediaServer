@@ -28,7 +28,6 @@ Rectangle{
         anchors.fill: parent
 
         ToolButton {
-            id: bSambaConfig
             text: qsTr("Samba")
             autoExclusive: true
             font.wordSpacing: 1
@@ -43,8 +42,7 @@ Rectangle{
 
         }
 
-        ToolButton {
-            id: bVsftpConfig
+        ToolButton {    
             text: qsTr("FTP Server")
             font.wordSpacing: 1
             font.letterSpacing: 1
@@ -59,7 +57,6 @@ Rectangle{
         }
 
         ToolButton {
-            id: toolButton3
             text: qsTr("Tool Button")
             font.wordSpacing: 1
             font.letterSpacing: 1
@@ -69,7 +66,6 @@ Rectangle{
         }
 
         ToolButton {
-            id: toolButton4
             text: qsTr("Tool Button")
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.preferredHeight: 80
@@ -77,7 +73,6 @@ Rectangle{
         }
 
         ToolButton {
-            id: toolButton5
             text: qsTr("Tool Button")
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.preferredHeight: 80
@@ -85,11 +80,14 @@ Rectangle{
         }
 
         ToolButton {
-            id: toolButton6
-            text: qsTr("Tool Button")
+            text: qsTr("Settings")
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.preferredHeight: 80
             Layout.preferredWidth: 160
+            onClicked:
+            {
+                loaderConfigWindow.setSource("settings.qml")
+            }
         }
 
     }
