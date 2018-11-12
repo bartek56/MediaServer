@@ -1,10 +1,11 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
+import MainWindowLib 1.0
 
 Rectangle{
 
-    id: mainWindow
+    id: mainRectangle
     visible: true
     width: 800
     height: 480
@@ -20,6 +21,10 @@ Rectangle{
         id:loaderConfigWindow
       }
 
+    MainWindow
+    {
+        id:mainWindow
+    }
 
     GridLayout {
         id: gridLayout
@@ -73,10 +78,15 @@ Rectangle{
         }
 
         ToolButton {
-            text: qsTr("Tool Button")
+            text: qsTr("Pictures")
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.preferredHeight: 80
             Layout.preferredWidth: 160
+            onClicked:
+            {
+                mainWindow.startPicturesApplication()
+                mainRectangle.visible=false
+            }
         }
 
         ToolButton {
