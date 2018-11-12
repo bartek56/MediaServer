@@ -44,7 +44,6 @@ Rectangle{
             {
                 loaderConfigWindow.setSource("sambaConfig.qml")
             }
-
         }
 
         ToolButton {    
@@ -85,7 +84,6 @@ Rectangle{
             onClicked:
             {
                 mainWindow.startPicturesApplication()
-                mainRectangle.visible=false
             }
         }
 
