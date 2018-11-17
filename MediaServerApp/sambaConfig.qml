@@ -960,8 +960,7 @@ Dialog
         sambaConfig.setExternalDiskTabButton2(externalDisk2TabButton);
         sambaConfig.setExternalDiskTabButton3(externalDisk3TabButton);
 
-        sambaConfig.checkExternalDisks();
-        sambaConfig.mountExternalDisks();
+        sambaConfig.checkingIfDisksAreMounted();
         sambaConfig.openFile();
 
         busyIndication.running = false

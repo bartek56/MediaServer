@@ -7,6 +7,7 @@
 #include "ViewModel/sambaconfig.h"
 #include "ViewModel/ftpconfig.h"
 #include "ViewModel/settings.h"
+#include "ViewModel/dlnaconfig.h"
 
 QQuickView *MainWindow::mainView;
 
@@ -20,10 +21,14 @@ int main(int argc, char *argv[])
     if (view->status() == QQuickView::Error)
         return -1;
 
+    qmlRegisterType<DlnaConfig>("DlnaConfigLib", 1, 0, "DlnaConfig");
     qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfig");
     qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");
     qmlRegisterType<Settings>("SettingsLib", 1, 0, "Settings");
+
+
     qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
+
 
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setSource(QString("qrc:/main.qml"));

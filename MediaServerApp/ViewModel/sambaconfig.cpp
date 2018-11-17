@@ -39,61 +39,6 @@ void SambaConfig::checkingIfDisksAreMounted()
     }
 }
 
-void SambaConfig::mountExternalDisks()
-{
-    checkingIfDisksAreMounted();
-
-    if(externalDisk1IsMounted==false && externalDisk1IsConnected==true)
-    {
-        externalDisk1IsMounted=true;
-        QProcess::execute("mount /dev/sda1 /mnt/externalDisk1");
-    }
-    if(externalDisk2IsMounted==false && externalDisk2IsConnected==true)
-    {
-        externalDisk2IsMounted=true;
-        QProcess::execute("mount /dev/sdb1 /mnt/externalDisk2");
-    }
-    if(externalDisk3IsMounted==false && externalDisk3IsConnected==true)
-    {
-        externalDisk3IsMounted=true;
-        QProcess::execute("mount /dev/sdc1 /mnt/externalDisk3");
-    }
-
-}
-
-void SambaConfig::checkExternalDisks()
-{
-    QFile file ("/dev/sda");
-    if(file.exists())
-    {
-        externalDisk1IsConnected=true;
-    }
-    else
-    {
-        externalDisk1IsConnected=false;
-    }
-
-    QFile file2 ("/dev/sdb");
-    if(file2.exists())
-    {
-        externalDisk2IsConnected=true;
-    }
-    else
-    {
-        externalDisk2IsConnected=false;
-    }
-
-    QFile file3 ("/dev/sdc");
-    if(file3.exists())
-    {
-        externalDisk3IsConnected=true;
-    }
-    else
-    {
-        externalDisk3IsConnected=false;
-    }
-}
-
 void SambaConfig::openFile()
 {
     vConfigs = editFile.OpenFile("/etc/samba/smb.conf");
@@ -114,7 +59,6 @@ void SambaConfig::openFile()
 
     if(externalDisk3IsMounted==true)
     {
-
         externalDiskTabButton3->setProperty("visible",QVariant(true));
         loadExternalDisk3Configs();
     }

@@ -187,16 +187,12 @@ public:
     Q_INVOKABLE void bUmount3_onClicked();
 
     Q_INVOKABLE void openFile();
-    Q_INVOKABLE void checkExternalDisks();
-    Q_INVOKABLE void mountExternalDisks();
+    Q_INVOKABLE void checkingIfDisksAreMounted();
 
 private:
     EditSambaConfigFile editFile;
     std::vector<SambaConfigsName> vConfigs;
     ConfigName configName;
-    bool externalDisk1IsConnected;
-    bool externalDisk2IsConnected;
-    bool externalDisk3IsConnected;
     bool externalDisk1IsMounted;
     bool externalDisk2IsMounted;
     bool externalDisk3IsMounted;
@@ -210,7 +206,7 @@ private:
     void loadExternalDisk1Configs();
     void loadExternalDisk2Configs();
     void loadExternalDisk3Configs();
-    void checkingIfDisksAreMounted();
+
 
 public slots:
 

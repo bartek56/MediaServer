@@ -30,8 +30,13 @@ Dialog
     {
         id: tabBar
         width: parent.width
+
         TabButton {
             text: qsTr("Wi-fi")
+        }
+
+        TabButton {
+            text: qsTr("External Devices")
         }
     }
 
@@ -191,6 +196,134 @@ Dialog
                     onTriggered: infoText2.set()
                 }
             }
+    RowLayout {
+        id: rowLayout
+        anchors.rightMargin: 15
+        anchors.bottomMargin: 15
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+
+        Button
+        {
+            text: "Close"
+            width: 160
+            height: 40
+            onClicked:
+            {
+                settingsDialog.close()
+            }
+        }
+    }
+        }
+
+        Item
+        {
+            id: externalDevicesSettingsTag
+
+            RowLayout {
+
+                anchors.rightMargin: 20
+                anchors.leftMargin: 20
+                anchors.topMargin: 60
+                anchors.bottomMargin: -374
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.top: parent.top
+
+                GridLayout {
+                    width: 100
+                    height: 100
+                    Layout.preferredWidth: 300
+                    columns: 2
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+
+                    Text {
+                        id: deviceText
+                        text: qsTr("Device")
+                        font.pixelSize: 16
+                    }
+
+                    ComboBox {
+                        id: devicesComboBox
+                        Layout.preferredWidth: 200
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onDisplayTextChanged:
+                        {
+                            settings.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText);
+                            mountButton.setText()
+                        }
+                    }
+
+                    Text {
+                        id: deviceSize
+                        text: qsTr("Size:")
+                        font.pixelSize: 16
+                    }
+
+                    Text {
+                        id: deviceSizeText
+                        text: qsTr("Device")
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        font.pixelSize: 16
+                    }
+
+                    Text {
+                        id: nameDevice
+                        text: qsTr("Name")
+                        font.pixelSize: 16
+                    }
+
+                    Text {
+                        id: nameDeviceText
+                        text: qsTr("Device")
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        font.pixelSize: 16
+                    }
+
+                    Text {
+                        id: mountPoint
+                        text: qsTr("MountPoint")
+                        font.pixelSize: 16
+                    }
+
+                    Text {
+                        id: mountPointText
+                        text: qsTr("Device")
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        font.pixelSize: 16
+                    }
+
+                    Button
+                    {
+                        id:mountButton
+                        width: 160
+                        height: 40
+                        function setText()
+                        {
+                            if(mountPointText.text.length>2)
+                            {
+                                text="umount"
+                            }
+                            else
+                            {
+                                text="mount"
+                            }
+                        }
+                        onClicked:
+                        {
+                            settings.bMount_onClicked(mountPointText.text, nameDeviceText.text, devicesComboBox.currentText)
+                            settings.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText)
+                            setText()
+                        }
+                    }
+                }
+
+                GridLayout {
+                    width: 100
+                    height: 100
+                }
+            }
         }
     }
 
@@ -230,30 +363,13 @@ Dialog
         }
     }
 
-    RowLayout {
-        id: rowLayout
-        anchors.rightMargin: 15
-        anchors.bottomMargin: 15
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-
-        Button
-        {
-            text: "Close"
-            width: 160
-            height: 40
-            onClicked:
-            {
-                settingsDialog.close()
-            }
-        }
-    }
-
     Component.onCompleted:
     {
-        settings.checkWifi(wifiOnSwitch);
-        wifiOnSwitch.updatestate();
-        settings.loadWifiConfigFile();
+        settings.checkWifi(wifiOnSwitch)
+        wifiOnSwitch.updatestate()
+        settings.loadWifiConfigFile()
+        settings.loadExternalDevices(devicesComboBox)
         busyIndication.running = false
     }
 }
+

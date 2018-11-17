@@ -61,12 +61,16 @@ Rectangle{
         }
 
         ToolButton {
-            text: qsTr("Tool Button")
+            text: qsTr("DLNA")
             font.wordSpacing: 1
             font.letterSpacing: 1
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.preferredHeight: 80
             Layout.preferredWidth: 160
+            onClicked:
+            {
+                loaderConfigWindow.setSource("dlnaConfig.qml")
+            }
         }
 
         ToolButton {

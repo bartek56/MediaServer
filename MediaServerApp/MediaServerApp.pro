@@ -27,8 +27,11 @@ SOURCES += \
     ViewModel/ftpconfig.cpp \
     editsambaconfigfile.cpp \
     editftpconfigfile.cpp \
-    ViewModel/settings.cpp \
-    editwificonfigfile.cpp
+    editwificonfigfile.cpp \
+    ViewModel/dlnaconfig.cpp \
+    ViewModel/settingsWifi.cpp \
+    ViewModel/settingsexternaldevices.cpp \
+    managementofexternaldevices.cpp
 
 RESOURCES += qml.qrc
 
@@ -52,7 +55,9 @@ HEADERS += \
     editsambaconfigfile.h \
     editftpconfigfile.h \
     ViewModel/settings.h \
-    editwificonfigfile.h
+    editwificonfigfile.h \
+    ViewModel/dlnaconfig.h \
+    managementofexternaldevices.h
 
 FORMS +=
 

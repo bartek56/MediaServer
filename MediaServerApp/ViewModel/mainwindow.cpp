@@ -9,6 +9,7 @@ MainWindow::MainWindow(QObject *parent) : QObject(parent)
 
 void MainWindow::startPicturesApplication()
 {
+    /*
     QString commend="startx";
     qint64 pid;
     QProcess appProcess;
@@ -19,5 +20,11 @@ void MainWindow::startPicturesApplication()
     QProcess appProcess2;
     appProcess2.startDetached("sh", QStringList() << "-c" << commend2,QProcess::nullDevice(),&pid2);
     MainWindow::mainView->destroy();
+    */
+    QString commend="mplayer -geometry 0:0 -vf scale=256:204 -noborder /mnt/pendribe2/test.avi";
+    qint64 pid;
+    QProcess appProcess;
+    appProcess.startDetached("sh", QStringList() << "-c" << commend,QProcess::nullDevice(),&pid);
+    QString strPid = QString::number(pid);
 }
 
