@@ -11,8 +11,12 @@ public:
     ManagementOfExternalDevices();
     QStringList LoadExternalDevices();
     std::map<QString, QString> LoadDeviceParameters(const QString &deviceName);
-    void MountDevice(const QString &deviceName, const QString &deviceLabel);
+    void MountDevice(const QString &deviceName, const QString &deviceLabel, const bool &automount);
     void UmountDevice(const QString &deviceName, const QString &mountpoint);
+
+private:
+    void EnableAutomount(const QString &deviceName, const QString &deviceLabel);
+    void DisableAutomount(const QString &deviceName);
 };
 
 #endif // MANAGEMENTOFEXTERNALDEVICES_H

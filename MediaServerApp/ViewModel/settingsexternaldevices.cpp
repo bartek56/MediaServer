@@ -14,7 +14,7 @@ void Settings::cbDevices_onDisplayTextChanged(QString deviceName, QObject *devic
     mountPointText->setProperty("text",QVariant(deviceParametersMap.at("MOUNTPOINT")));
 }
 
-void Settings::bMount_onClicked(const QString mountpoint,const QString deviceName, const QString deviceLabel)
+void Settings::bMount_onClicked(const QString mountpoint,const QString deviceName, const QString deviceLabel, const bool autoMount)
 {
     if(mountpoint.count()>1)
     {
@@ -22,6 +22,6 @@ void Settings::bMount_onClicked(const QString mountpoint,const QString deviceNam
     }
     else
     {
-        managementExternalDevices.MountDevice(deviceName, deviceLabel);
+        managementExternalDevices.MountDevice(deviceName, deviceLabel,autoMount);
     }
 }

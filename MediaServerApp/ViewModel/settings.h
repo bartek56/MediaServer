@@ -22,7 +22,7 @@ public:
     Q_INVOKABLE void checkWifi(QObject *obj);
     Q_INVOKABLE void loadExternalDevices(QObject *obj);
     Q_INVOKABLE void cbDevices_onDisplayTextChanged(QString deviceName, QObject *deviceSizeText, QObject *nameDeviceText,QObject *mountPointText);
-    Q_INVOKABLE void bMount_onClicked(const QString mountpoint,const QString deviceName, const QString deviceLabel);
+    Q_INVOKABLE void bMount_onClicked(const QString mountpoint,const QString deviceName, const QString deviceLabel, const bool automount);
 
 signals:
 
