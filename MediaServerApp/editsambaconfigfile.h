@@ -17,7 +17,7 @@ struct SambaConfigsName {
 class EditSambaConfigFile
 {
 public:
-    std::vector<SambaConfigsName> OpenFile(QString fileLocation);
+    std::vector<SambaConfigsName> OpenFile(const QString &fileLocation);
     void SaveFile(QString fileLocation,std::vector<SambaConfigsName> vConfigs);
 
 private:

@@ -8,11 +8,6 @@ void SambaConfig::tfName_onEditingFinished(QString text)
     vConfigs[1].name="["+text+"]";
 }
 
-void SambaConfig::tfPath_onEditingFinished(QString text)
-{
-    vConfigs[1].configs.at(configName.PATH)=text;
-}
-
 void SambaConfig::tfCreateMode_onEditingFinished(QString text)
 {
     vConfigs[1].configs.at(configName.CREATE_MODE)=text;

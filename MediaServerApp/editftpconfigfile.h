@@ -19,13 +19,11 @@ struct FtpUser {
 class EditFtpConfigFile
 {
 public:
-    //EditFtpConfigFile();
     QStringList OpenUsersListFile(QString const &fileLocation);
     QString OpenUserPathFile(QString const &fileLocation);
 
     void SaveInfile(std::vector<std::shared_ptr<FtpUser>> vUserConfig, QString file);
     void DeleteUsersFile(QString const user);
-    //void DeleteUserFromFile(QString const fileLocation,QString const usser);
     void AddUser(const QString userName, const QString password);
     void DeleteUser(const QString userName);
     void CreateOrEditUserConfigFile(const QString userName, const QString pathToFile);

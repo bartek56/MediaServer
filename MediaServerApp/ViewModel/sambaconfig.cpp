@@ -9,7 +9,6 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 
 }
 
-
 void SambaConfig::checkingIfDisksAreMounted()
 {
     QFile file ("/proc/self/mounts");
@@ -27,14 +26,36 @@ void SambaConfig::checkingIfDisksAreMounted()
         if(line.contains("/dev/sda1"))
         {
             externalDisk1IsMounted=true;
+            auto parameters = line.split(' ');
+            auto mountpoint=parameters[1];
+            pathTextField1->setProperty("text", QVariant(mountpoint));
+
+            auto deviceName = mountpoint.remove(0,5);
+            nameTextField1->setProperty("text", QVariant(deviceName));
+            deviceName1=deviceName;
+
         }
         else if(line.contains("/dev/sdb1"))
         {
             externalDisk2IsMounted=true;
+            auto parameters = line.split(' ');
+            auto mountpoint=parameters[1];
+            pathTextField2->setProperty("text", QVariant(mountpoint));
+
+            auto deviceName = mountpoint.remove(0,5);
+            nameTextField2->setProperty("text", QVariant(deviceName));
+            deviceName2=deviceName;
         }
         else if(line.contains("/dev/sdc1"))
         {
             externalDisk3IsMounted=true;
+            auto parameters = line.split(' ');
+            auto mountpoint=parameters[1];
+            pathTextField3->setProperty("text", QVariant(mountpoint));
+
+            auto deviceName = mountpoint.remove(0,5);
+            nameTextField3->setProperty("text", QVariant(deviceName));
+            deviceName3=deviceName;
         }
     }
 }
@@ -50,17 +71,41 @@ void SambaConfig::openFile()
         externalDiskTabButton1->setProperty("visible",QVariant(true));
         loadExternalDisk1Configs();
     }
+    else
+    {
+        unsigned int index = indexOfExternalDiskConfiguration("sda");
+        if(index!=0)
+        {
+            vConfigs.erase(vConfigs.begin()+index);
+        }
+    }
 
     if(externalDisk2IsMounted==true)
     {
         externalDiskTabButton2->setProperty("visible",QVariant(true));
         loadExternalDisk2Configs();
     }
+    else
+    {
+        unsigned int index = indexOfExternalDiskConfiguration("sdb");
+        if(index!=0)
+        {
+            vConfigs.erase(vConfigs.begin()+index);
+        }
+    }
 
     if(externalDisk3IsMounted==true)
     {
         externalDiskTabButton3->setProperty("visible",QVariant(true));
         loadExternalDisk3Configs();
+    }
+    else
+    {
+        unsigned int index = indexOfExternalDiskConfiguration("sdc");
+        if(index!=0)
+        {
+            vConfigs.erase(vConfigs.begin()+index);
+        }
     }
 
 }
@@ -102,7 +147,9 @@ void SambaConfig::loadExternalDisk1Configs()
     if(index==0)
     {
         std::map<QString, QString> mConfigsParameters;
-        mConfigsParameters.insert(std::make_pair(configName.PATH,"/mnt/externalDisk1"));
+        auto path = pathTextField1->property("text").toString();
+        auto name = nameTextField1->property("text").toString();
+        mConfigsParameters.insert(std::make_pair(configName.PATH,path));
         mConfigsParameters.insert(std::make_pair(configName.COMMENT,"sda"));
         mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE,"yes"));
         mConfigsParameters.insert(std::make_pair(configName.WRITABLE,"yes"));
@@ -110,16 +157,24 @@ void SambaConfig::loadExternalDisk1Configs()
         mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
         mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
         mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-        vConfigs.push_back(SambaConfigsName("[ExternalDisk1]",mConfigsParameters));
+        vConfigs.push_back(SambaConfigsName("["+name+"]",mConfigsParameters));
         index = indexOfExternalDiskConfiguration("sda");
     }
+    else
+    {
+        auto path = vConfigs[index].configs.at(configName.PATH);
+        auto deviceName = path.remove(0,5);
+
+        if(deviceName!=deviceName1)
+        {
+            vConfigs.erase(vConfigs.begin()+index);
+            loadExternalDisk1Configs();
+        }
+    }
+
     auto localConfig = vConfigs[index];
     auto configsParameters = localConfig.configs;
-    QString nameTextField = localConfig.name;
-    nameTextField = nameTextField.remove(0,1);
-    nameTextField = nameTextField.remove(nameTextField.count()-1,1);
-    nameTextField1->setProperty("text", QVariant(nameTextField));
-    pathTextField1->setProperty("text", QVariant(configsParameters.at(configName.PATH)));
+
     createModeTextField1->setProperty("text", QVariant(configsParameters.at(configName.CREATE_MODE)));
     directoryModeTextField1->setProperty("text", QVariant(configsParameters.at(configName.DIRECTORY_MODE)));
 
@@ -135,7 +190,9 @@ void SambaConfig::loadExternalDisk2Configs()
     if(index==0)
     {
         std::map<QString, QString> mConfigsParameters;
-        mConfigsParameters.insert(std::make_pair(configName.PATH,"/mnt/externalDisk2"));
+        auto path = pathTextField2->property("text").toString();
+        auto name = nameTextField2->property("text").toString();
+        mConfigsParameters.insert(std::make_pair(configName.PATH,path));
         mConfigsParameters.insert(std::make_pair(configName.COMMENT,"sdb"));
         mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE,"yes"));
         mConfigsParameters.insert(std::make_pair(configName.WRITABLE,"yes"));
@@ -143,21 +200,24 @@ void SambaConfig::loadExternalDisk2Configs()
         mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
         mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
         mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-        vConfigs.push_back(SambaConfigsName("[ExternalDisk2]",mConfigsParameters));
+        vConfigs.push_back(SambaConfigsName("["+name+"]",mConfigsParameters));
         index = indexOfExternalDiskConfiguration("sdb");
     }
+    else
+    {
+        auto path = vConfigs[index].configs.at(configName.PATH);
+        auto deviceName = path.remove(0,5);
 
-
+        if(deviceName!=deviceName1)
+        {
+            vConfigs.erase(vConfigs.begin()+index);
+            loadExternalDisk2Configs();
+        }
+    }
 
     auto localConfig = vConfigs[index];
     auto configsParameters = localConfig.configs;
 
-    QString nameTextField = localConfig.name;
-    nameTextField = nameTextField.remove(0,1);
-    nameTextField = nameTextField.remove(nameTextField.count()-1,1);
-    nameTextField2->setProperty("text", QVariant(nameTextField));
-
-    pathTextField2->setProperty("text", QVariant(configsParameters.at(configName.PATH)));
     createModeTextField2->setProperty("text", QVariant(configsParameters.at(configName.CREATE_MODE)));
     directoryModeTextField2->setProperty("text", QVariant(configsParameters.at(configName.DIRECTORY_MODE)));
 
@@ -173,6 +233,10 @@ void SambaConfig::loadExternalDisk3Configs()
     if(index==0)
     {
         std::map<QString, QString> mConfigsParameters;
+        auto path = pathTextField3->property("text").toString();
+        auto name = nameTextField3->property("text").toString();
+        mConfigsParameters.insert(std::make_pair(configName.PATH,path));
+
         mConfigsParameters.insert(std::make_pair(configName.PATH,"/mnt/externalDisk3"));
         mConfigsParameters.insert(std::make_pair(configName.COMMENT,"sdc"));
         mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE,"yes"));
@@ -181,17 +245,23 @@ void SambaConfig::loadExternalDisk3Configs()
         mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
         mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
         mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-        vConfigs.push_back(SambaConfigsName("[ExternalDisk3]",mConfigsParameters));
+        vConfigs.push_back(SambaConfigsName("["+name+"]",mConfigsParameters));
         index = indexOfExternalDiskConfiguration("sdc");
+    }
+    else
+    {
+        auto path = vConfigs[index].configs.at(configName.PATH);
+        auto deviceName = path.remove(0,5);
+
+        if(deviceName!=deviceName1)
+        {
+            vConfigs.erase(vConfigs.begin()+index);
+            loadExternalDisk3Configs();
+        }
     }
 
     auto localConfig = vConfigs[index];
     auto configsParameters = localConfig.configs;
-    QString nameTextField = localConfig.name;
-    nameTextField = nameTextField.remove(0,1);
-    nameTextField = nameTextField.remove(nameTextField.count()-1,1);
-    nameTextField3->setProperty("text", QVariant(nameTextField));
-    pathTextField3->setProperty("text", QVariant(configsParameters.at(configName.PATH)));
     createModeTextField3->setProperty("text", QVariant(configsParameters.at(configName.CREATE_MODE)));
     directoryModeTextField3->setProperty("text", QVariant(configsParameters.at(configName.DIRECTORY_MODE)));
 
@@ -203,8 +273,8 @@ void SambaConfig::loadExternalDisk3Configs()
 void SambaConfig::bSave_onClicked()
 {
     editFile.SaveFile("/etc/samba/smb.conf", vConfigs);
-    QProcess::execute("systemctl restart nmbd");
-    QProcess::execute("systemctl restart smbd");
+    QProcess::execute("systemctl restart nmb");
+    QProcess::execute("systemctl restart smb");
 }
 
 void SambaConfig::setSettingFromCheckboxes(unsigned long row, QString configName,bool checked)
@@ -247,54 +317,6 @@ void SambaConfig::setExternalDiskTabButton3(QObject* obj)
     externalDiskTabButton3 = obj;
 }
 
-void SambaConfig::bUmount1_onClicked()
-{
-    QProcess::execute("umount /dev/sda1");
-    externalDisk1IsMounted=false;
-    removeConfig("sda");
-    externalDiskTabButton1->setProperty("visible",QVariant(false));
-    stackLayout->setProperty("currentIndex", 1);
-}
-
-void SambaConfig::bUmount2_onClicked()
-{
-    QProcess::execute("umount /dev/sdb1");
-    externalDisk2IsMounted=false;
-    removeConfig("sdb");
-    externalDiskTabButton2->setProperty("visible",QVariant(false));
-    stackLayout->setProperty("currentIndex", 1);
-}
-
-void SambaConfig::bUmount3_onClicked()
-{
-    QProcess::execute("umount /dev/sdc1");
-    externalDisk3IsMounted=false;
-    removeConfig("sdc");
-    externalDiskTabButton3->setProperty("visible",QVariant(false));
-    stackLayout->setProperty("currentIndex", 1);
-}
-
-void SambaConfig::removeConfig(QString const comment)
-{
-    auto iter=vConfigs.begin();
-    iter++;
-    iter++;
-    for (iter; iter != vConfigs.end();++iter)
-    {
-        auto map = iter->configs;
-        QString con = map.at(configName.COMMENT);
-        if(con==comment)
-        {
-            vConfigs.erase(iter);
-            return;
-        }
-    }
-
-    editFile.SaveFile("/etc/samba/smb.conf", vConfigs);
-    QProcess::execute("systemctl restart nmbd");
-    QProcess::execute("systemctl restart smbd");
-}
-
 unsigned int SambaConfig::indexOfExternalDiskConfiguration(QString comment)
 {
     unsigned int index=2;
@@ -313,4 +335,11 @@ unsigned int SambaConfig::indexOfExternalDiskConfiguration(QString comment)
         index++;
     }
     return 0;
+}
+
+void SambaConfig::bFileDialog_onAccepted(QString catalog)
+{
+    QString path = catalog.remove(0,7);
+    pathTextField->setProperty("text",QVariant(path));
+    vConfigs[1].configs.at(configName.PATH)=path;
 }

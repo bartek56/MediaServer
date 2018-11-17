@@ -95,7 +95,6 @@ public:
     Q_INVOKABLE void setSecurityComboBox(QObject* obj);
     Q_INVOKABLE void setMapToGuestComboBox(QObject* obj);
 
-
     Q_INVOKABLE void setCommentTextField(QObject* obj);
     Q_INVOKABLE void setPathTextField(QObject* obj);
     Q_INVOKABLE void setCreateModeTextField(QObject* obj);
@@ -148,13 +147,13 @@ public:
     Q_INVOKABLE void cbGlobalBrowseable_onClicked(bool checked);
 
     Q_INVOKABLE void tfName_onEditingFinished(QString text);
-    Q_INVOKABLE void tfPath_onEditingFinished(QString text);
     Q_INVOKABLE void tfCreateMode_onEditingFinished(QString text);
     Q_INVOKABLE void tfDirectoryMode_onEditingFinished(QString text);
     Q_INVOKABLE void chbBrowseable_onClicked(bool checked);
     Q_INVOKABLE void chbWritable_onClicked(bool checked);
     Q_INVOKABLE void chbGuestOk_onClicked(bool checked);
     Q_INVOKABLE void chbReadOnly_onClicked(bool checked);
+    Q_INVOKABLE void bFileDialog_onAccepted(QString catalog);
 
     Q_INVOKABLE void tfName1_onEditingFinished(QString text);
     Q_INVOKABLE void tfPath1_onEditingFinished(QString text);
@@ -164,7 +163,6 @@ public:
     Q_INVOKABLE void chbWritable1_onClicked(bool checked);
     Q_INVOKABLE void chbGuestOk1_onClicked(bool checked);
     Q_INVOKABLE void chbReadOnly1_onClicked(bool checked);
-    Q_INVOKABLE void bUmount1_onClicked();
 
     Q_INVOKABLE void tfName2_onEditingFinished(QString text);
     Q_INVOKABLE void tfPath2_onEditingFinished(QString text);
@@ -174,7 +172,6 @@ public:
     Q_INVOKABLE void chbWritable2_onClicked(bool checked);
     Q_INVOKABLE void chbGuestOk2_onClicked(bool checked);
     Q_INVOKABLE void chbReadOnly2_onClicked(bool checked);
-    Q_INVOKABLE void bUmount2_onClicked();
 
     Q_INVOKABLE void tfName3_onEditingFinished(QString text);
     Q_INVOKABLE void tfPath3_onEditingFinished(QString text);
@@ -184,7 +181,6 @@ public:
     Q_INVOKABLE void chbWritable3_onClicked(bool checked);
     Q_INVOKABLE void chbGuestOk3_onClicked(bool checked);
     Q_INVOKABLE void chbReadOnly3_onClicked(bool checked);
-    Q_INVOKABLE void bUmount3_onClicked();
 
     Q_INVOKABLE void openFile();
     Q_INVOKABLE void checkingIfDisksAreMounted();
@@ -193,11 +189,14 @@ private:
     EditSambaConfigFile editFile;
     std::vector<SambaConfigsName> vConfigs;
     ConfigName configName;
-    bool externalDisk1IsMounted;
-    bool externalDisk2IsMounted;
-    bool externalDisk3IsMounted;
+    QString deviceName1="";
+    QString deviceName2="";
+    QString deviceName3="";
+    bool externalDisk1IsMounted=false;
+    bool externalDisk2IsMounted=false;
+    bool externalDisk3IsMounted=false;
 
-    void removeConfig(QString const configName);
+    //void removeConfig(QString const configName);
     unsigned int indexOfExternalDiskConfiguration(QString diskName);
     void setCheckboxesFromFileSettings(QString configsParameters, QObject* checkbox);
     void setSettingFromCheckboxes(unsigned long row, QString configName, bool configsParameters);

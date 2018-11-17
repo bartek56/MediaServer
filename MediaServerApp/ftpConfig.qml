@@ -21,6 +21,8 @@ Dialog
     {
         id: ftpConfig
     }
+
+
     BusyIndicator
     {
         id: busyIndication

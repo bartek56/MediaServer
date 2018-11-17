@@ -2,8 +2,10 @@ import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.0
 import QtQuick.VirtualKeyboard 2.1
 import SambaConfigLib 1.0
+
 
 Dialog
 {
@@ -14,7 +16,6 @@ Dialog
     topMargin: 40
     margins: 0
     padding: 1
-    modal: true
 
     BusyIndicator
     {
@@ -25,6 +26,21 @@ Dialog
     SambaConfig
     {
         id: sambaConfig
+    }
+
+    FileDialog {
+        id: fileDialog
+        folder: shortcuts.home
+        selectFolder: true
+        onAccepted:
+        {
+            sambaConfig.bFileDialog_onAccepted(fileDialog.folder)
+            sambaConfigDialog.visible=true
+        }
+        onRejected:
+        {
+            sambaConfigDialog.visible=true
+        }
     }
 
     TabBar {
@@ -38,17 +54,17 @@ Dialog
         }
         TabButton {
             id: externalDisk1TabButton
-            text: qsTr("External Disk 1")
+            text: qsTr("Disk 1")
             visible: false
         }
         TabButton {
             id: externalDisk2TabButton
-            text: qsTr("External Disk 2")
+            text: qsTr("Disk 2")
             visible: false
         }
         TabButton {
             id: externalDisk3TabButton
-            text: qsTr("External Disk 3")
+            text: qsTr("Disk 3")
             visible: false
         }
     }
@@ -238,7 +254,7 @@ Dialog
                 width: 348
                 height: 280
                 rows: 4
-                columns: 2
+                columns: 3
 
                 Text {
                     id: nameText
@@ -254,6 +270,7 @@ Dialog
                     id: nameTextField
                     width: 80
                     height: 20
+                    Layout.columnSpan: 2
                     font.pixelSize: 18
                     onEditingFinished:
                     {
@@ -271,13 +288,23 @@ Dialog
                 TextField
                 {
                     id: pathTextField
+                    readOnly: true
                     width: 80
                     height: 20
                     Layout.preferredWidth: nameTextField.width
                     font.pixelSize: nameTextField.font.pixelSize
-                    onEditingFinished:
+                }
+
+                Button {
+                    id: bOpenCatalog
+                    width: 87
+                    text: "Open"
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.preferredWidth: 60
+                    onClicked:
                     {
-                        sambaConfig.tfPath_onEditingFinished(nameTextField.getText(0,nameTextField.length));
+                        fileDialog.open()
+                        sambaConfigDialog.visible=false
                     }
                 }
 
@@ -295,6 +322,7 @@ Dialog
                     id: createModeTextField
                     width: 80
                     height: 20
+                    Layout.columnSpan: 2
                     Layout.preferredWidth: nameTextField.width
                     font.pixelSize: nameTextField.font.pixelSize
                     onEditingFinished:
@@ -317,6 +345,7 @@ Dialog
                     id: directoryModeTextField
                     width: 80
                     height: 20
+                    Layout.columnSpan: 2
                     Layout.preferredWidth: nameTextField.width
                     font.pixelSize: nameTextField.font.pixelSize
                     onEditingFinished:
@@ -505,17 +534,7 @@ Dialog
                     }
                 }
 
-                Button {
-                    id: umount1Button
-                    text: qsTr("umount")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    highlighted: true
-                    onClicked:
-                    {
-                        sambaConfig.bUmount1_onClicked();
-                    }
-                }
-                rows: 5
+                rows: 4
             }
         }
         Item {
@@ -616,7 +635,7 @@ Dialog
                 width: 192
                 height: 292
                 columns: 1
-                rows: 5
+                rows: 4
                 CheckBox {
                     id: browseable2CheckBox
                     text: qsTr("Browseable")
@@ -650,17 +669,6 @@ Dialog
                     onClicked:
                     {
                         sambaConfig.chbReadOnly2_onClicked(readOnly2CheckBox.checked);
-                    }
-                }
-
-                Button {
-                    id: bUmount2
-                    text: qsTr("umount")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    highlighted: true
-                    onClicked:
-                    {
-                        sambaConfig.bUmount2_onClicked();
                     }
                 }
             }
@@ -797,17 +805,7 @@ Dialog
                         sambaConfig.chbReadOnly3_onClicked(readOnly3CheckBox.checked);
                     }
                 }
-                Button {
-                    id: bUmount3
-                    text: qsTr("umount")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    highlighted: true
-                    onClicked:
-                    {
-                        sambaConfig.bUmount3_onClicked();
-                    }
-                }
-                rows: 5
+                rows: 4
             }
         }
     }

@@ -5,7 +5,7 @@
 #include <utility>
 #include <QDebug>
 
-std::vector<SambaConfigsName> EditSambaConfigFile::OpenFile(QString fileLocation)
+std::vector<SambaConfigsName> EditSambaConfigFile::OpenFile(const QString &fileLocation)
 {
     QFile file (fileLocation);
     std::vector<SambaConfigsName> vConfigsName;
