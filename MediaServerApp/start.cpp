@@ -8,6 +8,7 @@
 #include "ViewModel/ftpconfig.h"
 #include "ViewModel/settings.h"
 #include "ViewModel/dlnaconfig.h"
+#include <QX11Info>
 
 QQuickView *MainWindow::mainView;
 
@@ -25,8 +26,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfig");
     qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");
     qmlRegisterType<Settings>("SettingsLib", 1, 0, "Settings");
-
-
     qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
 
 
