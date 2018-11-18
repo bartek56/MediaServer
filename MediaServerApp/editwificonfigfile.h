@@ -8,7 +8,7 @@
 
 struct WifiConfigsName {
     std::map<QString, QString> configs;
-    WifiConfigsName(std::map<QString, QString> const &configs)
+    WifiConfigsName(const std::map<QString, QString>  &configs)
     : configs(configs) {
     }
 };

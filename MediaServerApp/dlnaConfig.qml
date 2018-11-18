@@ -14,16 +14,62 @@ Dialog
     topMargin: 40
     margins: 0
     padding: 1
-    modal: true
 
     DlnaConfig
     {
         id: dlnaConfig
     }
 
+    FileDialog {
+        id: videoFileDialog
+        folder: shortcuts.home
+        //folder: shortcuts.mnt
+        selectFolder: true
+        onAccepted:
+        {
+            dlnaConfig.bVideoFileDialog_onAccepted(videoFileDialog.folder,videoPathEditText)
+            dlnaConfigDialog.visible=true
+        }
+        onRejected:
+        {
+            dlnaConfigDialog.visible=true
+        }
+    }
+
+    FileDialog {
+        id: audioFileDialog
+        folder: shortcuts.home
+        //folder: shortcuts.mnt
+        selectFolder: true
+        onAccepted:
+        {
+            dlnaConfig.bAudioFileDialog_onAccepted(audioFileDialog.folder,audioPathEditText)
+            dlnaConfigDialog.visible=true
+        }
+        onRejected:
+        {
+            dlnaConfigDialog.visible=true
+        }
+    }
+
+    FileDialog {
+        id: picturesFileDialog
+        folder: shortcuts.home
+        //folder: shortcuts.mnt
+        selectFolder: true
+        onAccepted:
+        {
+            dlnaConfig.bPicturesFileDialog_onAccepted(picturesFileDialog.folder,picturePathEditText)
+            dlnaConfigDialog.visible=true
+        }
+        onRejected:
+        {
+            dlnaConfigDialog.visible=true
+        }
+    }
+
     RowLayout {
         spacing: 80
-
         anchors.rightMargin: 20
         anchors.leftMargin: 20
         anchors.topMargin: 20
@@ -73,6 +119,11 @@ Dialog
                     font.pointSize: 11
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     Layout.preferredWidth: 60
+                    onClicked:
+                    {
+                        audioFileDialog.open()
+                        dlnaConfigDialog.visible=false
+                    }
                 }
 
                 Text {
@@ -94,6 +145,11 @@ Dialog
                     font.pointSize: 11
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     Layout.preferredWidth: 60
+                    onClicked:
+                    {
+                        videoFileDialog.open()
+                        dlnaConfigDialog.visible=false
+                    }
                 }
 
                 Text {
@@ -115,13 +171,12 @@ Dialog
                     font.pointSize: 11
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     Layout.preferredWidth: 60
+                    onClicked:
+                    {
+                        picturesFileDialog.open()
+                        dlnaConfigDialog.visible=false
+                    }
                 }
-
-
-
-
-
-
 
             }
         }
@@ -149,6 +204,10 @@ Dialog
                     Layout.preferredWidth: 60
                     font.pixelSize: 16
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    onEditingFinished:
+                    {
+                        dlnaConfig.tfPort_onEditingFinished(portEditText.text);
+                    }
                 }
 
                 Text {
@@ -163,6 +222,10 @@ Dialog
                     horizontalAlignment: Text.AlignHCenter
                     Layout.preferredWidth: 150
                     font.pixelSize: 16
+                    onEditingFinished:
+                    {
+                        dlnaConfig.tfName_onEditingFinished(nameEditText.text);
+                    }
                 }
                 Layout.alignment: Qt.AlignLeft | Qt.AlignTop
                 anchors.top: parent.top
@@ -190,7 +253,7 @@ Dialog
                 text: "Save"
                 onClicked:
                 {
-
+                    dlnaConfig.saveConfigs();
                 }
             }
 
@@ -208,6 +271,49 @@ Dialog
         }
     }
 
+    InputPanel
+    {
+        id: inputPanel
+        z: 99
+        x: 0
+        y: dlnaConfigDialog.height
+        width: dlnaConfigDialog.width
+
+        states: State
+        {
+            name: "visible"
+            when: inputPanel.active
+            PropertyChanges
+            {
+                target: inputPanel
+                y: dlnaConfigDialog.height - inputPanel.height
+            }
+        }
+
+        transitions: Transition
+        {
+            from: ""
+            to: "visible"
+            reversible: true
+            ParallelAnimation
+            {
+                NumberAnimation
+                {
+                    properties: "y"
+                    duration: 250
+                    easing.type: Easing.InOutQuad
+                }
+            }
+        }
+    }
+
+    Component.onCompleted:
+    {
+        dlnaConfig.openConfigFile();
+        dlnaConfig.loadMediaDirectoryConfigs(videoPathEditText,audioPathEditText,picturePathEditText);
+        dlnaConfig.loadSettigs(portEditText,nameEditText);
+        //busyIndication.running = false
+    }
 
 }
 

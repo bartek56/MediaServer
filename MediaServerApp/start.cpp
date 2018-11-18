@@ -8,7 +8,6 @@
 #include "ViewModel/ftpconfig.h"
 #include "ViewModel/settings.h"
 #include "ViewModel/dlnaconfig.h"
-#include <QX11Info>
 
 QQuickView *MainWindow::mainView;
 

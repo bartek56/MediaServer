@@ -181,7 +181,6 @@ Dialog
                         ftpConfig.bUpdateUser_onClick(userComboBox.currentText,catalogTextField1.text);
                     }
                 }
-
             }
         }
 
@@ -276,8 +275,6 @@ Dialog
                         catalogTextField2.text=""
                     }
                 }
-
-
             }
         }
     }
@@ -317,7 +314,6 @@ Dialog
             }
         }
     }
-
 
     Component.onCompleted:
     {

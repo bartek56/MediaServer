@@ -132,7 +132,6 @@ void ManagementOfExternalDevices::DisableAutomount(const QString &deviceName)
         for (auto it = std::begin(vUsers); it!=std::end(vUsers); ++it)
         {
             out << *it;
-
         }
     }
 }
