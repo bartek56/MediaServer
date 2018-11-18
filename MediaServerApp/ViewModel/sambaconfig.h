@@ -182,7 +182,7 @@ public:
     Q_INVOKABLE void chbGuestOk3_onClicked(bool checked);
     Q_INVOKABLE void chbReadOnly3_onClicked(bool checked);
 
-    Q_INVOKABLE void openFile();
+    Q_INVOKABLE void loadAllConfigs();
     Q_INVOKABLE void checkingIfDisksAreMounted();
 
 private:
@@ -192,6 +192,9 @@ private:
     QString deviceName1="";
     QString deviceName2="";
     QString deviceName3="";
+    QString deviceMountpoint1="";
+    QString deviceMountpoint2="";
+    QString deviceMountpoint3="";
     bool externalDisk1IsMounted=false;
     bool externalDisk2IsMounted=false;
     bool externalDisk3IsMounted=false;
@@ -200,11 +203,18 @@ private:
     unsigned int indexOfExternalDiskConfiguration(QString diskName);
     void setCheckboxesFromFileSettings(QString configsParameters, QObject* checkbox);
     void setSettingFromCheckboxes(unsigned long row, QString configName, bool configsParameters);
-    void loadGlobalConfigs();
-    void loadLocalConfigs();
-    void loadExternalDisk1Configs();
-    void loadExternalDisk2Configs();
-    void loadExternalDisk3Configs();
+    void showGlobalConfigs();
+    void showLocalConfigs();
+    void saveDefaultConfigsForExternalDisk1();
+    void saveDefaultConfigsForExternalDisk2();
+    void saveDefaultConfigsForExternalDisk3();
+    void showConfigsForExternalDisk1();
+    void showConfigsForExternalDisk2();
+    void showConfigsForExternalDisk3();
+
+    void loadConfigsExternalDisk1();
+    void loadConfigsExternalDisk2();
+    void loadConfigsExternalDisk3();
 
 
 public slots:

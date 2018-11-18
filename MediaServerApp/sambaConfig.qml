@@ -959,7 +959,7 @@ Dialog
         sambaConfig.setExternalDiskTabButton3(externalDisk3TabButton);
 
         sambaConfig.checkingIfDisksAreMounted();
-        sambaConfig.openFile();
+        sambaConfig.loadAllConfigs();
 
         busyIndication.running = false
     }
