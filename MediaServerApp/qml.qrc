@@ -6,5 +6,6 @@
         <file>ftpConfig.qml</file>
         <file>settings.qml</file>
         <file>dlnaConfig.qml</file>
+        <file>mpdConfig.qml</file>
     </qresource>
 </RCC>

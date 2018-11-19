@@ -29,7 +29,7 @@ Rectangle{
     GridLayout {
         id: gridLayout
         rows: 3
-        columns: 3
+        columns: 4
         anchors.fill: parent
 
         ToolButton {
@@ -74,10 +74,14 @@ Rectangle{
         }
 
         ToolButton {
-            text: qsTr("Tool Button")
+            text: qsTr("Music Player Daemon")
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.preferredHeight: 80
             Layout.preferredWidth: 160
+            onClicked:
+            {
+                loaderConfigWindow.setSource("mpdConfig.qml")
+            }
         }
 
         ToolButton {

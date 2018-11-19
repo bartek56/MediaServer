@@ -32,7 +32,9 @@ SOURCES += \
     ViewModel/settingsWifi.cpp \
     ViewModel/settingsexternaldevices.cpp \
     managementofexternaldevices.cpp \
-    editdlnaconfigfile.cpp
+    editdlnaconfigfile.cpp \
+    ViewModel/mpdconfig.cpp \
+    editmpdconfigfile.cpp
 
 RESOURCES += qml.qrc
 
@@ -59,7 +61,9 @@ HEADERS += \
     editwificonfigfile.h \
     ViewModel/dlnaconfig.h \
     managementofexternaldevices.h \
-    editdlnaconfigfile.h
+    editdlnaconfigfile.h \
+    ViewModel/mpdconfig.h \
+    editmpdconfigfile.h
 
 FORMS +=
 

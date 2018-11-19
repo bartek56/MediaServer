@@ -8,6 +8,7 @@
 #include "ViewModel/ftpconfig.h"
 #include "ViewModel/settings.h"
 #include "ViewModel/dlnaconfig.h"
+#include "ViewModel/mpdconfig.h"
 
 QQuickView *MainWindow::mainView;
 
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
     if (view->status() == QQuickView::Error)
         return -1;
 
+    qmlRegisterType<MpdConfig>("MpdConfigLib", 1, 0, "MpdConfig");
     qmlRegisterType<DlnaConfig>("DlnaConfigLib", 1, 0, "DlnaConfig");
     qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfig");
     qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");

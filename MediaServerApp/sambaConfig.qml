@@ -16,6 +16,7 @@ Dialog
     topMargin: 40
     margins: 0
     padding: 1
+    modal: true
 
     BusyIndicator
     {

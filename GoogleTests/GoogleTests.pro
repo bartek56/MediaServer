@@ -11,6 +11,7 @@ DEFINES += PATH_TO_TEST_FILES=\\\"$$PWD\\\"
 HEADERS += \
     ../MediaServerApp/editsambaconfigfile.h \
     ../MediaServerApp/editdlnaconfigfile.h \
+    ../MediaServerApp/editmpdconfigfile.h \
     ../MediaServerApp/editftpconfigfile.h
 
 SOURCES += \
@@ -19,7 +20,9 @@ SOURCES += \
     ../MediaServerApp/editftpconfigfile.cpp \
     ../MediaServerApp/editwificonfigfile.cpp \
     ../MediaServerApp/editdlnaconfigfile.cpp \
+    ../MediaServerApp/editmpdconfigfile.cpp \
     editsambafiletest.cpp \
     editftpfiletest.cpp \
     editwififiletest.cpp \
-    editdlnafiletest.cpp
+    editdlnafiletest.cpp \
+    editmpdfiletest.cpp
