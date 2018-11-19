@@ -85,6 +85,17 @@ Rectangle{
         }
 
         ToolButton {
+            text: qsTr("Music")
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.preferredHeight: 80
+            Layout.preferredWidth: 160
+            onClicked:
+            {
+                mainWindow.startMusicApplication()
+            }
+        }
+
+        ToolButton {
             text: qsTr("Pictures")
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.preferredHeight: 80
@@ -92,6 +103,18 @@ Rectangle{
             onClicked:
             {
                 mainWindow.startPicturesApplication()
+            }
+        }
+
+
+        ToolButton {
+            text: qsTr("Video")
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.preferredHeight: 80
+            Layout.preferredWidth: 160
+            onClicked:
+            {
+
             }
         }
 

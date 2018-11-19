@@ -14,11 +14,13 @@ public:
     }
     explicit MainWindow(QObject *parent = nullptr);
     Q_INVOKABLE void startPicturesApplication();
+    Q_INVOKABLE void startMusicApplication();
+    Q_INVOKABLE void startVideoApplication();
 
 public slots:
 
 private:
-
+    void startApplication(QString commend);
 };
 
 #endif // MAINWINDOW_H
