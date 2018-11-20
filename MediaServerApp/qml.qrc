@@ -7,5 +7,13 @@
         <file>settings.qml</file>
         <file>dlnaConfig.qml</file>
         <file>mpdConfig.qml</file>
+        <file>icons/gmpc.svg</file>
+        <file>icons/gqview.png</file>
+        <file>icons/mplayer.png</file>
+        <file>icons/samba.png</file>
+        <file>icons/ftp.png</file>
+        <file>icons/dlna.png</file>
+        <file>icons/mpd.png</file>
+        <file>icons/settings.png</file>
     </qresource>
 </RCC>

@@ -11,13 +11,13 @@ void MainWindow::startPicturesApplication()
 {
 
     QString commend="xinit /usr/bin/gqview";
-    startApplication(commend);
+    //startApplication(commend);
 }
 
 void MainWindow::startMusicApplication()
 {
     QString commend="xinit /usr/bin/gmpc";
-    startApplication(commend);
+    //startApplication(commend);
 }
 
 void MainWindow::startVideoApplication()
