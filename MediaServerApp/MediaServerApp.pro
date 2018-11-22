@@ -34,7 +34,8 @@ SOURCES += \
     managementofexternaldevices.cpp \
     editdlnaconfigfile.cpp \
     ViewModel/mpdconfig.cpp \
-    editmpdconfigfile.cpp
+    editmpdconfigfile.cpp \
+    ViewModel/settingsscreensaver.cpp
 
 RESOURCES += qml.qrc
 

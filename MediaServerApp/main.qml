@@ -1,6 +1,5 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.1
-//import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 import MainWindowLib 1.0
 
@@ -12,7 +11,26 @@ Rectangle{
     width: 800
     height: 480
 
+    Timer
+    {
+        id: screenSaverTimer
+        interval: 5000 //5sec
+        running: true
+        onTriggered:
+        {
+            //mainWindow.startScreensaver()
+        }
+    }
+
+    MouseArea
+    {
+        anchors.fill: parent
+     // Pass mouse events through
+        propagateComposedEvents: true
+        onClicked: { screenSaverTimer.restart(); mouse.accepted = false }
+    }
     Loader {
+        anchors.topMargin: 0
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.top: parent.top
@@ -122,33 +140,36 @@ Rectangle{
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 120
                 Layout.preferredWidth: 200
-                onClicked:
-                {
 
-                }
                 Image {
-                    id: mplayerImage
+                    id: webBrowserImage
                     x: 37
                     y: 0
-                    width: 116
+                    width: 102
                     height: 97
+                    anchors.horizontalCenterOffset: 0
                     anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.Stretch
-                    source: "icons/mplayer.png"
+                    source: "icons/browser.png"
                 }
                 Text {
-                    id: mplayerText
+                    id: webBrowserText
                     x: 81
                     y: 94
                     width: 50
                     height: 26
-                    text: qsTr("Video")
+                    text: qsTr("Web Browser")
                     font.letterSpacing: 1
                     anchors.horizontalCenter: parent.horizontalCenter
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     font.pointSize: 17
                 }
+                onClicked:
+                {
+                    mainWindow.startWebBrowser()
+                }
+
             }
         }
 
@@ -317,8 +338,8 @@ Rectangle{
                     id: settingsImage
                     x: 37
                     y: 0
-                    width: 74
-                    height: 68
+                    width: 68
+                    height: 63
                     anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.Stretch
                     source: "icons/settings.png"

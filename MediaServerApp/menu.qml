@@ -11,7 +11,9 @@ ToolBar
         id: gridLayout
         height: 20
         anchors.right: parent.right
+        anchors.rightMargin: 15
         anchors.left: parent.left
+        anchors.leftMargin: 15
         anchors.top: parent.top
         rows: 1
         columns: 3
@@ -19,6 +21,7 @@ ToolBar
         Text
         {
             id: tDate
+            verticalAlignment: Text.AlignVCenter
             font
             {
                 family: "Comic Sans MS"
@@ -28,6 +31,8 @@ ToolBar
         Text
         {
             id: tClock
+            font.wordSpacing: 0
+            verticalAlignment: Text.AlignVCenter
             anchors.right:parent.right
             font
             {

@@ -38,6 +38,10 @@ Dialog
         TabButton {
             text: qsTr("External Devices")
         }
+        TabButton {
+            text: qsTr("Screen Saver")
+        }
+
     }
 
     StackLayout
@@ -308,6 +312,54 @@ Dialog
                             settings.bMount_onClicked(mountPointText.text, nameDeviceText.text, devicesComboBox.currentText,automountCheckBox.checked)
                             settings.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText)
                             setText()
+                        }
+                    }
+
+                }
+
+                GridLayout {
+                    width: 100
+                    height: 100
+                }
+            }
+        }
+
+        Item
+        {
+            id: screensaverSettingsTag
+
+            RowLayout {
+
+                anchors.rightMargin: 20
+                anchors.leftMargin: 20
+                anchors.topMargin: 60
+                anchors.bottomMargin: -374
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.top: parent.top
+
+                GridLayout {
+                    width: 100
+                    height: 100
+                    rows: 7
+                    Layout.preferredWidth: 300
+                    columns: 2
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+
+
+                    Button
+                    {
+                        id:screenSaverButton
+                        width: 160
+                        height: 40
+                        text: "start"
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+                        Layout.columnSpan: 2
+                        onClicked:
+                        {
+                            settings.bScreenSaver_onClicked()
+
                         }
                     }
 
