@@ -171,6 +171,7 @@ Rectangle{
                 }
 
             }
+
         }
 
         RowLayout {
@@ -188,8 +189,8 @@ Rectangle{
                 //autoExclusive: true
                 //font.wordSpacing: 1
                 //font.letterSpacing: 1
-                Layout.preferredHeight: 100
-                Layout.preferredWidth: 140
+                Layout.preferredHeight: 80
+                Layout.preferredWidth: 110
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Image {
                     id: sambaImage
@@ -226,8 +227,8 @@ Rectangle{
                 font.wordSpacing: 1
                 font.letterSpacing: 1
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                Layout.preferredHeight: 100
-                Layout.preferredWidth: 140
+                Layout.preferredHeight: 80
+                Layout.preferredWidth: 110
                 leftPadding: 6
                 Image {
                     id: ftpImage
@@ -264,8 +265,8 @@ Rectangle{
                 font.wordSpacing: 1
                 font.letterSpacing: 1
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                Layout.preferredHeight: 100
-                Layout.preferredWidth: 140
+                Layout.preferredHeight: 80
+                Layout.preferredWidth: 110
                 Image {
                     id: dlnaImage
                     x: 37
@@ -298,8 +299,8 @@ Rectangle{
 
             ToolButton {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                Layout.preferredHeight: 100
-                Layout.preferredWidth: 140
+                Layout.preferredHeight: 80
+                Layout.preferredWidth: 110
                 Image {
                     id: mpdImage
                     x: 37
@@ -332,8 +333,45 @@ Rectangle{
 
             ToolButton {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                Layout.preferredHeight: 100
-                Layout.preferredWidth: 140
+                Layout.preferredHeight: 80
+                Layout.preferredWidth: 110
+
+                Image {
+                    id: fileBrowserImage
+                    x: 37
+                    y: 0
+                    width: 68
+                    height: 67
+                    anchors.horizontalCenterOffset: 0
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    fillMode: Image.Stretch
+                    source: "icons/pcmanfm.png"
+                }
+                Text {
+                    id: fileBrowserText
+                    x: 81
+                    y: 73
+                    width: 50
+                    height: 26
+                    text: qsTr("Browser")
+                    anchors.horizontalCenterOffset: 0
+                    font.letterSpacing: 1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pointSize: 15
+                }
+                onClicked:
+                {
+                    mainWindow.startBrowser()
+                }
+
+            }
+
+            ToolButton {
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                Layout.preferredHeight: 80
+                Layout.preferredWidth: 110
                 Image {
                     id: settingsImage
                     x: 37
@@ -369,6 +407,6 @@ Rectangle{
 }
 
 /*##^## Designer {
-    D{i:14;anchors_height:100;anchors_width:100}D{i:15;anchors_height:100;anchors_width:100}
+    D{i:15;anchors_height:100;anchors_width:100}D{i:14;anchors_height:100;anchors_width:100}
 }
  ##^##*/

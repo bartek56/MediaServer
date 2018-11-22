@@ -47,6 +47,12 @@ void MainWindow::startWebBrowser()
     MainWindow::mainView->destroy();
 }
 
+void MainWindow::startBrowser()
+{
+    QString commend="xinit /usr/bin/pcmanfm";
+    startApplication(commend);
+}
+
 void MainWindow::startScreensaver()
 {
 

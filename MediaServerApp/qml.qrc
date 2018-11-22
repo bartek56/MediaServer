@@ -16,5 +16,6 @@
         <file>icons/mpd.png</file>
         <file>icons/settings.png</file>
         <file>icons/browser.png</file>
+        <file>icons/pcmanfm.png</file>
     </qresource>
 </RCC>
