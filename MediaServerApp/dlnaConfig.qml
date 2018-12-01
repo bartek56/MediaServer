@@ -110,6 +110,7 @@ Dialog
                 TextField {
                     id: audioPathEditText
                     text: qsTr("/home/ftp")
+                    readOnly: true
                     font.pixelSize: 16
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                 }
@@ -136,6 +137,7 @@ Dialog
                 TextField {
                     id: videoPathEditText
                     text: qsTr("/home/ftp")
+                    readOnly: true
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     font.pixelSize: 16
                 }
@@ -163,6 +165,7 @@ Dialog
                     id: picturePathEditText
                     text: qsTr("/home/ftp")
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    readOnly: true
                     font.pixelSize: 16
                 }
 

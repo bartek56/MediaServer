@@ -23,13 +23,15 @@ public:
     Q_INVOKABLE void loadExternalDevices(QObject *obj);
     Q_INVOKABLE void cbDevices_onDisplayTextChanged(QString deviceName, QObject *deviceSizeText, QObject *nameDeviceText,QObject *mountPointText);
     Q_INVOKABLE void bMount_onClicked(const QString mountpoint,const QString deviceName, const QString deviceLabel, const bool automount);
-    Q_INVOKABLE void bScreenSaver_onClicked();
+    Q_INVOKABLE void bSaveScreenSaver_onClicked(const QString folderpath, const QString timeout);
+    Q_INVOKABLE void bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath);
 
 signals:
 
 public slots:
 
 private:
+    void SaveScreenSaveConfiguration(const QString &commend, const QString &fileLocation);
     EditWifiConfigFile editWifiConfigFile;
     ManagementOfExternalDevices managementExternalDevices;
     std::vector<WifiConfigsName> vWifiConfigs;

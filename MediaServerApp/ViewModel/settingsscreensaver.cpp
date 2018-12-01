@@ -1,18 +1,58 @@
 #include "settings.h"
 #include "mainwindow.h"
 
-void Settings::bScreenSaver_onClicked()
+void Settings::bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath)
 {
-    QString commend="startx";
-    qint64 pid;
-    QProcess appProcess;
-    appProcess.startDetached("sh", QStringList() << "-c" << commend,QProcess::nullDevice(),&pid);
-    QString strPid = QString::number(pid);
+    QString path = folderPath.remove(0,7);
+    tfScreenSavrFolderPath->setProperty("text",QVariant(path));
+}
 
-    QString commend2 = "/opt/startScreensaver.sh "+strPid;
-    qint64 pid2;
-    QProcess appProcess2;
-    appProcess2.startDetached("sh", QStringList() << "-c" << commend2,QProcess::nullDevice(),&pid2);
+void Settings::bSaveScreenSaver_onClicked(const QString folderpath, const QString timeout)
+{
+    QString commend="DISPLAY=:0 feh -F -D" + timeout + " -x -S filename " + folderpath + " &\n" ;
+    SaveScreenSaveConfiguration(commend,"/opt/startScreensaver.sh");
 
-    MainWindow::mainView->destroy();
+}
+
+void Settings::SaveScreenSaveConfiguration(const QString &commend, const QString &fileLocation)
+{
+    QFile fileToRead(fileLocation);
+    QStringList fileString;
+    if (fileToRead.open(QIODevice::ReadOnly))
+    {
+        QTextStream stream(&fileToRead);
+
+        while (!fileToRead.atEnd())
+        {
+            QByteArray line = fileToRead.readLine();
+            std::string strLine(line);
+
+            if(!line.contains("DISPLAY"))
+            {
+                fileString.push_back(line);
+            }
+            else
+            {
+                fileString.push_back(commend);
+            }
+        }
+    }
+
+
+    fileToRead.close();
+
+    QFile fileToWrite(fileLocation);
+
+    if (fileToWrite.open(QIODevice::WriteOnly))
+    {
+        QTextStream stream(&fileToWrite);
+
+        for(auto it :fileString)
+        {
+            stream << it;
+        }
+    }
+
+    fileToWrite.close();
+
 }

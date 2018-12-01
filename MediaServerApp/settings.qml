@@ -16,6 +16,7 @@ Dialog
     padding: 1
     modal: true
 
+
     Settings
     {
         id: settings
@@ -24,6 +25,23 @@ Dialog
     {
         id: busyIndication
         anchors.centerIn: parent
+
+    }
+
+    FileDialog {
+        id: screenSaverFileDialog
+        folder: shortcuts.home
+        //folder: shortcuts.mnt
+        selectFolder: true
+        onAccepted:
+        {
+            settings.bScreenSaverFileDialog_onAccepted(screenSaverFileDialog.folder, catalogTextField)
+            settingsDialog.visible=true
+        }
+        onRejected:
+        {
+            settingsDialog.visible=true
+        }
     }
 
     TabBar
@@ -314,7 +332,6 @@ Dialog
                             setText()
                         }
                     }
-
                 }
 
                 GridLayout {
@@ -342,32 +359,71 @@ Dialog
                 GridLayout {
                     width: 100
                     height: 100
-                    rows: 7
+                    rowSpacing: 30
+                    rows: 4
                     Layout.preferredWidth: 300
-                    columns: 2
+                    columns: 3
                     Layout.alignment: Qt.AlignLeft | Qt.AlignTop
 
-
-                    Button
-                    {
-                        id:screenSaverButton
-                        width: 160
-                        height: 40
-                        text: "start"
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                        Layout.columnSpan: 2
-                        onClicked:
-                        {
-                            settings.bScreenSaver_onClicked()
-
-                        }
+                    Text {
+                        text: qsTr("Timeout [s]")
+                        font.pixelSize: 16
                     }
 
+                    SpinBox {
+                        id: timeOutSpinBox
+                        width: 138
+                        value: 3
+                        to: 10
+                        Layout.columnSpan: 2
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        font.pointSize: 11
+                    }
+
+                    Text {
+                        text: qsTr("Catalog")
+                        font.pixelSize: 16
+                    }
+
+                    TextField {
+                        id: catalogTextField
+                        text: qsTr("/home/pictures/")
+                        readOnly: true
+                        Layout.preferredWidth: 190
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    }
+
+                    Button {
+                        id: button
+                        text: qsTr("Open")
+                        Layout.preferredWidth: 60
+                        onClicked:
+                        {
+                            screenSaverFileDialog.open()
+                            settingsDialog.visible=false
+                        }
+                    }
                 }
 
                 GridLayout {
                     width: 100
                     height: 100
+                }
+            }
+
+            Button
+            {
+                id:saveScreenSaverButton
+                x: 559
+                y: 380
+                width: 100
+                height: 40
+                text: "save"
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+                Layout.columnSpan: 2
+                onClicked:
+                {
+                    settings.bSaveScreenSaver_onClicked(catalogTextField.text,timeOutSpinBox.textFromValue(timeOutSpinBox.value, timeOutSpinBox.locale))
                 }
             }
         }
@@ -428,7 +484,6 @@ Dialog
         }
     }
 
-
     Component.onCompleted:
     {
         settings.checkWifi(wifiOnSwitch)
@@ -439,8 +494,3 @@ Dialog
     }
 }
 
-
-/*##^## Designer {
-    D{i:21;anchors_y:376}
-}
- ##^##*/

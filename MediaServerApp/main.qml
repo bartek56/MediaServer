@@ -14,11 +14,11 @@ Rectangle{
     Timer
     {
         id: screenSaverTimer
-        interval: 5000 //5sec
+        interval: 45000 //45sec
         running: true
         onTriggered:
         {
-            //mainWindow.startScreensaver()
+            mainWindow.startScreensaver()
         }
     }
 
@@ -365,7 +365,6 @@ Rectangle{
                 {
                     mainWindow.startBrowser()
                 }
-
             }
 
             ToolButton {
