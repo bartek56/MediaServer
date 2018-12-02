@@ -16,7 +16,8 @@ class Settings : public QObject
 public:
     explicit Settings(QObject *parent = nullptr);
     Q_INVOKABLE void searchNetworks(QObject* obj);
-    Q_INVOKABLE void updateStatus(QObject* obj);
+    Q_INVOKABLE void updateWifiStatus(QObject* obj);
+    Q_INVOKABLE void updateNetworkStatus(QObject* obj);
     Q_INVOKABLE void connect(const QString networkName, const QString password);
     Q_INVOKABLE void loadWifiConfigFile();
     Q_INVOKABLE void cbNetworks_onDisplayTextChanged(QString networkName, QObject *obj);

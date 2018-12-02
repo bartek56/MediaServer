@@ -12,6 +12,7 @@ HEADERS += \
     ../MediaServerApp/editsambaconfigfile.h \
     ../MediaServerApp/editdlnaconfigfile.h \
     ../MediaServerApp/editmpdconfigfile.h \
+    ../MediaServerApp/editscreensaverconfigfile.h \
     ../MediaServerApp/editftpconfigfile.h
 
 SOURCES += \
@@ -21,8 +22,10 @@ SOURCES += \
     ../MediaServerApp/editwificonfigfile.cpp \
     ../MediaServerApp/editdlnaconfigfile.cpp \
     ../MediaServerApp/editmpdconfigfile.cpp \
+    ../MediaServerApp/editscreensaverconfigfile.cpp \
     editsambafiletest.cpp \
     editftpfiletest.cpp \
     editwififiletest.cpp \
     editdlnafiletest.cpp \
-    editmpdfiletest.cpp
+    editmpdfiletest.cpp \
+    editscreensavefiletest.cpp

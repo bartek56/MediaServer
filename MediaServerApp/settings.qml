@@ -52,6 +52,9 @@ Dialog
         id: tabBar
         width: parent.width
 
+        TabButton {
+            text: qsTr("Status")
+        }
 
         TabButton {
             text: qsTr("Wi-fi")
@@ -74,10 +77,65 @@ Dialog
 
         Item
         {
+            id: statusTag
+
+            GridLayout {
+                x: 38
+                y: 51
+                width: 352
+                height: 313
+                rows: 5
+                columns: 2
+
+            }
+
+            GridLayout {
+                x: 414
+                y: 51
+                width: 352
+                height: 313
+                rows: 2
+                columns: 1
+
+                Text {
+                    text: qsTr("Network Status")
+                    font.letterSpacing: 4
+                    lineHeight: 1
+                    horizontalAlignment: Text.AlignHCenter
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    font.pixelSize: 21
+                }
+
+                Text {
+                    id: networkInfoText
+                    Layout.preferredHeight: 210
+                    Layout.preferredWidth: 370
+                    wrapMode: Text.WordWrap
+                    font.family: "Tahoma"
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    horizontalAlignment: Text.AlignLeft
+                    font.pixelSize: 12
+                    function set() {
+                        settings.updateNetworkStatus(networkInfoText)
+                    }
+                }
+
+                Timer {
+                    id: timerNetworkStatus
+                    interval: 2000
+                    repeat: true
+                    running: true
+                    triggeredOnStart: true
+                    onTriggered: networkInfoText.set()
+                }
+            }
+        }
+
+        Item
+        {
             id: wifiSettingsTag
 
             GridLayout {
-                id: gridLayout
                 x: 38
                 y: 51
                 width: 352
@@ -102,12 +160,12 @@ Dialog
                     Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
                     onDisplayTextChanged:
                     {
-                        settings.cbNetworks_onDisplayTextChanged(networksComboBox.currentText,networkInfoText);
+                        settings.cbNetworks_onDisplayTextChanged(networksComboBox.currentText,wifiInfoText);
                     }
                 }
 
                 Text {
-                    id: networkInfoText
+                    id: wifiInfoText
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignTop
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
@@ -156,7 +214,6 @@ Dialog
             }
 
             GridLayout {
-                id: gridLayout1
                 x: 414
                 y: 51
                 width: 352
@@ -165,7 +222,6 @@ Dialog
                 columns: 1
 
                 Text {
-                    id: infoText
                     text: qsTr("Info")
                     font.letterSpacing: 4
                     lineHeight: 1
@@ -175,7 +231,7 @@ Dialog
                 }
 
                 Text {
-                    id: infoText2
+                    id: infoWifiText
                     Layout.preferredHeight: 210
                     Layout.preferredWidth: 370
                     wrapMode: Text.WordWrap
@@ -184,7 +240,7 @@ Dialog
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 12
                     function set() {
-                        settings.updateStatus(infoText2)
+                        settings.updateWifiStatus(infoWifiText)
                     }
                 }
                 Switch {
@@ -214,12 +270,12 @@ Dialog
                 }
 
                 Timer {
-                    id: textTimer
+                    id: timerWifiStatus
                     interval: 2000
                     repeat: true
                     running: true
                     triggeredOnStart: true
-                    onTriggered: infoText2.set()
+                    onTriggered: infoWifiText.set()
                 }
             }
         }

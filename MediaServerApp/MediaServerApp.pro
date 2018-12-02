@@ -37,7 +37,8 @@ SOURCES += \
     editmpdconfigfile.cpp \
     ViewModel/settingsscreensaver.cpp \
     screensaver.cpp \
-    editscreensaverconfigfile.cpp
+    editscreensaverconfigfile.cpp \
+    ViewModel/settingsstatus.cpp
 
 RESOURCES += qml.qrc
 

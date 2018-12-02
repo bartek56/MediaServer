@@ -3,12 +3,8 @@
 #include <QFile>
 #include <map>
 
-Settings::Settings(QObject *parent) : QObject(parent)
-{
 
-}
-
-void Settings::updateStatus(QObject *obj)
+void Settings::updateWifiStatus(QObject *obj)
 {
     QProcess builder;
     builder.setProcessChannelMode(QProcess::MergedChannels);
