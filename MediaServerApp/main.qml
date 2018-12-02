@@ -11,30 +11,18 @@ Rectangle{
     width: 800
     height: 480
 
-    Timer
-    {
-        id: screenSaverTimer
-        interval: 45000 //45sec
-        running: true
-        onTriggered:
-        {
-            mainWindow.startScreensaver()
-        }
-    }
 
-    MouseArea
-    {
-        anchors.fill: parent
-     // Pass mouse events through
-        propagateComposedEvents: true
-        onClicked: { screenSaverTimer.restart(); mouse.accepted = false }
-    }
     Loader {
         anchors.topMargin: 0
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.top: parent.top
         source:"menu.qml";
+    }
+
+    Loader {
+        anchors.fill:parent
+        source:"screensaver.qml";
     }
 
     Loader {
@@ -45,6 +33,7 @@ Rectangle{
     {
         id:mainWindow
     }
+
 
     Column {
         id: column
@@ -152,6 +141,7 @@ Rectangle{
                     fillMode: Image.Stretch
                     source: "icons/browser.png"
                 }
+
                 Text {
                     id: webBrowserText
                     x: 81
@@ -169,9 +159,7 @@ Rectangle{
                 {
                     mainWindow.startWebBrowser()
                 }
-
             }
-
         }
 
         RowLayout {

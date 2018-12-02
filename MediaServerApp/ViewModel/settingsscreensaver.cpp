@@ -1,5 +1,6 @@
 #include "settings.h"
 #include "mainwindow.h"
+#include "screensaver.h"
 
 void Settings::bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath)
 {
@@ -7,52 +8,31 @@ void Settings::bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tf
     tfScreenSavrFolderPath->setProperty("text",QVariant(path));
 }
 
-void Settings::bSaveScreenSaver_onClicked(const QString folderpath, const QString timeout)
+void Settings::bSaveScreenSaver_onClicked(const QString timeout, const QString path, const int startTime)
 {
-    QString commend="DISPLAY=:0 feh -F -D" + timeout + " -x -S filename " + folderpath + " &\n" ;
-    SaveScreenSaveConfiguration(commend,"/opt/startScreensaver.sh");
-
+    auto startTimeInMilisecond=startTime*60000;
+    QString startTimeInMilisecondsString = QString::number(startTimeInMilisecond);
+    mScreenSaverConfigs.at("startTime")=startTimeInMilisecondsString;
+    mScreenSaverConfigs.at("timeout")=timeout;
+    mScreenSaverConfigs.at("path")=path;
+    editScreenSaverConfigFile.SaveConfiguration("/opt/startScreensaver.sh",mScreenSaverConfigs);
+    ScreenSaver::timer->setInterval(startTimeInMilisecond);
 }
 
-void Settings::SaveScreenSaveConfiguration(const QString &commend, const QString &fileLocation)
+void Settings::loadScreenSaverConfigurations(QObject *startTime, QObject *path, QObject *timeout)
 {
-    QFile fileToRead(fileLocation);
-    QStringList fileString;
-    if (fileToRead.open(QIODevice::ReadOnly))
-    {
-        QTextStream stream(&fileToRead);
+    mScreenSaverConfigs = editScreenSaverConfigFile.LoadConfiguration("/opt/startScreensaver.sh");
 
-        while (!fileToRead.atEnd())
-        {
-            QByteArray line = fileToRead.readLine();
-            std::string strLine(line);
+    auto startTimeInMinutes = ConvertTimeFromMiliSecStringToMinutesInt(mScreenSaverConfigs.at("startTime"));
 
-            if(!line.contains("DISPLAY"))
-            {
-                fileString.push_back(line);
-            }
-            else
-            {
-                fileString.push_back(commend);
-            }
-        }
-    }
-
-
-    fileToRead.close();
-
-    QFile fileToWrite(fileLocation);
-
-    if (fileToWrite.open(QIODevice::WriteOnly))
-    {
-        QTextStream stream(&fileToWrite);
-
-        for(auto it :fileString)
-        {
-            stream << it;
-        }
-    }
-
-    fileToWrite.close();
-
+    startTime->setProperty("value",QVariant(startTimeInMinutes));
+    path->setProperty("text",QVariant(mScreenSaverConfigs.at("path")));
+    timeout->setProperty("value",QVariant(mScreenSaverConfigs.at("timeout")));
 }
+
+int Settings::ConvertTimeFromMiliSecStringToMinutesInt(QString miliSecounds)
+{
+    int startTimeInMiliSeconds = miliSecounds.toInt();
+    return startTimeInMiliSeconds/60000;
+}
+

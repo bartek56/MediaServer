@@ -22,6 +22,10 @@ Dialog
         id: ftpConfig
     }
 
+    Loader {
+        anchors.fill:parent
+        source:"screensaver.qml";
+    }
 
     BusyIndicator
     {

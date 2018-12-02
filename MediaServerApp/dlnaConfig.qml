@@ -21,6 +21,11 @@ Dialog
         id: dlnaConfig
     }
 
+    Loader {
+        anchors.fill:parent
+        source:"screensaver.qml";
+    }
+
     FileDialog {
         id: videoFileDialog
         folder: shortcuts.home

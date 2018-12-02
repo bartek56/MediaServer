@@ -27,15 +27,18 @@ Dialog
         anchors.centerIn: parent
 
     }
+    Loader {
+        anchors.fill:parent
+        source:"screensaver.qml";
+    }
 
     FileDialog {
         id: screenSaverFileDialog
         folder: shortcuts.home
-        //folder: shortcuts.mnt
         selectFolder: true
         onAccepted:
         {
-            settings.bScreenSaverFileDialog_onAccepted(screenSaverFileDialog.folder, catalogTextField)
+            settings.bScreenSaverFileDialog_onAccepted(screenSaverFileDialog.folder, pathScreenSaverTextField)
             settingsDialog.visible=true
         }
         onRejected:
@@ -48,6 +51,7 @@ Dialog
     {
         id: tabBar
         width: parent.width
+
 
         TabButton {
             text: qsTr("Wi-fi")
@@ -365,6 +369,22 @@ Dialog
                     columns: 3
                     Layout.alignment: Qt.AlignLeft | Qt.AlignTop
 
+
+                    Text {
+                        text: qsTr("Start Time[min]")
+                        font.pixelSize: 16
+                    }
+
+                    SpinBox {
+                        id: startTimeSpinBox
+                        width: 138
+                        from: 1
+                        to: 15
+                        Layout.columnSpan: 2
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        font.pointSize: 11
+                    }
+
                     Text {
                         text: qsTr("Timeout [s]")
                         font.pixelSize: 16
@@ -373,7 +393,7 @@ Dialog
                     SpinBox {
                         id: timeOutSpinBox
                         width: 138
-                        value: 3
+                        from: 1
                         to: 10
                         Layout.columnSpan: 2
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -386,7 +406,7 @@ Dialog
                     }
 
                     TextField {
-                        id: catalogTextField
+                        id: pathScreenSaverTextField
                         text: qsTr("/home/pictures/")
                         readOnly: true
                         Layout.preferredWidth: 190
@@ -423,7 +443,7 @@ Dialog
                 Layout.columnSpan: 2
                 onClicked:
                 {
-                    settings.bSaveScreenSaver_onClicked(catalogTextField.text,timeOutSpinBox.textFromValue(timeOutSpinBox.value, timeOutSpinBox.locale))
+                    settings.bSaveScreenSaver_onClicked(timeOutSpinBox.value,pathScreenSaverTextField.text,startTimeSpinBox.value)
                 }
             }
         }
@@ -490,6 +510,7 @@ Dialog
         wifiOnSwitch.updatestate()
         settings.loadWifiConfigFile()
         settings.loadExternalDevices(devicesComboBox)
+        settings.loadScreenSaverConfigurations(startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox)
         busyIndication.running = false
     }
 }

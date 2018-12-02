@@ -24,6 +24,11 @@ Dialog
         anchors.centerIn: parent
     }
 
+    Loader {
+        anchors.fill:parent
+        source:"screensaver.qml";
+    }
+
     SambaConfig
     {
         id: sambaConfig

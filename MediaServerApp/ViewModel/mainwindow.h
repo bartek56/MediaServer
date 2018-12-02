@@ -17,7 +17,6 @@ public:
     Q_INVOKABLE void startMusicApplication();
     Q_INVOKABLE void startVideoApplication();
     Q_INVOKABLE void startWebBrowser();
-    Q_INVOKABLE void startScreensaver();
     Q_INVOKABLE void startBrowser();
 
 public slots:

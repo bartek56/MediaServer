@@ -6,7 +6,9 @@
 #include <memory>
 #include <QtQuick>
 #include "editwificonfigfile.h"
+#include "editscreensaverconfigfile.h"
 #include "managementofexternaldevices.h"
+
 
 class Settings : public QObject
 {
@@ -23,19 +25,21 @@ public:
     Q_INVOKABLE void loadExternalDevices(QObject *obj);
     Q_INVOKABLE void cbDevices_onDisplayTextChanged(QString deviceName, QObject *deviceSizeText, QObject *nameDeviceText,QObject *mountPointText);
     Q_INVOKABLE void bMount_onClicked(const QString mountpoint,const QString deviceName, const QString deviceLabel, const bool automount);
-    Q_INVOKABLE void bSaveScreenSaver_onClicked(const QString folderpath, const QString timeout);
+    Q_INVOKABLE void bSaveScreenSaver_onClicked(const QString timeout, const QString path, const int startTime);
     Q_INVOKABLE void bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath);
+    Q_INVOKABLE void loadScreenSaverConfigurations(QObject *startTime, QObject *path, QObject *timeout);
 
 signals:
 
 public slots:
 
 private:
-    void SaveScreenSaveConfiguration(const QString &commend, const QString &fileLocation);
     EditWifiConfigFile editWifiConfigFile;
+    EditScreenSaverConfigFile editScreenSaverConfigFile;
     ManagementOfExternalDevices managementExternalDevices;
     std::vector<WifiConfigsName> vWifiConfigs;
-    //std::vector<ExternalDevicesConfigs> vExternalDevices;
+    std::map<QString, QString> mScreenSaverConfigs;
+    int ConvertTimeFromMiliSecStringToMinutesInt(QString milisec);
     QObject* bConnect;
     QObject* bScanNetwork;
     bool wifiIsOn;

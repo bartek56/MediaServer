@@ -21,6 +21,11 @@ Dialog
         id: mpdConfig
     }
 
+    Loader {
+        anchors.fill:parent
+        source:"screensaver.qml";
+    }
+
     FileDialog {
         id: musicFileDialog
         folder: shortcuts.home
