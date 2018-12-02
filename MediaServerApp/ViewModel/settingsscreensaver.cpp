@@ -8,18 +8,22 @@ void Settings::bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tf
     tfScreenSavrFolderPath->setProperty("text",QVariant(path));
 }
 
-void Settings::bSaveScreenSaver_onClicked(const QString timeout, const QString path, const int startTime)
+void Settings::bSaveScreenSaver_onClicked(const QString timeout, const QString path, const int startTime, const bool random)
 {
     auto startTimeInMilisecond=startTime*60000;
     QString startTimeInMilisecondsString = QString::number(startTimeInMilisecond);
     mScreenSaverConfigs.at("startTime")=startTimeInMilisecondsString;
     mScreenSaverConfigs.at("timeout")=timeout;
     mScreenSaverConfigs.at("path")=path;
+    if(random==true)
+        mScreenSaverConfigs.at("random")="-z";
+    else
+        mScreenSaverConfigs.at("random")="";
     editScreenSaverConfigFile.SaveConfiguration("/opt/startScreensaver.sh",mScreenSaverConfigs);
     ScreenSaver::timer->setInterval(startTimeInMilisecond);
 }
 
-void Settings::loadScreenSaverConfigurations(QObject *startTime, QObject *path, QObject *timeout)
+void Settings::loadScreenSaverConfigurations(QObject *startTime, QObject *path, QObject *timeout, QObject *random)
 {
     mScreenSaverConfigs = editScreenSaverConfigFile.LoadConfiguration("/opt/startScreensaver.sh");
 
@@ -28,6 +32,10 @@ void Settings::loadScreenSaverConfigurations(QObject *startTime, QObject *path, 
     startTime->setProperty("value",QVariant(startTimeInMinutes));
     path->setProperty("text",QVariant(mScreenSaverConfigs.at("path")));
     timeout->setProperty("value",QVariant(mScreenSaverConfigs.at("timeout")));
+    if(mScreenSaverConfigs.at("random").size()>1)
+        random->setProperty("checked",QVariant(true));
+    else
+        random->setProperty("checked",QVariant(false));
 }
 
 int Settings::ConvertTimeFromMiliSecStringToMinutesInt(QString miliSecounds)

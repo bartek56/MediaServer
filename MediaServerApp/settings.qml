@@ -456,6 +456,13 @@ Dialog
                         font.pointSize: 11
                     }
 
+                    CheckBox {
+                        id: randomCheckBox
+                        text: qsTr("Random")
+                        Layout.columnSpan: 3
+                        checkable: true
+                    }
+
                     Text {
                         text: qsTr("Catalog")
                         font.pixelSize: 16
@@ -499,7 +506,7 @@ Dialog
                 Layout.columnSpan: 2
                 onClicked:
                 {
-                    settings.bSaveScreenSaver_onClicked(timeOutSpinBox.value,pathScreenSaverTextField.text,startTimeSpinBox.value)
+                    settings.bSaveScreenSaver_onClicked(timeOutSpinBox.value,pathScreenSaverTextField.text,startTimeSpinBox.value,randomCheckBox.checked)
                 }
             }
         }
@@ -566,7 +573,7 @@ Dialog
         wifiOnSwitch.updatestate()
         settings.loadWifiConfigFile()
         settings.loadExternalDevices(devicesComboBox)
-        settings.loadScreenSaverConfigurations(startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox)
+        settings.loadScreenSaverConfigurations(startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox,randomCheckBox)
         busyIndication.running = false
     }
 }

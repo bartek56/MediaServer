@@ -1,7 +1,6 @@
 #include "editscreensaverconfigfile.h"
 #include <QFile>
 #include <QTextStream>
-#include <QDebug>
 
 EditScreenSaverConfigFile::EditScreenSaverConfigFile()
 {
@@ -20,7 +19,7 @@ std::map<QString,QString> EditScreenSaverConfigFile::LoadConfiguration(const QSt
 
         fileToRead.readLine();
 
-        while (lineNumber<4)
+        while (lineNumber<5)
         {
             QByteArray line = fileToRead.readLine();
             std::string strLine(line);
@@ -54,11 +53,10 @@ void EditScreenSaverConfigFile::SaveConfiguration(const QString &fileLocation, c
             QByteArray line = fileToRead.readLine();
             std::string strLine(line);
 
-            if(lineNumber>0 && lineNumber<4)
+            if(lineNumber>0 && lineNumber<5)
             {
                 auto parametr = line.split('=');
                 auto parametrName = parametr[0];
-                qDebug() << parametrName;
                 QString newLine = parametrName + "='" + mConfigsParameters.at(parametrName)+"'\n";
                 fileString.push_back(newLine);
             }
