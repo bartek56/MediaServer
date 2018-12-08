@@ -9,6 +9,12 @@ Settings::Settings(QObject *parent) : QObject(parent)
 
 }
 
+void Settings::shutdownButton_OnClicked()
+{
+    QProcess appProcess2;
+    appProcess2.startDetached("sh", QStringList() << "-c" << "poweroff");
+}
+
 void Settings::updateNetworkStatus(QObject *obj)
 {
     QProcess builder;

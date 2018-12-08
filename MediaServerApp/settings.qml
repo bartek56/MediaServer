@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
 import SettingsLib 1.0
@@ -83,8 +84,8 @@ Dialog
                 x: 38
                 y: 51
                 width: 352
-                height: 313
-                rows: 5
+                height: 362
+                rows: 7
                 columns: 3
 
                 Text {
@@ -255,6 +256,29 @@ Dialog
                         settings.ftpStatusButton_OnClicked(ftpStatusButton, ftpStatusButton.text)
                     }
                 }
+
+
+                MessageDialog {
+                    id:shutdownMessage
+                    title: "Shutdown"
+                    icon: StandardIcon.Question
+                    text: "Are You sure to Power Off device?"
+                    standardButtons: StandardButton.Yes | StandardButton.No
+                    onYes: settings.shutdownButton_OnClicked();
+                }
+
+                Button {
+                    id: shutdownButton
+                    text: qsTr("Shutdown Device")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    Layout.columnSpan: 3
+                    onClicked:
+                    {
+                        shutdownMessage.visible=true
+                        settingsDialog.close()
+
+                    }
+                }
             }
 
             GridLayout {
@@ -296,6 +320,7 @@ Dialog
                     triggeredOnStart: true
                     onTriggered: networkInfoText.set()
                 }
+
             }
         }
 

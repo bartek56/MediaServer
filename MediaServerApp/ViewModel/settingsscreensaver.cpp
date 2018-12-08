@@ -23,6 +23,7 @@ void Settings::bSaveScreenSaver_onClicked(const QString timeout, const QString p
     ScreenSaver::timer->setInterval(startTimeInMilisecond);
 }
 
+
 void Settings::loadScreenSaverConfigurations(QObject *startTime, QObject *path, QObject *timeout, QObject *random)
 {
     mScreenSaverConfigs = editScreenSaverConfigFile.LoadConfiguration("/opt/startScreensaver.sh");
