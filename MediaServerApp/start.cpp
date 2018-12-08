@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
     qmlRegisterType<ScreenSaver>("ScreenSaverLib", 1, 0, "ScreenSaver");
 
-
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setSource(QString("qrc:/main.qml"));
     view->show();

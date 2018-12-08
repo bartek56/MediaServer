@@ -22,7 +22,7 @@ public:
     Q_INVOKABLE void bUpdateUser_onClick(const QString userName, const QString path);
     Q_INVOKABLE void bFileDialog1_onAccepted(QString path);
     Q_INVOKABLE void bFileDialog2_onAccepted(QString path);
-
+    Q_INVOKABLE void checkService(QObject *saveButton);
 
 private:
     QObject* cbUsers;

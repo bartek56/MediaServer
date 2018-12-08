@@ -320,7 +320,7 @@ Dialog
         dlnaConfig.openConfigFile();
         dlnaConfig.loadMediaDirectoryConfigs(videoPathEditText,audioPathEditText,picturePathEditText);
         dlnaConfig.loadSettigs(portEditText,nameEditText);
-        //busyIndication.running = false
+        dlnaConfig.checkService(saveButton)
     }
 
 }

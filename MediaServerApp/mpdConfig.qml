@@ -173,6 +173,7 @@ Dialog
     Component.onCompleted:
     {
         mpdConfig.loadConfigs(musicPathEditText);
+        mpdConfig.checkService(saveButton);
     }
 }
 

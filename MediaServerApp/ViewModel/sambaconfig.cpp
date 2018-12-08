@@ -9,6 +9,18 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 
 }
 
+void SambaConfig::checkService(QObject *saveButton)
+{
+    QProcess process;
+    process.setProcessChannelMode(QProcess::MergedChannels);
+    process.start("bash", QStringList() << "-c" << "systemctl is-active nmb");
+    process.setReadChannel(QProcess::StandardOutput);
+    QStringList devicesList;
+    process.waitForFinished();
+    auto text = process.readAll();
+    saveButton->setProperty("enabled",QVariant(!text.contains("in")));
+}
+
 void SambaConfig::checkingIfDisksAreMounted()
 {
     QFile file ("/proc/self/mounts");

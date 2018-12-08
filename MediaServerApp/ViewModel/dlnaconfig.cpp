@@ -5,6 +5,19 @@ DlnaConfig::DlnaConfig(QObject *parent) : QObject(parent)
 
 }
 
+void DlnaConfig::checkService(QObject *saveButton)
+{
+    QProcess process;
+    process.setProcessChannelMode(QProcess::MergedChannels);
+    process.start("bash", QStringList() << "-c" << "systemctl is-active minidlnad");
+    process.setReadChannel(QProcess::StandardOutput);
+    QStringList devicesList;
+    process.waitForFinished();
+    auto text = process.readAll();
+    saveButton->setProperty("enabled",QVariant(!text.contains("in")));
+}
+
+
 void DlnaConfig::bVideoFileDialog_onAccepted(QString folderPath, QObject *tfVideoPath)
 {
     QString path = folderPath.remove(0,7);

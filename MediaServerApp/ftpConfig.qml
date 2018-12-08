@@ -71,13 +71,12 @@ Dialog
 
         Button
         {
+            id:saveButton
             height: 40
             text: "Save"
             onClicked:
             {
-                busyIndication.running = true
                 ftpConfig.bSave_onClicked()
-                busyIndication.running = false
             }
         }
 
@@ -324,6 +323,7 @@ Dialog
         ftpConfig.setPathTextField1(catalogTextField1)
         ftpConfig.setPathTextField2(catalogTextField2)
         ftpConfig.setUsersComboBox(userComboBox)
+        ftpConfig.checkService(saveButton)
         busyIndication.running = false
     }
 }

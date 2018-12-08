@@ -11,6 +11,11 @@ Rectangle{
     width: 800
     height: 480
 
+    BusyIndicator
+    {
+        id: busyIndication
+        anchors.centerIn: mainRectangle
+    }
 
     Loader {
         anchors.topMargin: 0
@@ -391,6 +396,10 @@ Rectangle{
         }
     }
 
+    Component.onCompleted:
+    {
+        busyIndication.running=false
+    }
 }
 
 /*##^## Designer {

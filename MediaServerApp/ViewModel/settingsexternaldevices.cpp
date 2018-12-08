@@ -1,9 +1,13 @@
 #include "settings.h"
 
-void Settings::loadExternalDevices(QObject *obj)
+void Settings::loadExternalDevices(QObject *devicesList, QObject *mountButton)
 {
     auto deviceList = managementExternalDevices.LoadExternalDevices();
-    obj->setProperty("model",QVariant(deviceList));
+    devicesList->setProperty("model",QVariant(deviceList));
+    if(deviceList.count()>0)
+    {
+        mountButton->setProperty("enabled",QVariant(true));
+    }
 }
 
 void Settings::cbDevices_onDisplayTextChanged(QString deviceName, QObject *deviceSizeText, QObject *nameDeviceText,QObject *mountPointText)

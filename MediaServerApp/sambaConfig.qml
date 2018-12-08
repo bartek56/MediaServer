@@ -887,14 +887,14 @@ Dialog
 
         Button
         {
+            id:saveButton
             width: 160
             height: 40
             text: "Save"
             onClicked:
             {
-                busyIndication.running = true
                 sambaConfig.bSave_onClicked();
-                busyIndication.running = false
+
             }
         }
 
@@ -963,6 +963,8 @@ Dialog
         sambaConfig.setExternalDiskTabButton1(externalDisk1TabButton);
         sambaConfig.setExternalDiskTabButton2(externalDisk2TabButton);
         sambaConfig.setExternalDiskTabButton3(externalDisk3TabButton);
+
+        sambaConfig.checkService(saveButton);
 
         sambaConfig.checkingIfDisksAreMounted();
         sambaConfig.loadAllConfigs();

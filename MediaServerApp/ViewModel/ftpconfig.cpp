@@ -6,6 +6,20 @@ FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
 
 }
 
+
+void FtpConfig::checkService(QObject *saveButton)
+{
+    QProcess process;
+    process.setProcessChannelMode(QProcess::MergedChannels);
+    process.start("bash", QStringList() << "-c" << "systemctl is-active vsftpd");
+    process.setReadChannel(QProcess::StandardOutput);
+    QStringList devicesList;
+    process.waitForFinished();
+    auto text = process.readAll();
+    saveButton->setProperty("enabled",QVariant(!text.contains("in")));
+}
+
+
 void FtpConfig::tfUser_onEditingFinished(const QString text)
 {
     qDebug() << text;

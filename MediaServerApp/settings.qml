@@ -85,15 +85,183 @@ Dialog
                 width: 352
                 height: 313
                 rows: 5
-                columns: 2
+                columns: 3
 
+                Text {
+                    id: text1
+                    text: qsTr("TvHeadEnd")
+                    font.pixelSize: 16
+                }
+
+                Switch {
+                    id: tvHeadEndStatusSwitch
+                    text: qsTr("Auto Startup")
+                    checked: false
+                    font.pointSize: 10
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.tvHeadEndStatusSwitch_OnClicked(tvHeadEndStatusSwitch.checked, tvHeadEndStatusButton)
+                    }
+                }
+
+                Button {
+                    id: tvHeadEndStatusButton
+                    text: qsTr("Stop")
+                    Layout.preferredWidth: 70
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.tvHeadEndStatusButton_OnClicked(tvHeadEndStatusButton, tvHeadEndStatusButton.text)
+                    }
+                }
+
+                Text {
+                    id: text2
+                    text: qsTr("Website Music Player")
+                    font.pixelSize: 16
+                }
+
+                Switch {
+                    id: ympdStatusSwitch
+                    text: qsTr("Auto Startup")
+                    font.pointSize: 10
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.ympdStatusSwitch_OnClicked(ympdStatusSwitch.checked, ympdStatusButton)
+                    }
+                }
+
+                Button {
+                    id: ympdStatusButton
+                    text: qsTr("Stop")
+                    Layout.preferredWidth: 70
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.ympdStatusButton_OnClicked(ympdStatusButton, ympdStatusButton.text)
+                    }
+                }
+
+                Text {
+                    id: text3
+                    text: qsTr("Music Player Daemon")
+                    font.pixelSize: 16
+                }
+
+                Switch {
+                    id: mpdStatusSwitch
+                    text: qsTr("Auto Startup")
+                    font.pointSize: 10
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.mpdStatusSwitch_OnClicked(mpdStatusSwitch.checked, mpdStatusButton)
+                    }
+                }
+
+                Button {
+                    id: mpdStatusButton
+                    text: qsTr("Stop")
+                    Layout.preferredWidth: 70
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.mpdStatusButton_OnClicked(mpdStatusButton, mpdStatusButton.text)
+                    }
+                }
+
+                Text {
+                    id: text4
+                    text: qsTr("DLNA")
+                    font.pixelSize: 16
+                }
+
+                Switch {
+                    id: dlnaStatusSwitch
+                    text: qsTr("Auto Startup")
+                    font.pointSize: 10
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.dlnaStatusSwitch_OnClicked(dlnaStatusSwitch.checked, dlnaStatusButton)
+                    }
+                }
+
+                Button {
+                    id: dlnaStatusButton
+                    text: qsTr("Stop")
+                    Layout.preferredWidth: 70
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.dlnaStatusButton_OnClicked(dlnaStatusButton, dlnaStatusButton.text)
+                    }
+                }
+
+                Text {
+                    id: text5
+                    text: qsTr("Samba")
+                    font.pixelSize: 16
+                }
+
+                Switch {
+                    id: sambaStatusSwitch
+                    text: qsTr("Auto Startup")
+                    font.pointSize: 10
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.sambaStatusSwitch_OnClicked(sambaStatusSwitch.checked, sambaStatusButton)
+                    }
+                }
+
+                Button {
+                    id: sambaStatusButton
+                    text: qsTr("Stop")
+                    Layout.preferredWidth: 70
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.sambaStatusButton_OnClicked(sambaStatusButton, sambaStatusButton.text)
+                    }
+                }
+
+                Text {
+                    id: text6
+                    text: qsTr("FTP")
+                    font.pixelSize: 16
+                }
+
+                Switch {
+                    id: ftpStatusSwitch
+                    text: qsTr("Auto Startup")
+                    font.pointSize: 10
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.ftpStatusSwitch_OnClicked(ftpStatusSwitch.checked, ftpStatusButton)
+                    }
+                }
+
+                Button {
+                    id: ftpStatusButton
+                    text: qsTr("Stop")
+                    Layout.preferredWidth: 70
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.ftpStatusButton_OnClicked(ftpStatusButton, ftpStatusButton.text)
+                    }
+                }
             }
 
             GridLayout {
-                x: 414
+                x: 510
                 y: 51
-                width: 352
-                height: 313
+                width: 270
+                height: 310
                 rows: 2
                 columns: 1
 
@@ -108,11 +276,11 @@ Dialog
 
                 Text {
                     id: networkInfoText
-                    Layout.preferredHeight: 210
-                    Layout.preferredWidth: 370
+                    Layout.preferredHeight: 260
+                    Layout.preferredWidth: 250
                     wrapMode: Text.WordWrap
                     font.family: "Tahoma"
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 12
                     function set() {
@@ -195,9 +363,7 @@ Dialog
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     onClicked:
                     {
-                        busyIndication.running = true
                         settings.searchNetworks(networksComboBox)
-                        busyIndication.running = false
                     }
                 }
 
@@ -305,7 +471,6 @@ Dialog
 
                     Text {
                         id: deviceText
-                        text: qsTr("Device")
                         font.pixelSize: 16
                     }
 
@@ -328,7 +493,6 @@ Dialog
 
                     Text {
                         id: deviceSizeText
-                        text: qsTr("Device")
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                         font.pixelSize: 16
                     }
@@ -341,7 +505,6 @@ Dialog
 
                     Text {
                         id: nameDeviceText
-                        text: qsTr("Device")
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                         font.pixelSize: 16
                     }
@@ -354,7 +517,6 @@ Dialog
 
                     Text {
                         id: mountPointText
-                        text: qsTr("Device")
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                         font.pixelSize: 16
                     }
@@ -372,6 +534,7 @@ Dialog
                         id:mountButton
                         width: 160
                         height: 40
+                        enabled: false
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                         Layout.columnSpan: 2
                         function setText()
@@ -572,8 +735,14 @@ Dialog
         settings.checkWifi(wifiOnSwitch)
         wifiOnSwitch.updatestate()
         settings.loadWifiConfigFile()
-        settings.loadExternalDevices(devicesComboBox)
+        settings.loadExternalDevices(devicesComboBox,mountButton)
         settings.loadScreenSaverConfigurations(startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox,randomCheckBox)
+        settings.checkSystemdStatus(tvHeadEndStatusSwitch,tvHeadEndStatusButton,"tvheadend")
+        settings.checkSystemdStatus(ympdStatusSwitch,ympdStatusButton,"ympd")
+        settings.checkSystemdStatus(mpdStatusSwitch,mpdStatusButton,"mpd")
+        settings.checkSystemdStatus(dlnaStatusSwitch,dlnaStatusButton,"minidlnad")
+        settings.checkSystemdStatus(sambaStatusSwitch,sambaStatusButton,"smb")
+        settings.checkSystemdStatus(ftpStatusSwitch,ftpStatusButton,"vsftpd")
         busyIndication.running = false
     }
 }

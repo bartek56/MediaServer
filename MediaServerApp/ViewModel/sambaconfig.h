@@ -184,6 +184,7 @@ public:
 
     Q_INVOKABLE void loadAllConfigs();
     Q_INVOKABLE void checkingIfDisksAreMounted();
+    Q_INVOKABLE void checkService(QObject *saveButton);
 
 private:
     EditSambaConfigFile editFile;

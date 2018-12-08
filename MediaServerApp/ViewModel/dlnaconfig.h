@@ -18,6 +18,7 @@ public:
     Q_INVOKABLE void tfName_onEditingFinished(const QString name);
     Q_INVOKABLE void bAudioFileDialog_onAccepted(QString folderPath, QObject *tfAudioPath);
     Q_INVOKABLE void bPicturesFileDialog_onAccepted(QString folderPath, QObject *tfPicturesPath);
+    Q_INVOKABLE void checkService(QObject *saveButton);
 
 private:
     const QString PORT = "port";
