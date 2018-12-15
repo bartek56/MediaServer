@@ -16,7 +16,7 @@ QStringList ManagementOfExternalDevices::LoadExternalDevices()
 
     process.setReadChannel(QProcess::StandardOutput);
     QStringList devicesList;
-    while(process.waitForFinished(-1));
+    while(process.waitForFinished());
     while (process.canReadLine())
     {
        auto line = process.readLine();

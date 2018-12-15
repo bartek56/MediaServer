@@ -10,11 +10,11 @@ void Settings::updateWifiStatus(QObject *obj)
     builder.setProcessChannelMode(QProcess::MergedChannels);
     builder.start("iw dev wlan0 link");
 
-    if (builder.waitForFinished())
-    {
-        QString info = builder.readAll();
-        obj->setProperty("text",QVariant(info));
-    }
+    while(builder.waitForFinished());
+
+    QString info = builder.readAll();
+    obj->setProperty("text",QVariant(info));
+
 }
 
 void Settings::searchNetworks(QObject* obj)

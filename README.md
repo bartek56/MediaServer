@@ -6,8 +6,8 @@ It is using to menage and configuaration Media Server. [Linux Embedded](https://
 
 Libraries:
 - QT GUI
-	- EGLFS
-	- OpenGL ES 2.0
+  - EGLFS
+  - OpenGL ES 2.0
 - QT Multimedia
 - QT Quick Controls
 - QT WebEngine

@@ -62,7 +62,6 @@ void EditFtpConfigFile::AddUser(const QString userName, const QString password)
     commend.push_back(userName);
     commend.push_back(" ");
     commend.push_back(password);
-    //qDebug() << commend;
     QProcess::execute(commend);
 }
 

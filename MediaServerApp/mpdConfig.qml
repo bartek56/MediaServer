@@ -59,7 +59,7 @@ Dialog
             font.pointSize: 16
             Layout.preferredHeight: 197
             Layout.preferredWidth: 400
-            title: qsTr("Media Directory")
+            title: qsTr("Music Directory")
             topPadding: 45
             leftPadding: 50
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop

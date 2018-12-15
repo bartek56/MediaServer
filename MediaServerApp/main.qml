@@ -39,7 +39,6 @@ Rectangle{
         id:mainWindow
     }
 
-
     Column {
         id: column
         x: 0
@@ -63,10 +62,10 @@ Rectangle{
             anchors.topMargin: 61
 
             ToolButton {
-                id: toolButton
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 120
-                Layout.preferredWidth: 200
+                Layout.preferredWidth: 160
+
                 Image {
                     id: gmpcImage
                     x: 37
@@ -100,7 +99,42 @@ Rectangle{
             ToolButton {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 120
-                Layout.preferredWidth: 200
+                Layout.preferredWidth: 160
+
+                Image {
+                    id: gmplayerImage
+                    x: 37
+                    y: 0
+                    width: 116
+                    height: 97
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    fillMode: Image.Stretch
+                    source: "icons/gmplayer.png"
+                }
+                Text {
+                    id: gmplayerText
+                    x: 81
+                    y: 94
+                    width: 50
+                    height: 26
+                    text: qsTr("Video")
+                    font.letterSpacing: 1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pointSize: 17
+                }
+
+                onClicked:
+                {
+                    mainWindow.startVideoApplication()
+                }
+            }
+
+            ToolButton {
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                Layout.preferredHeight: 120
+                Layout.preferredWidth: 160
                 Image {
                     id: gqviewImage
                     x: 37
@@ -133,7 +167,7 @@ Rectangle{
             ToolButton {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 120
-                Layout.preferredWidth: 200
+                Layout.preferredWidth: 160
 
                 Image {
                     id: webBrowserImage

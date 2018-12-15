@@ -21,11 +21,10 @@ void Settings::updateNetworkStatus(QObject *obj)
     builder.setProcessChannelMode(QProcess::MergedChannels);
     builder.start("networkctl status");
 
-    if (builder.waitForFinished())
-    {
-        QString info = builder.readAll();
-        obj->setProperty("text",QVariant(info));
-    }
+    while(builder.waitForFinished());
+
+    QString info = builder.readAll();
+    obj->setProperty("text",QVariant(info));
 }
 
 void Settings::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString nameService)
@@ -133,7 +132,6 @@ bool Settings::checkSystemdStatusIsEnabled(const QString &serviceName)
     process.waitForFinished();
     auto text = process.readAll();
     return text.contains("enabled");
-
 }
 
 void Settings::StatusSwitch_onClicked(const bool statusSwitchIsChecked, QObject *statusButton, const QString &serviceName)

@@ -40,18 +40,19 @@ ToolBar
                 pixelSize: 20
             }
          }
+
      }
 
     Timer
     {
-        interval: 500
+        interval: 1000
         running: true
         repeat: true
         onTriggered:
         {
             var date = new Date()
             tDate.text =  date.toLocaleDateString(Qt.locale("en_US"))
-            tClock.text = date.toLocaleTimeString(Qt.locale("en_US"), "hh:mm:ss ap")
+            tClock.text = date.toLocaleTimeString(Qt.locale("en_US"), "hh:mm:ss")
         }
     }
 }

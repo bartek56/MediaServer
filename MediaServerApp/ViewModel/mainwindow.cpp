@@ -16,13 +16,22 @@ void MainWindow::startPicturesApplication()
 
 void MainWindow::startMusicApplication()
 {
-    QString commend="xinit /usr/bin/gmpc";
+    QString commend="xinit /usr/bin/gmpc -- -nocursor";
     startApplication(commend);
 }
 
 void MainWindow::startVideoApplication()
 {
-
+    QString commend="xinit -- -nocursor";
+    qint64 pid;
+    QProcess appProcess;
+    appProcess.startDetached("sh", QStringList() << "-c" << commend,QProcess::nullDevice(),&pid);
+    QString strPid = QString::number(pid);
+    QString commend2 = "/opt/startGMPlayer.sh "+strPid;
+    qint64 pid2;
+    QProcess appProcess2;
+    appProcess2.startDetached("sh", QStringList() << "-c" << commend2,QProcess::nullDevice(),&pid2);
+    MainWindow::mainView->destroy();
 }
 
 void MainWindow::startApplication(QString commend)
@@ -49,6 +58,6 @@ void MainWindow::startWebBrowser()
 
 void MainWindow::startBrowser()
 {
-    QString commend="xinit /usr/bin/pcmanfm";
+    QString commend="xinit /usr/bin/pcmanfm -- -nocursor";
     startApplication(commend);
 }
