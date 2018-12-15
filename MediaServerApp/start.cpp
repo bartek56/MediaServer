@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
     view->setSource(QString("qrc:/main.qml"));
     view->show();
 
-    //ScreenSaver screen;
-    //screen.Init();
+    ScreenSaver screen;
+    screen.Init();
 
 
     return app.exec();
