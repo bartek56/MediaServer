@@ -61,10 +61,12 @@ Rectangle{
             anchors.top: parent.top
             anchors.topMargin: 61
 
+
             ToolButton {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 120
                 Layout.preferredWidth: 160
+                background: Rectangle {color: "transparent"}
 
                 Image {
                     id: gmpcImage
@@ -100,6 +102,7 @@ Rectangle{
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 120
                 Layout.preferredWidth: 160
+                background: Rectangle {color: "transparent"}
 
                 Image {
                     id: gmplayerImage
@@ -135,6 +138,7 @@ Rectangle{
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 120
                 Layout.preferredWidth: 160
+                background: Rectangle {color: "transparent"}
                 Image {
                     id: gqviewImage
                     x: 37
@@ -168,6 +172,7 @@ Rectangle{
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 120
                 Layout.preferredWidth: 160
+                background: Rectangle {color: "transparent"}
 
                 Image {
                     id: webBrowserImage
@@ -213,12 +218,10 @@ Rectangle{
             anchors.bottomMargin: 54
 
             ToolButton {
-                //autoExclusive: true
-                //font.wordSpacing: 1
-                //font.letterSpacing: 1
                 Layout.preferredHeight: 80
                 Layout.preferredWidth: 110
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                background: Rectangle {color: "transparent"}
                 Image {
                     id: sambaImage
                     x: 37
@@ -257,6 +260,7 @@ Rectangle{
                 Layout.preferredHeight: 80
                 Layout.preferredWidth: 110
                 leftPadding: 6
+                background: Rectangle {color: "transparent"}
                 Image {
                     id: ftpImage
                     x: 37
@@ -294,6 +298,7 @@ Rectangle{
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 80
                 Layout.preferredWidth: 110
+                background: Rectangle {color: "transparent"}
                 Image {
                     id: dlnaImage
                     x: 37
@@ -328,6 +333,7 @@ Rectangle{
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 80
                 Layout.preferredWidth: 110
+                background: Rectangle {color: "transparent"}
                 Image {
                     id: mpdImage
                     x: 37
@@ -362,6 +368,7 @@ Rectangle{
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 80
                 Layout.preferredWidth: 110
+                background: Rectangle {color: "transparent"}
 
                 Image {
                     id: fileBrowserImage
@@ -398,6 +405,7 @@ Rectangle{
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 Layout.preferredHeight: 80
                 Layout.preferredWidth: 110
+                background: Rectangle {color: "transparent"}
                 Image {
                     id: settingsImage
                     x: 37
