@@ -40,7 +40,6 @@ int main(int argc, char *argv[])
     ScreenSaver screen;
     screen.Init();
 
-
     return app.exec();
 }
 

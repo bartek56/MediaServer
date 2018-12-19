@@ -18,12 +18,6 @@ Dialog
     padding: 1
     modal: true
 
-    BusyIndicator
-    {
-        id: busyIndication
-        anchors.centerIn: parent
-    }
-
     Loader {
         anchors.fill:parent
         source:"screensaver.qml";
@@ -969,6 +963,5 @@ Dialog
         sambaConfig.checkingIfDisksAreMounted();
         sambaConfig.loadAllConfigs();
 
-        busyIndication.running = false
     }
 }

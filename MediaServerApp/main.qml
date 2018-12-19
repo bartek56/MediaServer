@@ -11,11 +11,9 @@ Rectangle{
     width: 800
     height: 480
 
-    BusyIndicator
-    {
-        id: busyIndication
-        anchors.centerIn: mainRectangle
-    }
+
+
+
 
     Loader {
         anchors.topMargin: 0
@@ -32,6 +30,22 @@ Rectangle{
 
     Loader {
         id:loaderConfigWindow
+        anchors.fill:parent
+        active: true
+        asynchronous: true
+    }
+    BusyIndicator
+    {
+        id: busyIndication
+        anchors.centerIn: mainRectangle
+        running: loaderConfigWindow.status == Loader.Loading
+    }
+
+    BusyIndicator
+    {
+        id: busyIndication1
+        anchors.centerIn: mainRectangle
+        running: true
     }
 
     MainWindow
@@ -432,6 +446,7 @@ Rectangle{
                 }
                 onClicked:
                 {
+
                     loaderConfigWindow.setSource("settings.qml")
                 }
             }
@@ -440,7 +455,7 @@ Rectangle{
 
     Component.onCompleted:
     {
-        busyIndication.running=false
+        busyIndication1.running=false
     }
 }
 

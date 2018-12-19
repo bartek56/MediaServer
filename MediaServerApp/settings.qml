@@ -22,16 +22,13 @@ Dialog
     {
         id: settings
     }
-    BusyIndicator
-    {
-        id: busyIndication
-        anchors.centerIn: parent
 
-    }
+
     Loader {
         anchors.fill:parent
-        source:"screensaver.qml";
+        source:"screensaver.qml"
     }
+
 
     FileDialog {
         id: screenSaverFileDialog
@@ -768,6 +765,9 @@ Dialog
         settings.checkSystemdStatus(dlnaStatusSwitch,dlnaStatusButton,"minidlnad")
         settings.checkSystemdStatus(sambaStatusSwitch,sambaStatusButton,"smb")
         settings.checkSystemdStatus(ftpStatusSwitch,ftpStatusButton,"vsftpd")
+
+
+
         busyIndication.running = false
     }
 }

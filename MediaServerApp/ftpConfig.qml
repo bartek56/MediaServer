@@ -27,13 +27,6 @@ Dialog
         source:"screensaver.qml";
     }
 
-    BusyIndicator
-    {
-        id: busyIndication
-        anchors.centerIn: parent
-    }
-
-
     FileDialog {
         id: fileDialog1
         selectFolder: true
@@ -324,6 +317,5 @@ Dialog
         ftpConfig.setPathTextField2(catalogTextField2)
         ftpConfig.setUsersComboBox(userComboBox)
         ftpConfig.checkService(saveButton)
-        busyIndication.running = false
     }
 }
