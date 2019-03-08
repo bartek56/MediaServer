@@ -502,7 +502,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onDisplayTextChanged:
                         {
-                            settings.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText);
+                            settings.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText,typeText);
                             mountButton.setText()
                         }
                     }
@@ -543,6 +543,18 @@ Dialog
                         font.pixelSize: 16
                     }
 
+                    Text {
+                        id: type
+                        text: qsTr("File Type")
+                        font.pixelSize: 16
+                    }
+
+                    Text {
+                        id: typeText
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        font.pixelSize: 16
+                    }
+
                     CheckBox {
                         id: automountCheckBox
                         text: qsTr("automount")
@@ -572,8 +584,8 @@ Dialog
                         }
                         onClicked:
                         {
-                            settings.bMount_onClicked(mountPointText.text, nameDeviceText.text, devicesComboBox.currentText,automountCheckBox.checked)
-                            settings.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText)
+                            settings.bMount_onClicked(mountPointText.text, nameDeviceText.text, devicesComboBox.currentText,automountCheckBox.checked, typeText.text)
+                            settings.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText,typeText)
                             setText()
                         }
                     }

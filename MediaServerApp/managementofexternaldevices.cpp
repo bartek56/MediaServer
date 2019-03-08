@@ -13,7 +13,6 @@ QStringList ManagementOfExternalDevices::LoadExternalDevices()
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start("bash", QStringList() << "-c" << "lsblk -no LABEL");
-
     process.setReadChannel(QProcess::StandardOutput);
     QStringList devicesList;
     while(process.waitForFinished());
@@ -30,56 +29,114 @@ QStringList ManagementOfExternalDevices::LoadExternalDevices()
     return devicesList;
 }
 
-std::map<QString, QString> ManagementOfExternalDevices::LoadDeviceParameters(const QString &deviceName)
+std::map<QString, QString> ManagementOfExternalDevices::LoadDeviceParameters(const QString &label)
 {
     std::map<QString, QString> deviceParameters;
 
-    QProcess process;
-    process.setProcessChannelMode(QProcess::MergedChannels);
-    QStringList commend;
-    commend << "-c" << "lsblk -rnio LABEL,SIZE,MOUNTPOINT,NAME | grep " + deviceName;
-    process.start("bash", commend);
-    process.setReadChannel(QProcess::StandardOutput);
+            QProcess process;
+            process.setProcessChannelMode(QProcess::MergedChannels);
+            QStringList commend;
+            //commend << "-c" << "lsblk -rnio LABEL,SIZE,MOUNTPOINT,NAME | grep " + deviceName;
+            commend << "-c" << "lsblk -lno LABEL,NAME | grep '" + label + "'";
+            process.start("bash", commend);
+            qDebug() << commend;
+            process.setReadChannel(QProcess::StandardOutput);
+            while(process.waitForFinished());
+            QByteArray line = process.readAll();
+            qDebug() << line;
+            QString name;
+            for(auto it=line.end()-2; it!=line.begin();--it)
+            {
+                if(*it==' ')
+                {
+                    break;
+                }
+                name.push_front(*it);
+            }
+
+            qDebug() << name;
+
+
+    QProcess process2;
+    process2.setProcessChannelMode(QProcess::MergedChannels);
+    QStringList commend2;
+    //commend << "-c" << "lsblk -rnio LABEL,SIZE,MOUNTPOINT,NAME | grep " + deviceName;
+    commend2 << "-c" << "lsblk -rnio NAME,SIZE,FSTYPE,MOUNTPOINT | grep '" + name + "'";
+    process2.start("bash", commend2);
+    process2.setReadChannel(QProcess::StandardOutput);
     QStringList devicesList;
-    while(process.waitForFinished());
-    QByteArray line = process.readAll();
+    while(process2.waitForFinished());
+    QByteArray line2 = process2.readAll();
+    qDebug() << line2;
+    auto par = line2.split(' ');
 
-    auto par = line.split(' ');
-
-    auto label = par[0];
     auto size = par[1];
-    auto mountPoint = par[2];
-    auto name = par[3];
-
-    name=name.remove(name.length()-1,1);
+    auto type = par[2];
+    auto mountPoint = par[3];
 
     deviceParameters.insert(std::make_pair("LABEL",label));
     deviceParameters.insert(std::make_pair("SIZE",size));
     deviceParameters.insert(std::make_pair("MOUNTPOINT",mountPoint));
     deviceParameters.insert(std::make_pair("NAME",name));
+    deviceParameters.insert(std::make_pair("TYPE",type));
 
     return deviceParameters;
 }
 
 
-void ManagementOfExternalDevices::MountDevice(const QString &deviceName, const QString &deviceLabel, const bool &automount)
+void ManagementOfExternalDevices::MountDevice(const QString &deviceName, const QString &deviceLabel, const QString &type, const bool &automount)
 {
+    /*
     if(automount)
     {
         EnableAutomount(deviceName,deviceLabel);
     }
+    */
 
-    QString mountpoint = "/mnt/" + deviceLabel;
+
+
+
+    QString mountpoint = "/mnt/'" + deviceLabel  + "'";
     QString commend = "mkdir " + mountpoint;
-    QProcess::execute(commend);
+    qDebug() << commend;
+    //QProcess::execute(commend);
+    QProcess process;
+    process.setProcessChannelMode(QProcess::MergedChannels);
+    //commend << "-c" << "lsblk -rnio LABEL,SIZE,MOUNTPOINT,NAME | grep " + deviceName;
+    QStringList commend_new;
+    commend_new << "-c" << commend;
+    process.start("bash", commend_new);
+    while(process.waitForFinished());
+    if(type=="ntfs")
+    {
+        commend = "ntfs-3g /dev/" + deviceName + " " +mountpoint;
+    }
+    else
+    {
+        commend = "mount /dev/" + deviceName + " " +mountpoint;
+    }
 
-    commend = "mount /dev/" + deviceName + " " +mountpoint;
-    QProcess::execute(commend);
+    qDebug() << commend;
+
+    //QProcess process2;
+    //process2.setProcessChannelMode(QProcess::MergedChannels);
+    //QStringList commend2;
+    //commend << "-c" << "lsblk -rnio LABEL,SIZE,MOUNTPOINT,NAME | grep " + deviceName;
+    //commend2 << "-c" << "lsblk -rnio NAME,SIZE,FSTYPE,MOUNTPOINT | grep '" + name + "'";
+    //process2.start("bash", commend2);
+    QProcess process2;
+    process.setProcessChannelMode(QProcess::MergedChannels);
+    //commend << "-c" << "lsblk -rnio LABEL,SIZE,MOUNTPOINT,NAME | grep " + deviceName;
+    QStringList commend_new2;
+    commend_new2 << "-c" << commend;
+    process2.start("bash", commend_new2);
+    while(process2.waitForFinished());
+    //QProcess::execute(commend);
 }
 
 void ManagementOfExternalDevices::UmountDevice(const QString &deviceName, const QString &mountpoint)
 {
-    DisableAutomount(deviceName);
+    //DisableAutomount(deviceName);
 
     QString commend = "umount /dev/" + deviceName;
     QProcess::execute(commend);
@@ -97,7 +154,6 @@ void ManagementOfExternalDevices::EnableAutomount(const QString &deviceName, con
     sh.waitForFinished();
     sh.close();
 }
-
 
 void ManagementOfExternalDevices::DisableAutomount(const QString &deviceName)
 {
