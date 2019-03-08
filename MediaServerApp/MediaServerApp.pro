@@ -38,7 +38,9 @@ SOURCES += \
     ViewModel/settingsscreensaver.cpp \
     screensaver.cpp \
     editscreensaverconfigfile.cpp \
-    ViewModel/settingsstatus.cpp
+    ViewModel/settingsstatus.cpp \
+    managementntfsdrive.cpp \
+    managementfatdrive.cpp
 
 RESOURCES += qml.qrc
 
@@ -69,7 +71,9 @@ HEADERS += \
     ViewModel/mpdconfig.h \
     editmpdconfigfile.h \
     screensaver.h \
-    editscreensaverconfigfile.h
+    editscreensaverconfigfile.h \
+    managementntfsdrive.h \
+    managementfatdrive.h
 
 FORMS +=
 

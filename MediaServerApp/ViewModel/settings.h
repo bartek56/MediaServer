@@ -8,6 +8,8 @@
 #include "editwificonfigfile.h"
 #include "editscreensaverconfigfile.h"
 #include "managementofexternaldevices.h"
+#include "managementfatdrive.h"
+#include "managementntfsdrive.h"
 
 
 class Settings : public QObject
@@ -52,7 +54,7 @@ public slots:
 private:
     EditWifiConfigFile editWifiConfigFile;
     EditScreenSaverConfigFile editScreenSaverConfigFile;
-    ManagementOfExternalDevices managementExternalDevices;
+    ManagementOfExternalDevices *managementExternalDevices;
     std::vector<WifiConfigsName> vWifiConfigs;
     std::map<QString, QString> mScreenSaverConfigs;
     int ConvertTimeFromMiliSecStringToMinutesInt(QString milisec);
