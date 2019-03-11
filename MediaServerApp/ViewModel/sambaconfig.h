@@ -22,6 +22,7 @@ struct ConfigName {
     const QString WRITABLE = "writable";
     const QString GUEST_OK = "guest ok";
     const QString READ_ONLY = "read only";
+    const QString FORCE_USER = "force user";
   };
 
 class SambaConfig : public QObject

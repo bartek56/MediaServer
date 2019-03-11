@@ -18,6 +18,7 @@ void SambaConfig::checkService(QObject *saveButton)
     QStringList devicesList;
     process.waitForFinished();
     auto text = process.readAll();
+    process.close();
     saveButton->setProperty("enabled",QVariant(!text.contains("in")));
 }
 
@@ -38,20 +39,28 @@ void SambaConfig::checkingIfDisksAreMounted()
         if(line.contains("/dev/sda1"))
         {
             externalDisk1IsMounted=true;
+            //line.replace("\040"," ");
             auto parameters = line.split(' ');
             deviceMountpoint1=parameters[1];
+            deviceMountpoint1.replace("\040"," ");
             pathTextField1->setProperty("text", QVariant(deviceMountpoint1));
             auto deviceName = parameters[1].remove(0,5);
+            deviceName.replace("\040"," ");
             nameTextField1->setProperty("text", QVariant(deviceName));
             deviceName1=deviceName;
+
         }
         else if(line.contains("/dev/sdb1"))
         {
             externalDisk2IsMounted=true;
             auto parameters = line.split(' ');
             deviceMountpoint2=parameters[1];
+            deviceMountpoint2.replace("\\040"," ");
             pathTextField2->setProperty("text", QVariant(deviceMountpoint2));
             auto deviceName = parameters[1].remove(0,5);
+            qDebug() << deviceName;
+            deviceName.replace("\\040"," ");
+            qDebug() << deviceName;
             nameTextField2->setProperty("text", QVariant(deviceName));
             deviceName2=deviceName;
         }

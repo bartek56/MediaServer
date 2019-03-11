@@ -8,7 +8,7 @@ void ManagementNtfsDrive::MountDevice(const QString &deviceName, const QString &
     }
 
     QString mountpoint = "/mnt/'" + deviceLabel  + "'";
-    QString commendMakeDir = "mkdir " + mountpoint;
+    QString commendMakeDir = "mkdir -p " + mountpoint;
 
     QProcess processMakeDir;
     processMakeDir.setProcessChannelMode(QProcess::MergedChannels);
@@ -17,8 +17,6 @@ void ManagementNtfsDrive::MountDevice(const QString &deviceName, const QString &
     processMakeDir.start("bash", commendMakeDirBash);
     while(processMakeDir.waitForFinished());
     processMakeDir.close();
-
-
 
     QProcess processMount;
     processMount.setProcessChannelMode(QProcess::MergedChannels);
@@ -44,8 +42,8 @@ void ManagementNtfsDrive::UmountDevice(const QString &deviceName, const QString 
     while(processUmount.waitForFinished());
     processUmount.close();
 
-    QString commendRemove = "rm -r '" +mountpoint+"'";
-    qDebug() << "pint :" << commendRemove;
+
+    QString commendRemove = "rmdir '" +mountpoint+"'";
     QProcess processRemove;
     processRemove.setProcessChannelMode(QProcess::MergedChannels);
     QStringList commendRemoveBash;
@@ -53,6 +51,7 @@ void ManagementNtfsDrive::UmountDevice(const QString &deviceName, const QString 
     processRemove.start("bash", commendRemoveBash);
     while(processRemove.waitForFinished());
     processRemove.close();
+
 }
 
 void ManagementNtfsDrive::EnableAutomount(const QString &deviceName, const QString &deviceLabel)
