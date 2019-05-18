@@ -60,6 +60,7 @@ public:
     QObject* writablecheckBox1;
     QObject* guestOkCheckBox1;
     QObject* readOnlyCheckBox1;
+    QObject* enabledCheckBox1;
 
     QObject* externalDiskTabButton2;
 
@@ -71,6 +72,7 @@ public:
     QObject* writablecheckBox2;
     QObject* guestOkCheckBox2;
     QObject* readOnlyCheckBox2;
+    QObject* enabledCheckBox2;
 
     QObject* externalDiskTabButton3;
 
@@ -82,6 +84,7 @@ public:
     QObject* writablecheckBox3;
     QObject* guestOkCheckBox3;
     QObject* readOnlyCheckBox3;
+    QObject* enabledCheckBox3;
 
     explicit SambaConfig(QObject *parent = nullptr);
 
@@ -114,6 +117,7 @@ public:
     Q_INVOKABLE void setWritablecheckBox1(QObject* obj);
     Q_INVOKABLE void setGuestOkCheckBox1(QObject* obj);
     Q_INVOKABLE void setReadOnlyCheckBox1(QObject* obj);
+    Q_INVOKABLE void setEnabled1(QObject* obj);
 
     Q_INVOKABLE void setExternalDiskTabButton2(QObject* obj);
     Q_INVOKABLE void setCommentTextField2(QObject* obj);
@@ -124,6 +128,7 @@ public:
     Q_INVOKABLE void setWritablecheckBox2(QObject* obj);
     Q_INVOKABLE void setGuestOkCheckBox2(QObject* obj);
     Q_INVOKABLE void setReadOnlyCheckBox2(QObject* obj);
+    Q_INVOKABLE void setEnabled2(QObject* obj);
 
     Q_INVOKABLE void setExternalDiskTabButton3(QObject* obj);
     Q_INVOKABLE void setCommentTextField3(QObject* obj);
@@ -134,6 +139,7 @@ public:
     Q_INVOKABLE void setWritablecheckBox3(QObject* obj);
     Q_INVOKABLE void setGuestOkCheckBox3(QObject* obj);
     Q_INVOKABLE void setReadOnlyCheckBox3(QObject* obj);
+    Q_INVOKABLE void setEnabled3(QObject* obj);
 
     Q_INVOKABLE void bSave_onClicked();
 
@@ -164,6 +170,7 @@ public:
     Q_INVOKABLE void chbWritable1_onClicked(bool checked);
     Q_INVOKABLE void chbGuestOk1_onClicked(bool checked);
     Q_INVOKABLE void chbReadOnly1_onClicked(bool checked);
+    Q_INVOKABLE void bFileDialog1_onAccepted(QString catalog);
 
     Q_INVOKABLE void tfName2_onEditingFinished(QString text);
     Q_INVOKABLE void tfPath2_onEditingFinished(QString text);
@@ -173,6 +180,7 @@ public:
     Q_INVOKABLE void chbWritable2_onClicked(bool checked);
     Q_INVOKABLE void chbGuestOk2_onClicked(bool checked);
     Q_INVOKABLE void chbReadOnly2_onClicked(bool checked);
+    Q_INVOKABLE void bFileDialog2_onAccepted(QString catalog);
 
     Q_INVOKABLE void tfName3_onEditingFinished(QString text);
     Q_INVOKABLE void tfPath3_onEditingFinished(QString text);
@@ -182,9 +190,9 @@ public:
     Q_INVOKABLE void chbWritable3_onClicked(bool checked);
     Q_INVOKABLE void chbGuestOk3_onClicked(bool checked);
     Q_INVOKABLE void chbReadOnly3_onClicked(bool checked);
+    Q_INVOKABLE void bFileDialog3_onAccepted(QString catalog);
 
     Q_INVOKABLE void loadAllConfigs();
-    Q_INVOKABLE void checkingIfDisksAreMounted();
     Q_INVOKABLE void checkService(QObject *saveButton);
 
 private:
@@ -203,6 +211,7 @@ private:
 
     //void removeConfig(QString const configName);
     unsigned int indexOfExternalDiskConfiguration(QString diskName);
+    unsigned int indexOfExternalDiskConfigurationByName(QString name);
     void setCheckboxesFromFileSettings(QString configsParameters, QObject* checkbox);
     void setSettingFromCheckboxes(unsigned long row, QString configName, bool configsParameters);
     void showGlobalConfigs();
@@ -213,10 +222,6 @@ private:
     void showConfigsForExternalDisk1();
     void showConfigsForExternalDisk2();
     void showConfigsForExternalDisk3();
-
-    void loadConfigsExternalDisk1();
-    void loadConfigsExternalDisk2();
-    void loadConfigsExternalDisk3();
 
 
 public slots:

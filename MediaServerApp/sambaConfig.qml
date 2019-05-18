@@ -43,6 +43,51 @@ Dialog
         }
     }
 
+    FileDialog {
+        id: fileDialog1
+        folder: shortcuts.home
+        selectFolder: true
+        onAccepted:
+        {
+            sambaConfig.bFileDialog1_onAccepted(fileDialog1.folder)
+            sambaConfigDialog.visible=true
+        }
+        onRejected:
+        {
+            sambaConfigDialog.visible=true
+        }
+    }
+
+    FileDialog {
+        id: fileDialog2
+        folder: shortcuts.home
+        selectFolder: true
+        onAccepted:
+        {
+            sambaConfig.bFileDialog2_onAccepted(fileDialog2.folder)
+            sambaConfigDialog.visible=true
+        }
+        onRejected:
+        {
+            sambaConfigDialog.visible=true
+        }
+    }
+
+    FileDialog {
+        id: fileDialog3
+        folder: shortcuts.home
+        selectFolder: true
+        onAccepted:
+        {
+            sambaConfig.bFileDialog3_onAccepted(fileDialog3.folder)
+            sambaConfigDialog.visible=true
+        }
+        onRejected:
+        {
+            sambaConfigDialog.visible=true
+        }
+    }
+
     TabBar {
         id: tabBar
         width: parent.width
@@ -50,22 +95,19 @@ Dialog
             text: qsTr("Global")
         }
         TabButton {
-            text: qsTr("Local Share")
+            text: qsTr("Share 1")
         }
         TabButton {
             id: externalDisk1TabButton
-            text: qsTr("Disk 1")
-            visible: false
+            text: qsTr("Share 2")
         }
         TabButton {
             id: externalDisk2TabButton
-            text: qsTr("Disk 2")
-            visible: false
+            text: qsTr("Share 3")
         }
         TabButton {
             id: externalDisk3TabButton
-            text: qsTr("Disk 3")
-            visible: false
+            text: qsTr("Share 4")
         }
     }
 
@@ -410,7 +452,7 @@ Dialog
                 y: 70
                 width: 348
                 height: 280
-                columns: 2
+                columns: 3
                 Text {
                     id: name1Text
                     width: 171
@@ -425,6 +467,7 @@ Dialog
                     width: 80
                     height: 20
                     font.pixelSize: 18
+                    Layout.columnSpan: 2
                     onEditingFinished:
                     {
                         sambaConfig.tfName1_onEditingFinished(name1TextField.getText(0,name1TextField.length));
@@ -442,11 +485,25 @@ Dialog
                     id: path1TextField
                     width: 80
                     height: 20
+
                     Layout.preferredWidth: name1TextField.width
                     font.pixelSize: name1TextField.font.pixelSize
                     onEditingFinished:
                     {
                         sambaConfig.tfPath1_onEditingFinished(path1TextField.getText(0,path1TextField.length));
+                    }
+                }
+
+                Button {
+                    id: bOpenCatalog1
+                    width: 87
+                    text: "Open"
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.preferredWidth: 60
+                    onClicked:
+                    {
+                        fileDialog1.open()
+                        sambaConfigDialog.visible=false
                     }
                 }
 
@@ -461,6 +518,7 @@ Dialog
                     id: createMode1TextField
                     width: 80
                     height: 20
+                    Layout.columnSpan: 2
                     Layout.preferredWidth: name1TextField.width
                     font.pixelSize: name1TextField.font.pixelSize
                     onEditingFinished:
@@ -481,6 +539,7 @@ Dialog
                     id: directoryMode1TextField
                     width: 80
                     height: 20
+                    Layout.columnSpan: 2
                     Layout.preferredWidth: name1TextField.width
                     font.pixelSize: name1TextField.font.pixelSize
                     onEditingFinished:
@@ -534,7 +593,12 @@ Dialog
                     }
                 }
 
-                rows: 4
+                CheckBox {
+                    id: enabled1CheckBox
+                    text: qsTr("Enabled")
+                }
+
+                rows: 5
             }
         }
         Item {
@@ -546,7 +610,7 @@ Dialog
                 y: 70
                 width: 348
                 height: 280
-                columns: 2
+                columns: 3
                 rows: 4
                 Text {
                     id: tName2
@@ -562,6 +626,7 @@ Dialog
                     width: 80
                     height: 20
                     font.pixelSize: 18
+                    Layout.columnSpan: 2
                     onEditingFinished:
                     {
                         sambaConfig.tfName2_onEditingFinished(name2TextField.getText(0,name2TextField.length));
@@ -575,6 +640,8 @@ Dialog
                     font.pixelSize: tName2.font.pixelSize
                 }
 
+
+
                 TextField {
                     id: path2TextField
                     width: 80
@@ -587,6 +654,18 @@ Dialog
                     }
                 }
 
+                Button {
+                    id: bOpenCatalog2
+                    width: 87
+                    text: "Open"
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.preferredWidth: 60
+                    onClicked:
+                    {
+                        fileDialog2.open()
+                        sambaConfigDialog.visible=false
+                    }
+                }
                 Text {
                     id: tCreateMode2
                     text: qsTr("Create Mode")
@@ -600,6 +679,7 @@ Dialog
                     height: 20
                     Layout.preferredWidth: name2TextField.width
                     font.pixelSize: name2TextField.font.pixelSize
+                    Layout.columnSpan: 2
                     onEditingFinished:
                     {
                         sambaConfig.tfCreateMode2_onEditingFinished(createMode2TextField.getText(0,createMode2TextField.length));
@@ -620,6 +700,7 @@ Dialog
                     height: 20
                     Layout.preferredWidth: name2TextField.width
                     font.pixelSize: name2TextField.font.pixelSize
+                    Layout.columnSpan: 2
                     onEditingFinished:
                     {
                         sambaConfig.tfDirectoryMode2_onEditingFinished(directoryMode2TextField.getText(0,directoryMode2TextField.length));
@@ -635,7 +716,7 @@ Dialog
                 width: 192
                 height: 292
                 columns: 1
-                rows: 4
+                rows: 5
                 CheckBox {
                     id: browseable2CheckBox
                     text: qsTr("Browseable")
@@ -671,6 +752,12 @@ Dialog
                         sambaConfig.chbReadOnly2_onClicked(readOnly2CheckBox.checked);
                     }
                 }
+
+                CheckBox {
+                    id: enabled2CheckBox
+                    text: qsTr("Enabled")
+                }
+
             }
         }
         Item {
@@ -681,7 +768,7 @@ Dialog
                 y: 70
                 width: 348
                 height: 280
-                columns: 2
+                columns: 3
                 Text {
                     id: tName3
                     width: 171
@@ -696,6 +783,7 @@ Dialog
                     width: 80
                     height: 20
                     font.pixelSize: 18
+                    Layout.columnSpan: 2
                     onEditingFinished:
                     {
                         sambaConfig.tfName3_onEditingFinished(name3TextField.getText(0,name3TextField.length));
@@ -722,6 +810,19 @@ Dialog
                     }
                 }
 
+                Button {
+                    id: bOpenCatalog3
+                    width: 87
+                    text: "Open"
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.preferredWidth: 60
+                    onClicked:
+                    {
+                        fileDialog3.open()
+                        sambaConfigDialog.visible=false
+                    }
+                }
+
                 Text {
                     id: tCreateMode3
                     text: qsTr("Create Mode")
@@ -733,6 +834,7 @@ Dialog
                     id: createMode3TextField
                     width: 80
                     height: 20
+                    Layout.columnSpan: 2
                     Layout.preferredWidth: name3TextField.width
                     font.pixelSize: name3TextField.font.pixelSize
                     onEditingFinished:
@@ -753,6 +855,7 @@ Dialog
                     id: directoryMode3TextField
                     width: 80
                     height: 20
+                    Layout.columnSpan: 2
                     Layout.preferredWidth: name3TextField.width
                     font.pixelSize: name3TextField.font.pixelSize
                     onEditingFinished:
@@ -805,7 +908,13 @@ Dialog
                         sambaConfig.chbReadOnly3_onClicked(readOnly3CheckBox.checked);
                     }
                 }
-                rows: 4
+
+                CheckBox {
+                    id: enabled3CheckBox
+                    text: qsTr("Enabled")
+                }
+
+                rows: 5
             }
         }
     }
@@ -935,6 +1044,7 @@ Dialog
         sambaConfig.setWritablecheckBox1(writable1CheckBox);
         sambaConfig.setGuestOkCheckBox1(guestOk1CheckBox);
         sambaConfig.setReadOnlyCheckBox1(readOnly1CheckBox);
+        sambaConfig.setEnabled1(enabled1CheckBox);
 
         sambaConfig.setCommentTextField2(name2TextField);
         sambaConfig.setPathTextField2(path2TextField);
@@ -944,6 +1054,7 @@ Dialog
         sambaConfig.setWritablecheckBox2(writable2CheckBox);
         sambaConfig.setGuestOkCheckBox2(guestOk2CheckBox);
         sambaConfig.setReadOnlyCheckBox2(readOnly2CheckBox);
+        sambaConfig.setEnabled2(enabled2CheckBox);
 
         sambaConfig.setCommentTextField3(name3TextField);
         sambaConfig.setPathTextField3(path3TextField);
@@ -953,6 +1064,7 @@ Dialog
         sambaConfig.setWritablecheckBox3(writable3CheckBox);
         sambaConfig.setGuestOkCheckBox3(guestOk3CheckBox);
         sambaConfig.setReadOnlyCheckBox3(readOnly3CheckBox);
+        sambaConfig.setEnabled3(enabled3CheckBox);
 
         sambaConfig.setExternalDiskTabButton1(externalDisk1TabButton);
         sambaConfig.setExternalDiskTabButton2(externalDisk2TabButton);
@@ -960,7 +1072,6 @@ Dialog
 
         sambaConfig.checkService(saveButton);
 
-        sambaConfig.checkingIfDisksAreMounted();
         sambaConfig.loadAllConfigs();
 
     }

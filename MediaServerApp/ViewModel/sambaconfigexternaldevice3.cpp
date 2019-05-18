@@ -81,3 +81,8 @@ void SambaConfig::setReadOnlyCheckBox3(QObject* obj)
     readOnlyCheckBox3 = obj;
 }
 
+void SambaConfig::setEnabled3(QObject* obj)
+{
+    enabledCheckBox3 = obj;
+}
+
