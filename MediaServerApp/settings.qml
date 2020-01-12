@@ -81,12 +81,12 @@ Dialog
                 x: 38
                 y: 51
                 width: 352
-                height: 362
-                rows: 7
+                height: 350
+                rows: 8
                 columns: 3
 
                 Text {
-                    id: text1
+                    id: tvHeadEndStatusText
                     text: qsTr("TvHeadEnd")
                     font.pixelSize: 16
                 }
@@ -115,7 +115,7 @@ Dialog
                 }
 
                 Text {
-                    id: text2
+                    id: ympdStatusText
                     text: qsTr("Website Music Player")
                     font.pixelSize: 16
                 }
@@ -143,7 +143,7 @@ Dialog
                 }
 
                 Text {
-                    id: text3
+                    id: mpdStatusText
                     text: qsTr("Music Player Daemon")
                     font.pixelSize: 16
                 }
@@ -171,7 +171,7 @@ Dialog
                 }
 
                 Text {
-                    id: text4
+                    id: dlnaStatusText
                     text: qsTr("DLNA")
                     font.pixelSize: 16
                 }
@@ -199,7 +199,7 @@ Dialog
                 }
 
                 Text {
-                    id: text5
+                    id: sambaStatusText
                     text: qsTr("Samba")
                     font.pixelSize: 16
                 }
@@ -227,7 +227,36 @@ Dialog
                 }
 
                 Text {
-                    id: text6
+                    id: fileBrowserStatusText
+                    text: qsTr("File Browser")
+                    font.pixelSize: 16
+                }
+
+                Switch {
+                    id: fileBrowserStatusSwitch
+                    text: qsTr("Auto Startup")
+                    checked: false
+                    font.pointSize: 10
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.fileBrowserStatusSwitch_OnClicked(fileBrowserStatusSwitch.checked, fileBrowserStatusButton)
+                    }
+                }
+
+                Button {
+                    id: fileBrowserStatusButton
+                    text: qsTr("Stop")
+                    Layout.preferredWidth: 70
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.fileBrowserStatusButton_OnClicked(fileBrowserStatusButton, fileBrowserStatusButton.text)
+                    }
+                }
+
+                Text {
+                    id: ftpStatusText
                     text: qsTr("FTP")
                     font.pixelSize: 16
                 }
@@ -254,6 +283,33 @@ Dialog
                     }
                 }
 
+                Text {
+                    id: torrentClientStatusText
+                    text: qsTr("Torrent Web Client")
+                    font.pixelSize: 16
+                }
+
+                Switch {
+                    id: torrentClientStatusSwitch
+                    text: qsTr("Auto Startup")
+                    font.pointSize: 10
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.torrentClientStatusSwitch_OnClicked(torrentClientStatusSwitch.checked, torrentClientStatusButton)
+                    }
+                }
+
+                Button {
+                    id: torrentClientStatusButton
+                    text: qsTr("Stop")
+                    Layout.preferredWidth: 70
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        settings.torrentClientStatusButton_OnClicked(torrentClientStatusButton, torrentClientStatusButton.text)
+                    }
+                }
 
                 MessageDialog {
                     id:shutdownMessage
@@ -262,19 +318,6 @@ Dialog
                     text: "Are You sure to Power Off device?"
                     standardButtons: StandardButton.Yes | StandardButton.No
                     onYes: settings.shutdownButton_OnClicked();
-                }
-
-                Button {
-                    id: shutdownButton
-                    text: qsTr("Shutdown Device")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    Layout.columnSpan: 3
-                    onClicked:
-                    {
-                        shutdownMessage.visible=true
-                        settingsDialog.close()
-
-                    }
                 }
             }
 
@@ -297,7 +340,7 @@ Dialog
 
                 Text {
                     id: networkInfoText
-                    Layout.preferredHeight: 260
+                    Layout.preferredHeight: 200
                     Layout.preferredWidth: 250
                     wrapMode: Text.WordWrap
                     font.family: "Tahoma"
@@ -306,6 +349,17 @@ Dialog
                     font.pixelSize: 12
                     function set() {
                         settings.updateNetworkStatus(networkInfoText)
+                    }
+                }
+
+                Button {
+                    id: shutdownButton
+                    text: qsTr("Shutdown Device")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    onClicked:
+                    {
+                        shutdownMessage.visible=true
+                        settingsDialog.close()
                     }
                 }
 
@@ -772,13 +826,13 @@ Dialog
         settings.loadExternalDevices(devicesComboBox,mountButton)
         settings.loadScreenSaverConfigurations(startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox,randomCheckBox)
         settings.checkSystemdStatus(tvHeadEndStatusSwitch,tvHeadEndStatusButton,"tvheadend")
+        settings.checkSystemdStatus(torrentClientStatusSwitch,torrentClientStatusButton,"transmission-daemon")
+        settings.checkSystemdStatus(fileBrowserStatusSwitch,fileBrowserStatusButton,"fileBrowser")
         settings.checkSystemdStatus(ympdStatusSwitch,ympdStatusButton,"ympd")
         settings.checkSystemdStatus(mpdStatusSwitch,mpdStatusButton,"mpd")
         settings.checkSystemdStatus(dlnaStatusSwitch,dlnaStatusButton,"minidlnad")
         settings.checkSystemdStatus(sambaStatusSwitch,sambaStatusButton,"smb")
         settings.checkSystemdStatus(ftpStatusSwitch,ftpStatusButton,"vsftpd")
-
-
 
         busyIndication.running = false
     }

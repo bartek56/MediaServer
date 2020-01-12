@@ -44,6 +44,10 @@ public:
     Q_INVOKABLE void sambaStatusButton_OnClicked(QObject *sambaStatusButton, const QString sambaStatusButtonText);
     Q_INVOKABLE void ftpStatusSwitch_OnClicked(const bool ftpStatusSwitchIsChecked, QObject *ftpStatusButton);
     Q_INVOKABLE void ftpStatusButton_OnClicked(QObject *ftpStatusButton, const QString ftpStatusButtonText);
+    Q_INVOKABLE void fileBrowserStatusSwitch_OnClicked(const bool fileBrowserStatusSwitchIsChecked, QObject *fileBrowserStatusButton);
+    Q_INVOKABLE void fileBrowserStatusButton_OnClicked(QObject *fileBrowserStatusButton, const QString fileBrowserStatusButtonText);
+    Q_INVOKABLE void torrentClientStatusSwitch_OnClicked(const bool torrentClientStatusSwitchIsChecked, QObject *torrentClientStatusButton);
+    Q_INVOKABLE void torrentClientStatusButton_OnClicked(QObject *torrentClientStatusButton, const QString torrentClientStatusButtonText);
 
     Q_INVOKABLE void shutdownButton_OnClicked();
 
@@ -61,6 +65,7 @@ private:
     QObject* bConnect;
     QObject* bScanNetwork;
     bool wifiIsOn;
+    bool checkSystemdStatusExist(const QString &serviceName);
     bool checkSystemdStatusIsEnabled(const QString &serviceNames);
     bool checkSystemdStatusIsActive(const QString &serviceName);
     void StatusSwitch_onClicked(const bool statusSwitchIsChecked, QObject *statusButton, const QString &serviceName);

@@ -29,21 +29,31 @@ void Settings::updateNetworkStatus(QObject *obj)
 
 void Settings::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString nameService)
 {
-    auto serviceIsEnable = checkSystemdStatusIsEnabled(nameService);
-    statusSwitch->setProperty("checked",QVariant(serviceIsEnable));
-    statusButton->setProperty("enabled",QVariant(serviceIsEnable));
-    if(serviceIsEnable)
-    {
-        auto serviceIsActive = checkSystemdStatusIsActive(nameService);
+    auto serviceExist = checkSystemdStatusExist(nameService);
 
-        if(serviceIsActive)
-        {
-            statusButton->setProperty("text",QVariant("stop"));
-        }
-        else
-        {
-            statusButton->setProperty("text",QVariant("start"));
-        }
+    if(serviceExist)
+    {
+      auto serviceIsEnable = checkSystemdStatusIsEnabled(nameService);
+      statusSwitch->setProperty("checked",QVariant(serviceIsEnable));
+      statusButton->setProperty("enabled",QVariant(serviceIsEnable));
+      if(serviceIsEnable)
+      {
+          auto serviceIsActive = checkSystemdStatusIsActive(nameService);
+
+          if(serviceIsActive)
+          {
+              statusButton->setProperty("text",QVariant("stop"));
+          }
+          else
+          {
+              statusButton->setProperty("text",QVariant("start"));
+          }
+      }
+    }
+    else
+    {
+      statusSwitch->setProperty("enabled",QVariant(false));
+      statusButton->setProperty("enabled",QVariant(false));
     }
 }
 
@@ -109,6 +119,26 @@ void Settings::ftpStatusButton_OnClicked(QObject *ftpStatusButton, const QString
     StatusButton_onClicked(ftpStatusButton, ftpStatusButtonText,"vsftpd");
 }
 
+void Settings::fileBrowserStatusSwitch_OnClicked(const bool fileBrowserStatusSwitchIsChecked, QObject *fileBrowserStatusButton)
+{
+    StatusSwitch_onClicked(fileBrowserStatusSwitchIsChecked, fileBrowserStatusButton,"fileBrowser");
+}
+
+void Settings::fileBrowserStatusButton_OnClicked(QObject *ftpStatusButton, const QString ftpStatusButtonText)
+{
+    StatusButton_onClicked(ftpStatusButton, ftpStatusButtonText,"fileBrowser");
+}
+
+void Settings::torrentClientStatusSwitch_OnClicked(const bool torrentClientStatusSwitchIsChecked, QObject *torrentClientStatusButton)
+{
+    StatusSwitch_onClicked(torrentClientStatusSwitchIsChecked, torrentClientStatusButton,"transmission-daemon");
+}
+
+void Settings::torrentClientStatusButton_OnClicked(QObject *torrentClientStatusButton, const QString torrentClientStatusButtonText)
+{
+    StatusButton_onClicked(torrentClientStatusButton, torrentClientStatusButtonText,"transmission-daemon");
+}
+
 bool Settings::checkSystemdStatusIsActive(const QString &serviceName)
 {
     QProcess process;
@@ -132,6 +162,19 @@ bool Settings::checkSystemdStatusIsEnabled(const QString &serviceName)
     process.waitForFinished();
     auto text = process.readAll();
     return text.contains("enabled");
+}
+
+bool Settings::checkSystemdStatusExist(const QString &serviceName)
+{
+    QProcess process;
+    process.setProcessChannelMode(QProcess::MergedChannels);
+    process.start("bash", QStringList() << "-c" << "systemctl is-enabled "+serviceName);
+
+    process.setReadChannel(QProcess::StandardOutput);
+    QStringList devicesList;
+    process.waitForFinished();
+    auto text = process.readAll();
+    return (text.contains("enabled") || text.contains("disabled"));
 }
 
 void Settings::StatusSwitch_onClicked(const bool statusSwitchIsChecked, QObject *statusButton, const QString &serviceName)
