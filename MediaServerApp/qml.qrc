@@ -20,5 +20,6 @@
         <file>icons/pcmanfm.png</file>
         <file>icons/poweroff.png</file>
         <file>screensaver.qml</file>
+        <file>alarm.qml</file>
     </qresource>
 </RCC>

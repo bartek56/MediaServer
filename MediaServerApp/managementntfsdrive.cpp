@@ -1,12 +1,12 @@
 #include "managementntfsdrive.h"
 
-void ManagementNtfsDrive::MountDevice(const QString &deviceName, const QString &deviceLabel, const QString &type, const bool &automount)
+void ManagementNtfsDrive::MountDevice(const QString &deviceName, QString &deviceLabel, const QString &type, const bool &automount)
 {
     if(automount)
     {
         EnableAutomount(deviceName,deviceLabel);
     }
-
+/*
     QString mountpoint = "/mnt/'" + deviceLabel  + "'";
     QString commendMakeDir = "mkdir -p " + mountpoint;
 
@@ -26,6 +26,7 @@ void ManagementNtfsDrive::MountDevice(const QString &deviceName, const QString &
     processMount.start("bash", commendNtfsMountBash);
     while(processMount.waitForFinished());
     processMount.close();
+    */
 }
 
 void ManagementNtfsDrive::UmountDevice(const QString &deviceName, const QString &mountpoint)
@@ -54,9 +55,11 @@ void ManagementNtfsDrive::UmountDevice(const QString &deviceName, const QString 
 
 }
 
-void ManagementNtfsDrive::EnableAutomount(const QString &deviceName, const QString &deviceLabel)
+void ManagementNtfsDrive::EnableAutomount(const QString &deviceName, QString &deviceLabel)
 {
     QStringList automountCommend;
+
+    deviceLabel.replace(" ","\040");
     automountCommend << "-c" << "echo \"/dev/" + deviceName + "  /mnt/'"+deviceLabel+"' ntfs   rw,auto,user    0   0 \" >> /etc/fstab";
     QProcess sh;
     sh.start("sh", automountCommend);

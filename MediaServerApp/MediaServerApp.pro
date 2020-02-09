@@ -40,7 +40,9 @@ SOURCES += \
     editscreensaverconfigfile.cpp \
     ViewModel/settingsstatus.cpp \
     managementntfsdrive.cpp \
-    managementfatdrive.cpp
+    managementfatdrive.cpp \
+    alarm.cpp \
+    ViewModel/alarmview.cpp
 
 RESOURCES += qml.qrc
 
@@ -73,7 +75,9 @@ HEADERS += \
     screensaver.h \
     editscreensaverconfigfile.h \
     managementntfsdrive.h \
-    managementfatdrive.h
+    managementfatdrive.h \
+    alarm.h \
+    ViewModel/alarmview.h
 
 FORMS +=
 

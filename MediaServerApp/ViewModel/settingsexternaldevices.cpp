@@ -30,7 +30,7 @@ void Settings::cbDevices_onDisplayTextChanged(QString deviceName, QObject *devic
 
 }
 
-void Settings::bMount_onClicked(const QString mountpoint,const QString deviceName, const QString deviceLabel, const bool autoMount, const QString type)
+void Settings::bMount_onClicked(const QString mountpoint,const QString deviceName, QString deviceLabel, const bool autoMount, const QString type)
 {
     if(mountpoint.count()>2)
     {

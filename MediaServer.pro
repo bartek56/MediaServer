@@ -14,6 +14,6 @@ QT_DEBUG_PLUGINS=1
 
 TEMPLATE = subdirs
 
-SUBDIRS = MediaServerApp \
-    GoogleTests
+SUBDIRS = MediaServerApp #\
+    #GoogleTests
 

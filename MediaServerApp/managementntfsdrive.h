@@ -6,9 +6,9 @@ class ManagementNtfsDrive : public ManagementOfExternalDevices
 {
 public:
     //ManagementNtfsDrive():ManagementOfExternalDevices(){}
-    virtual void MountDevice(const QString &deviceName, const QString &deviceLabel, const QString &type, const bool &automount) override;
+    virtual void MountDevice(const QString &deviceName, QString &deviceLabel, const QString &type, const bool &automount) override;
     virtual void UmountDevice(const QString &deviceName, const QString &mountpoint) override;
-    virtual void EnableAutomount(const QString &deviceName, const QString &deviceLabel) override;
+    virtual void EnableAutomount(const QString &deviceName, QString &deviceLabel) override;
     virtual void DisableAutomount(const QString &deviceName) override;
 };
 

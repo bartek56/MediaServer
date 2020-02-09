@@ -1,13 +1,13 @@
 #include "managementfatdrive.h"
 
 
-void ManagementFatDrive::MountDevice(const QString &deviceName, const QString &deviceLabel, const QString &type, const bool &automount)
+void ManagementFatDrive::MountDevice(const QString &deviceName, QString &deviceLabel, const QString &type, const bool &automount)
 {
     if(automount)
     {
         EnableAutomount(deviceName,deviceLabel);
     }
-
+/*
     QString mountpoint = "/mnt/'" + deviceLabel  + "'";
     QString commend = "mkdir -p " + mountpoint;
 
@@ -28,6 +28,7 @@ void ManagementFatDrive::MountDevice(const QString &deviceName, const QString &d
     process2.start("bash", commend_new2);
     while(process2.waitForFinished());
     process2.close();
+    */
 }
 
 void ManagementFatDrive::UmountDevice(const QString &deviceName, const QString &mountpoint)
@@ -41,9 +42,10 @@ void ManagementFatDrive::UmountDevice(const QString &deviceName, const QString &
     QProcess::execute(commend);
 }
 
-void ManagementFatDrive::EnableAutomount(const QString &deviceName, const QString &deviceLabel)
+void ManagementFatDrive::EnableAutomount(const QString &deviceName, QString &deviceLabel)
 {
     QStringList automountCommend;
+    deviceLabel.replace(' ','\040');
     automountCommend << "-c" << "echo \"/dev/" + deviceName + "  /mnt/'"+deviceLabel+"' vfat   defaults    0   1 \" >> /etc/fstab";
     QProcess sh;
     sh.start("sh", automountCommend);

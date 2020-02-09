@@ -9,11 +9,30 @@
 #include "ViewModel/settings.h"
 #include "ViewModel/dlnaconfig.h"
 #include "ViewModel/mpdconfig.h"
+#include "ViewModel/alarmview.h"
 #include "screensaver.h"
 
 QQuickView *MainWindow::mainView;
 
 QTimer *ScreenSaver::timer;
+
+bool isItAlarm()
+{
+    QProcess process;
+    process.setProcessChannelMode(QProcess::MergedChannels);
+    process.start("bash", QStringList() << "-c" << "systemctl is-active cron.service");
+    process.setReadChannel(QProcess::StandardOutput);
+    QStringList devicesList;
+    process.waitForFinished();
+    auto text = process.readAll();
+    if(!text.contains("in")) // alarm active
+    {
+        return true;
+    }
+    return false;
+}
+
+
 
 int main(int argc, char *argv[])
 {
@@ -31,14 +50,29 @@ int main(int argc, char *argv[])
     qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");
     qmlRegisterType<Settings>("SettingsLib", 1, 0, "Settings");
     qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
+    qmlRegisterType<AlarmView>("AlarmViewLib", 1, 0, "AlarmView");
     qmlRegisterType<ScreenSaver>("ScreenSaverLib", 1, 0, "ScreenSaver");
 
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->setSource(QString("qrc:/main.qml"));
+
+    if(isItAlarm())
+    {
+        view->setSource(QString("qrc:/alarm.qml"));
+    }
+    else
+    {
+        view->setSource(QString("qrc:/main.qml"));
+    }
+
     view->show();
 
     ScreenSaver screen;
     screen.Init();
+
+    QString commend2 = "/opt/start2.sh 999999";
+    qint64 pid2;
+    QProcess appProcess2;
+    appProcess2.startDetached("sh", QStringList() << "-c" << commend2,QProcess::nullDevice(),&pid2);
 
     return app.exec();
 }
