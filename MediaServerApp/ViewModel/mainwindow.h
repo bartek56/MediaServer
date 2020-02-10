@@ -21,8 +21,6 @@ public:
 
 public slots:
 
-private:
-    void startApplication(QString commend);
 };
 
 #endif // MAINWINDOW_H

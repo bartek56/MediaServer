@@ -16,8 +16,6 @@ void AlarmView::snooze()
 {
     qDebug() << "snooze";
 
-    QProcess::execute("systemctl stop alarm.service");
-    QProcess::execute("mpc volume 60");
-    QProcess::execute("systemctl restart start.service");
-
+    QProcess::startDetached("mpc volume 60");
+    QProcess::startDetached("systemctl stop alarm.service");
 }

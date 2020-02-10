@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QApplication>
 #include <QtQuick>
+#include <QThread>
 #include "editsambaconfigfile.h"
 #include "ViewModel/mainwindow.h"
 #include "ViewModel/sambaconfig.h"
@@ -20,7 +21,7 @@ bool isItAlarm()
 {
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("bash", QStringList() << "-c" << "systemctl is-active cron.service");
+    process.start("bash", QStringList() << "-c" << "systemctl is-active alarm.service");
     process.setReadChannel(QProcess::StandardOutput);
     QStringList devicesList;
     process.waitForFinished();
@@ -68,11 +69,6 @@ int main(int argc, char *argv[])
 
     ScreenSaver screen;
     screen.Init();
-
-    QString commend2 = "/opt/start2.sh 999999";
-    qint64 pid2;
-    QProcess appProcess2;
-    appProcess2.startDetached("sh", QStringList() << "-c" << commend2,QProcess::nullDevice(),&pid2);
 
     return app.exec();
 }
