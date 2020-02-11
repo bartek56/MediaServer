@@ -23,13 +23,24 @@ bool isItAlarm()
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start("bash", QStringList() << "-c" << "systemctl is-active alarm.service");
     process.setReadChannel(QProcess::StandardOutput);
-    QStringList devicesList;
     process.waitForFinished();
     auto text = process.readAll();
     if(!text.contains("in")) // alarm active
     {
         return true;
     }
+
+    QProcess process2;
+    process2.setProcessChannelMode(QProcess::MergedChannels);
+    process2.start("bash", QStringList() << "-c" << "systemctl is-active alarm_snooze.service");
+    process2.setReadChannel(QProcess::StandardOutput);
+    process2.waitForFinished();
+    auto text2 = process2.readAll();
+    if(!text2.contains("in")) // alarm active
+    {
+        return true;
+    }
+
     return false;
 }
 
@@ -62,13 +73,12 @@ int main(int argc, char *argv[])
     }
     else
     {
+        ScreenSaver screen;
+        screen.Init();
         view->setSource(QString("qrc:/main.qml"));
     }
 
     view->show();
-
-    ScreenSaver screen;
-    screen.Init();
 
     return app.exec();
 }

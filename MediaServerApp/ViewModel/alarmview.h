@@ -11,9 +11,12 @@ public:
     Q_INVOKABLE void stopAlarm();
     Q_INVOKABLE void snooze();
 
-signals:
+//signals:
 
-public slots:
+//public slots:
+private:
+    bool isSnooze;
+
 };
 
 #endif // ALARMVIEW_H

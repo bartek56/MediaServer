@@ -128,7 +128,7 @@ Rectangle{
                 height: 40
                 onClicked:
                 {
-                    dlnaConfigDialog.close()
+
                 }
             }
         }
