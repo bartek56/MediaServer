@@ -90,7 +90,7 @@ void AlarmView::snooze()
      {
          out << *it;
      }
-
+     file.close();
 
      QFile systemdVarFile ("/etc/systemdVariables");
 
