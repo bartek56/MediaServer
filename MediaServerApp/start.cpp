@@ -73,12 +73,13 @@ int main(int argc, char *argv[])
     }
     else
     {
-        ScreenSaver screen;
-        screen.Init();
         view->setSource(QString("qrc:/main.qml"));
     }
 
     view->show();
+
+    ScreenSaver screen;
+    screen.Init();
 
     return app.exec();
 }

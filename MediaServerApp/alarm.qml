@@ -17,6 +17,13 @@ Rectangle{
         id:alarmView
     }
 
+    BusyIndicator
+    {
+        id: busyIndication
+        anchors.centerIn: mainRectangle
+        running: false
+    }
+
     RowLayout {
         spacing: 80
         anchors.rightMargin: 20
@@ -68,6 +75,8 @@ Rectangle{
 
         GroupBox {
             id: groupBox1
+            x: 375
+            y: -1
             font.pointSize: 16
             GridLayout {
                 anchors.left: parent.left
@@ -88,7 +97,9 @@ Rectangle{
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     onClicked:
                     {
+                        busyIndication.running=true
                         alarmView.snooze()
+                        busyIndication.running=false
                     }
                 }
             }
@@ -100,46 +111,11 @@ Rectangle{
             leftPadding: 50
         }
 
-
-        RowLayout {
-            id: rowLayout
-            anchors.bottomMargin: 8
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-
-            Button
-            {
-                id: saveButton
-                width: 160
-                height: 40
-                text: "Save"
-                spacing: 9
-                onClicked:
-                {
-
-                }
-            }
-
-            Button
-            {
-                id: closeButton
-                text: "Close"
-                width: 160
-                height: 40
-                onClicked:
-                {
-
-                }
-            }
-        }
     }
 
     Component.onCompleted:
     {
-        //dlnaConfig.openConfigFile();
-        //dlnaConfig.loadMediaDirectoryConfigs(videoPathEditText,audioPathEditText,picturePathEditText);
-        //dlnaConfig.loadSettigs(portEditText,nameEditText);
-        //dlnaConfig.checkService(saveButton)
+
     }
 }
 

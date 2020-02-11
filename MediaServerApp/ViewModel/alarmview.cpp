@@ -20,7 +20,6 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent)
     {
         isSnooze = true;
     }
-
 }
 
 
@@ -45,7 +44,7 @@ void AlarmView::stopAlarm()
      {
          streamOut << *it;
      }
-    systemdVarFile.close();
+     systemdVarFile.close();
 
     if(isSnooze)
         QProcess::startDetached("systemctl stop alarm_snooze.service");
@@ -109,12 +108,17 @@ void AlarmView::snooze()
       }
      systemdVarFile.close();
 
-    QProcess::startDetached("mpc stop");
-    QProcess::startDetached("systemctl restart alarm_snooze.timer");
+     QProcess builder;
+     builder.setProcessChannelMode(QProcess::MergedChannels);
+     builder.start("systemctl daemon-reload");
 
-    if(isSnooze)
-        QProcess::startDetached("systemctl stop alarm_snooze.service");
-    else
-        QProcess::startDetached("systemctl stop alarm.service");
+     while(builder.waitForFinished());
+     QProcess::startDetached("mpc stop");
+     QProcess::startDetached("systemctl restart alarm_snooze.timer");
+
+     if(isSnooze)
+         QProcess::startDetached("systemctl stop alarm_snooze.service");
+     else
+         QProcess::startDetached("systemctl stop alarm.service");
 
 }
