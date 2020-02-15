@@ -25,7 +25,6 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent)
 
 void AlarmView::stopAlarm()
 {
-    qDebug() << "stopAlarm";
     QProcess::startDetached("mpc volume 20");
     QProcess::startDetached("systemctl stop alarm_snooze.timer");
     QProcess::startDetached("systemctl start gmpc");
@@ -120,5 +119,4 @@ void AlarmView::snooze()
          QProcess::startDetached("systemctl stop alarm_snooze.service");
      else
          QProcess::startDetached("systemctl stop alarm.service");
-
 }

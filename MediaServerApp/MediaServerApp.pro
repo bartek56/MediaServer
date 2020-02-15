@@ -41,8 +41,9 @@ SOURCES += \
     ViewModel/settingsstatus.cpp \
     managementntfsdrive.cpp \
     managementfatdrive.cpp \
-    alarm.cpp \
-    ViewModel/alarmview.cpp
+    ViewModel/alarmview.cpp \
+    editalarmconfigfile.cpp \
+    ViewModel/settingsalarm.cpp
 
 RESOURCES += qml.qrc
 
@@ -76,8 +77,8 @@ HEADERS += \
     editscreensaverconfigfile.h \
     managementntfsdrive.h \
     managementfatdrive.h \
-    alarm.h \
-    ViewModel/alarmview.h
+    ViewModel/alarmview.h \
+    editalarmconfigfile.h
 
 FORMS +=
 
