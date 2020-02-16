@@ -28,6 +28,8 @@ Dialog
 
     FileDialog {
         id: musicFileDialog
+        width: parent.width
+        height: parent.height
         folder: shortcuts.home
         //folder: shortcuts.mnt
         selectFolder: true

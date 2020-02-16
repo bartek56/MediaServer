@@ -30,6 +30,8 @@ Dialog
         id: videoFileDialog
         folder: shortcuts.home
         //folder: shortcuts.mnt
+        width: parent.width
+        height: parent.height
         selectFolder: true
         onAccepted:
         {
@@ -45,6 +47,8 @@ Dialog
     FileDialog {
         id: audioFileDialog
         folder: shortcuts.home
+        width: parent.width
+        height: parent.height
         //folder: shortcuts.mnt
         selectFolder: true
         onAccepted:
@@ -61,6 +65,8 @@ Dialog
     FileDialog {
         id: picturesFileDialog
         folder: shortcuts.home
+        width: parent.width
+        height: parent.height
         //folder: shortcuts.mnt
         selectFolder: true
         onAccepted:

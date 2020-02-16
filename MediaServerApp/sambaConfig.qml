@@ -30,6 +30,8 @@ Dialog
 
     FileDialog {
         id: fileDialog
+        width: parent.width
+        height: parent.height
         folder: shortcuts.home
         selectFolder: true
         onAccepted:
@@ -45,6 +47,8 @@ Dialog
 
     FileDialog {
         id: fileDialog1
+        width: parent.width
+        height: parent.height
         folder: shortcuts.home
         selectFolder: true
         onAccepted:
@@ -60,6 +64,8 @@ Dialog
 
     FileDialog {
         id: fileDialog2
+        width: parent.width
+        height: parent.height
         folder: shortcuts.home
         selectFolder: true
         onAccepted:
@@ -75,6 +81,8 @@ Dialog
 
     FileDialog {
         id: fileDialog3
+        width: parent.width
+        height: parent.height
         folder: shortcuts.home
         selectFolder: true
         onAccepted:

@@ -32,6 +32,8 @@ Dialog
 
     FileDialog {
         id: screenSaverFileDialog
+        width: parent.width
+        height: parent.height
         folder: shortcuts.home
         selectFolder: true
         onAccepted:
