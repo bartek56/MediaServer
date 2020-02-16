@@ -90,6 +90,7 @@ private:
     void StatusSwitch_onClicked(const bool statusSwitchIsChecked, QObject *statusButton, const QString &serviceName);
     void StatusButton_onClicked(QObject *statusButton, const QString statusButtonText, const QString &serviceName);
     void saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time);
+    QStringList loadMPDPlaylists();
 };
 
 #endif // SETTINGS_H

@@ -16,7 +16,6 @@ void Settings::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVo
     maxVolumeSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("maxVolume")));
     growingVolumeSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("growingVolume")));
     growingSpeedSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("growingSpeed")));
-    // TODO loading playlists from mpc
 
     if(mAlarmConfigs.at("theNewestSongs")=="true")
     {
@@ -28,6 +27,38 @@ void Settings::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVo
         isNewestSongsListRadioButton->setProperty("checked",QVariant(false));
         isPlaylistRadioButton->setProperty("checked",QVariant(true));
     }
+
+    QStringList mpdPlaylists = loadMPDPlaylists();
+    playlistComboBox->setProperty("model",QVariant(mpdPlaylists));
+    if(mpdPlaylists.count()==0)
+    {
+        isNewestSongsListRadioButton->setProperty("checked",QVariant(true));
+        isPlaylistRadioButton->setProperty("checked",QVariant(false));
+    }
+}
+
+
+QStringList Settings::loadMPDPlaylists()
+{
+    QProcess process;
+    process.setProcessChannelMode(QProcess::MergedChannels);
+    process.start("bash", QStringList() << "-c" << "mpc lsplaylists");
+    process.setReadChannel(QProcess::StandardOutput);
+    QStringList musicPlayList;
+    while(process.waitForFinished());
+    while (process.canReadLine())
+    {
+       auto line = process.readLine();
+       if (line.size()>1)
+       {
+            line.remove(line.length()-1,1);
+            QString qstrLine(line);
+            musicPlayList.push_back(qstrLine);
+       }
+    }
+    process.close();
+
+    return musicPlayList;
 }
 
 void Settings::checkAlarmService(QObject *enableAlarmSwitch)
@@ -127,6 +158,7 @@ void Settings::bStopTestAlarm_onClicked()
 
 void Settings::bSaveAlarm_onClicked(const int minVolume, const int maxVolume, const int growingVolume, const int growingSpeed, const bool isNewestSongsList, const QString playlist)
 {
+    qDebug() << "start bSaveAlarm_onClicked";
     QString minVolumeString = QString::number(minVolume);
     QString maxVolumeString = QString::number(maxVolume);
     QString growingVolumeString = QString::number(growingVolume);
@@ -139,10 +171,6 @@ void Settings::bSaveAlarm_onClicked(const int minVolume, const int maxVolume, co
     mAlarmConfigs.at("playlist")=playlist;
     mAlarmConfigs.at("theNewestSongs")=isNewestSongsListString;
     editAlarmConfigFile.SaveConfiguration("/opt/alarm.sh", mAlarmConfigs);
-    QProcess builder;
-    builder.setProcessChannelMode(QProcess::MergedChannels);
-    builder.start("systemctl daemon-reload");
-    while(builder.waitForFinished());
 }
 
 void Settings::bSaveAlarmService_onClicked(const bool monCheckBox, const bool tueCheckBox, const bool wedCheckBox, const bool thuCheckBox,
@@ -179,6 +207,10 @@ void Settings::bSaveAlarmService_onClicked(const bool monCheckBox, const bool tu
     daysOfWeek.remove(daysOfWeek.length()-1,1); // remove ',' on last sign
 
     saveAlarmIsSystemdTimer(daysOfWeek, time);
+    QProcess builder;
+    builder.setProcessChannelMode(QProcess::MergedChannels);
+    builder.start("systemctl daemon-reload");
+    while(builder.waitForFinished());
 }
 
 
