@@ -24,94 +24,141 @@ Rectangle{
         running: false
     }
 
-    RowLayout {
-        spacing: 80
+    GridLayout {
+        x: 20
+        y: 20
         anchors.rightMargin: 20
         anchors.leftMargin: 20
-        anchors.topMargin: 20
         anchors.bottomMargin: 20
+        anchors.topMargin: 20
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.top: parent.top
+        rows: 2
 
-        GroupBox {
-            id: groupBox
-            bottomPadding: 20
-            rightPadding: 60
-            font.pointSize: 16
-            Layout.preferredHeight: 150
-            Layout.preferredWidth: 250
-            title: qsTr("Wyłącz Alarm")
-            topPadding: 50
-            leftPadding: 60
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+        columns: 2
+        Layout.alignment: Qt.AlignLeft | Qt.AlignTop
 
-            GridLayout {
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
-                anchors.left: parent.left
-                anchors.top: parent.top
-                rows: 1
+        ToolButton {
+            id: toolButtonSnooze5min
+            font.wordSpacing: 1
+            font.letterSpacing: 1
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.preferredHeight: 100
+            Layout.preferredWidth: 170
+            leftPadding: 6
 
-                columns: 1
-                Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+            Text {
+                id: snooze5minText
 
-                Button {
-                    id: picturePathButton
-                    text: qsTr("WYŁĄCZ")
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    font.pointSize: 11
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    Layout.preferredWidth: 60
-                    onClicked:
-                    {
-                        alarmView.stopAlarm()
-                    }
-                }
+                width: 50
+                height: 26
+                text: qsTr("SNOOZE 5min")
+                anchors.verticalCenter: parent.verticalCenter
+                wrapMode: Text.WordWrap
+                font.letterSpacing: 1
+                anchors.horizontalCenterOffset: 0
+                anchors.horizontalCenter: parent.horizontalCenter
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.pointSize: 22
+
+            }
+            onClicked:
+            {
+                alarmView.snooze5min()
             }
         }
 
-        GroupBox {
-            id: groupBox1
-            x: 375
-            y: -1
-            font.pointSize: 16
-            GridLayout {
-                anchors.left: parent.left
-                rows: 2
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
-                columns: 2
-                Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-                anchors.top: parent.top
-
-                Button {
-                    id: picturePathButton1
-                    text: qsTr("SNOOZE")
-                    Layout.preferredWidth: 60
-                    font.pointSize: 25
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        busyIndication.running=true
-                        alarmView.snooze()
-                        busyIndication.running=false
-                    }
-                }
+        ToolButton {
+            id: toolButtonSnooze9min
+            Layout.preferredHeight: 140
+            font.wordSpacing: 1
+            leftPadding: 6
+            font.letterSpacing: 1
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.preferredWidth: 240
+            Text {
+                id: snooze9minText
+                width: 50
+                height: 26
+                text: qsTr("SNOOZE 9min")
+                font.bold: true
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                font.pointSize: 22
+                horizontalAlignment: Text.AlignHCenter
+                font.letterSpacing: 1
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.WordWrap
             }
-            title: qsTr("Drzemka")
-            topPadding: 45
-            Layout.preferredWidth: 350
-            Layout.preferredHeight: 250
-            Layout.alignment: Qt.AlignRight | Qt.AlignTop
-            leftPadding: 50
+            onClicked:
+            {
+                alarmView.snooze9min()
+            }
         }
+
+        ToolButton {
+            id: toolButtonShutdown
+            Layout.preferredHeight: 100
+            font.wordSpacing: 1
+            leftPadding: 6
+            font.letterSpacing: 1
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.preferredWidth: 170
+            Text {
+                id: shutdownAlarmText
+                width: 50
+                height: 26
+                text: qsTr("SHUT DOWN")
+                anchors.verticalCenter: parent.verticalCenter
+                font.bold: true
+                font.pointSize: 22
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.letterSpacing: 1
+                verticalAlignment: Text.AlignVCenter
+                anchors.horizontalCenterOffset: 0
+                wrapMode: Text.WordWrap
+            }
+            onClicked:
+            {
+                alarmView.stopAlarm()
+            }
+        }
+
+        ToolButton {
+            id: toolButtonSnooze15min
+            Layout.preferredHeight: 100
+            font.wordSpacing: 1
+            leftPadding: 6
+            font.letterSpacing: 1
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.preferredWidth: 170
+            Text {
+                id: snooze15minText
+                width: 50
+                height: 26
+                text: qsTr("SNOOZE 15min")
+                font.pointSize: 22
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.letterSpacing: 1
+                verticalAlignment: Text.AlignVCenter
+                anchors.horizontalCenterOffset: 0
+                wrapMode: Text.WordWrap
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            onClicked:
+            {
+                alarmView.snooze15min()
+            }
+        }
+
 
     }
+
 
     Component.onCompleted:
     {

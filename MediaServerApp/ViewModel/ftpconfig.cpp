@@ -44,20 +44,14 @@ void FtpConfig::bAddUser_onClicked(const QString userName, const QString passwor
     foreach (const QString &str, users)
     {
         if (str.contains(userName))
-        {
-            qDebug() << "user exist";
             return;
-        }
     }
 
     for (auto iter=vNewUsersConfig.begin(); iter != vNewUsersConfig.end();++iter)
     {
         auto a = *iter;
         if(a->name==userName)
-        {
-            qDebug() << "user exist";
             return;
-        }
     }
 
     auto user = std::make_shared<FtpUser>(userName,password,catalog);

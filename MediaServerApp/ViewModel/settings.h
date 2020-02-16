@@ -32,13 +32,13 @@ public:
     Q_INVOKABLE void cbDevices_onDisplayTextChanged(QString deviceName, QObject *deviceSizeText, QObject *nameDeviceText, QObject *mountPointText, QObject *typeText);
     Q_INVOKABLE void bMount_onClicked(const QString mountpoint,const QString deviceName, QString deviceLabel, const bool automount, const QString type);
 
-    Q_INVOKABLE void loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox, QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton, QObject *playlistComboBox);
+    Q_INVOKABLE void loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox, QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox, QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton, QObject *playlistComboBox);
     Q_INVOKABLE void loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, QObject *wedCheckBox, QObject *thuCheckBox, QObject *friCheckBox, QObject *satCheckBox, QObject *sunCheckBox, QObject *timeHHSpinBox, QObject *timeMMSpinBox);
     Q_INVOKABLE void checkAlarmService(QObject *enableAlarmSwitch);
     Q_INVOKABLE void switchEnableAlarm_onClicked(const bool isEnable);
     Q_INVOKABLE void bStartTestAlarm_onClicked();
     Q_INVOKABLE void bStopTestAlarm_onClicked();
-    Q_INVOKABLE void bSaveAlarm_onClicked(const int minVolume, const int maxVolume, const int growingVolume, const int growingSpeed, const bool isNewestSongsList, const QString playlist);
+    Q_INVOKABLE void bSaveAlarm_onClicked(const int minVolume, const int maxVolume, const int defaultVolume, const int growingVolume, const int growingSpeed, const bool isNewestSongsList, const QString playlist);
     Q_INVOKABLE void bSaveAlarmService_onClicked(const bool monCheckBox, const bool tueCheckBox, const bool wedCheckBox, const bool thuCheckBox, const bool friCheckBox, const bool satCheckBox, const bool sunCheckBox, const int timeHHSpinBox, const int timeMMSpinBox);
 
 

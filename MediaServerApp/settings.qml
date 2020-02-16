@@ -791,6 +791,7 @@ Dialog
                         checked: false
                     }
 
+
                     CheckBox {
                         id: sunCheckBox
                         x: 390
@@ -802,6 +803,27 @@ Dialog
                     }
 
 
+                    Button {
+                        id: button
+                        text: qsTr("Test")
+                        font.pointSize: 14
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        Layout.columnSpan: 2
+                        onClicked: {
+                            if(text === "Test")
+                            {
+                                text="Stop"
+                                settings.bStartTestAlarm_onClicked()
+                            }
+                            else
+                            {
+                                text="Test"
+                                settings.bStopTestAlarm_onClicked()
+                            }
+
+                        }
+                    }
+
                     Switch {
                         id: enableAlarmSwitch
                         text: qsTr("Enable")
@@ -810,11 +832,12 @@ Dialog
                         autoExclusive: false
                         checked: false
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                        Layout.columnSpan: 5
+                        Layout.columnSpan: 3
                         onClicked: {
                             settings.switchEnableAlarm_onClicked(enableAlarmSwitch.checked)
                         }
                     }
+
                 }
 
                 GridLayout {
@@ -857,6 +880,21 @@ Dialog
                     }
 
                     Text {
+                        id: defaultVolumeText
+                        text: qsTr("Default Volume [%]")
+                        font.pixelSize: 16
+                    }
+
+                    SpinBox {
+                        id: defaultVolumeSpinBox
+                        to: 80
+                        from: 30
+                        Layout.fillHeight: false
+                        value: 50
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    }
+
+                    Text {
                         id: growingVolumeText
                         text: qsTr("Growing Volume [%]")
                         font.pixelSize: 16
@@ -886,26 +924,7 @@ Dialog
                         to: 25
                     }
 
-                    Button {
-                        id: button
-                        text: qsTr("Test")
-                        font.pointSize: 14
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                        Layout.columnSpan: 2
-                        onClicked: {
-                            if(text === "Test")
-                            {
-                                text="Stop"
-                                settings.bStartTestAlarm_onClicked()
-                            }
-                            else
-                            {
-                                text="Test"
-                                settings.bStopTestAlarm_onClicked()
-                            }
 
-                        }
-                    }
                 }
             }
 
@@ -1036,6 +1055,7 @@ Dialog
                 }
             }
         }
+
     }
 
     RowLayout {
@@ -1095,7 +1115,6 @@ Dialog
 
     Component.onCompleted:
     {
-
         settings.checkWifi(wifiOnSwitch)
         wifiOnSwitch.updatestate()
         settings.loadWifiConfigFile()
@@ -1109,7 +1128,7 @@ Dialog
         settings.checkSystemdStatus(dlnaStatusSwitch,dlnaStatusButton,"minidlnad")
         settings.checkSystemdStatus(sambaStatusSwitch,sambaStatusButton,"smb")
         settings.checkSystemdStatus(ftpStatusSwitch,ftpStatusButton,"vsftpd")
-        settings.loadAlarmConfigurations(minVolumeSpinBox, maxVolumeSpinBox, growingVolumeSpinBox, growingSpeedSpinBox, newestSongsRadioButton, playlistRadioButton, playlistComboBox)
+        settings.loadAlarmConfigurations(minVolumeSpinBox, maxVolumeSpinBox, defaultVolumeSpinBox, growingVolumeSpinBox, growingSpeedSpinBox, newestSongsRadioButton, playlistRadioButton, playlistComboBox)
         settings.loadAlarmService(monCheckBox, tueCheckBox, wedCheckBox, thuCheckBox,friCheckBox, satCheckBox, sunCheckBox, timeHHSpinBox, timeMMSpinBox)
         settings.checkAlarmService(enableAlarmSwitch)
         busyIndication.running = false

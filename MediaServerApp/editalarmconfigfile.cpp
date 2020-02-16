@@ -20,7 +20,7 @@ std::map<QString,QString> EditAlarmConfigFile::LoadConfiguration(const QString &
 
         fileToRead.readLine();
 
-        while (lineNumber<7)
+        while (lineNumber<8)
         {
             QByteArray line = fileToRead.readLine();
 
@@ -56,7 +56,7 @@ void EditAlarmConfigFile::SaveConfiguration(const QString &fileLocation, const s
             QByteArray line = fileToRead.readLine();
             std::string strLine(line);
 
-            if(lineNumber>0 && lineNumber<7)
+            if(lineNumber>0 && lineNumber<8)
             {
                 QString newLine;
                 auto parametr = line.split('=');

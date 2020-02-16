@@ -25,7 +25,10 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent)
 
 void AlarmView::stopAlarm()
 {
-    QProcess::startDetached("mpc volume 20");
+    auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration("/opt/alarm.sh");
+
+    QString defaultVolume = alarmConfigMap["defaultVolume"];
+    QProcess::startDetached("mpc volume "+defaultVolume);
     QProcess::startDetached("systemctl stop alarm_snooze.timer");
     QProcess::startDetached("systemctl start gmpc");
 
@@ -52,10 +55,23 @@ void AlarmView::stopAlarm()
 
 }
 
-void AlarmView::snooze()
+void AlarmView::snooze5min()
 {
-    qDebug() << "snooze";
+    snooze(5);
+}
 
+void AlarmView::snooze9min()
+{
+    snooze(9);
+}
+
+void AlarmView::snooze15min()
+{
+    snooze(15);
+}
+
+void AlarmView::snooze(int min)
+{
     QFile file ("/usr/lib/systemd/system/alarm_snooze.timer");
 
     QStringList vUsers;
@@ -70,8 +86,8 @@ void AlarmView::snooze()
         if(qstrLine.contains("OnCalendar"))
         {
             QDateTime local(QDateTime::currentDateTime());
-            local = local.addSecs(60*9);
-            vUsers.push_back("OnCalendar=*-*-* "+local.toString("hh:mm:ss")+"\n");
+            local = local.addSecs(60*min);
+            vUsers.push_back("OnCalendar=*-*-* "+local.toString("hh:mm")+"\n");
         }
         else
         {

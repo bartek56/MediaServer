@@ -5,7 +5,7 @@
 
 
 
-void Settings::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox,
+void Settings::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox,
                                        QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox,
                                        QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton,
                                        QObject *playlistComboBox)
@@ -14,6 +14,7 @@ void Settings::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVo
 
     minVolumeSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("minVolume")));
     maxVolumeSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("maxVolume")));
+    defaultVolumeSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("defaultVolume")));
     growingVolumeSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("growingVolume")));
     growingSpeedSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("growingSpeed")));
 
@@ -156,16 +157,17 @@ void Settings::bStopTestAlarm_onClicked()
     testAlarmProcess.kill();
 }
 
-void Settings::bSaveAlarm_onClicked(const int minVolume, const int maxVolume, const int growingVolume, const int growingSpeed, const bool isNewestSongsList, const QString playlist)
+void Settings::bSaveAlarm_onClicked(const int minVolume, const int maxVolume, const int defaultVolume, const int growingVolume, const int growingSpeed, const bool isNewestSongsList, const QString playlist)
 {
-    qDebug() << "start bSaveAlarm_onClicked";
     QString minVolumeString = QString::number(minVolume);
     QString maxVolumeString = QString::number(maxVolume);
+    QString defaultVolumeString = QString::number(defaultVolume);
     QString growingVolumeString = QString::number(growingVolume);
     QString growingSpeedString = QString::number(growingSpeed);
     QString isNewestSongsListString = isNewestSongsList ? "true" : "false";
     mAlarmConfigs.at("minVolume")=minVolumeString;
     mAlarmConfigs.at("maxVolume")=maxVolumeString;
+    mAlarmConfigs.at("defaultVolume")=defaultVolumeString;
     mAlarmConfigs.at("growingVolume")=growingVolumeString;
     mAlarmConfigs.at("growingSpeed")=growingSpeedString;
     mAlarmConfigs.at("playlist")=playlist;
