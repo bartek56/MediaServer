@@ -60,9 +60,9 @@ void AlarmView::snooze5min()
     snooze(5);
 }
 
-void AlarmView::snooze9min()
+void AlarmView::snooze10min()
 {
-    snooze(9);
+    snooze(10);
 }
 
 void AlarmView::snooze15min()

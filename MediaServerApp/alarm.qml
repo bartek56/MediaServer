@@ -72,7 +72,7 @@ Rectangle{
         }
 
         ToolButton {
-            id: toolButtonSnooze9min
+            id: toolButtonSnooze10min
             Layout.preferredHeight: 140
             font.wordSpacing: 1
             leftPadding: 6
@@ -80,10 +80,10 @@ Rectangle{
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.preferredWidth: 240
             Text {
-                id: snooze9minText
+                id: snooze10minText
                 width: 50
                 height: 26
-                text: qsTr("SNOOZE 9min")
+                text: qsTr("SNOOZE 10min")
                 font.bold: true
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
@@ -95,7 +95,7 @@ Rectangle{
             }
             onClicked:
             {
-                alarmView.snooze9min()
+                alarmView.snooze10min()
             }
         }
 

@@ -30,6 +30,8 @@ Dialog
     FileDialog {
         id: fileDialog1
         selectFolder: true
+        width: parent.width
+        height: parent.height
         onAccepted:
         {
             ftpConfig.bFileDialog1_onAccepted(fileDialog1.folder)
@@ -43,6 +45,8 @@ Dialog
 
     FileDialog {
         id: fileDialog2
+        width: parent.width
+        height: parent.height
         selectFolder: true
         onAccepted:
         {
