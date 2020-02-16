@@ -906,7 +906,7 @@ Dialog
                         Layout.fillHeight: false
                         value: 10
                         to: 20
-                        from: 10
+                        from: 5
                     }
 
                     Text {
