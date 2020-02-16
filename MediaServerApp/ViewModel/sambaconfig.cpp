@@ -150,6 +150,7 @@ void SambaConfig::showConfigsForExternalDisk1()
     setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox1);
     setCheckboxesFromFileSettings(configsParameters.at(configName.WRITABLE), writablecheckBox1);
     setCheckboxesFromFileSettings(configsParameters.at(configName.GUEST_OK), guestOkCheckBox1);
+    setCheckboxesFromFileSettings(configsParameters.at(configName.READ_ONLY), readOnlyCheckBox1);
 }
 
 void SambaConfig::showConfigsForExternalDisk2()
@@ -168,6 +169,7 @@ void SambaConfig::showConfigsForExternalDisk2()
     setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox2);
     setCheckboxesFromFileSettings(configsParameters.at(configName.WRITABLE), writablecheckBox2);
     setCheckboxesFromFileSettings(configsParameters.at(configName.GUEST_OK), guestOkCheckBox2);
+    setCheckboxesFromFileSettings(configsParameters.at(configName.READ_ONLY), readOnlyCheckBox2);
 }
 
 void SambaConfig::showConfigsForExternalDisk3()
@@ -186,6 +188,7 @@ void SambaConfig::showConfigsForExternalDisk3()
     setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox3);
     setCheckboxesFromFileSettings(configsParameters.at(configName.WRITABLE), writablecheckBox3);
     setCheckboxesFromFileSettings(configsParameters.at(configName.GUEST_OK), guestOkCheckBox3);
+    setCheckboxesFromFileSettings(configsParameters.at(configName.READ_ONLY), readOnlyCheckBox3);
 }
 
 void SambaConfig::bSave_onClicked()

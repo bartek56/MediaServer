@@ -65,6 +65,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<AlarmView>("AlarmViewLib", 1, 0, "AlarmView");
     qmlRegisterType<ScreenSaver>("ScreenSaverLib", 1, 0, "ScreenSaver");
 
+    view->setWidth(800);
+    view->setHeight(480);
     view->setResizeMode(QQuickView::SizeRootObjectToView);
 
     if(isItAlarm())

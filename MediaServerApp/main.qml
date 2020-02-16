@@ -11,10 +11,6 @@ Rectangle{
     width: 800
     height: 480
 
-
-
-
-
     Loader {
         anchors.topMargin: 0
         anchors.right: parent.right

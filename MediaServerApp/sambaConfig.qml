@@ -580,7 +580,7 @@ Dialog
                     text: qsTr("Guest ok")
                     onClicked:
                     {
-                        sambaConfig.chbbGuestOk1_onClicked(guestOk1CheckBox.checked);
+                        sambaConfig.chbGuestOk1_onClicked(guestOk1CheckBox.checked);
                     }
                 }
 
@@ -589,7 +589,7 @@ Dialog
                     text: qsTr("Read only")
                     onClicked:
                     {
-                        sambaConfig.chbReadOnly_onClicked(readOnly1CheckBox.checked);
+                        sambaConfig.chbReadOnly1_onClicked(readOnly1CheckBox.checked);
                     }
                 }
 
