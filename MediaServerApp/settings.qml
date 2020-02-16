@@ -940,7 +940,7 @@ Dialog
                 Layout.columnSpan: 2
                 onClicked:
                 {
-                    settings.bSaveAlarm_onClicked(minVolumeSpinBox.value, maxVolumeSpinBox.value, growingVolumeSpinBox.value, growingSpeedSpinBox.value, newestSongsRadioButton.checked, playlistComboBox.currentText)
+                    settings.bSaveAlarm_onClicked(minVolumeSpinBox.value, maxVolumeSpinBox.value, defaultVolumeSpinBox.value, growingVolumeSpinBox.value, growingSpeedSpinBox.value, newestSongsRadioButton.checked, playlistComboBox.currentText)
                     settings.bSaveAlarmService_onClicked(monCheckBox.checked, tueCheckBox.checked, wedCheckBox.checked, thuCheckBox.checked,friCheckBox.checked, satCheckBox.checked, sunCheckBox.checked, timeHHSpinBox.value, timeMMSpinBox.value)
                 }
             }
