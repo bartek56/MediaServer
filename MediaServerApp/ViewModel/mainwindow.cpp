@@ -2,10 +2,12 @@
 #include "screensaver.h"
 #include <QProcess>
 #include <QTimer>
+#include <QThread>
+
 
 MainWindow::MainWindow(QObject *parent) : QObject(parent)
 {
-
+    bluetoothctl = new Bluetoothctl();
 }
 
 void MainWindow::startPicturesApplication()
@@ -46,4 +48,15 @@ void MainWindow::startBrowser()
 {
     QProcess::startDetached("systemctl start pcmanfm.service");
     QProcess::startDetached("systemctl stop start.service");
+}
+
+void MainWindow::pairWithBluetoothDevice()
+{
+    bluetoothctl->pair();
+}
+
+void MainWindow::getPairBluetoothMessage(QObject *messageDialog)
+{
+
+    bluetoothctl->setMessageDialog(messageDialog);
 }

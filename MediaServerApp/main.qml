@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import MainWindowLib 1.0
+import QtQuick.Dialogs 1.1
 
 
 Rectangle{
@@ -10,6 +11,15 @@ Rectangle{
     visible: true
     width: 800
     height: 480
+
+    MessageDialog {
+        id: bluetoothPairMessage
+        title: "Bluetooth"
+        icon: StandardIcon.Question
+        text: "Do You want pair with Bluetooth device?"
+        standardButtons: StandardButton.Yes | StandardButton.No
+        onYes: mainWindow.pairWithBluetoothDevice();
+    }
 
     Loader {
         anchors.topMargin: 0
@@ -452,6 +462,7 @@ Rectangle{
     Component.onCompleted:
     {
         busyIndication1.running=false
+        mainWindow.getPairBluetoothMessage(bluetoothPairMessage)
     }
 }
 

@@ -43,7 +43,8 @@ SOURCES += \
     managementfatdrive.cpp \
     ViewModel/alarmview.cpp \
     editalarmconfigfile.cpp \
-    ViewModel/settingsalarm.cpp
+    ViewModel/settingsalarm.cpp \
+    bluetoothctl.cpp
 
 RESOURCES += qml.qrc
 
@@ -78,7 +79,8 @@ HEADERS += \
     managementntfsdrive.h \
     managementfatdrive.h \
     ViewModel/alarmview.h \
-    editalarmconfigfile.h
+    editalarmconfigfile.h \
+    bluetoothctl.h
 
 FORMS +=
 
