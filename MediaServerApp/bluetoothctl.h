@@ -10,6 +10,8 @@ class Bluetoothctl : public QObject
 public:
     explicit Bluetoothctl(QObject *parent = nullptr);
     void pair();
+    void trust();
+    void cancel();
     void setMessageDialog(QObject *messageDialog);
     ~Bluetoothctl();
 
@@ -21,6 +23,8 @@ public slots:
 private:
     QProcess *process;
     QObject *messageDialog;
+    QString deviceName;
+    QString macNumber;
 
 };
 

@@ -20,6 +20,8 @@ public:
     Q_INVOKABLE void startWebBrowser();
     Q_INVOKABLE void startBrowser();
     Q_INVOKABLE void pairWithBluetoothDevice();
+    Q_INVOKABLE void pairAndTrustWithBluetoothDevice();
+    Q_INVOKABLE void cancelPairWithBluetoothDevice();
     Q_INVOKABLE void getPairBluetoothMessage(QObject *messageDialog);
 
 public slots:

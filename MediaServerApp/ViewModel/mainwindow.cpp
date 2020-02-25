@@ -55,8 +55,17 @@ void MainWindow::pairWithBluetoothDevice()
     bluetoothctl->pair();
 }
 
+void MainWindow::pairAndTrustWithBluetoothDevice()
+{
+    bluetoothctl->trust();
+}
+
+void MainWindow::cancelPairWithBluetoothDevice()
+{
+    bluetoothctl->cancel();
+}
+
 void MainWindow::getPairBluetoothMessage(QObject *messageDialog)
 {
-
     bluetoothctl->setMessageDialog(messageDialog);
 }

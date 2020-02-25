@@ -17,8 +17,11 @@ Rectangle{
         title: "Bluetooth"
         icon: StandardIcon.Question
         text: "Do You want pair with Bluetooth device?"
-        standardButtons: StandardButton.Yes | StandardButton.No
-        onYes: mainWindow.pairWithBluetoothDevice();
+        standardButtons: StandardButton.Yes | StandardButton.No | StandardButton.Apply
+        onYes: mainWindow.pairAndTrustWithBluetoothDevice();
+        onApply: mainWindow.pairWithBluetoothDevice();
+        onNo: mainWindow.cancelPairWithBluetoothDevice();
+
     }
 
     Loader {
