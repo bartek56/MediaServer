@@ -19,50 +19,41 @@ Bluetoothctl::Bluetoothctl(QObject *parent) : QObject (parent)
 void Bluetoothctl::readOutput()
 {
         auto result = process->readAll();
-        //result.replace("\x1B[0;94m","");
-        //result.replace("\x1B[0;93m","");
-        //result.replace("\x1B[0;91m","");
-        //result.replace("\x1B[0m","");
-        //result.replace('\"',"");
-        QString test = QString(result);
-        test.remove("\x1B[0;94m");
-        test.remove("\x1B[0;93m");
-        test.remove("\x1B[0;91m");
-        test.remove("\u001B[0;92m");
-        test.remove("\r                        \r");
-        test.remove("\r                     \r");
-        test.remove("\x1B[0m");
-        //test.remove(QRegExp("\\s+"));
-        //"[NEW] Device F4:60:E2:F1:D9:09 Xiaomi"
+        QString resultQString = QString(result);
+        resultQString.remove("\x1B[0;94m");
+        resultQString.remove("\x1B[0;93m");
+        resultQString.remove("\x1B[0;91m");
+        resultQString.remove("\u001B[0;92m");
+        resultQString.remove("\x1B[0m");
+        resultQString.remove("\r                        \r");
+        resultQString.remove("\r                     \r");
+
         QString newMacNumber;
         QString newDeviceName;
 
-        auto resultLines = test.split('\n');
-        for(auto i : resultLines)
+        auto resultLines = resultQString.split('\n');
+        for(auto line : resultLines)
         {
-            qDebug() << i;
-
-            if(i.contains("#") && (!i.contains("bluetooth") && !i.contains("NEW")))
+            if(line.contains("#") && (!line.contains("bluetooth") && !line.contains("NEW")))
             {
-                // get text only in  [ ]
-                auto start = i.indexOf('[');
+                auto start = line.indexOf('[');
                 start++;
-                auto end = i.indexOf(']');
+                auto end = line.indexOf(']');
                 for(int k=start; k<end; k++)
                 {
-                    newDeviceName.push_back(i[k]);
+                    newDeviceName.push_back(line[k]);
                 }
                 if(deviceName != newDeviceName)
                     deviceName=newDeviceName;
             }
-            if(i.contains("Device"))
+            if(line.contains("Device"))
             {
-                auto start = i.indexOf("Device");
+                auto start = line.indexOf("Device");
                 start+=7;
                 int end = start + 17;
                 for(int k=start; k<end; k++)
                 {
-                    newMacNumber.push_back(i[k]);
+                    newMacNumber.push_back(line[k]);
                 }
                 if(macNumber != newMacNumber)
                     macNumber = newMacNumber;
@@ -92,7 +83,7 @@ void Bluetoothctl::pair()
 void Bluetoothctl::trust()
 {
     process->write(QByteArray("yes\n"));
-    QString trust = "trust " + macNumber+ " \n";
+    QString trust = "trust " + macNumber+ "\n";
     process->write(trust.toUtf8());
 }
 
