@@ -1,6 +1,5 @@
 
 #include "alarmview.h"
-
 #include <QProcess>
 #include <QFile>
 #include <QDebug>
@@ -25,7 +24,7 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent)
 
 void AlarmView::stopAlarm()
 {
-    auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration("/opt/alarm.sh");
+    auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration(ALARM_SCRIPT);
 
     QString defaultVolume = alarmConfigMap["defaultVolume"];
     QProcess::startDetached("mpc volume "+defaultVolume);
@@ -72,7 +71,7 @@ void AlarmView::snooze15min()
 
 void AlarmView::snooze(int min)
 {
-    QFile file ("/usr/lib/systemd/system/alarm_snooze.timer");
+    QFile file (SYSTEMD_SYSTEM_PATH+"/alarm_snooze.timer");
 
     QStringList vUsers;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

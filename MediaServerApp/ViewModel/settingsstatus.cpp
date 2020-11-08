@@ -9,12 +9,6 @@ Settings::Settings(QObject *parent) : QObject(parent)
 
 }
 
-void Settings::shutdownButton_OnClicked()
-{
-    QProcess appProcess2;
-    appProcess2.startDetached("sh", QStringList() << "-c" << "poweroff");
-}
-
 void Settings::updateNetworkStatus(QObject *obj)
 {
     QProcess builder;
@@ -27,116 +21,137 @@ void Settings::updateNetworkStatus(QObject *obj)
     obj->setProperty("text",QVariant(info));
 }
 
-void Settings::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString nameService)
+void Settings::checkTvHeadEndServiceStatus(QObject *statusSwitch, QObject *statusButton)
 {
-    auto serviceExist = checkSystemdStatusExist(nameService);
-
-    if(serviceExist)
-    {
-      auto serviceIsEnable = checkSystemdStatusIsEnabled(nameService);
-      statusSwitch->setProperty("checked",QVariant(serviceIsEnable));
-      statusButton->setProperty("enabled",QVariant(serviceIsEnable));
-      if(serviceIsEnable)
-      {
-          auto serviceIsActive = checkSystemdStatusIsActive(nameService);
-
-          if(serviceIsActive)
-          {
-              statusButton->setProperty("text",QVariant("stop"));
-          }
-          else
-          {
-              statusButton->setProperty("text",QVariant("start"));
-          }
-      }
-    }
-    else
-    {
-      statusSwitch->setProperty("enabled",QVariant(false));
-      statusButton->setProperty("enabled",QVariant(false));
-    }
+    checkSystemdStatus(statusSwitch, statusButton, TVHEADEND_SERVICE);
 }
 
 void Settings::tvHeadEndStatusSwitch_OnClicked(const bool tvHeadEndStatusSwitchIsChecked, QObject *tvHeadEndStatusButton)
 {
-    StatusSwitch_onClicked(tvHeadEndStatusSwitchIsChecked,tvHeadEndStatusButton,"tvheadend");
+    StatusSwitch_onClicked(tvHeadEndStatusSwitchIsChecked,tvHeadEndStatusButton, TVHEADEND_SERVICE);
 }
 
-void Settings::tvHeadEndStatusButton_OnClicked(QObject *tvHeadEndStatusButton, const QString tvHeadEndStatusButtonText)
+void Settings::tvHeadEndStatusButton_OnClicked(QObject *tvHeadEndStatusSwitch, const QString tvHeadEndStatusButton)
 {
-    StatusButton_onClicked(tvHeadEndStatusButton,tvHeadEndStatusButtonText,"tvheadend");
+    StatusButton_onClicked(tvHeadEndStatusSwitch, tvHeadEndStatusButton, TVHEADEND_SERVICE);
+}
+
+
+void Settings::checkYMPDSystemdStatus(QObject *ympdStatusSwitch, QObject *ympdStatusButton)
+{
+    checkSystemdStatus(ympdStatusSwitch, ympdStatusButton, YMPD_SERVICE);
 }
 
 void Settings::ympdStatusSwitch_OnClicked(const bool ympdStatusSwitchIsChecked, QObject *ympdStatusButton)
 {
-    StatusSwitch_onClicked(ympdStatusSwitchIsChecked,ympdStatusButton,"ympd");
+    StatusSwitch_onClicked(ympdStatusSwitchIsChecked,ympdStatusButton, YMPD_SERVICE);
 }
 
-void Settings::ympdStatusButton_OnClicked(QObject *ympdStatusButton, const QString ympdStatusButtonText)
+void Settings::ympdStatusButton_OnClicked(QObject *ympdStatusSwitch, const QString ympdStatusButton)
 {
-    StatusButton_onClicked(ympdStatusButton, ympdStatusButtonText,"ympd");
+    StatusButton_onClicked(ympdStatusSwitch, ympdStatusButton, YMPD_SERVICE);
+}
+
+
+
+void Settings::checkMPDSystemdStatus(QObject *mpdStatusSwitch, QObject *mpdStatusButton)
+{
+     checkSystemdStatus(mpdStatusSwitch, mpdStatusButton, MPD_SERVICE);
 }
 
 void Settings::mpdStatusSwitch_OnClicked(const bool mpdStatusSwitchIsChecked, QObject *mpdStatusButton)
 {
-    StatusSwitch_onClicked(mpdStatusSwitchIsChecked,mpdStatusButton,"mpd");
+    StatusSwitch_onClicked(mpdStatusSwitchIsChecked,mpdStatusButton, MPD_SERVICE);
 }
 
 void Settings::mpdStatusButton_OnClicked(QObject *mpdStatusButton, const QString mpdStatusButtonText)
 {
-    StatusButton_onClicked(mpdStatusButton, mpdStatusButtonText,"mpd");
+    StatusButton_onClicked(mpdStatusButton, mpdStatusButtonText, MPD_SERVICE);
+}
+
+
+void Settings::checkDLNASystemdStatus(QObject *dlnaStatusSwitch, QObject *dlnaStatusButton)
+{
+    checkSystemdStatus(dlnaStatusSwitch, dlnaStatusButton, MINIDLNA_SERVICE);
 }
 
 void Settings::dlnaStatusSwitch_OnClicked(const bool dlnaStatusSwitchIsChecked, QObject *dlnaStatusButton)
 {
-    StatusSwitch_onClicked(dlnaStatusSwitchIsChecked, dlnaStatusButton,"minidlnad");
+    StatusSwitch_onClicked(dlnaStatusSwitchIsChecked, dlnaStatusButton, MINIDLNA_SERVICE);
 }
 
 void Settings::dlnaStatusButton_OnClicked(QObject *dlnaStatusButton, const QString dlnaStatusButtonText)
 {
-    StatusButton_onClicked(dlnaStatusButton, dlnaStatusButtonText,"minidlnad");
+    StatusButton_onClicked(dlnaStatusButton, dlnaStatusButtonText, MINIDLNA_SERVICE);
+}
+
+
+void Settings::checkSMBSystemdStatus(QObject *smbStatusSwitch, QObject *smbStatusButton)
+{
+    checkSystemdStatus(smbStatusSwitch, smbStatusButton, SMB_SERVICE);
 }
 
 void Settings::sambaStatusSwitch_OnClicked(const bool sambaStatusSwitchIsChecked, QObject *sambaStatusButton)
 {
-    StatusSwitch_onClicked(sambaStatusSwitchIsChecked, sambaStatusButton,"smb");
-    StatusSwitch_onClicked(sambaStatusSwitchIsChecked, sambaStatusButton,"nmb");
+    StatusSwitch_onClicked(sambaStatusSwitchIsChecked, sambaStatusButton, SMB_SERVICE);
+    StatusSwitch_onClicked(sambaStatusSwitchIsChecked, sambaStatusButton, NMB_SERVICE);
 }
 
 void Settings::sambaStatusButton_OnClicked(QObject *sambaStatusButton, const QString sambaStatusButtonText)
 {
-    StatusButton_onClicked(sambaStatusButton, sambaStatusButtonText,"smb");
-    StatusButton_onClicked(sambaStatusButton, sambaStatusButtonText,"nmb");
+    StatusButton_onClicked(sambaStatusButton, sambaStatusButtonText, SMB_SERVICE);
+    StatusButton_onClicked(sambaStatusButton, sambaStatusButtonText, NMB_SERVICE);
+}
+
+
+
+void Settings::checkFTPSystemdStatus(QObject *ftpStatusSwitch, QObject *ftpStatusButton)
+{
+    checkSystemdStatus(ftpStatusSwitch, ftpStatusButton, VSFTPD_SERVICE);
 }
 
 void Settings::ftpStatusSwitch_OnClicked(const bool ftpStatusSwitchIsChecked, QObject *ftpStatusButton)
 {
-    StatusSwitch_onClicked(ftpStatusSwitchIsChecked, ftpStatusButton,"vsftpd");
+    StatusSwitch_onClicked(ftpStatusSwitchIsChecked, ftpStatusButton, VSFTPD_SERVICE);
 }
 
 void Settings::ftpStatusButton_OnClicked(QObject *ftpStatusButton, const QString ftpStatusButtonText)
 {
-    StatusButton_onClicked(ftpStatusButton, ftpStatusButtonText,"vsftpd");
+    StatusButton_onClicked(ftpStatusButton, ftpStatusButtonText, VSFTPD_SERVICE);
+}
+
+
+
+void Settings::checkFileBrowserSystemdStatus(QObject *fileBrowserStatusSwitch, QObject *fileBrowserStatusButton)
+{
+    checkSystemdStatus(fileBrowserStatusSwitch, fileBrowserStatusButton, FILEBROWSER_SERVICE);
 }
 
 void Settings::fileBrowserStatusSwitch_OnClicked(const bool fileBrowserStatusSwitchIsChecked, QObject *fileBrowserStatusButton)
 {
-    StatusSwitch_onClicked(fileBrowserStatusSwitchIsChecked, fileBrowserStatusButton,"fileBrowser");
+    StatusSwitch_onClicked(fileBrowserStatusSwitchIsChecked, fileBrowserStatusButton, FILEBROWSER_SERVICE);
 }
 
 void Settings::fileBrowserStatusButton_OnClicked(QObject *ftpStatusButton, const QString ftpStatusButtonText)
 {
-    StatusButton_onClicked(ftpStatusButton, ftpStatusButtonText,"fileBrowser");
+    StatusButton_onClicked(ftpStatusButton, ftpStatusButtonText, FILEBROWSER_SERVICE);
+}
+
+
+
+void Settings::checkTorrentClientSystemdStatus(QObject *torrentClientStatusSwitch, QObject *torrentCLientStatusButton)
+{
+    checkSystemdStatus(torrentClientStatusSwitch, torrentCLientStatusButton, TRANSMISSION_SERVICE);
 }
 
 void Settings::torrentClientStatusSwitch_OnClicked(const bool torrentClientStatusSwitchIsChecked, QObject *torrentClientStatusButton)
 {
-    StatusSwitch_onClicked(torrentClientStatusSwitchIsChecked, torrentClientStatusButton,"transmission-daemon");
+    StatusSwitch_onClicked(torrentClientStatusSwitchIsChecked, torrentClientStatusButton, TRANSMISSION_SERVICE);
 }
 
 void Settings::torrentClientStatusButton_OnClicked(QObject *torrentClientStatusButton, const QString torrentClientStatusButtonText)
 {
-    StatusButton_onClicked(torrentClientStatusButton, torrentClientStatusButtonText,"transmission-daemon");
+    StatusButton_onClicked(torrentClientStatusButton, torrentClientStatusButtonText, TRANSMISSION_SERVICE);
 }
 
 bool Settings::checkSystemdStatusIsActive(const QString &serviceName)
@@ -177,19 +192,39 @@ bool Settings::checkSystemdStatusExist(const QString &serviceName)
     return (text.contains("enabled") || text.contains("disabled"));
 }
 
+void Settings::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString nameService)
+{
+    auto serviceExist = checkSystemdStatusExist(nameService);
+
+    statusButton->setProperty("enabled",QVariant(serviceExist));
+    statusSwitch->setProperty("enabled",QVariant(serviceExist));
+
+    if(serviceExist)
+    {
+      bool serviceIsEnable = checkSystemdStatusIsEnabled(nameService);
+      statusSwitch->setProperty("checked",QVariant(serviceIsEnable));
+      auto serviceIsActive = checkSystemdStatusIsActive(nameService);
+
+      if(serviceIsActive)
+      {
+          statusButton->setProperty("text",QVariant("stop"));
+      }
+      else
+      {
+          statusButton->setProperty("text",QVariant("start"));
+      }
+    }
+}
+
 void Settings::StatusSwitch_onClicked(const bool statusSwitchIsChecked, QObject *statusButton, const QString &serviceName)
 {
     if(statusSwitchIsChecked)
     {
         QProcess::execute("systemctl enable "+serviceName);
-        statusButton->setProperty("text",QVariant("start"));
-        statusButton->setProperty("enabled",QVariant(true));
     }
     else
     {
-        QProcess::execute("systemctl stop "+serviceName);
         QProcess::execute("systemctl disable "+serviceName);
-        statusButton->setProperty("enabled",QVariant(false));
     }
 }
 

@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>sambaConfig.qml</file>
-        <file>menu.qml</file>
+        <file>massStorage.qml</file>
         <file>ftpConfig.qml</file>
         <file>settings.qml</file>
         <file>dlnaConfig.qml</file>

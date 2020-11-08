@@ -68,7 +68,7 @@ void Settings::connect(const QString networkName,const QString password)
     }
 
     editWifiConfigFile.SaveWifiConfigs(vWifiConfigs);
-    QProcess::execute("systemctl restart wpa_supplicant");
+    QProcess::execute("systemctl restart " + WPASUPPLICANT_SERVICE);
 }
 
 void Settings::cbNetworks_onDisplayTextChanged(QString networkName, QObject *obj)
@@ -123,5 +123,5 @@ void Settings::checkWifi(QObject *obj)
 
 void Settings::loadWifiConfigFile()
 {
-    vWifiConfigs = editWifiConfigFile.OpenFile("/etc/wpa_supplicent.conf");
+    vWifiConfigs = editWifiConfigFile.OpenFile(WPASUPPLICANT_CONF);
 }

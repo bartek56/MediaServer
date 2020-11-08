@@ -61,9 +61,6 @@ Dialog
         }
 
         TabButton {
-            text: qsTr("External Devices")
-        }
-        TabButton {
             text: qsTr("Alarm")
         }
         TabButton {
@@ -316,14 +313,6 @@ Dialog
                     }
                 }
 
-                MessageDialog {
-                    id:shutdownMessage
-                    title: "Shutdown"
-                    icon: StandardIcon.Question
-                    text: "Are You sure to Power Off device?"
-                    standardButtons: StandardButton.Yes | StandardButton.No
-                    onYes: settings.shutdownButton_OnClicked();
-                }
             }
 
             GridLayout {
@@ -354,17 +343,6 @@ Dialog
                     font.pixelSize: 12
                     function set() {
                         settings.updateNetworkStatus(networkInfoText)
-                    }
-                }
-
-                Button {
-                    id: shutdownButton
-                    text: qsTr("Shutdown Device")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        shutdownMessage.visible=true
-                        settingsDialog.close()
                     }
                 }
 
@@ -523,136 +501,6 @@ Dialog
                     running: true
                     triggeredOnStart: true
                     onTriggered: infoWifiText.set()
-                }
-            }
-        }
-
-        Item
-        {
-            id: externalDevicesSettingsTag
-
-            RowLayout {
-
-                anchors.rightMargin: 20
-                anchors.leftMargin: 20
-                anchors.topMargin: 60
-                anchors.bottomMargin: -374
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
-                anchors.left: parent.left
-                anchors.top: parent.top
-
-                GridLayout {
-                    width: 100
-                    height: 100
-                    rows: 7
-                    Layout.preferredWidth: 300
-                    columns: 2
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-
-                    Text {
-                        id: deviceText
-                        font.pixelSize: 16
-                    }
-
-                    ComboBox {
-                        id: devicesComboBox
-                        Layout.preferredWidth: 200
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        onDisplayTextChanged:
-                        {
-                            settings.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText,typeText);
-                            mountButton.setText()
-                        }
-                    }
-
-                    Text {
-                        id: deviceSize
-                        text: qsTr("Size:")
-                        font.pixelSize: 16
-                    }
-
-                    Text {
-                        id: deviceSizeText
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                        font.pixelSize: 16
-                    }
-
-                    Text {
-                        id: nameDevice
-                        text: qsTr("Name")
-                        font.pixelSize: 16
-                    }
-
-                    Text {
-                        id: nameDeviceText
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                        font.pixelSize: 16
-                    }
-
-                    Text {
-                        id: mountPoint
-                        text: qsTr("MountPoint")
-                        font.pixelSize: 16
-                    }
-
-                    Text {
-                        id: mountPointText
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                        font.pixelSize: 16
-                    }
-
-                    Text {
-                        id: type
-                        text: qsTr("File Type")
-                        font.pixelSize: 16
-                    }
-
-                    Text {
-                        id: typeText
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                        font.pixelSize: 16
-                    }
-
-                    CheckBox {
-                        id: automountCheckBox
-                        text: qsTr("automount")
-                        font.pointSize: 10
-                        Layout.columnSpan: 2
-                        Layout.alignment: Qt.AlignRight | Qt.AlignTop
-                    }
-
-                    Button
-                    {
-                        id:mountButton
-                        width: 160
-                        height: 40
-                        enabled: false
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                        Layout.columnSpan: 2
-                        function setText()
-                        {
-                            if(mountPointText.text.length>2)
-                            {
-                                text="umount"
-                            }
-                            else
-                            {
-                                text="mount"
-                            }
-                        }
-                        onClicked:
-                        {
-                            settings.bMount_onClicked(mountPointText.text, nameDeviceText.text, devicesComboBox.currentText,automountCheckBox.checked, typeText.text)
-                            settings.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText,typeText)
-                            setText()
-                        }
-                    }
-                }
-
-                GridLayout {
-                    width: 100
-                    height: 100
                 }
             }
         }
@@ -1120,16 +968,15 @@ Dialog
         settings.checkWifi(wifiOnSwitch)
         wifiOnSwitch.updatestate()
         settings.loadWifiConfigFile()
-        settings.loadExternalDevices(devicesComboBox,mountButton)
         settings.loadScreenSaverConfigurations(startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox,randomCheckBox)
-        settings.checkSystemdStatus(tvHeadEndStatusSwitch,tvHeadEndStatusButton,"tvheadend")
-        settings.checkSystemdStatus(torrentClientStatusSwitch,torrentClientStatusButton,"transmission-daemon")
-        settings.checkSystemdStatus(fileBrowserStatusSwitch,fileBrowserStatusButton,"fileBrowser")
-        settings.checkSystemdStatus(ympdStatusSwitch,ympdStatusButton,"ympd")
-        settings.checkSystemdStatus(mpdStatusSwitch,mpdStatusButton,"mpd")
-        settings.checkSystemdStatus(dlnaStatusSwitch,dlnaStatusButton,"minidlnad")
-        settings.checkSystemdStatus(sambaStatusSwitch,sambaStatusButton,"smb")
-        settings.checkSystemdStatus(ftpStatusSwitch,ftpStatusButton,"vsftpd")
+        settings.checkTvHeadEndServiceStatus(tvHeadEndStatusSwitch,tvHeadEndStatusButton)
+        settings.checkYMPDSystemdStatus(ympdStatusSwitch,ympdStatusButton)
+        settings.checkMPDSystemdStatus(mpdStatusSwitch,mpdStatusButton)
+        settings.checkDLNASystemdStatus(dlnaStatusSwitch,dlnaStatusButton)
+        settings.checkSMBSystemdStatus(sambaStatusSwitch,sambaStatusButton)
+        settings.checkFileBrowserSystemdStatus(fileBrowserStatusSwitch,fileBrowserStatusButton)
+        settings.checkFTPSystemdStatus(ftpStatusSwitch,ftpStatusButton)
+        settings.checkTorrentClientSystemdStatus(torrentClientStatusSwitch,torrentClientStatusButton)
         settings.loadAlarmConfigurations(minVolumeSpinBox, maxVolumeSpinBox, defaultVolumeSpinBox, growingVolumeSpinBox, growingSpeedSpinBox, newestSongsRadioButton, playlistRadioButton, playlistComboBox)
         settings.loadAlarmService(monCheckBox, tueCheckBox, wedCheckBox, thuCheckBox,friCheckBox, satCheckBox, sunCheckBox, timeHHSpinBox, timeMMSpinBox)
         settings.checkAlarmService(enableAlarmSwitch)

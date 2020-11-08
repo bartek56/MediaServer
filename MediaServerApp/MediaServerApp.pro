@@ -30,7 +30,6 @@ SOURCES += \
     editwificonfigfile.cpp \
     ViewModel/dlnaconfig.cpp \
     ViewModel/settingsWifi.cpp \
-    ViewModel/settingsexternaldevices.cpp \
     managementofexternaldevices.cpp \
     editdlnaconfigfile.cpp \
     ViewModel/mpdconfig.cpp \
@@ -44,7 +43,8 @@ SOURCES += \
     ViewModel/alarmview.cpp \
     editalarmconfigfile.cpp \
     ViewModel/settingsalarm.cpp \
-    bluetoothctl.cpp
+    bluetoothctl.cpp \
+    ViewModel/massstorage.cpp
 
 RESOURCES += qml.qrc
 
@@ -80,7 +80,8 @@ HEADERS += \
     managementfatdrive.h \
     ViewModel/alarmview.h \
     editalarmconfigfile.h \
-    bluetoothctl.h
+    bluetoothctl.h \
+    ViewModel/massstorage.h
 
 FORMS +=
 

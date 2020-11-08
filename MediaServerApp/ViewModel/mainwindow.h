@@ -23,6 +23,8 @@ public:
     Q_INVOKABLE void pairAndTrustWithBluetoothDevice();
     Q_INVOKABLE void cancelPairWithBluetoothDevice();
     Q_INVOKABLE void getPairBluetoothMessage(QObject *messageDialog);
+    Q_INVOKABLE void shutdownButton_OnClicked();
+
 
 public slots:
 

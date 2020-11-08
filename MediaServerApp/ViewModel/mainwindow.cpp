@@ -69,3 +69,10 @@ void MainWindow::getPairBluetoothMessage(QObject *messageDialog)
 {
     bluetoothctl->setMessageDialog(messageDialog);
 }
+
+void MainWindow::shutdownButton_OnClicked()
+{
+    QProcess appProcess2;
+    appProcess2.startDetached("sh", QStringList() << "-c" << "poweroff");
+}
+

@@ -11,6 +11,7 @@
 #include "ViewModel/dlnaconfig.h"
 #include "ViewModel/mpdconfig.h"
 #include "ViewModel/alarmview.h"
+#include "ViewModel/massstorage.h"
 #include "screensaver.h"
 
 QQuickView *MainWindow::mainView;
@@ -24,6 +25,7 @@ bool isItAlarm()
     process.start("bash", QStringList() << "-c" << "systemctl is-active alarm.service");
     process.setReadChannel(QProcess::StandardOutput);
     process.waitForFinished();
+
     auto text = process.readAll();
     if(!text.contains("in")) // alarm active
     {
@@ -64,6 +66,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
     qmlRegisterType<AlarmView>("AlarmViewLib", 1, 0, "AlarmView");
     qmlRegisterType<ScreenSaver>("ScreenSaverLib", 1, 0, "ScreenSaver");
+    qmlRegisterType<MassStorage>("MassStorageLib", 1, 0, "MassStorage");
 
     view->setWidth(800);
     view->setHeight(480);

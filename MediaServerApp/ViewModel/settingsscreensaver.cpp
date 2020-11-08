@@ -19,14 +19,14 @@ void Settings::bSaveScreenSaver_onClicked(const QString timeout, const QString p
         mScreenSaverConfigs.at("random")="-z";
     else
         mScreenSaverConfigs.at("random")="";
-    editScreenSaverConfigFile.SaveConfiguration("/opt/startScreensaver.sh",mScreenSaverConfigs);
+    editScreenSaverConfigFile.SaveConfiguration(SCREENSAVER_SCRIPT, mScreenSaverConfigs);
     ScreenSaver::timer->setInterval(startTimeInMilisecond);
 }
 
 
 void Settings::loadScreenSaverConfigurations(QObject *startTime, QObject *path, QObject *timeout, QObject *random)
 {
-    mScreenSaverConfigs = editScreenSaverConfigFile.LoadConfiguration("/opt/startScreensaver.sh");
+    mScreenSaverConfigs = editScreenSaverConfigFile.LoadConfiguration(SCREENSAVER_SCRIPT);
 
     auto startTimeInMinutes = ConvertTimeFromMiliSecStringToMinutesInt(mScreenSaverConfigs.at("startTime"));
 

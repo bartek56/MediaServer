@@ -19,6 +19,10 @@ public:
 private:
     bool isSnooze;
     void snooze(int min);
+    const QString ALARM_SCRIPT = "/opt/alarm.sh";
+    const QString ALARM_TIMER = "alarm.timer";
+    const QString SYSTEMD_SYSTEM_PATH="/lib/systemd/system";
+
     EditAlarmConfigFile editAlarmConfigFile;
 
 };

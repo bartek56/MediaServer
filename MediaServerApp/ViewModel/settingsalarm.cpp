@@ -2,15 +2,12 @@
 #include "mainwindow.h"
 #include "screensaver.h"
 
-
-
-
 void Settings::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox,
                                        QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox,
                                        QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton,
                                        QObject *playlistComboBox)
 {
-    mAlarmConfigs = editAlarmConfigFile.LoadConfiguration("/opt/alarm.sh");
+    mAlarmConfigs = editAlarmConfigFile.LoadConfiguration(ALARM_SCRIPT);
 
     minVolumeSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("minVolume")));
     maxVolumeSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("maxVolume")));
@@ -64,7 +61,7 @@ QStringList Settings::loadMPDPlaylists()
 
 void Settings::checkAlarmService(QObject *enableAlarmSwitch)
 {
-    if(checkSystemdStatusIsActive("alarm.timer"))
+    if(checkSystemdStatusIsActive(ALARM_TIMER))
     {
         enableAlarmSwitch->setProperty("checked",QVariant(true));
     }
@@ -77,7 +74,7 @@ void Settings::loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, QObj
                                 QObject *friCheckBox, QObject *satCheckBox, QObject *sunCheckBox,
                                 QObject *timeHHSpinBox, QObject *timeMMSpinBox)
 {
-    QFile file ("/usr/lib/systemd/system/alarm.timer");
+    QFile file (SYSTEMD_SYSTEM_PATH+"/"+ALARM_TIMER);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
@@ -130,14 +127,27 @@ void Settings::switchEnableAlarm_onClicked(const bool isEnable)
     {
         QProcess builder;
         builder.setProcessChannelMode(QProcess::MergedChannels);
-        builder.start("systemctl start alarm.timer");
+        builder.start("systemctl start "+ALARM_TIMER);
         while(builder.waitForFinished());
+
+        QProcess builder2;
+        builder2.setProcessChannelMode(QProcess::MergedChannels);
+        builder2.start("systemctl enable "+ALARM_TIMER);
+        while(builder2.waitForFinished());
+
+
     }
     else {
         QProcess builder;
         builder.setProcessChannelMode(QProcess::MergedChannels);
-        builder.start("systemctl stop alarm.timer");
+        builder.start("systemctl stop "+ALARM_TIMER);
         while(builder.waitForFinished());
+
+        QProcess builder2;
+        builder2.setProcessChannelMode(QProcess::MergedChannels);
+        builder2.start("systemctl disable "+ALARM_TIMER);
+        while(builder2.waitForFinished());
+
     }
 }
 
@@ -145,7 +155,7 @@ void Settings::switchEnableAlarm_onClicked(const bool isEnable)
 void Settings::bStartTestAlarm_onClicked()
 {
     testAlarmProcess.setProcessChannelMode(QProcess::SeparateChannels);
-    testAlarmProcess.start("/usr/bin/bash /opt/alarm.sh");
+    testAlarmProcess.start(BASH+" "+ALARM_SCRIPT);
 }
 
 void Settings::bStopTestAlarm_onClicked()
@@ -172,7 +182,7 @@ void Settings::bSaveAlarm_onClicked(const int minVolume, const int maxVolume, co
     mAlarmConfigs.at("growingSpeed")=growingSpeedString;
     mAlarmConfigs.at("playlist")=playlist;
     mAlarmConfigs.at("theNewestSongs")=isNewestSongsListString;
-    editAlarmConfigFile.SaveConfiguration("/opt/alarm.sh", mAlarmConfigs);
+    editAlarmConfigFile.SaveConfiguration(ALARM_SCRIPT, mAlarmConfigs);
 }
 
 void Settings::bSaveAlarmService_onClicked(const bool monCheckBox, const bool tueCheckBox, const bool wedCheckBox, const bool thuCheckBox,
@@ -218,7 +228,7 @@ void Settings::bSaveAlarmService_onClicked(const bool monCheckBox, const bool tu
 
 void Settings::saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time)
 {
-    QFile file ("/usr/lib/systemd/system/alarm.timer");
+    QFile file (SYSTEMD_SYSTEM_PATH+"/"+ALARM_TIMER);
 
     QStringList strings;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

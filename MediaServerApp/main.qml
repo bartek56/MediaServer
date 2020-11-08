@@ -24,19 +24,102 @@ Rectangle{
 
     }
 
-    Loader {
+
+    ToolBar
+    {
+        id: toolBar
         anchors.topMargin: 0
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.top: parent.top
-        source:"menu.qml";
-    }
 
+        font
+        {
+            family: "Comic Sans MS"
+            pixelSize: 20
+        }
+        MessageDialog {
+            id:shutdownMessage
+            title: "Shutdown"
+            icon: StandardIcon.Question
+            text: "Are You sure to Power Off device?"
+            standardButtons: StandardButton.Yes | StandardButton.No
+            onYes: mainWindow.shutdownButton_OnClicked();
+        }
+
+
+        GridLayout
+        {
+            id: gridLayout
+            height: 20
+            anchors.right: parent.right
+            anchors.rightMargin: 15
+            anchors.left: parent.left
+            anchors.leftMargin: 15
+            anchors.top: parent.top
+            rows: 1
+            columns: 3
+            anchors.verticalCenter: parent.verticalCenter
+
+            ToolButton {
+                text: qsTr("Menu")
+                onClicked: menu.open()
+
+            }
+
+            Menu {
+                id: menu
+
+                MenuItem {
+                    text: "Mass Storage"
+                    onClicked: {
+                        loaderConfigWindow.setSource("massStorage.qml")
+                    }
+                }
+                MenuSeparator { }
+                MenuItem {
+                    text: "Power Off"
+                    onClicked: {
+                        shutdownMessage.visible=true
+                    }
+                }
+
+            }
+
+            Text
+            {
+                id: tClockDate
+                verticalAlignment: Text.AlignVCenter
+                anchors.right:parent.right
+                font
+                {
+                    family: "Comic Sans MS"
+                    pixelSize: 20
+                }
+            }
+         }
+
+        Timer
+        {
+            interval: 1000
+            running: true
+            repeat: true
+            onTriggered:
+            {
+                var date = new Date()
+                var dateText = date.toLocaleDateString(Qt.locale("en_US"), "dddd, d MMM yyyy")
+                var timeText = date.toLocaleTimeString(Qt.locale("en_US"), "hh:mm:ss")
+                tClockDate.text = dateText + "   " + timeText
+            }
+        }
+}
+
+/*
     Loader {
         anchors.fill:parent
         source:"screensaver.qml";
     }
-
+*/
     Loader {
         id:loaderConfigWindow
         anchors.fill:parent
