@@ -26,9 +26,9 @@ void Settings::checkTvHeadEndServiceStatus(QObject *statusSwitch, QObject *statu
     checkSystemdStatus(statusSwitch, statusButton, TVHEADEND_SERVICE);
 }
 
-void Settings::tvHeadEndStatusSwitch_OnClicked(const bool tvHeadEndStatusSwitchIsChecked, QObject *tvHeadEndStatusButton)
+void Settings::tvHeadEndStatusSwitch_OnClicked(const bool tvHeadEndStatusSwitchIsChecked)
 {
-    StatusSwitch_onClicked(tvHeadEndStatusSwitchIsChecked,tvHeadEndStatusButton, TVHEADEND_SERVICE);
+    StatusSwitch_onClicked(tvHeadEndStatusSwitchIsChecked, TVHEADEND_SERVICE);
 }
 
 void Settings::tvHeadEndStatusButton_OnClicked(QObject *tvHeadEndStatusSwitch, const QString tvHeadEndStatusButton)
@@ -42,9 +42,9 @@ void Settings::checkYMPDSystemdStatus(QObject *ympdStatusSwitch, QObject *ympdSt
     checkSystemdStatus(ympdStatusSwitch, ympdStatusButton, YMPD_SERVICE);
 }
 
-void Settings::ympdStatusSwitch_OnClicked(const bool ympdStatusSwitchIsChecked, QObject *ympdStatusButton)
+void Settings::ympdStatusSwitch_OnClicked(const bool ympdStatusSwitchIsChecked)
 {
-    StatusSwitch_onClicked(ympdStatusSwitchIsChecked,ympdStatusButton, YMPD_SERVICE);
+    StatusSwitch_onClicked(ympdStatusSwitchIsChecked, YMPD_SERVICE);
 }
 
 void Settings::ympdStatusButton_OnClicked(QObject *ympdStatusSwitch, const QString ympdStatusButton)
@@ -59,9 +59,9 @@ void Settings::checkMPDSystemdStatus(QObject *mpdStatusSwitch, QObject *mpdStatu
      checkSystemdStatus(mpdStatusSwitch, mpdStatusButton, MPD_SERVICE);
 }
 
-void Settings::mpdStatusSwitch_OnClicked(const bool mpdStatusSwitchIsChecked, QObject *mpdStatusButton)
+void Settings::mpdStatusSwitch_OnClicked(const bool mpdStatusSwitchIsChecked)
 {
-    StatusSwitch_onClicked(mpdStatusSwitchIsChecked,mpdStatusButton, MPD_SERVICE);
+    StatusSwitch_onClicked(mpdStatusSwitchIsChecked, MPD_SERVICE);
 }
 
 void Settings::mpdStatusButton_OnClicked(QObject *mpdStatusButton, const QString mpdStatusButtonText)
@@ -75,9 +75,9 @@ void Settings::checkDLNASystemdStatus(QObject *dlnaStatusSwitch, QObject *dlnaSt
     checkSystemdStatus(dlnaStatusSwitch, dlnaStatusButton, MINIDLNA_SERVICE);
 }
 
-void Settings::dlnaStatusSwitch_OnClicked(const bool dlnaStatusSwitchIsChecked, QObject *dlnaStatusButton)
+void Settings::dlnaStatusSwitch_OnClicked(const bool dlnaStatusSwitchIsChecked)
 {
-    StatusSwitch_onClicked(dlnaStatusSwitchIsChecked, dlnaStatusButton, MINIDLNA_SERVICE);
+    StatusSwitch_onClicked(dlnaStatusSwitchIsChecked, MINIDLNA_SERVICE);
 }
 
 void Settings::dlnaStatusButton_OnClicked(QObject *dlnaStatusButton, const QString dlnaStatusButtonText)
@@ -91,10 +91,10 @@ void Settings::checkSMBSystemdStatus(QObject *smbStatusSwitch, QObject *smbStatu
     checkSystemdStatus(smbStatusSwitch, smbStatusButton, SMB_SERVICE);
 }
 
-void Settings::sambaStatusSwitch_OnClicked(const bool sambaStatusSwitchIsChecked, QObject *sambaStatusButton)
+void Settings::sambaStatusSwitch_OnClicked(const bool sambaStatusSwitchIsChecked)
 {
-    StatusSwitch_onClicked(sambaStatusSwitchIsChecked, sambaStatusButton, SMB_SERVICE);
-    StatusSwitch_onClicked(sambaStatusSwitchIsChecked, sambaStatusButton, NMB_SERVICE);
+    StatusSwitch_onClicked(sambaStatusSwitchIsChecked, SMB_SERVICE);
+    StatusSwitch_onClicked(sambaStatusSwitchIsChecked, NMB_SERVICE);
 }
 
 void Settings::sambaStatusButton_OnClicked(QObject *sambaStatusButton, const QString sambaStatusButtonText)
@@ -110,9 +110,9 @@ void Settings::checkFTPSystemdStatus(QObject *ftpStatusSwitch, QObject *ftpStatu
     checkSystemdStatus(ftpStatusSwitch, ftpStatusButton, VSFTPD_SERVICE);
 }
 
-void Settings::ftpStatusSwitch_OnClicked(const bool ftpStatusSwitchIsChecked, QObject *ftpStatusButton)
+void Settings::ftpStatusSwitch_OnClicked(const bool ftpStatusSwitchIsChecked)
 {
-    StatusSwitch_onClicked(ftpStatusSwitchIsChecked, ftpStatusButton, VSFTPD_SERVICE);
+    StatusSwitch_onClicked(ftpStatusSwitchIsChecked, VSFTPD_SERVICE);
 }
 
 void Settings::ftpStatusButton_OnClicked(QObject *ftpStatusButton, const QString ftpStatusButtonText)
@@ -127,9 +127,9 @@ void Settings::checkFileBrowserSystemdStatus(QObject *fileBrowserStatusSwitch, Q
     checkSystemdStatus(fileBrowserStatusSwitch, fileBrowserStatusButton, FILEBROWSER_SERVICE);
 }
 
-void Settings::fileBrowserStatusSwitch_OnClicked(const bool fileBrowserStatusSwitchIsChecked, QObject *fileBrowserStatusButton)
+void Settings::fileBrowserStatusSwitch_OnClicked(const bool fileBrowserStatusSwitchIsChecked)
 {
-    StatusSwitch_onClicked(fileBrowserStatusSwitchIsChecked, fileBrowserStatusButton, FILEBROWSER_SERVICE);
+    StatusSwitch_onClicked(fileBrowserStatusSwitchIsChecked, FILEBROWSER_SERVICE);
 }
 
 void Settings::fileBrowserStatusButton_OnClicked(QObject *ftpStatusButton, const QString ftpStatusButtonText)
@@ -144,9 +144,9 @@ void Settings::checkTorrentClientSystemdStatus(QObject *torrentClientStatusSwitc
     checkSystemdStatus(torrentClientStatusSwitch, torrentCLientStatusButton, TRANSMISSION_SERVICE);
 }
 
-void Settings::torrentClientStatusSwitch_OnClicked(const bool torrentClientStatusSwitchIsChecked, QObject *torrentClientStatusButton)
+void Settings::torrentClientStatusSwitch_OnClicked(const bool torrentClientStatusSwitchIsChecked)
 {
-    StatusSwitch_onClicked(torrentClientStatusSwitchIsChecked, torrentClientStatusButton, TRANSMISSION_SERVICE);
+    StatusSwitch_onClicked(torrentClientStatusSwitchIsChecked, TRANSMISSION_SERVICE);
 }
 
 void Settings::torrentClientStatusButton_OnClicked(QObject *torrentClientStatusButton, const QString torrentClientStatusButtonText)
@@ -216,7 +216,7 @@ void Settings::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, 
     }
 }
 
-void Settings::StatusSwitch_onClicked(const bool statusSwitchIsChecked, QObject *statusButton, const QString &serviceName)
+void Settings::StatusSwitch_onClicked(const bool statusSwitchIsChecked, const QString &serviceName)
 {
     if(statusSwitchIsChecked)
     {

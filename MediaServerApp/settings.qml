@@ -101,7 +101,7 @@ Dialog
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     onClicked:
                     {
-                        settings.tvHeadEndStatusSwitch_OnClicked(tvHeadEndStatusSwitch.checked, tvHeadEndStatusButton)
+                        settings.tvHeadEndStatusSwitch_OnClicked(tvHeadEndStatusSwitch.checked)
                     }
                 }
 
@@ -129,7 +129,7 @@ Dialog
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     onClicked:
                     {
-                        settings.ympdStatusSwitch_OnClicked(ympdStatusSwitch.checked, ympdStatusButton)
+                        settings.ympdStatusSwitch_OnClicked(ympdStatusSwitch.checked)
                     }
                 }
 
@@ -157,7 +157,7 @@ Dialog
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     onClicked:
                     {
-                        settings.mpdStatusSwitch_OnClicked(mpdStatusSwitch.checked, mpdStatusButton)
+                        settings.mpdStatusSwitch_OnClicked(mpdStatusSwitch.checked)
                     }
                 }
 
@@ -185,7 +185,7 @@ Dialog
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     onClicked:
                     {
-                        settings.dlnaStatusSwitch_OnClicked(dlnaStatusSwitch.checked, dlnaStatusButton)
+                        settings.dlnaStatusSwitch_OnClicked(dlnaStatusSwitch.checked)
                     }
                 }
 
@@ -213,7 +213,7 @@ Dialog
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     onClicked:
                     {
-                        settings.sambaStatusSwitch_OnClicked(sambaStatusSwitch.checked, sambaStatusButton)
+                        settings.sambaStatusSwitch_OnClicked(sambaStatusSwitch.checked)
                     }
                 }
 
@@ -242,7 +242,7 @@ Dialog
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     onClicked:
                     {
-                        settings.fileBrowserStatusSwitch_OnClicked(fileBrowserStatusSwitch.checked, fileBrowserStatusButton)
+                        settings.fileBrowserStatusSwitch_OnClicked(fileBrowserStatusSwitch.checked)
                     }
                 }
 
@@ -270,7 +270,7 @@ Dialog
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     onClicked:
                     {
-                        settings.ftpStatusSwitch_OnClicked(ftpStatusSwitch.checked, ftpStatusButton)
+                        settings.ftpStatusSwitch_OnClicked(ftpStatusSwitch.checked)
                     }
                 }
 
@@ -298,7 +298,7 @@ Dialog
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     onClicked:
                     {
-                        settings.torrentClientStatusSwitch_OnClicked(torrentClientStatusSwitch.checked, torrentClientStatusButton)
+                        settings.torrentClientStatusSwitch_OnClicked(torrentClientStatusSwitch.checked)
                     }
                 }
 

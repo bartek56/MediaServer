@@ -42,19 +42,15 @@ std::map<QString,QString> EditAlarmConfigFile::LoadConfiguration(const QString &
 
 void EditAlarmConfigFile::SaveConfiguration(const QString &fileLocation, const std::map<QString,QString> &mConfigsParameters)
 {
-
     QFile fileToRead(fileLocation);
     QStringList fileString;
     if (fileToRead.open(QIODevice::ReadOnly))
     {
-        QTextStream stream(&fileToRead);
-
         int lineNumber=0;
 
         while (!fileToRead.atEnd())
         {
             QByteArray line = fileToRead.readLine();
-            std::string strLine(line);
 
             if(lineNumber>0 && lineNumber<8)
             {
