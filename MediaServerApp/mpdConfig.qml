@@ -118,7 +118,7 @@ Dialog
                 text: "Save"
                 onClicked:
                 {
-                    mpdConfig.saveConfigs();
+                    mpdConfig.saveConfigs(musicPathEditText.text);
                 }
             }
 

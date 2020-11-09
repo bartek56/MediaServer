@@ -6,8 +6,10 @@
 
 class EditMpdConfigFile
 {
+private:
+    const QString MPDCONFIG_PATH="/etc/mpd.conf";
 public:
-    std::map<QString, QString> OpenFile(QString fileLocation);
+    std::map<QString, QString> OpenFile();
     void SaveFile(const std::map<QString, QString> &mConfigs);
 };
 

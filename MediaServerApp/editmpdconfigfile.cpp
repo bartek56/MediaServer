@@ -3,45 +3,80 @@
 #include <QDebug>
 
 
-std::map<QString, QString> EditMpdConfigFile::OpenFile(QString fileLocation)
+std::map<QString, QString> EditMpdConfigFile::OpenFile()
 {
-
-    QFile file (fileLocation);
+    QFile file (MPDCONFIG_PATH);
 
     std::map<QString, QString> mConfigsParameters;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return mConfigsParameters;
 
-    QByteArray parameterName;
-
-    while (!file.atEnd())
+    QTextStream in(&file);
+    QString line = in.readLine();
+    while(line.size()>2)
     {
-        QByteArray line = file.readLine();
-        std::string strLine(line);
         auto parameter = line.split(' ');
         auto parameterName = parameter[0];
         auto parameterValue = parameter[1];
-        parameterValue.remove(parameterValue.length()-2,2);
+        parameterValue.remove(parameterValue.length()-1,1);
         parameterValue.remove(0,1);
         mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
+
+        line = in.readLine();
     }
     return mConfigsParameters;
 }
 
 void EditMpdConfigFile::SaveFile(const std::map<QString, QString> &mConfigs)
 {
-    QString filename="/etc/mpd.conf";
+    QFile fileToRead(MPDCONFIG_PATH);
+    QString fileString;
 
-    QFile file(filename);
-
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-
-    QTextStream out(&file);
-
-    for (auto it = std::begin(mConfigs); it!=std::end(mConfigs); ++it)
+    if (fileToRead.open(QIODevice::ReadOnly))
     {
-        out << it->first << " " << "\"" << it->second << "\"\n";
+
+        int lineNumber=0;
+        bool skipLastParameters=false;
+
+        while (!fileToRead.atEnd())
+        {
+            QByteArray line = fileToRead.readLine();
+
+            if(line.size()>2)
+            {
+                if(!skipLastParameters)
+                {
+                    QString newLine;
+                    auto parametr = line.split(' ');
+                    auto parametrName = parametr[0];
+                    newLine= parametrName + " \"" + mConfigs.at(parametrName)+"\"\n";
+                    fileString.push_back(newLine);
+                }
+            }
+            else
+            {
+                skipLastParameters=true;
+            }
+
+            if(skipLastParameters)
+            {
+                fileString.push_back(line);
+            }
+            lineNumber++;
+        }
     }
-    file.close();
+    fileToRead.close();
+
+
+    QFile fileToWrite(MPDCONFIG_PATH);
+    if (fileToWrite.open(QIODevice::WriteOnly))
+    {
+        QTextStream stream(&fileToWrite);
+
+        for(auto it :fileString)
+        {
+            stream << it;
+        }
+    }
+    fileToWrite.close();
 }

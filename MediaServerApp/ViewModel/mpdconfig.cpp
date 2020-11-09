@@ -22,17 +22,19 @@ void MpdConfig::bMusicFileDialog_onAccepted(QString folderPath, QObject *tfMusic
 {
     QString path = folderPath.remove(0,7);
     tfMusicPath->setProperty("text",QVariant(path));
-    mConfigs.at(MUSIC_DIRECTORY)=path;
+//    mConfigs.at(MUSIC_DIRECTORY)=path;
 }
 
 void MpdConfig::loadConfigs(QObject *tfMusicPath)
 {
-    mConfigs = editMpdConfigFile.OpenFile("/etc/mpd.conf");
+    mConfigs = editMpdConfigFile.OpenFile();
     tfMusicPath->setProperty("text",QVariant(mConfigs.at(MUSIC_DIRECTORY)));
 }
 
-void MpdConfig::saveConfigs()
+void MpdConfig::saveConfigs(const QString path)
 {
+    mConfigs.at(MUSIC_DIRECTORY)=path;
+    qDebug() << path;
     editMpdConfigFile.SaveFile(mConfigs);
     QProcess::execute("systemctl restart mpd.service");
 }
