@@ -15,11 +15,10 @@ std::map<QString, QString> EditMpdConfigFile::OpenFile()
     QString line = in.readLine();
     while(line.size()>2)
     {
-        auto parameter = line.split(' ');
+        auto parameter = line.split(" \"");
         auto parameterName = parameter[0];
         auto parameterValue = parameter[1];
         parameterValue.remove(parameterValue.length()-1,1);
-        parameterValue.remove(0,1);
         mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
 
         line = in.readLine();
