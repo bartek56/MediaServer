@@ -1078,9 +1078,6 @@ Dialog
         sambaConfig.setExternalDiskTabButton2(externalDisk2TabButton);
         sambaConfig.setExternalDiskTabButton3(externalDisk3TabButton);
 
-        sambaConfig.checkService(saveButton);
-
         sambaConfig.loadAllConfigs();
-
     }
 }

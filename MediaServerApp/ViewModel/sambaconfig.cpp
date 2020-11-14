@@ -9,22 +9,21 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 
 }
 
-void SambaConfig::checkService(QObject *saveButton)
+bool SambaConfig::isServiceActive()
 {
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start("bash", QStringList() << "-c" << "systemctl is-active nmb");
     process.setReadChannel(QProcess::StandardOutput);
-    QStringList devicesList;
     process.waitForFinished();
     auto text = process.readAll();
     process.close();
-    saveButton->setProperty("enabled",QVariant(!text.contains("in")));
+    return !text.contains("in");
 }
 
 void SambaConfig::loadAllConfigs()
 {
-    vConfigs = editFile.OpenFile("/etc/samba/smb.conf");
+    vConfigs = editFile.OpenFile();
     auto countShare = vConfigs.size();
 
     showGlobalConfigs();
@@ -211,9 +210,12 @@ void SambaConfig::bSave_onClicked()
         if(index!=0)
             vConfigs.erase (vConfigs.begin()+index);
     }
-    editFile.SaveFile("/etc/samba/smb.conf", vConfigs);
-    QProcess::execute("systemctl restart nmb");
-    QProcess::execute("systemctl restart smb");
+    editFile.SaveFile(vConfigs);
+    if(isServiceActive())
+    {
+        QProcess::execute("systemctl restart nmb");
+        QProcess::execute("systemctl restart smb");
+    }
 }
 
 void SambaConfig::setSettingFromCheckboxes(unsigned long row, QString configName,bool checked)
@@ -261,7 +263,7 @@ unsigned int SambaConfig::indexOfExternalDiskConfiguration(QString comment)
     auto iter=vConfigs.begin();
     iter++;
     iter++;
-    for (iter; iter != vConfigs.end(); ++iter)
+    while (iter != vConfigs.end())
     {
         auto map = iter->configs;
         QString name = map.at(configName.COMMENT);
@@ -271,6 +273,8 @@ unsigned int SambaConfig::indexOfExternalDiskConfiguration(QString comment)
             return index;
         }
         index++;
+
+        iter++;
     }
     return 0;
 }
@@ -281,7 +285,7 @@ unsigned int SambaConfig::indexOfExternalDiskConfigurationByName(QString name)
     auto iter=vConfigs.begin();
     iter++;
     iter++;
-    for (iter; iter != vConfigs.end();++iter)
+    while (iter != vConfigs.end())
     {
         auto configName = iter->name;
         if(configName.contains(name))
@@ -289,6 +293,7 @@ unsigned int SambaConfig::indexOfExternalDiskConfigurationByName(QString name)
             return index;
         }
         index++;
+        iter++;
     }
     return 0;
 }

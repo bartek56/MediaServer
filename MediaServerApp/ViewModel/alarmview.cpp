@@ -12,7 +12,6 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent)
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start("bash", QStringList() << "-c" << "systemctl is-active alarm_snooze.service");
     process.setReadChannel(QProcess::StandardOutput);
-    QStringList devicesList;
     process.waitForFinished();
     auto text = process.readAll();
     if(!text.contains("in")) // alarm active

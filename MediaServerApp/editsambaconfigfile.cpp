@@ -5,9 +5,9 @@
 #include <utility>
 #include <QDebug>
 
-std::vector<SambaConfigsName> EditSambaConfigFile::OpenFile(const QString &fileLocation)
+std::vector<SambaConfigsName> EditSambaConfigFile::OpenFile()
 {
-    QFile file (fileLocation);
+    QFile file (SAMBA_CONFIG_FILE);
     std::vector<SambaConfigsName> vConfigsName;
     std::map<QString, QString> mConfigsParameters;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -45,9 +45,9 @@ std::vector<SambaConfigsName> EditSambaConfigFile::OpenFile(const QString &fileL
     return vConfigsName;
 }
 
-void EditSambaConfigFile::SaveFile(QString fileLocation, std::vector<SambaConfigsName> vConfigs)
+void EditSambaConfigFile::SaveFile(std::vector<SambaConfigsName> vConfigs)
 {
-    QFile file(fileLocation);
+    QFile file(SAMBA_CONFIG_FILE);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
 

@@ -17,10 +17,11 @@ struct SambaConfigsName {
 class EditSambaConfigFile
 {
 public:
-    std::vector<SambaConfigsName> OpenFile(const QString &fileLocation);
-    void SaveFile(QString fileLocation,std::vector<SambaConfigsName> vConfigs);
+    std::vector<SambaConfigsName> OpenFile();
+    void SaveFile(std::vector<SambaConfigsName> vConfigs);
 
 private:
+    const QString SAMBA_CONFIG_FILE = "/etc/samba/smb.conf";
 };
 
 

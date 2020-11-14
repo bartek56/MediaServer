@@ -170,9 +170,7 @@ bool Settings::checkSystemdStatusIsEnabled(const QString &serviceName)
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start("bash", QStringList() << "-c" << "systemctl is-enabled "+serviceName);
-
     process.setReadChannel(QProcess::StandardOutput);
-    QStringList devicesList;
     process.waitForFinished();
     auto text = process.readAll();
     return text.contains("enabled");
@@ -183,9 +181,7 @@ bool Settings::checkSystemdStatusExist(const QString &serviceName)
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start("bash", QStringList() << "-c" << "systemctl is-enabled "+serviceName);
-
     process.setReadChannel(QProcess::StandardOutput);
-    QStringList devicesList;
     process.waitForFinished();
     auto text = process.readAll();
     return (text.contains("enabled") || text.contains("disabled"));

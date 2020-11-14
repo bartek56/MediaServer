@@ -193,7 +193,6 @@ public:
     Q_INVOKABLE void bFileDialog3_onAccepted(QString catalog);
 
     Q_INVOKABLE void loadAllConfigs();
-    Q_INVOKABLE void checkService(QObject *saveButton);
 
 private:
     EditSambaConfigFile editFile;
@@ -209,7 +208,6 @@ private:
     bool externalDisk2IsMounted=false;
     bool externalDisk3IsMounted=false;
 
-    //void removeConfig(QString const configName);
     unsigned int indexOfExternalDiskConfiguration(QString diskName);
     unsigned int indexOfExternalDiskConfigurationByName(QString name);
     void setCheckboxesFromFileSettings(QString configsParameters, QObject* checkbox);
@@ -222,7 +220,7 @@ private:
     void showConfigsForExternalDisk1();
     void showConfigsForExternalDisk2();
     void showConfigsForExternalDisk3();
-
+    bool isServiceActive();
 
 public slots:
 
