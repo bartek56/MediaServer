@@ -261,7 +261,7 @@ unsigned int SambaConfig::indexOfExternalDiskConfiguration(QString comment)
     auto iter=vConfigs.begin();
     iter++;
     iter++;
-    for (iter; iter != vConfigs.end();++iter)
+    for (iter; iter != vConfigs.end(); ++iter)
     {
         auto map = iter->configs;
         QString name = map.at(configName.COMMENT);

@@ -3,8 +3,6 @@
 
 #include <QObject>
 #include "managementofexternaldevices.h"
-#include "managementfatdrive.h"
-#include "managementntfsdrive.h"
 
 class MassStorage : public QObject
 {

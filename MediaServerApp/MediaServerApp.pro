@@ -28,11 +28,9 @@ SOURCES += \
     editsambaconfigfile.cpp \
     editftpconfigfile.cpp \
     editwificonfigfile.cpp \
-    ViewModel/dlnaconfig.cpp \
     ViewModel/settingsWifi.cpp \
     managementofexternaldevices.cpp \
     editdlnaconfigfile.cpp \
-    ViewModel/mpdconfig.cpp \
     editmpdconfigfile.cpp \
     ViewModel/settingsscreensaver.cpp \
     screensaver.cpp \
@@ -42,9 +40,10 @@ SOURCES += \
     managementfatdrive.cpp \
     ViewModel/alarmview.cpp \
     editalarmconfigfile.cpp \
-    ViewModel/settingsalarm.cpp \
     bluetoothctl.cpp \
-    ViewModel/massstorage.cpp
+    ViewModel/massstorage.cpp \
+    ViewModel/multimediaconfig.cpp \
+    ViewModel/alarmconfig.cpp
 
 RESOURCES += qml.qrc
 
@@ -68,10 +67,8 @@ HEADERS += \
     editftpconfigfile.h \
     ViewModel/settings.h \
     editwificonfigfile.h \
-    ViewModel/dlnaconfig.h \
     managementofexternaldevices.h \
     editdlnaconfigfile.h \
-    ViewModel/mpdconfig.h \
     editmpdconfigfile.h \
     screensaver.h \
     editscreensaverconfigfile.h \
@@ -80,7 +77,9 @@ HEADERS += \
     ViewModel/alarmview.h \
     editalarmconfigfile.h \
     bluetoothctl.h \
-    ViewModel/massstorage.h
+    ViewModel/massstorage.h \
+    ViewModel/multimediaconfig.h \
+    ViewModel/alarmconfig.h
 
 FORMS +=
 

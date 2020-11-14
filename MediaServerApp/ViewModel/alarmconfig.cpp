@@ -1,8 +1,9 @@
-#include "settings.h"
-#include "mainwindow.h"
-#include "screensaver.h"
+#include "alarmconfig.h"
 
-void Settings::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox,
+
+AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent){}
+
+void AlarmConfig::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox,
                                        QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox,
                                        QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton,
                                        QObject *playlistComboBox)
@@ -36,7 +37,7 @@ void Settings::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVo
 }
 
 
-QStringList Settings::loadMPDPlaylists()
+QStringList AlarmConfig::loadMPDPlaylists()
 {
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
@@ -59,9 +60,20 @@ QStringList Settings::loadMPDPlaylists()
     return musicPlayList;
 }
 
-void Settings::checkAlarmService(QObject *enableAlarmSwitch)
+bool AlarmConfig::checkAlarmIsActive()
 {
-    if(checkSystemdStatusIsActive(ALARM_TIMER))
+    QProcess process;
+    process.setProcessChannelMode(QProcess::MergedChannels);
+    process.start("bash", QStringList() << "-c" << "systemctl is-active " + ALARM_TIMER);
+    process.setReadChannel(QProcess::StandardOutput);
+    process.waitForFinished();
+    auto text = process.readAll();
+    return !text.contains("in");
+}
+
+void AlarmConfig::checkAlarmService(QObject *enableAlarmSwitch)
+{
+    if(checkAlarmIsActive())
     {
         enableAlarmSwitch->setProperty("checked",QVariant(true));
     }
@@ -70,7 +82,7 @@ void Settings::checkAlarmService(QObject *enableAlarmSwitch)
     }
 }
 
-void Settings::loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, QObject *wedCheckBox, QObject *thuCheckBox,
+void AlarmConfig::loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, QObject *wedCheckBox, QObject *thuCheckBox,
                                 QObject *friCheckBox, QObject *satCheckBox, QObject *sunCheckBox,
                                 QObject *timeHHSpinBox, QObject *timeMMSpinBox)
 {
@@ -121,7 +133,7 @@ void Settings::loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, QObj
 }
 
 
-void Settings::switchEnableAlarm_onClicked(const bool isEnable)
+void AlarmConfig::switchEnableAlarm_onClicked(const bool isEnable)
 {
     if(isEnable)
     {
@@ -152,13 +164,13 @@ void Settings::switchEnableAlarm_onClicked(const bool isEnable)
 }
 
 
-void Settings::bStartTestAlarm_onClicked()
+void AlarmConfig::bStartTestAlarm_onClicked()
 {
     testAlarmProcess.setProcessChannelMode(QProcess::SeparateChannels);
     testAlarmProcess.start(BASH+" "+ALARM_SCRIPT);
 }
 
-void Settings::bStopTestAlarm_onClicked()
+void AlarmConfig::bStopTestAlarm_onClicked()
 {
     QProcess builder;
     builder.setProcessChannelMode(QProcess::MergedChannels);
@@ -167,7 +179,7 @@ void Settings::bStopTestAlarm_onClicked()
     testAlarmProcess.kill();
 }
 
-void Settings::bSaveAlarm_onClicked(const int minVolume, const int maxVolume, const int defaultVolume, const int growingVolume, const int growingSpeed, const bool isNewestSongsList, const QString playlist)
+void AlarmConfig::bSaveAlarm_onClicked(const int minVolume, const int maxVolume, const int defaultVolume, const int growingVolume, const int growingSpeed, const bool isNewestSongsList, const QString playlist)
 {
     QString minVolumeString = QString::number(minVolume);
     QString maxVolumeString = QString::number(maxVolume);
@@ -185,7 +197,7 @@ void Settings::bSaveAlarm_onClicked(const int minVolume, const int maxVolume, co
     editAlarmConfigFile.SaveConfiguration(ALARM_SCRIPT, mAlarmConfigs);
 }
 
-void Settings::bSaveAlarmService_onClicked(const bool monCheckBox, const bool tueCheckBox, const bool wedCheckBox, const bool thuCheckBox,
+void AlarmConfig::bSaveAlarmService_onClicked(const bool monCheckBox, const bool tueCheckBox, const bool wedCheckBox, const bool thuCheckBox,
                                  const bool friCheckBox, const bool satCheckBox, const bool sunCheckBox,
                                  const int timeHHSpinBox, const int timeMMSpinBox)
 {
@@ -226,7 +238,7 @@ void Settings::bSaveAlarmService_onClicked(const bool monCheckBox, const bool tu
 }
 
 
-void Settings::saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time)
+void AlarmConfig::saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time)
 {
     QFile file (SYSTEMD_SYSTEM_PATH+"/"+ALARM_TIMER);
 

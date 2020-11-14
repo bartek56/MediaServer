@@ -114,12 +114,12 @@ Rectangle{
         }
 }
 
-/*
+
     Loader {
         anchors.fill:parent
         source:"screensaver.qml";
     }
-*/
+
     Loader {
         id:loaderConfigWindow
         anchors.fill:parent
@@ -413,7 +413,7 @@ Rectangle{
                     height: 74
                     anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.Stretch
-                    source: "icons/dlna.png"
+                    source: "icons/multimedia.png"
                 }
                 Text {
                     id: dlnaText
@@ -421,7 +421,7 @@ Rectangle{
                     y: 74
                     width: 50
                     height: 26
-                    text: qsTr("DLNA")
+                    text: qsTr("Multimedia")
                     font.letterSpacing: 1
                     anchors.horizontalCenterOffset: 0
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -431,7 +431,7 @@ Rectangle{
                 }
                 onClicked:
                 {
-                    loaderConfigWindow.setSource("dlnaConfig.qml")
+                    loaderConfigWindow.setSource("multimediaConfig.qml")
                 }
             }
 
@@ -441,24 +441,24 @@ Rectangle{
                 Layout.preferredWidth: 110
                 background: Rectangle {color: "transparent"}
                 Image {
-                    id: mpdImage
-                    x: 37
+                    id: alarmImage
                     y: 0
-                    width: 78
-                    height: 68
+                    width: 125
+                    height: 85
+                    anchors.horizontalCenterOffset: 8
                     anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.Stretch
-                    source: "icons/mpd.png"
+                    source: "icons/alarm.png"
                 }
                 Text {
-                    id: mpdText
+                    id: alarmText
                     x: 81
                     y: 74
                     width: 50
                     height: 26
-                    text: qsTr("MPD")
+                    text: qsTr("Alarm")
                     font.letterSpacing: 1
-                    anchors.horizontalCenterOffset: 0
+                    anchors.horizontalCenterOffset: 8
                     anchors.horizontalCenter: parent.horizontalCenter
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -466,7 +466,7 @@ Rectangle{
                 }
                 onClicked:
                 {
-                    loaderConfigWindow.setSource("mpdConfig.qml")
+                    loaderConfigWindow.setSource("alarmConfig.qml")
                 }
             }
 
@@ -552,7 +552,11 @@ Rectangle{
     }
 }
 
+
+
+
+
 /*##^## Designer {
-    D{i:15;anchors_height:100;anchors_width:100}D{i:14;anchors_height:100;anchors_width:100}
+    D{i:14;anchors_height:100;anchors_width:100}D{i:15;anchors_height:100;anchors_width:100}
 }
  ##^##*/

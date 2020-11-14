@@ -5,16 +5,15 @@
         <file>massStorage.qml</file>
         <file>ftpConfig.qml</file>
         <file>settings.qml</file>
-        <file>dlnaConfig.qml</file>
-        <file>mpdConfig.qml</file>
+        <file>multimediaConfig.qml</file>
+        <file>alarmConfig.qml</file>
         <file>icons/gmpc.svg</file>
+        <file>icons/alarm.png</file>
         <file>icons/gqview.png</file>
         <file>icons/gmplayer.png</file>
-        <file>icons/gmplayer2.png</file>
         <file>icons/samba.png</file>
         <file>icons/ftp.png</file>
-        <file>icons/dlna.png</file>
-        <file>icons/mpd.png</file>
+        <file>icons/multimedia.png</file>
         <file>icons/settings.png</file>
         <file>icons/browser.png</file>
         <file>icons/pcmanfm.png</file>

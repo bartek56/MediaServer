@@ -2,10 +2,10 @@
 #include <QFile>
 #include <QDebug>
 
-std::map<QString, QString> EditDlnaConfigFile::OpenFile(QString fileLocation)
+std::map<QString, QString> EditDlnaConfigFile::OpenFile()
 {
 
-    QFile file (fileLocation);
+    QFile file(DLNA_CONFIG);
 
     std::map<QString, QString> mConfigsParameters;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -39,9 +39,7 @@ std::map<QString, QString> EditDlnaConfigFile::OpenFile(QString fileLocation)
 
 void EditDlnaConfigFile::SaveFile(const std::map<QString, QString> &mConfigs)
 {
-    QString filename="/etc/minidlna.conf";
-
-    QFile file(filename);
+    QFile file(DLNA_CONFIG);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;

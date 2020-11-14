@@ -160,7 +160,6 @@ bool Settings::checkSystemdStatusIsActive(const QString &serviceName)
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start("bash", QStringList() << "-c" << "systemctl is-active "+serviceName);
     process.setReadChannel(QProcess::StandardOutput);
-    QStringList devicesList;
     process.waitForFinished();
     auto text = process.readAll();
     return !text.contains("in");

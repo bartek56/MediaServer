@@ -8,8 +8,8 @@
 #include "ViewModel/sambaconfig.h"
 #include "ViewModel/ftpconfig.h"
 #include "ViewModel/settings.h"
-#include "ViewModel/dlnaconfig.h"
-#include "ViewModel/mpdconfig.h"
+#include "ViewModel/multimediaconfig.h"
+#include "ViewModel/alarmconfig.h"
 #include "ViewModel/alarmview.h"
 #include "ViewModel/massstorage.h"
 #include "screensaver.h"
@@ -58,8 +58,8 @@ int main(int argc, char *argv[])
     if (view->status() == QQuickView::Error)
         return -1;
 
-    qmlRegisterType<MpdConfig>("MpdConfigLib", 1, 0, "MpdConfig");
-    qmlRegisterType<DlnaConfig>("DlnaConfigLib", 1, 0, "DlnaConfig");
+    qmlRegisterType<AlarmConfig>("AlarmConfigLib", 1, 0, "AlarmConfig");
+    qmlRegisterType<MultimediaConfig>("MultimediaConfigLib", 1, 0, "MultimediaConfig");
     qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfig");
     qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");
     qmlRegisterType<Settings>("SettingsLib", 1, 0, "Settings");

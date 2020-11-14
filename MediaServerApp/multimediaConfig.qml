@@ -3,11 +3,11 @@ import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.0
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
-import DlnaConfigLib 1.0
+import MultimediaConfigLib 1.0
 
 Dialog
 {
-    id: dlnaConfigDialog
+    id: multimediaConfigDialog
     visible: true
     width: 800
     height: 440
@@ -16,9 +16,24 @@ Dialog
     padding: 1
     modal: true
 
-    DlnaConfig
+    MultimediaConfig
     {
-        id: dlnaConfig
+        id: multimediaConfig
+    }
+
+    Loader {
+        id: loader
+        anchors.fill: parent
+        active: false
+        asynchronous: true
+    }
+
+
+    BusyIndicator
+    {
+        id: busyIndication
+        anchors.centerIn: mainRectangle
+        running: loader.status == Loader.Loading
     }
 
     Loader {
@@ -35,12 +50,12 @@ Dialog
         selectFolder: true
         onAccepted:
         {
-            dlnaConfig.bVideoFileDialog_onAccepted(videoFileDialog.folder,videoPathEditText)
-            dlnaConfigDialog.visible=true
+            multimediaConfig.bVideoFileDialog_onAccepted(videoFileDialog.folder,videoPathEditText)
+            multimediaConfigDialog.visible=true
         }
         onRejected:
         {
-            dlnaConfigDialog.visible=true
+            multimediaConfigDialog.visible=true
         }
     }
 
@@ -49,16 +64,15 @@ Dialog
         folder: shortcuts.home
         width: parent.width
         height: parent.height
-        //folder: shortcuts.mnt
         selectFolder: true
         onAccepted:
         {
-            dlnaConfig.bAudioFileDialog_onAccepted(audioFileDialog.folder,audioPathEditText)
-            dlnaConfigDialog.visible=true
+            multimediaConfig.bAudioFileDialog_onAccepted(audioFileDialog.folder,audioPathEditText)
+            multimediaConfigDialog.visible=true
         }
         onRejected:
         {
-            dlnaConfigDialog.visible=true
+            multimediaConfigDialog.visible=true
         }
     }
 
@@ -67,16 +81,15 @@ Dialog
         folder: shortcuts.home
         width: parent.width
         height: parent.height
-        //folder: shortcuts.mnt
         selectFolder: true
         onAccepted:
         {
-            dlnaConfig.bPicturesFileDialog_onAccepted(picturesFileDialog.folder,picturePathEditText)
-            dlnaConfigDialog.visible=true
+            multimediaConfig.bPicturesFileDialog_onAccepted(picturesFileDialog.folder,picturePathEditText)
+            multimediaConfigDialog.visible=true
         }
         onRejected:
         {
-            dlnaConfigDialog.visible=true
+            multimediaConfigDialog.visible=true
         }
     }
 
@@ -135,7 +148,7 @@ Dialog
                     onClicked:
                     {
                         audioFileDialog.open()
-                        dlnaConfigDialog.visible=false
+                        multimediaConfigDialog.visible=false
                     }
                 }
 
@@ -162,7 +175,7 @@ Dialog
                     onClicked:
                     {
                         videoFileDialog.open()
-                        dlnaConfigDialog.visible=false
+                        multimediaConfigDialog.visible=false
                     }
                 }
 
@@ -189,7 +202,7 @@ Dialog
                     onClicked:
                     {
                         picturesFileDialog.open()
-                        dlnaConfigDialog.visible=false
+                        multimediaConfigDialog.visible=false
                     }
                 }
             }
@@ -220,7 +233,7 @@ Dialog
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     onEditingFinished:
                     {
-                        dlnaConfig.tfPort_onEditingFinished(portEditText.text);
+                        multimediaConfig.tfPort_onEditingFinished(portEditText.text);
                     }
                 }
 
@@ -238,7 +251,7 @@ Dialog
                     font.pixelSize: 16
                     onEditingFinished:
                     {
-                        dlnaConfig.tfName_onEditingFinished(nameEditText.text);
+                        multimediaConfig.tfName_onEditingFinished(nameEditText.text);
                     }
                 }
                 Layout.alignment: Qt.AlignLeft | Qt.AlignTop
@@ -267,7 +280,9 @@ Dialog
                 text: "Save"
                 onClicked:
                 {
-                    dlnaConfig.saveConfigs();
+                    busyIndication.running=true
+                    multimediaConfig.saveConfigs();
+                    busyIndication.running=false
                 }
             }
 
@@ -279,7 +294,7 @@ Dialog
                 height: 40
                 onClicked:
                 {
-                    dlnaConfigDialog.close()
+                    multimediaConfigDialog.close()
                 }
             }
         }
@@ -290,8 +305,8 @@ Dialog
         id: inputPanel
         z: 99
         x: 0
-        y: dlnaConfigDialog.height
-        width: dlnaConfigDialog.width
+        y: multimediaConfigDialog.height
+        width: multimediaConfigDialog.width
 
         states: State
         {
@@ -300,7 +315,7 @@ Dialog
             PropertyChanges
             {
                 target: inputPanel
-                y: dlnaConfigDialog.height - inputPanel.height
+                y: multimediaConfigDialog.height - inputPanel.height
             }
         }
 
@@ -323,12 +338,11 @@ Dialog
 
     Component.onCompleted:
     {
-        dlnaConfig.openConfigFile();
-        dlnaConfig.loadMediaDirectoryConfigs(videoPathEditText,audioPathEditText,picturePathEditText);
-        dlnaConfig.loadSettigs(portEditText,nameEditText);
-        dlnaConfig.checkService(saveButton)
+        multimediaConfig.openConfigFile();
+        multimediaConfig.loadMediaDirectoryConfigs(videoPathEditText,audioPathEditText,picturePathEditText);
+        multimediaConfig.loadSettings(portEditText,nameEditText);
+        multimediaConfig.checkService(saveButton)
     }
-
 }
 
 

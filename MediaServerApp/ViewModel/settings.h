@@ -27,11 +27,8 @@ public:
 
     const QString WPASUPPLICANT_CONF = "/etc/wpa_supplicant.conf";
     const QString SCREENSAVER_SCRIPT = "/opt/startScreensaver.sh";
-    const QString ALARM_SCRIPT = "/opt/alarm.sh";
 
-    const QString BASH = "bash";
 
-    const QString ALARM_TIMER = "alarm.timer";
 
     const QString SYSTEMD_SYSTEM_PATH="/lib/systemd/system";
 
@@ -48,18 +45,6 @@ public:
     Q_INVOKABLE void cbNetworks_onDisplayTextChanged(QString networkName, QObject *obj);
     Q_INVOKABLE void sWifiOn_OnCheckedChanged(bool wifiOnSwitch);
     Q_INVOKABLE void checkWifi(QObject *obj);
-
-
-    // Alarm
-    Q_INVOKABLE void loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox, QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox, QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton, QObject *playlistComboBox);
-    Q_INVOKABLE void loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, QObject *wedCheckBox, QObject *thuCheckBox, QObject *friCheckBox, QObject *satCheckBox, QObject *sunCheckBox, QObject *timeHHSpinBox, QObject *timeMMSpinBox);
-    Q_INVOKABLE void checkAlarmService(QObject *enableAlarmSwitch);
-    Q_INVOKABLE void switchEnableAlarm_onClicked(const bool isEnable);
-    Q_INVOKABLE void bStartTestAlarm_onClicked();
-    Q_INVOKABLE void bStopTestAlarm_onClicked();
-    Q_INVOKABLE void bSaveAlarm_onClicked(const int minVolume, const int maxVolume, const int defaultVolume, const int growingVolume, const int growingSpeed, const bool isNewestSongsList, const QString playlist);
-    Q_INVOKABLE void bSaveAlarmService_onClicked(const bool monCheckBox, const bool tueCheckBox, const bool wedCheckBox, const bool thuCheckBox, const bool friCheckBox, const bool satCheckBox, const bool sunCheckBox, const int timeHHSpinBox, const int timeMMSpinBox);
-
 
     // ScreenSaver
     Q_INVOKABLE void bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath);
@@ -108,25 +93,21 @@ public slots:
 private:
     EditWifiConfigFile editWifiConfigFile;
     EditScreenSaverConfigFile editScreenSaverConfigFile;
-    EditAlarmConfigFile editAlarmConfigFile;
     std::vector<WifiConfigsName> vWifiConfigs;
     std::map<QString, QString> mScreenSaverConfigs;
-    std::map<QString, QString> mAlarmConfigs;
 
-    QProcess testAlarmProcess;
     QObject* bConnect;
     QObject* bScanNetwork;
     bool wifiIsOn;
 
-    int ConvertTimeFromMiliSecStringToMinutesInt(QString milisec);
     bool checkSystemdStatusExist(const QString &serviceName);
     bool checkSystemdStatusIsEnabled(const QString &serviceNames);
     bool checkSystemdStatusIsActive(const QString &serviceName);
     void StatusSwitch_onClicked(const bool statusSwitchIsChecked, const QString &serviceName);
     void StatusButton_onClicked(QObject *statusButton, const QString statusButtonText, const QString &serviceName);
-    void saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time);
     void checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString nameservice);
-    QStringList loadMPDPlaylists();
+
+    int ConvertTimeFromMiliSecStringToMinutesInt(QString milisec);
 };
 
 #endif // SETTINGS_H
