@@ -33,6 +33,7 @@ private:
 
     //mpd
     const QString MUSIC_DIRECTORY = "music_directory";
+    const QString PLAYLIST_DIRECTORY = "playlist_directory";
     const QString MPD_SERVICE = "mpd.service";
 
     EditDlnaConfigFile editDlnaConfigFile;

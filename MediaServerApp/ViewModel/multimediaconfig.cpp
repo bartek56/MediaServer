@@ -18,6 +18,7 @@ void MultimediaConfig::bAudioFileDialog_onAccepted(QString folderPath, QObject *
     tfAudioPath->setProperty("text",QVariant(path));
     mDlnaConfigs.at(AUDIODIR)=path;
     mMpdConfigs.at(MUSIC_DIRECTORY)=path;
+    mMpdConfigs.at(PLAYLIST_DIRECTORY)=path;
 }
 
 void MultimediaConfig::bPicturesFileDialog_onAccepted(QString folderPath, QObject *tfPicturesPath)
