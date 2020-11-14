@@ -36,8 +36,6 @@ SOURCES += \
     screensaver.cpp \
     editscreensaverconfigfile.cpp \
     ViewModel/settingsstatus.cpp \
-    managementntfsdrive.cpp \
-    managementfatdrive.cpp \
     ViewModel/alarmview.cpp \
     editalarmconfigfile.cpp \
     bluetoothctl.cpp \
@@ -72,8 +70,6 @@ HEADERS += \
     editmpdconfigfile.h \
     screensaver.h \
     editscreensaverconfigfile.h \
-    managementntfsdrive.h \
-    managementfatdrive.h \
     ViewModel/alarmview.h \
     editalarmconfigfile.h \
     bluetoothctl.h \

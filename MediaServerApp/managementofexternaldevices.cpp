@@ -79,25 +79,3 @@ std::map<QString, QString> ManagementOfExternalDevices::LoadDeviceParameters(con
 
     return deviceParameters;
 }
-
-
-void ManagementOfExternalDevices::MountDevice(const QString &deviceName, QString &deviceLabel, const QString &type, const bool &automount)
-{
-
-}
-
-void ManagementOfExternalDevices::UmountDevice(const QString &deviceName, const QString &mountpoint)
-{
-
-}
-
-void ManagementOfExternalDevices::EnableAutomount(const QString &deviceName, QString &deviceLabel)
-{
-
-}
-
-void ManagementOfExternalDevices::DisableAutomount(const QString &deviceName)
-{
-
-}
-
