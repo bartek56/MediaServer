@@ -34,6 +34,10 @@ void AlarmConfig::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *ma
         isNewestSongsListRadioButton->setProperty("checked",QVariant(true));
         isPlaylistRadioButton->setProperty("checked",QVariant(false));
     }
+    else {
+        int indexOfSavedPlaylist = mpdPlaylists.indexOf(mAlarmConfigs.at("playlist"));
+        playlistComboBox->setProperty("currentIndex", QVariant(indexOfSavedPlaylist));
+    }
 }
 
 
@@ -41,7 +45,7 @@ QStringList AlarmConfig::loadMPDPlaylists()
 {
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("bash", QStringList() << "-c" << "mpc lsplaylists");
+    process.start("bash", QStringList() << "-c" << "mpc lsplaylists | grep -v m3u");
     process.setReadChannel(QProcess::StandardOutput);
     QStringList musicPlayList;
     while(process.waitForFinished());
