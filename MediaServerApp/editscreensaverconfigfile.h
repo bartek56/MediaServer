@@ -6,10 +6,13 @@
 
 class EditScreenSaverConfigFile
 {
+private:
+    QString fileLocation = "/etc/mediaserver/screensaver.conf";
+
 public:
     EditScreenSaverConfigFile();
-    void SaveConfiguration(const QString &fileLocation, const std::map<QString,QString> &mConfigsParameters);
-    std::map<QString,QString> LoadConfiguration(const QString &fileLocation);
+    void SaveConfiguration(const std::map<QString,QString> &mConfigsParameters);
+    std::map<QString,QString> LoadConfiguration();
 };
 
 #endif // EDITSCREENSAVERCONFIGFILE_H

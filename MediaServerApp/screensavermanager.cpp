@@ -4,21 +4,15 @@
 
 ScreenSaverManager::ScreenSaverManager(QObject *parent) : QObject(parent)
 {
- qDebug() << "screen saver constructor";
 }
 
 void ScreenSaverManager::Init()
 {
-//    auto mConfigs = editScreenSaverConfigFile.LoadConfiguration("/opt/startScreensaver.sh");
+    auto mConfigs = editScreenSaverConfigFile.LoadConfiguration();
     timer = new QTimer();
-//    connect(timer, SIGNAL(timeout()), this, SLOT(startScreen()));
-//    QString startTimeString = mConfigs.at("startTime");
-//    int startTimeInt = startTimeString.toInt();
-//    timer->setInterval(startTimeInt);
-//    timer->start();
-
- qDebug() << "screen saver init";
-
+    QString startTimeString = mConfigs.at("startTime");
+    timer->setInterval(startTimeString.toInt());
+    timer->start();
 }
 
 void ScreenSaverManager::startScreen()

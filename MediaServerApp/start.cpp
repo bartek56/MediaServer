@@ -86,7 +86,6 @@ int main(int argc, char *argv[])
            emit screensaverhelper.screensavertimeout();
         });
 
-    ScreenSaverManager::timer->start(1500);
 
     if(isItAlarm())
     {

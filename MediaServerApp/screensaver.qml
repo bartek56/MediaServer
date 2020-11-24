@@ -14,8 +14,6 @@ Dialog
 
     property int i: 0
     property bool isRandom: true
-    property int sleep: 2
-    property string path: "/home/bartosz/Pictures/tapety"
 
     ScreenSaver{
         id: screenSaver
@@ -26,15 +24,15 @@ Dialog
         width: parent.width
         onClicked:
         {
-            screenSaverDialog.visible=false
+            timer.stop()
             screenSaver.exit()
+            screenSaverDialog.visible=false
         }
     }
 
     FolderListModel {
         id: folderModel
         nameFilters: ["*.jpg"]
-        folder: "file:" + path
     }
 
     Image {
@@ -45,8 +43,6 @@ Dialog
 
     Timer {
         id:timer
-        interval: sleep*1000;
-        running: true;
         repeat: true;
         triggeredOnStart: true;
         onTriggered:
@@ -65,6 +61,6 @@ Dialog
 
     Component.onCompleted:
     {
-        screenSaver.init();
+        screenSaver.init(timer,folderModel);
     }
 }
