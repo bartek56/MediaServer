@@ -28,7 +28,6 @@ Dialog
         asynchronous: true
     }
 
-
     BusyIndicator
     {
         id: busyIndication
@@ -38,7 +37,7 @@ Dialog
 
     Loader {
         anchors.fill:parent
-        source:"screensaver.qml";
+        source:"screensavermanager.qml";
     }
 
     FileDialog {
@@ -341,7 +340,6 @@ Dialog
         multimediaConfig.openConfigFile();
         multimediaConfig.loadMediaDirectoryConfigs(videoPathEditText,audioPathEditText,picturePathEditText);
         multimediaConfig.loadSettings(portEditText,nameEditText);
-        multimediaConfig.checkService(saveButton)
     }
 }
 

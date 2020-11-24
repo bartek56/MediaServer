@@ -19,11 +19,11 @@ Dialog
         id: massStorage
     }
 
-    /*Loader {
+    Loader {
         anchors.fill:parent
-        source:"screensaver.qml";
+        source:"screensavermanager.qml";
     }
-*/
+
 
     RowLayout {
         anchors.rightMargin: 20

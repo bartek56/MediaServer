@@ -33,7 +33,6 @@ SOURCES += \
     editdlnaconfigfile.cpp \
     editmpdconfigfile.cpp \
     ViewModel/settingsscreensaver.cpp \
-    screensaver.cpp \
     editscreensaverconfigfile.cpp \
     ViewModel/settingsstatus.cpp \
     ViewModel/alarmview.cpp \
@@ -41,7 +40,9 @@ SOURCES += \
     bluetoothctl.cpp \
     ViewModel/massstorage.cpp \
     ViewModel/multimediaconfig.cpp \
-    ViewModel/alarmconfig.cpp
+    ViewModel/alarmconfig.cpp \
+    screensavermanager.cpp \
+    ViewModel/screensaver.cpp
 
 RESOURCES += qml.qrc
 
@@ -68,16 +69,18 @@ HEADERS += \
     managementofexternaldevices.h \
     editdlnaconfigfile.h \
     editmpdconfigfile.h \
-    screensaver.h \
     editscreensaverconfigfile.h \
     ViewModel/alarmview.h \
     editalarmconfigfile.h \
     bluetoothctl.h \
     ViewModel/massstorage.h \
     ViewModel/multimediaconfig.h \
-    ViewModel/alarmconfig.h
+    ViewModel/alarmconfig.h \
+    screensavermanager.h \
+    ViewModel/screensaver.h
 
 FORMS +=
+
 
 
 

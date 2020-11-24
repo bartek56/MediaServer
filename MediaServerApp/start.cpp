@@ -1,9 +1,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include <QApplication>
 #include <QtQuick>
+#include <QObject>
 #include <QThread>
-#include "editsambaconfigfile.h"
 #include "ViewModel/mainwindow.h"
 #include "ViewModel/sambaconfig.h"
 #include "ViewModel/ftpconfig.h"
@@ -12,11 +13,13 @@
 #include "ViewModel/alarmconfig.h"
 #include "ViewModel/alarmview.h"
 #include "ViewModel/massstorage.h"
-#include "screensaver.h"
+#include "ViewModel/screensaver.h"
+#include "screensavermanager.h"
+#include "editsambaconfigfile.h"
 
 QQuickView *MainWindow::mainView;
 
-QTimer *ScreenSaver::timer;
+QTimer *ScreenSaverManager::timer;
 
 bool isItAlarm()
 {
@@ -65,12 +68,25 @@ int main(int argc, char *argv[])
     qmlRegisterType<Settings>("SettingsLib", 1, 0, "Settings");
     qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
     qmlRegisterType<AlarmView>("AlarmViewLib", 1, 0, "AlarmView");
+    qmlRegisterType<ScreenSaverManager>("ScreenSaverManagerLib", 1, 0, "ScreenSaverManager");
     qmlRegisterType<ScreenSaver>("ScreenSaverLib", 1, 0, "ScreenSaver");
     qmlRegisterType<MassStorage>("MassStorageLib", 1, 0, "MassStorage");
 
     view->setWidth(800);
     view->setHeight(480);
     view->setResizeMode(QQuickView::SizeRootObjectToView);
+
+    ScreenSaverManager screen;
+    screen.Init();
+
+    ScreenSaverHelper screensaverhelper;
+    view->rootContext()->setContextProperty("screensaverhelper",&screensaverhelper);
+
+    QObject::connect(ScreenSaverManager::timer, &QTimer::timeout, [&screensaverhelper](){
+           emit screensaverhelper.screensavertimeout();
+        });
+
+    ScreenSaverManager::timer->start(1500);
 
     if(isItAlarm())
     {
@@ -83,9 +99,5 @@ int main(int argc, char *argv[])
 
     view->show();
 
-    ScreenSaver screen;
-    screen.Init();
-
     return app.exec();
 }
-

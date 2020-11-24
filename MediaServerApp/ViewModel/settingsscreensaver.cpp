@@ -1,6 +1,6 @@
 #include "settings.h"
 #include "mainwindow.h"
-#include "screensaver.h"
+#include "screensavermanager.h"
 
 void Settings::bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath)
 {
@@ -20,7 +20,7 @@ void Settings::bSaveScreenSaver_onClicked(const QString timeout, const QString p
     else
         mScreenSaverConfigs.at("random")="";
     editScreenSaverConfigFile.SaveConfiguration(SCREENSAVER_SCRIPT, mScreenSaverConfigs);
-    ScreenSaver::timer->setInterval(startTimeInMilisecond);
+    ScreenSaverManager::timer->setInterval(startTimeInMilisecond);
 }
 
 

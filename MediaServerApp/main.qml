@@ -12,6 +12,17 @@ Rectangle{
     width: 800
     height: 480
 
+    function startScreenSaver()
+    {
+        loaderScreenSaver.setSource("screensaver.qml")
+    }
+
+    Connections{
+            target: screensaverhelper
+            onScreensavertimeout: mainRectangle.startScreenSaver()
+    }
+
+
     MessageDialog {
         id: bluetoothPairMessage
         title: "Bluetooth"
@@ -24,6 +35,10 @@ Rectangle{
 
     }
 
+    Loader {
+        anchors.fill:parent
+        source:"screensavermanager.qml";
+    }
 
     ToolBar
     {
@@ -112,20 +127,24 @@ Rectangle{
                 tClockDate.text = dateText + "   " + timeText
             }
         }
-}
-
-
-    Loader {
-        anchors.fill:parent
-        source:"screensaver.qml";
     }
 
+
+
     Loader {
-        id:loaderConfigWindow
-        anchors.fill:parent
+        id: loaderConfigWindow
+        anchors.fill: parent
         active: true
         asynchronous: true
     }
+
+    Loader {
+        id: loaderScreenSaver
+        width: parent.width
+        height: parent.height
+        active: true
+    }
+
     BusyIndicator
     {
         id: busyIndication
@@ -551,12 +570,3 @@ Rectangle{
         mainWindow.getPairBluetoothMessage(bluetoothPairMessage)
     }
 }
-
-
-
-
-
-/*##^## Designer {
-    D{i:14;anchors_height:100;anchors_width:100}D{i:15;anchors_height:100;anchors_width:100}
-}
- ##^##*/

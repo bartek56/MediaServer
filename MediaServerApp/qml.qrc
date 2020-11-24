@@ -18,6 +18,7 @@
         <file>icons/browser.png</file>
         <file>icons/pcmanfm.png</file>
         <file>icons/poweroff.png</file>
+        <file>screensavermanager.qml</file>
         <file>screensaver.qml</file>
         <file>alarm.qml</file>
     </qresource>

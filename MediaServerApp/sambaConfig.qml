@@ -20,7 +20,7 @@ Dialog
 
     Loader {
         anchors.fill:parent
-        source:"screensaver.qml";
+        source:"screensavermanager.qml";
     }
 
     SambaConfig
