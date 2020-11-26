@@ -271,10 +271,10 @@ Dialog
 
             SpinBox {
                 id: defaultVolumeSpinBox
-                to: 80
-                from: 30
+                to: 60
+                from: 10
                 Layout.fillHeight: false
-                value: 50
+                value: 30
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
             }
 
