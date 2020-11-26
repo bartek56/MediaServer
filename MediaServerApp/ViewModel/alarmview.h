@@ -13,16 +13,11 @@ public:
     Q_INVOKABLE void snooze10min();
     Q_INVOKABLE void snooze5min();
 
-//signals:
-
-//public slots:
 private:
     bool isSnooze;
     void snooze(int min);
-    const QString ALARM_SCRIPT = "/opt/alarm.sh";
     const QString ALARM_TIMER = "alarm.timer";
-    const QString SYSTEMD_SYSTEM_PATH="/lib/systemd/system";
-
+    QString CONFIG_PATH = "/etc/mediaserver";
     EditAlarmConfigFile editAlarmConfigFile;
 
 };

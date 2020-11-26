@@ -25,13 +25,6 @@ public:
     const QString FILEBROWSER_SERVICE = "fileBrowser.service";
     const QString TRANSMISSION_SERVICE = "transmission-daemon.service";
 
-    const QString WPASUPPLICANT_CONF = "/etc/wpa_supplicant.conf";
-    const QString SCREENSAVER_SCRIPT = "/opt/startScreensaver.sh";
-
-
-
-    const QString SYSTEMD_SYSTEM_PATH="/lib/systemd/system";
-
     Q_OBJECT
 public:
     explicit Settings(QObject *parent = nullptr);
@@ -85,10 +78,6 @@ public:
     Q_INVOKABLE void torrentClientStatusSwitch_OnClicked(const bool torrentClientStatusSwitchIsChecked);
     Q_INVOKABLE void torrentClientStatusButton_OnClicked(QObject *torrentClientStatusButton, const QString torrentClientStatusButtonText);
 
-
-signals:
-
-public slots:
 
 private:
     EditWifiConfigFile editWifiConfigFile;

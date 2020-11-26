@@ -9,7 +9,7 @@
 class EditDlnaConfigFile
 {
 private:
-    const QString DLNA_CONFIG = "/etc/minidlna.conf";
+    const QString DLNA_CONFIG = "/etc/mediaserver/minidlna.conf";
 public:
     //EditDlnaConfigFile();
     std::map<QString, QString>  OpenFile();

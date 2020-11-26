@@ -21,7 +21,7 @@ public:
     void SaveFile(std::vector<SambaConfigsName> vConfigs);
 
 private:
-    const QString SAMBA_CONFIG_FILE = "/etc/samba/smb.conf";
+    const QString SAMBA_CONFIG_FILE = "/etc/mediaserver/smb.conf";
 };
 
 

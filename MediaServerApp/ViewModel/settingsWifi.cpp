@@ -123,5 +123,5 @@ void Settings::checkWifi(QObject *obj)
 
 void Settings::loadWifiConfigFile()
 {
-    vWifiConfigs = editWifiConfigFile.OpenFile(WPASUPPLICANT_CONF);
+    vWifiConfigs = editWifiConfigFile.OpenFile();
 }

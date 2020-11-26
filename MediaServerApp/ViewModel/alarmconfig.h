@@ -8,10 +8,11 @@
 class AlarmConfig : public QObject
 {
 private:
-    const QString ALARM_SCRIPT = "/opt/alarm.sh";
+    const QString CONFIG_PATH = "/etc/mediaserver";
+    const QString ALARM_SCRIPT = CONFIG_PATH+"/alarm.sh";
+
     const QString ALARM_TIMER = "alarm.timer";
     const QString ALARM_SERVICE = "alarm.service";
-    const QString SYSTEMD_SYSTEM_PATH = "/lib/systemd/system";
     const QString BASH = "bash";
 
     QStringList loadMPDPlaylists();

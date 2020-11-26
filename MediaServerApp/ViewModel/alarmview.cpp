@@ -23,14 +23,14 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent)
 
 void AlarmView::stopAlarm()
 {
-    auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration(ALARM_SCRIPT);
+    auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration();
 
     QString defaultVolume = alarmConfigMap["defaultVolume"];
     QProcess::startDetached("mpc volume "+defaultVolume);
     QProcess::startDetached("systemctl stop alarm_snooze.timer");
     QProcess::startDetached("systemctl start gmpc");
 
-    QFile systemdVarFile ("/etc/systemdVariables");
+    QFile systemdVarFile ("/etc/mediaserver/systemdVariables");
 
     QStringList arg;
 
@@ -70,7 +70,7 @@ void AlarmView::snooze15min()
 
 void AlarmView::snooze(int min)
 {
-    QFile file (SYSTEMD_SYSTEM_PATH+"/alarm_snooze.timer");
+    QFile file (CONFIG_PATH+"/alarm_snooze.timer");
 
     QStringList vUsers;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -105,7 +105,7 @@ void AlarmView::snooze(int min)
      }
      file.close();
 
-     QFile systemdVarFile ("/etc/systemdVariables");
+     QFile systemdVarFile ("/etc/mediaserver/systemdVariables");
 
      QStringList arg;
 

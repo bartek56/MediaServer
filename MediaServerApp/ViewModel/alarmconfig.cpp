@@ -8,7 +8,7 @@ void AlarmConfig::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *ma
                                        QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton,
                                        QObject *playlistComboBox)
 {
-    mAlarmConfigs = editAlarmConfigFile.LoadConfiguration(ALARM_SCRIPT);
+    mAlarmConfigs = editAlarmConfigFile.LoadConfiguration();
 
     minVolumeSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("minVolume")));
     maxVolumeSpinBox->setProperty("value",QVariant(mAlarmConfigs.at("maxVolume")));
@@ -90,7 +90,7 @@ void AlarmConfig::loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, Q
                                 QObject *friCheckBox, QObject *satCheckBox, QObject *sunCheckBox,
                                 QObject *timeHHSpinBox, QObject *timeMMSpinBox)
 {
-    QFile file (SYSTEMD_SYSTEM_PATH+"/"+ALARM_TIMER);
+    QFile file (CONFIG_PATH+"/"+ALARM_TIMER);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
@@ -198,7 +198,7 @@ void AlarmConfig::bSaveAlarm_onClicked(const int minVolume, const int maxVolume,
     mAlarmConfigs.at("growingSpeed")=growingSpeedString;
     mAlarmConfigs.at("playlist")=playlist;
     mAlarmConfigs.at("theNewestSongs")=isNewestSongsListString;
-    editAlarmConfigFile.SaveConfiguration(ALARM_SCRIPT, mAlarmConfigs);
+    editAlarmConfigFile.SaveConfiguration(mAlarmConfigs);
 }
 
 void AlarmConfig::bSaveAlarmService_onClicked(const bool monCheckBox, const bool tueCheckBox, const bool wedCheckBox, const bool thuCheckBox,
@@ -244,7 +244,7 @@ void AlarmConfig::bSaveAlarmService_onClicked(const bool monCheckBox, const bool
 
 void AlarmConfig::saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time)
 {
-    QFile file (SYSTEMD_SYSTEM_PATH+"/"+ALARM_TIMER);
+    QFile file (CONFIG_PATH+"/"+ALARM_TIMER);
 
     QStringList strings;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

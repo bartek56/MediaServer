@@ -8,9 +8,11 @@
 class EditAlarmConfigFile
 {
 public:
+    const QString ALARM_SCRIPT="/etc/mediaserver/alarm.sh";
     EditAlarmConfigFile();
-    void SaveConfiguration(const QString &fileLocation, const std::map<QString,QString> &mConfigsParameters);
-    std::map<QString,QString> LoadConfiguration(const QString &fileLocation);
+
+    void SaveConfiguration(const std::map<QString,QString> &mConfigsParameters);
+    std::map<QString,QString> LoadConfiguration();
 };
 
 #endif // EDITSCREENSAVERCONFIGFILE_H

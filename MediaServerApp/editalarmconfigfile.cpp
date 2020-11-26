@@ -8,10 +8,10 @@ EditAlarmConfigFile::EditAlarmConfigFile()
 
 }
 
-std::map<QString,QString> EditAlarmConfigFile::LoadConfiguration(const QString &fileLocation)
+std::map<QString,QString> EditAlarmConfigFile::LoadConfiguration()
 {
     std::map<QString,QString> mConfigsParameters;
-    QFile fileToRead(fileLocation);
+    QFile fileToRead(ALARM_SCRIPT);
     QStringList fileString;
     if (fileToRead.open(QIODevice::ReadOnly))
     {
@@ -40,9 +40,9 @@ std::map<QString,QString> EditAlarmConfigFile::LoadConfiguration(const QString &
     return mConfigsParameters;
 }
 
-void EditAlarmConfigFile::SaveConfiguration(const QString &fileLocation, const std::map<QString,QString> &mConfigsParameters)
+void EditAlarmConfigFile::SaveConfiguration(const std::map<QString,QString> &mConfigsParameters)
 {
-    QFile fileToRead(fileLocation);
+    QFile fileToRead(ALARM_SCRIPT);
     QStringList fileString;
     if (fileToRead.open(QIODevice::ReadOnly))
     {
@@ -78,7 +78,7 @@ void EditAlarmConfigFile::SaveConfiguration(const QString &fileLocation, const s
 
     fileToRead.close();
 
-    QFile fileToWrite(fileLocation);
+    QFile fileToWrite(ALARM_SCRIPT);
 
     if (fileToWrite.open(QIODevice::WriteOnly))
     {

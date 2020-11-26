@@ -16,9 +16,12 @@ struct WifiConfigsName {
 
 class EditWifiConfigFile
 {
+private:
+   const QString WIFI_CONFIG_FILE="/etc/mediaserver/wpa_supplicant.conf";
+
 public:
     //EditWifiConfigFile();
-    std::vector<WifiConfigsName> OpenFile(QString fileLocation);
+    std::vector<WifiConfigsName> OpenFile();
     void SaveWifiConfigs(const std::vector<WifiConfigsName> &vWifiConfig);
 };
 

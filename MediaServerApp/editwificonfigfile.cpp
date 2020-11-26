@@ -2,9 +2,9 @@
 #include <QFile>
 #include <QDebug>
 
-std::vector<WifiConfigsName> EditWifiConfigFile::OpenFile(QString fileLocation)
+std::vector<WifiConfigsName> EditWifiConfigFile::OpenFile()
 {
-    QFile file (fileLocation);
+    QFile file (WIFI_CONFIG_FILE);
     std::vector<WifiConfigsName> vConfigsName;
     std::map<QString, QString> mConfigsParameters;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -47,9 +47,7 @@ std::vector<WifiConfigsName> EditWifiConfigFile::OpenFile(QString fileLocation)
 
 void EditWifiConfigFile::SaveWifiConfigs(const std::vector<WifiConfigsName> &vWifiConfigs)
 {
-    QString filename="/etc/wpa_supplicant.conf";
-
-    QFile file(filename);
+    QFile file(WIFI_CONFIG_FILE);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;

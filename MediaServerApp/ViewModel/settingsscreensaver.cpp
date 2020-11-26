@@ -5,9 +5,15 @@
 void Settings::screenSaverEnableSwitch_OnClicked(const bool isEnable)
 {
     if(isEnable)
+    {
         ScreenSaverManager::timer->start();
+        mScreenSaverConfigs.at("enable")="true";
+    }
     else
+    {
         ScreenSaverManager::timer->stop();
+        mScreenSaverConfigs.at("enable")="false";
+    }
 }
 
 
@@ -48,9 +54,9 @@ void Settings::loadScreenSaverConfigurations(QObject * enableSwitch, QObject *st
         random->setProperty("checked",QVariant(false));
 
     if(ScreenSaverManager::timer->isActive())
-        enableSwitch->setProperty("enabled", QVariant(true));
+        enableSwitch->setProperty("checked", QVariant(true));
     else
-        enableSwitch->setProperty("enabled", QVariant(false));
+        enableSwitch->setProperty("checked", QVariant(false));
 }
 
 int Settings::ConvertTimeFromMiliSecStringToMinutesInt(QString miliSecounds)
