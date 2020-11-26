@@ -12,7 +12,8 @@ void ScreenSaverManager::Init()
     timer = new QTimer();
     QString startTimeString = mConfigs.at("startTime");
     timer->setInterval(startTimeString.toInt());
-    timer->start();
+    if(mConfigs.at("enable")=="true")
+        timer->start();
 }
 
 void ScreenSaverManager::startScreen()

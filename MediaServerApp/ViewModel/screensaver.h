@@ -13,7 +13,7 @@ private:
     Q_OBJECT
 public:
     explicit ScreenSaver(QObject *parent = nullptr);
-    Q_INVOKABLE void init(QObject *timer, QObject *folderModel);
+    Q_INVOKABLE void init(QObject *timer, QObject *folderModel, QObject *screenSaverDialog);
     Q_INVOKABLE void exit();
 
 };

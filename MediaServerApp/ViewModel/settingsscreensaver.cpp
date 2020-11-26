@@ -2,6 +2,15 @@
 #include "mainwindow.h"
 #include "screensavermanager.h"
 
+void Settings::screenSaverEnableSwitch_OnClicked(const bool isEnable)
+{
+    if(isEnable)
+        ScreenSaverManager::timer->start();
+    else
+        ScreenSaverManager::timer->stop();
+}
+
+
 void Settings::bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath)
 {
     QString path = folderPath.remove(0,7);
@@ -24,7 +33,7 @@ void Settings::bSaveScreenSaver_onClicked(const QString timeout, const QString p
 }
 
 
-void Settings::loadScreenSaverConfigurations(QObject *startTime, QObject *path, QObject *timeout, QObject *random)
+void Settings::loadScreenSaverConfigurations(QObject * enableSwitch, QObject *startTime, QObject *path, QObject *timeout, QObject *random)
 {
     mScreenSaverConfigs = editScreenSaverConfigFile.LoadConfiguration();
 
@@ -33,10 +42,15 @@ void Settings::loadScreenSaverConfigurations(QObject *startTime, QObject *path, 
     startTime->setProperty("value",QVariant(startTimeInMinutes));
     path->setProperty("text",QVariant(mScreenSaverConfigs.at("path")));
     timeout->setProperty("value",QVariant(mScreenSaverConfigs.at("timeout")));
-    if(mScreenSaverConfigs.at("random").size()>1)
+    if(mScreenSaverConfigs.at("random")=="true")
         random->setProperty("checked",QVariant(true));
     else
         random->setProperty("checked",QVariant(false));
+
+    if(ScreenSaverManager::timer->isActive())
+        enableSwitch->setProperty("enabled", QVariant(true));
+    else
+        enableSwitch->setProperty("enabled", QVariant(false));
 }
 
 int Settings::ConvertTimeFromMiliSecStringToMinutesInt(QString miliSecounds)

@@ -13,7 +13,7 @@ Dialog
     height: 480
 
     property int i: 0
-    property bool isRandom: true
+    property bool isRandom: false
 
     ScreenSaver{
         id: screenSaver
@@ -37,8 +37,10 @@ Dialog
 
     Image {
         id: image
-        width: parent.width
-        height: parent.height
+        width: 800
+        height: 480
+        x:parent.x-25
+        y:parent.y-25
     }
 
     Timer {
@@ -61,6 +63,6 @@ Dialog
 
     Component.onCompleted:
     {
-        screenSaver.init(timer,folderModel);
+        screenSaver.init(timer, folderModel, screenSaverDialog);
     }
 }

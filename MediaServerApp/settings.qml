@@ -520,7 +520,7 @@ Dialog
                 GridLayout {
                     width: 100
                     height: 100
-                    rowSpacing: 30
+                    rowSpacing: 28
                     rows: 4
                     Layout.preferredWidth: 300
                     columns: 3
@@ -585,6 +585,17 @@ Dialog
                         {
                             screenSaverFileDialog.open()
                             settingsDialog.visible=false
+                        }
+                    }
+
+                    Switch {
+                        id: screensaverEnableSwitch
+                        text: qsTr("Enable")
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        Layout.columnSpan: 3
+                        onClicked:
+                        {
+                            settings.screenSaverEnableSwitch_OnClicked(screensaverEnableSwitch.checked)
                         }
                     }
                 }
@@ -674,7 +685,7 @@ Dialog
         settings.checkWifi(wifiOnSwitch)
         wifiOnSwitch.updatestate()
         settings.loadWifiConfigFile()
-        settings.loadScreenSaverConfigurations(startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox,randomCheckBox)
+        settings.loadScreenSaverConfigurations(screensaverEnableSwitch,startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox,randomCheckBox)
         settings.checkTvHeadEndServiceStatus(tvHeadEndStatusSwitch,tvHeadEndStatusButton)
         settings.checkYMPDSystemdStatus(ympdStatusSwitch,ympdStatusButton)
         settings.checkMPDSystemdStatus(mpdStatusSwitch,mpdStatusButton)
@@ -683,6 +694,7 @@ Dialog
         settings.checkFileBrowserSystemdStatus(fileBrowserStatusSwitch,fileBrowserStatusButton)
         settings.checkFTPSystemdStatus(ftpStatusSwitch,ftpStatusButton)
         settings.checkTorrentClientSystemdStatus(torrentClientStatusSwitch,torrentClientStatusButton)
+
         busyIndication.running = false
     }
 }

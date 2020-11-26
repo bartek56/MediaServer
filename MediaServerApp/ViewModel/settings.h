@@ -49,8 +49,8 @@ public:
     // ScreenSaver
     Q_INVOKABLE void bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath);
     Q_INVOKABLE void bSaveScreenSaver_onClicked(const QString timeout, const QString path, const int startTime,const bool random);
-    Q_INVOKABLE void loadScreenSaverConfigurations(QObject *startTime, QObject *path, QObject *timeout,QObject *random);
-
+    Q_INVOKABLE void loadScreenSaverConfigurations(QObject *screensaverEnableSwitch, QObject *startTime, QObject *path, QObject *timeout, QObject *random);
+    Q_INVOKABLE void screenSaverEnableSwitch_OnClicked(const bool isEnable);
 
     //Systemd services
     Q_INVOKABLE void checkTvHeadEndServiceStatus(QObject *tvHeadEndStatusSwitch, QObject *TvHeadEndStatusButton);
