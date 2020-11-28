@@ -25,7 +25,6 @@ SOURCES += \
     ViewModel/sambaconfiglocal.cpp \
     ViewModel/sambaconfigglobal.cpp \
     ViewModel/ftpconfig.cpp \
-    editsambaconfigfile.cpp \
     editftpconfigfile.cpp \
     editwificonfigfile.cpp \
     ViewModel/settingsWifi.cpp \
@@ -42,7 +41,9 @@ SOURCES += \
     ViewModel/multimediaconfig.cpp \
     ViewModel/alarmconfig.cpp \
     screensavermanager.cpp \
-    ViewModel/screensaver.cpp
+    ViewModel/screensaver.cpp \
+    editheadersconfigfile.cpp \
+    ViewModel/settingsipaddress.cpp
 
 RESOURCES += qml.qrc
 
@@ -62,7 +63,6 @@ HEADERS += \
     ViewModel/mainwindow.h \
     ViewModel/sambaconfig.h \
     ViewModel/ftpconfig.h \
-    editsambaconfigfile.h \
     editftpconfigfile.h \
     ViewModel/settings.h \
     editwificonfigfile.h \
@@ -77,7 +77,8 @@ HEADERS += \
     ViewModel/multimediaconfig.h \
     ViewModel/alarmconfig.h \
     screensavermanager.h \
-    ViewModel/screensaver.h
+    ViewModel/screensaver.h \
+    editheadersconfigfile.h
 
 FORMS +=
 

@@ -1,14 +1,13 @@
-#include "editsambaconfigfile.h"
-#include <QFile>
-#include <QDebug>
-#include <vector>
-#include <utility>
-#include <QDebug>
+#include "editheadersconfigfile.h"
 
-std::vector<SambaConfigsName> EditSambaConfigFile::OpenFile()
+#include <QFile>
+#include <QTextStream>
+
+
+std::vector<HeadersConfig> EditHeadersConfigFile::OpenFile()
 {
-    QFile file (SAMBA_CONFIG_FILE);
-    std::vector<SambaConfigsName> vConfigsName;
+    QFile file (CONFIG_FILE);
+    std::vector<HeadersConfig> vConfigsName;
     std::map<QString, QString> mConfigsParameters;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return vConfigsName;
@@ -24,7 +23,7 @@ std::vector<SambaConfigsName> EditSambaConfigFile::OpenFile()
         {
             if(!mConfigsParameters.empty())
             {
-                vConfigsName.push_back(SambaConfigsName(parameterName,mConfigsParameters));
+                vConfigsName.push_back(HeadersConfig(parameterName,mConfigsParameters));
                 mConfigsParameters.clear();
             }
             parameterName=line.remove(line.length()-1,1);
@@ -39,15 +38,15 @@ std::vector<SambaConfigsName> EditSambaConfigFile::OpenFile()
             mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
         }
     }
-    vConfigsName.push_back(SambaConfigsName(parameterName,mConfigsParameters));
+    vConfigsName.push_back(HeadersConfig(parameterName,mConfigsParameters));
     mConfigsParameters.clear();
 
     return vConfigsName;
 }
 
-void EditSambaConfigFile::SaveFile(std::vector<SambaConfigsName> vConfigs)
+void EditHeadersConfigFile::SaveFile(std::vector<HeadersConfig> vConfigs)
 {
-    QFile file(SAMBA_CONFIG_FILE);
+    QFile file(CONFIG_FILE);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
 
@@ -63,4 +62,5 @@ void EditSambaConfigFile::SaveFile(std::vector<SambaConfigsName> vConfigs)
         }
     }
 }
+
 

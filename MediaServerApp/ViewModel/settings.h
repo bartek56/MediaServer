@@ -8,6 +8,7 @@
 #include "editwificonfigfile.h"
 #include "editscreensaverconfigfile.h"
 #include "editalarmconfigfile.h"
+#include "editheadersconfigfile.h"
 
 
 class Settings : public QObject
@@ -39,10 +40,27 @@ public:
     Q_INVOKABLE void sWifiOn_OnCheckedChanged(bool wifiOnSwitch);
     Q_INVOKABLE void checkWifi(QObject *obj);
 
+
+    // IP Address
+    Q_INVOKABLE void loadIpAddressConfiguration(const int networkInterfaceIndexComboBox, QObject* dynamicIPRadioButton,
+                                                QObject* staticIPRadioButton, QObject* ipadressTextField,
+                                                QObject* netmaskTextField, QObject* gatewayTextField,
+                                                QObject* dnsserverTextField);
+    Q_INVOKABLE void tfIpAddress_onEditingFinished(const QString text);
+    Q_INVOKABLE void tfNetMask_onEditingFinished(const QString text);
+    Q_INVOKABLE void tfGateway_onEditingFinished(const QString text);
+    Q_INVOKABLE void tfDNSServer_onEditingFinished(const QString text);
+    Q_INVOKABLE void rbDynamicIP_onClicked();
+    Q_INVOKABLE void rbStaticIP_onClicked(const QString ipadressTextField, const QString netmaskTextField,
+                                          const QString gatewayTextField, const QString dnsserverTextField);
+    Q_INVOKABLE void saveIpAddressConfiguration();
+
+
     // ScreenSaver
     Q_INVOKABLE void bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath);
-    Q_INVOKABLE void bSaveScreenSaver_onClicked(const QString timeout, const QString path, const int startTime,const bool random);
-    Q_INVOKABLE void loadScreenSaverConfigurations(QObject *screensaverEnableSwitch, QObject *startTime, QObject *path, QObject *timeout, QObject *random);
+    Q_INVOKABLE void bSaveScreenSaver_onClicked(const QString timeout, const QString path, const int startTime, const bool random);
+    Q_INVOKABLE void loadScreenSaverConfigurations(QObject *screensaverEnableSwitch, QObject *startTime, QObject *path,
+                                                   QObject *timeout, QObject *random);
     Q_INVOKABLE void screenSaverEnableSwitch_OnClicked(const bool isEnable);
 
     //Systemd services
@@ -80,14 +98,40 @@ public:
 
 
 private:
-    EditWifiConfigFile editWifiConfigFile;
+    // Screensaver
     EditScreenSaverConfigFile editScreenSaverConfigFile;
-    std::vector<WifiConfigsName> vWifiConfigs;
     std::map<QString, QString> mScreenSaverConfigs;
 
+    int ConvertTimeFromMiliSecStringToMinutesInt(QString milisec);
+
+
+    // IP Adress
+    const QString ETHERNET_CONFIG_FILE="/etc/mediaserver/10-wired.network";
+    const QString WIFI_CONFIG_FILE="/etc/mediaserver/20-wireless.network";
+
+    std::unique_ptr<EditHeadersConfigFile> wifiIpAddressConfigFile;
+    std::unique_ptr<EditHeadersConfigFile> ethernetIpAddressConfigFile;
+
+    std::shared_ptr<std::vector<HeadersConfig>> vEtnernetIpAddressConfigsPtr;
+    std::shared_ptr<std::vector<HeadersConfig>> vWifiIpAddressConfigsPtr;
+    std::shared_ptr<std::vector<HeadersConfig>> vIpAddressConfigsPtr;
+
+    QStringList splitString(const QString &str, int n);
+    QString binToDec(QString bin);
+    QString decToBin(QString dev);
+    QString convertNetMaskToFull(QString decMask);
+    QString convertNetMaskToShort(QString decMask);
+
+    void setCurrentIpAddressConfig(const int &networkInterfaceComboboxIndex);
+
+
+    // Wifi Config
     QObject* bConnect;
     QObject* bScanNetwork;
     bool wifiIsOn;
+
+    EditWifiConfigFile editWifiConfigFile;
+    std::vector<WifiConfigsName> vWifiConfigs;
 
     bool checkSystemdStatusExist(const QString &serviceName);
     bool checkSystemdStatusIsEnabled(const QString &serviceNames);
@@ -96,7 +140,6 @@ private:
     void StatusButton_onClicked(QObject *statusButton, const QString statusButtonText, const QString &serviceName);
     void checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString nameservice);
 
-    int ConvertTimeFromMiliSecStringToMinutesInt(QString milisec);
 };
 
 #endif // SETTINGS_H

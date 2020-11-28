@@ -51,7 +51,6 @@ Dialog
     {
         id: tabBar
         width: parent.width
-
         TabButton {
             text: qsTr("Status")
         }
@@ -59,11 +58,13 @@ Dialog
         TabButton {
             text: qsTr("Wi-fi")
         }
+        TabButton{
+            text: qsTr("IP Address")
 
+        }
         TabButton {
             text: qsTr("Screen Saver")
         }
-
     }
 
     StackLayout
@@ -71,7 +72,6 @@ Dialog
         id: stackLayout
         width: parent.width
         currentIndex: tabBar.currentIndex
-
         Item
         {
             id: statusTag
@@ -501,6 +501,190 @@ Dialog
                 }
             }
         }
+        Item
+        {
+            id: ipaddressSettingsTag
+            GridLayout {
+                x: 38
+                y: 51
+                width: 352
+                height: 260
+                columns: 2
+
+                Text {
+                    id: networkInterfaceText
+                    text: qsTr("Interface")
+                    verticalAlignment: Text.AlignVCenter
+                    bottomPadding: 9
+                    horizontalAlignment: Text.AlignLeft
+                    font.pixelSize: 16
+                }
+
+                ComboBox {
+                    id: networkInterfaceComboBox
+                    Layout.preferredWidth: 200
+                    model:["Wi-Fi", "Ethernet"]
+                    onDisplayTextChanged:
+                    {
+                        settings.loadIpAddressConfiguration(networkInterfaceComboBox.currentIndex, dynamicIPRadioButton,
+                                                   staticIPRadioButton,ipadressTextField,netmaskTextField,
+                                                   gatewayTextField,dnsserverTextField);
+                    }
+                }
+
+                Text {
+                    //                    id: wifiInfoText
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignTop
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.columnSpan: 2
+                    font.pixelSize: 12
+
+                }
+
+
+                ColumnLayout {
+                    id: columnLayout
+                    width: 100
+                    height: 100
+                    Layout.columnSpan: 2
+
+                    RadioButton {
+                        id: dynamicIPRadioButton
+                        text: qsTr("Dynamic IP [DHCP]")
+                        Layout.columnSpan: 2
+                        onClicked:
+                        {
+                            if(dynamicIPRadioButton.checked)
+                            {
+                                ipadressTextField.enabled=false
+                                netmaskTextField.enabled=false
+                                gatewayTextField.enabled=false
+                                dnsserverTextField.enabled=false
+                                settings.rbDynamicIP_onClicked()
+                            }
+                        }
+                    }
+
+                    RadioButton {
+                        id: staticIPRadioButton
+                        text: qsTr("Static IP")
+                        Layout.columnSpan: 2
+                        onClicked:
+                        {
+                            if(staticIPRadioButton.checked)
+                            {
+                                ipadressTextField.enabled=true
+                                netmaskTextField.enabled=true
+                                gatewayTextField.enabled=true
+                                dnsserverTextField.enabled=true
+                                settings.rbStaticIP_onClicked(ipadressTextField.text, netmaskTextField.text,
+                                                              gatewayTextField.text, dnsserverTextField.text)
+                            }
+                        }
+                    }
+                }
+            }
+
+            GridLayout {
+                x: 417
+                y: 51
+                width: 362
+                height: 260
+                rows: 2
+                columns: 2
+
+                Text {
+                    text: qsTr("IP Address")
+                    font.pixelSize: 16
+                }
+
+                TextField {
+                    id: ipadressTextField
+                    width: 80
+                    height: 20
+                    text: qsTr("192.168.1.155")
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 16
+                    onEditingFinished:
+                    {
+                        settings.tfIpAddress_onEditingFinished(ipadressTextField.text)
+                    }
+
+                }
+
+                Text {
+                    text: qsTr("NetMask")
+                    font.pixelSize: 16
+                }
+
+                TextField {
+                    id: netmaskTextField
+                    width: 80
+                    height: 20
+                    text: qsTr("255.255.255.0")
+                    font.pixelSize: 16
+                    horizontalAlignment: Text.AlignHCenter
+                    onEditingFinished:
+                    {
+                        settings.tfNetMask_onEditingFinished(netmaskTextField.text)
+                    }
+
+                }
+
+                Text {
+                    text: qsTr("Gateway")
+                    font.pixelSize: 16
+                }
+
+                TextField {
+                    id: gatewayTextField
+                    width: 80
+                    height: 20
+                    text: qsTr("192.168.1.1")
+                    font.pixelSize: 16
+                    horizontalAlignment: Text.AlignHCenter
+                    onEditingFinished:
+                    {
+                        settings.tfGateway_onEditingFinished(gatewayTextField.text)
+                    }
+
+                }
+
+                Text {
+                    text: qsTr("DNS Server")
+                    font.pixelSize: 16
+                }
+
+                TextField {
+                    id: dnsserverTextField
+                    width: 80
+                    height: 20
+                    text: qsTr("192.168.1.1")
+                    font.pixelSize: 16
+                    horizontalAlignment: Text.AlignHCenter
+                    onEditingFinished:
+                    {
+                        settings.tfDNSServer_onEditingFinished(dnsserverTextField.text)
+                    }
+                }
+            }
+
+        Button
+        {
+            id: button
+            x: 560
+            y: 379
+            text: "Save"
+            height: 40
+            onClicked:
+            {
+                settings.saveIpAddressConfiguration()
+            }
+        }
+
+
+        }
 
         Item
         {
@@ -622,25 +806,26 @@ Dialog
                 }
             }
         }
-
     }
 
     RowLayout {
         id: rowLayout
         y: 376
+        spacing: 30
         anchors.bottomMargin: 20
         anchors.rightMargin: 20
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
-        Button
-        {
-            text: "Close"
+
+        Button {
             height: 40
+            text: "Close"
             onClicked:
             {
                 settingsDialog.close()
             }
+
         }
     }
 

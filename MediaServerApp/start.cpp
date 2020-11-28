@@ -15,7 +15,6 @@
 #include "ViewModel/massstorage.h"
 #include "ViewModel/screensaver.h"
 #include "screensavermanager.h"
-#include "editsambaconfigfile.h"
 
 QQuickView *MainWindow::mainView;
 

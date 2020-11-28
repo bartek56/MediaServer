@@ -6,7 +6,7 @@
 
 SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 {
-
+    editFile = std::make_unique<EditHeadersConfigFile>(SAMBA_CONFIG_FILE);
 }
 
 bool SambaConfig::isServiceActive()
@@ -23,7 +23,7 @@ bool SambaConfig::isServiceActive()
 
 void SambaConfig::loadAllConfigs()
 {
-    vConfigs = editFile.OpenFile();
+    vConfigs = editFile->OpenFile();
     auto countShare = vConfigs.size();
 
     showGlobalConfigs();
@@ -101,7 +101,7 @@ void SambaConfig::saveDefaultConfigsForExternalDisk1()
     mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
     mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
     mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-    vConfigs.push_back(SambaConfigsName("[DISK1]",mConfigsParameters));
+    vConfigs.push_back(HeadersConfig("[DISK1]",mConfigsParameters));
 }
 
 void SambaConfig::saveDefaultConfigsForExternalDisk2()
@@ -115,7 +115,7 @@ void SambaConfig::saveDefaultConfigsForExternalDisk2()
     mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
     mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
     mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-    vConfigs.push_back(SambaConfigsName("[DISK2]",mConfigsParameters));
+    vConfigs.push_back(HeadersConfig("[DISK2]",mConfigsParameters));
 }
 
 void SambaConfig::saveDefaultConfigsForExternalDisk3()
@@ -129,7 +129,7 @@ void SambaConfig::saveDefaultConfigsForExternalDisk3()
     mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
     mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
     mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-    vConfigs.push_back(SambaConfigsName("[DISK3]",mConfigsParameters));
+    vConfigs.push_back(HeadersConfig("[DISK3]",mConfigsParameters));
 }
 
 void SambaConfig::showConfigsForExternalDisk1()
@@ -210,7 +210,7 @@ void SambaConfig::bSave_onClicked()
         if(index!=0)
             vConfigs.erase (vConfigs.begin()+index);
     }
-    editFile.SaveFile(vConfigs);
+    editFile->SaveFile(vConfigs);
     if(isServiceActive())
     {
         QProcess::execute("systemctl restart nmb");

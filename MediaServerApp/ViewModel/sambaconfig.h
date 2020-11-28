@@ -4,7 +4,7 @@
 #include <QProcess>
 #include <memory>
 #include <QSharedPointer>
-#include "editsambaconfigfile.h"
+#include "editheadersconfigfile.h"
 
 struct ConfigName {
     const QString WORKGROUP = "workgroup";
@@ -195,8 +195,9 @@ public:
     Q_INVOKABLE void loadAllConfigs();
 
 private:
-    EditSambaConfigFile editFile;
-    std::vector<SambaConfigsName> vConfigs;
+    const QString SAMBA_CONFIG_FILE = "/etc/mediaserver/smb.conf";
+    std::unique_ptr<EditHeadersConfigFile> editFile;
+    std::vector<HeadersConfig> vConfigs;
     ConfigName configName;
     QString deviceName1="";
     QString deviceName2="";

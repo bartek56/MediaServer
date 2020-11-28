@@ -6,7 +6,8 @@
 
 Settings::Settings(QObject *parent) : QObject(parent)
 {
-
+    wifiIpAddressConfigFile = std::make_unique<EditHeadersConfigFile>(WIFI_CONFIG_FILE);
+    ethernetIpAddressConfigFile = std::make_unique<EditHeadersConfigFile>(ETHERNET_CONFIG_FILE);
 }
 
 void Settings::updateNetworkStatus(QObject *obj)
