@@ -32,7 +32,6 @@ Rectangle{
         onYes: mainWindow.pairAndTrustWithBluetoothDevice();
         onApply: mainWindow.pairWithBluetoothDevice();
         onNo: mainWindow.cancelPairWithBluetoothDevice();
-
     }
 
     Loader {
@@ -79,7 +78,6 @@ Rectangle{
             ToolButton {
                 text: qsTr("Menu")
                 onClicked: menu.open()
-
             }
 
             Menu {
@@ -98,7 +96,6 @@ Rectangle{
                         shutdownMessage.visible=true
                     }
                 }
-
             }
 
             Text
@@ -143,20 +140,6 @@ Rectangle{
         width: parent.width
         height: parent.height
         active: true
-    }
-
-    BusyIndicator
-    {
-        id: busyIndication
-        anchors.centerIn: mainRectangle
-        running: loaderConfigWindow.status == Loader.Loading
-    }
-
-    BusyIndicator
-    {
-        id: busyIndication1
-        anchors.centerIn: mainRectangle
-        running: true
     }
 
     MainWindow
@@ -557,16 +540,33 @@ Rectangle{
                 }
                 onClicked:
                 {
-
                     loaderConfigWindow.setSource("settings.qml")
                 }
             }
         }
     }
 
+
+    BusyIndicator
+    {
+        anchors.centerIn: mainRectangle
+        height: 100
+        width: 100
+        running: loaderConfigWindow.status == Loader.Loading
+    }
+
+    BusyIndicator
+    {
+        id: busyMainWindow
+        anchors.centerIn: mainRectangle
+        height: 100
+        width: 100
+        running: true
+    }
+
     Component.onCompleted:
     {
-        busyIndication1.running=false
+        busyMainWindow.running=false
         mainWindow.getPairBluetoothMessage(bluetoothPairMessage)
     }
 }

@@ -23,11 +23,11 @@ Dialog
         id: settings
     }
 
-
     Loader {
         anchors.fill:parent
         source:"screensavermanager.qml"
     }
+
 
 
     FileDialog {
@@ -100,6 +100,9 @@ Dialog
                     {
                         settings.tvHeadEndStatusSwitch_OnClicked(tvHeadEndStatusSwitch.checked)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
+
                 }
 
                 Button {
@@ -111,6 +114,9 @@ Dialog
                     {
                         settings.tvHeadEndStatusButton_OnClicked(tvHeadEndStatusButton, tvHeadEndStatusButton.text)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
+
                 }
 
                 Text {
@@ -128,6 +134,9 @@ Dialog
                     {
                         settings.ympdStatusSwitch_OnClicked(ympdStatusSwitch.checked)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
+
                 }
 
                 Button {
@@ -139,6 +148,9 @@ Dialog
                     {
                         settings.ympdStatusButton_OnClicked(ympdStatusButton, ympdStatusButton.text)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
+
                 }
 
                 Text {
@@ -156,6 +168,9 @@ Dialog
                     {
                         settings.mpdStatusSwitch_OnClicked(mpdStatusSwitch.checked)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
+
                 }
 
                 Button {
@@ -167,6 +182,9 @@ Dialog
                     {
                         settings.mpdStatusButton_OnClicked(mpdStatusButton, mpdStatusButton.text)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
+
                 }
 
                 Text {
@@ -184,6 +202,9 @@ Dialog
                     {
                         settings.dlnaStatusSwitch_OnClicked(dlnaStatusSwitch.checked)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
+
                 }
 
                 Button {
@@ -195,6 +216,9 @@ Dialog
                     {
                         settings.dlnaStatusButton_OnClicked(dlnaStatusButton, dlnaStatusButton.text)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
+
                 }
 
                 Text {
@@ -212,6 +236,8 @@ Dialog
                     {
                         settings.sambaStatusSwitch_OnClicked(sambaStatusSwitch.checked)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
                 }
 
                 Button {
@@ -223,6 +249,8 @@ Dialog
                     {
                         settings.sambaStatusButton_OnClicked(sambaStatusButton, sambaStatusButton.text)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
                 }
 
                 Text {
@@ -241,6 +269,8 @@ Dialog
                     {
                         settings.fileBrowserStatusSwitch_OnClicked(fileBrowserStatusSwitch.checked)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
                 }
 
                 Button {
@@ -252,6 +282,8 @@ Dialog
                     {
                         settings.fileBrowserStatusButton_OnClicked(fileBrowserStatusButton, fileBrowserStatusButton.text)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
                 }
 
                 Text {
@@ -269,6 +301,8 @@ Dialog
                     {
                         settings.ftpStatusSwitch_OnClicked(ftpStatusSwitch.checked)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
                 }
 
                 Button {
@@ -280,6 +314,8 @@ Dialog
                     {
                         settings.ftpStatusButton_OnClicked(ftpStatusButton, ftpStatusButton.text)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
                 }
 
                 Text {
@@ -297,6 +333,8 @@ Dialog
                     {
                         settings.torrentClientStatusSwitch_OnClicked(torrentClientStatusSwitch.checked)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
                 }
 
                 Button {
@@ -308,6 +346,8 @@ Dialog
                     {
                         settings.torrentClientStatusButton_OnClicked(torrentClientStatusButton, torrentClientStatusButton.text)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
                 }
 
             }
@@ -421,6 +461,8 @@ Dialog
                     {
                         settings.searchNetworks(networksComboBox)
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
                 }
 
                 Button {
@@ -432,6 +474,9 @@ Dialog
                         settings.connect(networksComboBox.currentText,passwordTextField.text)
                         passwordTextField.clear()
                     }
+                     onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
+
                 }
             }
 
@@ -489,6 +534,9 @@ Dialog
                         settings.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
                         updatestate()
                     }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
+
                 }
 
                 Timer {
@@ -670,20 +718,20 @@ Dialog
                 }
             }
 
-        Button
-        {
-            id: button
-            x: 560
-            y: 379
-            text: "Save"
-            height: 40
-            onClicked:
+            Button
             {
-                settings.saveIpAddressConfiguration()
+                id: button
+                x: 560
+                y: 379
+                text: "Save"
+                height: 40
+                onClicked:
+                {
+                    settings.saveIpAddressConfiguration()
+                }
+                onPressed: { busySettings.running=true }
+                onReleased:{ busySettings.running=false }
             }
-        }
-
-
         }
 
         Item
@@ -804,6 +852,8 @@ Dialog
                 {
                     settings.bSaveScreenSaver_onClicked(timeOutSpinBox.value,pathScreenSaverTextField.text,startTimeSpinBox.value,randomCheckBox.checked)
                 }
+                onPressed: { busySettings.running=true }
+                onReleased:{ busySettings.running=false }
             }
         }
     }
@@ -825,8 +875,16 @@ Dialog
             {
                 settingsDialog.close()
             }
-
         }
+    }
+
+    BusyIndicator
+    {
+        id: busySettings
+        anchors.centerIn: parent
+        width: 100
+        height: 100
+        running: false
     }
 
     InputPanel
@@ -883,4 +941,3 @@ Dialog
         busyIndication.running = false
     }
 }
-

@@ -1005,8 +1005,9 @@ Dialog
             onClicked:
             {
                 sambaConfig.bSave_onClicked();
-
             }
+            onPressed: { busySambaConfig.running=true }
+            onReleased:{ busySambaConfig.running=false }
         }
 
         Button
@@ -1020,6 +1021,16 @@ Dialog
             }
         }
     }
+
+   BusyIndicator
+   {
+       id: busySambaConfig
+       anchors.centerIn: parent
+       height: 100
+       width: 100
+       running: false
+   }
+
 
     Component.onCompleted:
     {

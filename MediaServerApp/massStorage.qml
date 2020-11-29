@@ -53,8 +53,8 @@ Dialog
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                 onDisplayTextChanged:
                 {
-                            massStorage.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText,typeText);
-                            mountButton.setText()
+                    massStorage.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText,typeText);
+                    mountButton.setText()
                 }
             }
 
@@ -139,32 +139,40 @@ Dialog
                     massStorage.cbDevices_onDisplayTextChanged(devicesComboBox.currentText, deviceSizeText, nameDeviceText,mountPointText,typeText)
                     setText()
                 }
+                onPressed: { busyMassStorageConfig.running=true }
+                onReleased:{ busyMassStorageConfig.running=false }
+
+
             }
         }
-    RowLayout {
-        id: rowLayout
-        y: 376
-        anchors.bottomMargin: 20
-        anchors.rightMargin: 20
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
+        RowLayout {
+            id: rowLayout
+            y: 376
+            anchors.bottomMargin: 20
+            anchors.rightMargin: 20
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
 
-        Button
-        {
-            text: "Close"
-            height: 40
-            onClicked:
+            Button
             {
-                massStorageDialog.close()
+                text: "Close"
+                height: 40
+                onClicked:
+                {
+                    massStorageDialog.close()
+                }
             }
         }
     }
 
-        GridLayout {
-            width: 100
-            height: 100
-        }
-    }
+    BusyIndicator
+    {
+       id: busyMassStorageConfig
+       anchors.centerIn: parent
+       height: 100
+       width: 100
+       running: false
+   }
 
     Component.onCompleted: {
         massStorage.loadExternalDevices(devicesComboBox,mountButton)

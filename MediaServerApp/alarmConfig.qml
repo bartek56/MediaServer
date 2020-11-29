@@ -330,6 +330,8 @@ Dialog
                     alarmConfig.bSaveAlarm_onClicked(minVolumeSpinBox.value, maxVolumeSpinBox.value, defaultVolumeSpinBox.value, growingVolumeSpinBox.value, growingSpeedSpinBox.value, newestSongsRadioButton.checked, playlistComboBox.currentText)
                     alarmConfig.bSaveAlarmService_onClicked(monCheckBox.checked, tueCheckBox.checked, wedCheckBox.checked, thuCheckBox.checked,friCheckBox.checked, satCheckBox.checked, sunCheckBox.checked, timeHHSpinBox.value, timeMMSpinBox.value)
                 }
+                onPressed: { busyAlarmConfig.running=true }
+                onReleased:{ busyAlarmConfig.running=false }
             }
             Button
             {
@@ -344,6 +346,16 @@ Dialog
             }
        }
    }
+
+   BusyIndicator
+   {
+       id: busyAlarmConfig
+       anchors.centerIn: parent
+       height: 100
+       width: 100
+       running: false
+   }
+
 
     Component.onCompleted:
     {

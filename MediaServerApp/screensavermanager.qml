@@ -13,5 +13,3 @@ MouseArea
         screensavermanager.resetTimer()
     }
 }
-
-

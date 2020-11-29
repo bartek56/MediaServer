@@ -75,6 +75,8 @@ Dialog
             {
                 ftpConfig.bSave_onClicked()
             }
+            onPressed: { busyFtpConfig.running=true }
+            onReleased:{ busyFtpConfig.running=false }
         }
 
         Button
@@ -278,6 +280,17 @@ Dialog
             }
         }
     }
+
+
+   BusyIndicator
+   {
+       id: busyFtpConfig
+       anchors.centerIn: parent
+       height: 100
+       width: 100
+       running: false
+   }
+
 
     InputPanel
     {

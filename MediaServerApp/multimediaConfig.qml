@@ -28,13 +28,6 @@ Dialog
         asynchronous: true
     }
 
-    BusyIndicator
-    {
-        id: busyIndication
-        anchors.centerIn: mainRectangle
-        running: loader.status == Loader.Loading
-    }
-
     Loader {
         anchors.fill:parent
         source:"screensavermanager.qml";
@@ -279,10 +272,10 @@ Dialog
                 text: "Save"
                 onClicked:
                 {
-                    busyIndication.running=true
                     multimediaConfig.saveConfigs();
-                    busyIndication.running=false
                 }
+                onPressed: { busyMultimediaConfig.running=true }
+                onReleased:{ busyMultimediaConfig.running=false }
             }
 
             Button
@@ -298,6 +291,17 @@ Dialog
             }
         }
     }
+
+   BusyIndicator
+   {
+       id: busyMultimediaConfig
+       anchors.centerIn: parent
+       height: 100
+       width: 100
+       running: false
+   }
+
+
 
     InputPanel
     {
