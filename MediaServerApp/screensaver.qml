@@ -8,7 +8,6 @@ Dialog
     id: screenSaverDialog
     visible: true
     modal: true
-
     width: 800
     height: 480
 
@@ -17,6 +16,14 @@ Dialog
 
     ScreenSaver{
         id: screenSaver
+    }
+
+    Rectangle{
+        height: 480
+        width: 800
+        x:parent.x-25
+        y:parent.y-25
+        color: "black"
     }
 
     MouseArea{
@@ -38,9 +45,8 @@ Dialog
     Image {
         id: image
         width: 800
-        height: 480
+        height: 450
         x:parent.x-25
-        y:parent.y-25
     }
 
     Timer {

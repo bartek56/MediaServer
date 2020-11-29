@@ -28,8 +28,6 @@ Dialog
         source:"screensavermanager.qml"
     }
 
-
-
     FileDialog {
         id: screenSaverFileDialog
         width: parent.width

@@ -24,5 +24,6 @@ void ScreenSaverManager::startScreen()
 
 void ScreenSaverManager::resetTimer()
 {
-    timer->start();
+    if(timer->isActive())
+        timer->start();
 }
