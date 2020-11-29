@@ -90,11 +90,12 @@ void Settings::saveIpAddressConfiguration()
         wifiIpAddressConfigFile->SaveFile(*vWifiIpAddressConfigsPtr.get());
     if(vEtnernetIpAddressConfigsPtr != nullptr)
         ethernetIpAddressConfigFile->SaveFile(*vEtnernetIpAddressConfigsPtr.get());
+
+    QProcess::execute("systemctl restart systemd-networkd");
 }
 
 void Settings::setCurrentIpAddressConfig(const int &networkInterfaceComboboxIndex)
 {
-
     if(networkInterfaceComboboxIndex==0)
     {
         if(vWifiIpAddressConfigsPtr == nullptr)
@@ -116,16 +117,12 @@ void Settings::setCurrentIpAddressConfig(const int &networkInterfaceComboboxInde
 QString Settings::convertNetMaskToShort(QString decMask)
 {
     QString netmask = "";
-
     QStringList fullMask = decMask.split('.');
 
     QString binMask = decToBin(fullMask[0]) + decToBin(fullMask[1]) + decToBin(fullMask[2]) + decToBin(fullMask[3]);
-
     int count = binMask.count(QLatin1Char('1'));
 
-
     netmask=QString::number(count);
-
     return netmask;
 }
 

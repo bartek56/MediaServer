@@ -501,6 +501,7 @@ Dialog
                 }
             }
         }
+
         Item
         {
             id: ipaddressSettingsTag
@@ -533,7 +534,6 @@ Dialog
                 }
 
                 Text {
-                    //                    id: wifiInfoText
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignTop
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
