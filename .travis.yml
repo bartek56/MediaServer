@@ -4,13 +4,18 @@ compiler: g++
 sudo: required
 os:
     - linux
+addons:
+  apt:
+    packages:
+      - qt5-default
+      - qttools5-dev-tools  
 
 before_install:
   - sudo add-apt-repository ppa:beineri/opt-qt-5.12.3-xenial -y
   - sudo apt-get update
 
 install:
-  - sudo apt-get install libql1-mesa-dev qt512base qt512svg qt512charts-no-lgpl qt512xmlpatterns
+  - sudo apt-get install qt512base qt512svg qt512charts-no-lgpl qt512xmlpatterns
   - source /opt/qt512/bin/qt512-env.sh
 
 
