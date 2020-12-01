@@ -87,13 +87,9 @@ int main(int argc, char *argv[])
 
 
     if(isItAlarm())
-    {
         view->setSource(QString("qrc:/alarm.qml"));
-    }
     else
-    {
         view->setSource(QString("qrc:/main.qml"));
-    }
 
     view->show();
 

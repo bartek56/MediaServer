@@ -11,17 +11,9 @@ Rectangle{
     width: 800
     height: 440
 
-
     AlarmView
     {
         id:alarmView
-    }
-
-    BusyIndicator
-    {
-        id: busyIndication
-        anchors.centerIn: mainRectangle
-        running: false
     }
 
     GridLayout {
@@ -63,12 +55,14 @@ Rectangle{
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 22
-
             }
+
             onClicked:
             {
                 alarmView.snooze5min()
             }
+            onPressed: { busyAlarm.running=true }
+            onReleased:{ busyAlarm.running=false }
         }
 
         ToolButton {
@@ -97,6 +91,9 @@ Rectangle{
             {
                 alarmView.snooze10min()
             }
+            onPressed: { busyAlarm.running=true }
+            onReleased:{ busyAlarm.running=false }
+
         }
 
         ToolButton {
@@ -126,6 +123,9 @@ Rectangle{
             {
                 alarmView.stopAlarm()
             }
+            onPressed: { busyAlarm.running=true }
+            onReleased:{ busyAlarm.running=false }
+
         }
 
         ToolButton {
@@ -154,11 +154,19 @@ Rectangle{
             {
                 alarmView.snooze15min()
             }
+            onPressed: { busyAlarm.running=true }
+            onReleased:{ busyAlarm.running=false }
         }
-
-
     }
 
+    BusyIndicator
+    {
+        id: busyAlarm
+        anchors.centerIn: parent
+        height: 100
+        width: 100
+        running: false
+    }
 
     Component.onCompleted:
     {

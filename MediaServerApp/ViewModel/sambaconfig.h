@@ -3,7 +3,6 @@
 
 #include <QProcess>
 #include <memory>
-#include <QSharedPointer>
 #include "editheadersconfigfile.h"
 
 struct ConfigName {

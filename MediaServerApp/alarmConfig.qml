@@ -260,7 +260,7 @@ Dialog
                 Layout.fillHeight: false
                 value: 70
                 to: 100
-                from: 60
+                from: 50
             }
 
             Text {
@@ -272,7 +272,7 @@ Dialog
             SpinBox {
                 id: defaultVolumeSpinBox
                 to: 60
-                from: 10
+                from: 5
                 Layout.fillHeight: false
                 value: 30
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
@@ -290,7 +290,7 @@ Dialog
                 Layout.fillHeight: false
                 value: 10
                 to: 20
-                from: 5
+                from: 2
             }
 
             Text {
@@ -301,11 +301,11 @@ Dialog
 
             SpinBox {
                 id: growingSpeedSpinBox
-                value: 15
+                value: 20
                 from: 2
                 Layout.fillHeight: false
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                to: 25
+                to: 59
             }
 
 
