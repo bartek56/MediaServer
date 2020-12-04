@@ -5,7 +5,6 @@
 #include <QString>
 
 
-
 class EditDlnaConfigFile
 {
 private:

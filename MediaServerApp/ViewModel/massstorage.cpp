@@ -74,7 +74,7 @@ void MassStorage::bMount_onClicked(const QString mountpoint,const QString device
         }
 
         QProcess process2;
-        process.setProcessChannelMode(QProcess::MergedChannels);
+        process2.setProcessChannelMode(QProcess::MergedChannels);
         QStringList commend_new2;
         commend_new2 << "-c" << commend;
         process2.start("bash", commend_new2);

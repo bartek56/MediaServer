@@ -286,12 +286,12 @@ Rectangle{
                     id: webBrowserImage
                     x: 37
                     y: 0
-                    width: 102
-                    height: 97
+                    width: 90
+                    height: 90
                     anchors.horizontalCenterOffset: 0
                     anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.Stretch
-                    source: "icons/browser.png"
+                    source: "icons/qnapi.png"
                 }
 
                 Text {
@@ -300,7 +300,7 @@ Rectangle{
                     y: 94
                     width: 50
                     height: 26
-                    text: qsTr("Web Browser")
+                    text: qsTr("NapiProject")
                     font.letterSpacing: 1
                     anchors.horizontalCenter: parent.horizontalCenter
                     verticalAlignment: Text.AlignVCenter
@@ -309,7 +309,7 @@ Rectangle{
                 }
                 onClicked:
                 {
-                    mainWindow.startWebBrowser()
+                    loaderConfigWindow.setSource("napi.qml")
                 }
             }
         }

@@ -52,7 +52,6 @@ void Settings::tfIpAddress_onEditingFinished(QString text)
 void Settings::rbDynamicIP_onClicked()
 {
     vIpAddressConfigsPtr->back().configs.clear();
-    vIpAddressConfigsPtr->back().configs.clear();
     vIpAddressConfigsPtr->back().configs.insert(std::make_pair("DHCP","yes"));
 }
 

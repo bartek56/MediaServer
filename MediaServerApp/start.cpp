@@ -14,7 +14,9 @@
 #include "ViewModel/alarmview.h"
 #include "ViewModel/massstorage.h"
 #include "ViewModel/screensaver.h"
+#include "ViewModel/napimanager.h"
 #include "screensavermanager.h"
+
 
 QQuickView *MainWindow::mainView;
 
@@ -60,16 +62,17 @@ int main(int argc, char *argv[])
     if (view->status() == QQuickView::Error)
         return -1;
 
+    qmlRegisterType<ScreenSaver>("ScreenSaverLib", 1, 0, "ScreenSaver");
+    qmlRegisterType<ScreenSaverManager>("ScreenSaverManagerLib", 1, 0, "ScreenSaverManager");
     qmlRegisterType<AlarmConfig>("AlarmConfigLib", 1, 0, "AlarmConfig");
     qmlRegisterType<MultimediaConfig>("MultimediaConfigLib", 1, 0, "MultimediaConfig");
+    qmlRegisterType<NapiManager>("NapiManagerLib",1,0,"NapiManager");
     qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfig");
     qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");
     qmlRegisterType<Settings>("SettingsLib", 1, 0, "Settings");
-    qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
-    qmlRegisterType<AlarmView>("AlarmViewLib", 1, 0, "AlarmView");
-    qmlRegisterType<ScreenSaverManager>("ScreenSaverManagerLib", 1, 0, "ScreenSaverManager");
-    qmlRegisterType<ScreenSaver>("ScreenSaverLib", 1, 0, "ScreenSaver");
     qmlRegisterType<MassStorage>("MassStorageLib", 1, 0, "MassStorage");
+    qmlRegisterType<AlarmView>("AlarmViewLib", 1, 0, "AlarmView");
+    qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
 
     view->setWidth(800);
     view->setHeight(480);

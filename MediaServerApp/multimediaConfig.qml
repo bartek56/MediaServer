@@ -22,13 +22,6 @@ Dialog
     }
 
     Loader {
-        id: loader
-        anchors.fill: parent
-        active: false
-        asynchronous: true
-    }
-
-    Loader {
         anchors.fill:parent
         source:"screensavermanager.qml";
     }

@@ -43,7 +43,8 @@ SOURCES += \
     screensavermanager.cpp \
     ViewModel/screensaver.cpp \
     editheadersconfigfile.cpp \
-    ViewModel/settingsipaddress.cpp
+    ViewModel/settingsipaddress.cpp \
+    ViewModel/napimanager.cpp
 
 RESOURCES += qml.qrc
 
@@ -78,12 +79,8 @@ HEADERS += \
     ViewModel/alarmconfig.h \
     screensavermanager.h \
     ViewModel/screensaver.h \
-    editheadersconfigfile.h
+    editheadersconfigfile.h \
+    ViewModel/napimanager.h
 
 FORMS +=
-
-
-
-
-
 

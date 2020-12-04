@@ -15,11 +15,12 @@
         <file>icons/ftp.png</file>
         <file>icons/multimedia.png</file>
         <file>icons/settings.png</file>
-        <file>icons/browser.png</file>
         <file>icons/pcmanfm.png</file>
         <file>icons/poweroff.png</file>
+        <file>icons/qnapi.png</file>
         <file>screensavermanager.qml</file>
         <file>screensaver.qml</file>
         <file>alarm.qml</file>
+        <file>napi.qml</file>
     </qresource>
 </RCC>
