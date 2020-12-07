@@ -15,6 +15,9 @@ static {
     QTPLUGIN += qtvirtualkeyboardplugin
 }
 
+INCLUDEPATH += ../MediaServerLib
+LIBS += -L../MediaServerLib -lMediaServerLib
+
 SOURCES += \
     ViewModel/mainwindow.cpp \
     ViewModel/sambaconfig.cpp \
@@ -25,24 +28,16 @@ SOURCES += \
     ViewModel/sambaconfiglocal.cpp \
     ViewModel/sambaconfigglobal.cpp \
     ViewModel/ftpconfig.cpp \
-    editftpconfigfile.cpp \
-    editwificonfigfile.cpp \
     ViewModel/settingsWifi.cpp \
-    managementofexternaldevices.cpp \
-    editdlnaconfigfile.cpp \
-    editmpdconfigfile.cpp \
     ViewModel/settingsscreensaver.cpp \
-    editscreensaverconfigfile.cpp \
     ViewModel/settingsstatus.cpp \
     ViewModel/alarmview.cpp \
-    editalarmconfigfile.cpp \
     bluetoothctl.cpp \
     ViewModel/massstorage.cpp \
     ViewModel/multimediaconfig.cpp \
     ViewModel/alarmconfig.cpp \
     screensavermanager.cpp \
     ViewModel/screensaver.cpp \
-    editheadersconfigfile.cpp \
     ViewModel/settingsipaddress.cpp \
     ViewModel/napimanager.cpp
 
@@ -64,22 +59,14 @@ HEADERS += \
     ViewModel/mainwindow.h \
     ViewModel/sambaconfig.h \
     ViewModel/ftpconfig.h \
-    editftpconfigfile.h \
     ViewModel/settings.h \
-    editwificonfigfile.h \
-    managementofexternaldevices.h \
-    editdlnaconfigfile.h \
-    editmpdconfigfile.h \
-    editscreensaverconfigfile.h \
     ViewModel/alarmview.h \
-    editalarmconfigfile.h \
     bluetoothctl.h \
     ViewModel/massstorage.h \
     ViewModel/multimediaconfig.h \
     ViewModel/alarmconfig.h \
     screensavermanager.h \
     ViewModel/screensaver.h \
-    editheadersconfigfile.h \
     ViewModel/napimanager.h
 
 FORMS +=
