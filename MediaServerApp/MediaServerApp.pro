@@ -35,7 +35,6 @@ SOURCES += \
     bluetoothctl.cpp \
     ViewModel/massstorage.cpp \
     ViewModel/multimediaconfig.cpp \
-    ViewModel/alarmconfig.cpp \
     screensavermanager.cpp \
     ViewModel/screensaver.cpp \
     ViewModel/settingsipaddress.cpp \
@@ -64,7 +63,6 @@ HEADERS += \
     bluetoothctl.h \
     ViewModel/massstorage.h \
     ViewModel/multimediaconfig.h \
-    ViewModel/alarmconfig.h \
     screensavermanager.h \
     ViewModel/screensaver.h \
     ViewModel/napimanager.h

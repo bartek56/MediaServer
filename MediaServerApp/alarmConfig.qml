@@ -25,24 +25,6 @@ Dialog
         source:"screensavermanager.qml";
     }
 
-    FileDialog {
-        id: musicFileDialog
-        width: parent.width
-        height: parent.height
-        folder: shortcuts.home
-        selectFolder: true
-        onAccepted:
-        {
-            mpdConfig.bMusicFileDialog_onAccepted(musicFileDialog.folder,musicPathEditText)
-            alarmConfigDialog.visible=true
-        }
-        onRejected:
-        {
-            alarmConfigDialog.visible=true
-        }
-    }
-
-
     RowLayout {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
