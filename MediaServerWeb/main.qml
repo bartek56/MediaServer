@@ -1,10 +1,11 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import AlarmConfigLib 1.0
 
 
 Rectangle {
+    id: rectangle
     visible: true
     width: 800
     height: 440
@@ -23,17 +24,32 @@ Rectangle {
             text: qsTr("Alarm")
         }
     }
+    ScrollView {
+        anchors.fill: parent
+
+        ListView {
+            width: parent.width
+            model: 20
+            delegate: ItemDelegate {
+                text: "Item " + (index + 1)
+                width: parent.width
+            }
+        }
+    }
 
     StackLayout
     {
         id:stackLayout
         width: parent.width
+        anchors.horizontalCenter: parent.horizontalCenter
         currentIndex: tabBar.currentIndex
+
         Item
         {
             id: element
 
             GridLayout {
+                x: 484
                 y: 60
                 width: 250
                 anchors.left: parent.left
@@ -294,6 +310,7 @@ Rectangle {
 
             Button {
                 id: saveAlarmButton
+                x: 665
                 y: 380
                 text: qsTr("Save")
                 anchors.left: parent.left
@@ -309,14 +326,17 @@ Rectangle {
         }
     }
 
-   BusyIndicator
-   {
-       id: busyAlarmConfig
-       anchors.centerIn: parent
-       height: 100
-       width: 100
-       running: false
-   }
+
+    BusyIndicator
+    {
+        id: busyAlarmConfig
+        anchors.centerIn: parent
+        height: 100
+        width: 100
+        running: false
+    }
+
+
 
 
     Component.onCompleted:

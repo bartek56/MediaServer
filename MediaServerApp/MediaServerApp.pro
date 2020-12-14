@@ -28,17 +28,14 @@ SOURCES += \
     ViewModel/sambaconfiglocal.cpp \
     ViewModel/sambaconfigglobal.cpp \
     ViewModel/ftpconfig.cpp \
-    ViewModel/settingsWifi.cpp \
-    ViewModel/settingsscreensaver.cpp \
-    ViewModel/settingsstatus.cpp \
     ViewModel/alarmview.cpp \
     bluetoothctl.cpp \
     ViewModel/massstorage.cpp \
     ViewModel/multimediaconfig.cpp \
     screensavermanager.cpp \
     ViewModel/screensaver.cpp \
-    ViewModel/settingsipaddress.cpp \
-    ViewModel/napimanager.cpp
+    ViewModel/napimanager.cpp \
+    ViewModel/settingsscreensaver.cpp
 
 RESOURCES += qml.qrc
 
@@ -58,14 +55,14 @@ HEADERS += \
     ViewModel/mainwindow.h \
     ViewModel/sambaconfig.h \
     ViewModel/ftpconfig.h \
-    ViewModel/settings.h \
     ViewModel/alarmview.h \
     bluetoothctl.h \
     ViewModel/massstorage.h \
     ViewModel/multimediaconfig.h \
     screensavermanager.h \
     ViewModel/screensaver.h \
-    ViewModel/napimanager.h
+    ViewModel/napimanager.h \
+    ViewModel/settingsscreensaver.h
 
 FORMS +=
 

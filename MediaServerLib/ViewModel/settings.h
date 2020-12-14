@@ -6,7 +6,6 @@
 #include <memory>
 #include <QtQuick>
 #include "editwificonfigfile.h"
-#include "editscreensaverconfigfile.h"
 #include "editalarmconfigfile.h"
 #include "editheadersconfigfile.h"
 
@@ -19,7 +18,7 @@ public:
     const QString WPASUPPLICANT_SERVICE = "wpa_supplicant.service";
     const QString YMPD_SERVICE = "ympd.service";
     const QString MPD_SERVICE = "mpd.service";
-    const QString MINIDLNA_SERVICE = "minidlnad.service";
+    const QString MINIDLNA_SERVICE = "minidlna.service";
     const QString SMB_SERVICE = "smb.service";
     const QString NMB_SERVICE = "nmb.service";
     const QString VSFTPD_SERVICE = "vsftpd.service";
@@ -54,14 +53,6 @@ public:
     Q_INVOKABLE void rbStaticIP_onClicked(const QString ipadressTextField, const QString netmaskTextField,
                                           const QString gatewayTextField, const QString dnsserverTextField);
     Q_INVOKABLE void saveIpAddressConfiguration();
-
-
-    // ScreenSaver
-    Q_INVOKABLE void bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath);
-    Q_INVOKABLE void bSaveScreenSaver_onClicked(const QString timeout, const QString path, const int startTime, const bool random);
-    Q_INVOKABLE void loadScreenSaverConfigurations(QObject *screensaverEnableSwitch, QObject *startTime, QObject *path,
-                                                   QObject *timeout, QObject *random);
-    Q_INVOKABLE void screenSaverEnableSwitch_OnClicked(const bool isEnable);
 
     //Systemd services
     Q_INVOKABLE void checkTvHeadEndServiceStatus(QObject *tvHeadEndStatusSwitch, QObject *TvHeadEndStatusButton);
@@ -98,13 +89,6 @@ public:
 
 
 private:
-    // Screensaver
-    EditScreenSaverConfigFile editScreenSaverConfigFile;
-    std::map<QString, QString> mScreenSaverConfigs;
-
-    int ConvertTimeFromMiliSecStringToMinutesInt(QString milisec);
-
-
     // IP Adress
     const QString ETHERNET_CONFIG_FILE="/etc/mediaserver/10-wired.network";
     const QString WIFI_CONFIG_FILE="/etc/mediaserver/20-wireless.network";

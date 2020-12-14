@@ -1,8 +1,13 @@
-#include "settings.h"
+#include "settingsscreensaver.h"
 #include "mainwindow.h"
 #include "screensavermanager.h"
 
-void Settings::screenSaverEnableSwitch_OnClicked(const bool isEnable)
+SettingsScreensaver::SettingsScreensaver(QObject *parent) : QObject(parent)
+{
+
+}
+
+void SettingsScreensaver::screenSaverEnableSwitch_OnClicked(const bool isEnable)
 {
     if(isEnable)
     {
@@ -17,13 +22,13 @@ void Settings::screenSaverEnableSwitch_OnClicked(const bool isEnable)
 }
 
 
-void Settings::bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath)
+void SettingsScreensaver::bScreenSaverFileDialog_onAccepted(QString folderPath, QObject *tfScreenSavrFolderPath)
 {
     QString path = folderPath.remove(0,7);
     tfScreenSavrFolderPath->setProperty("text",QVariant(path));
 }
 
-void Settings::bSaveScreenSaver_onClicked(const QString timeout, const QString path, const int startTime, const bool random)
+void SettingsScreensaver::bSaveScreenSaver_onClicked(const QString timeout, const QString path, const int startTime, const bool random)
 {
     auto startTimeInMilisecond=startTime*60000;
     QString startTimeInMilisecondsString = QString::number(startTimeInMilisecond);
@@ -39,7 +44,7 @@ void Settings::bSaveScreenSaver_onClicked(const QString timeout, const QString p
 }
 
 
-void Settings::loadScreenSaverConfigurations(QObject * enableSwitch, QObject *startTime, QObject *path, QObject *timeout, QObject *random)
+void SettingsScreensaver::loadScreenSaverConfigurations(QObject * enableSwitch, QObject *startTime, QObject *path, QObject *timeout, QObject *random)
 {
     mScreenSaverConfigs = editScreenSaverConfigFile.LoadConfiguration();
 
@@ -59,7 +64,7 @@ void Settings::loadScreenSaverConfigurations(QObject * enableSwitch, QObject *st
         enableSwitch->setProperty("checked", QVariant(false));
 }
 
-int Settings::ConvertTimeFromMiliSecStringToMinutesInt(QString miliSecounds)
+int SettingsScreensaver::ConvertTimeFromMiliSecStringToMinutesInt(QString miliSecounds)
 {
     int startTimeInMiliSeconds = miliSecounds.toInt();
     return startTimeInMiliSeconds/60000;

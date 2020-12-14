@@ -17,5 +17,6 @@ TEMPLATE = subdirs
 SUBDIRS = MediaServerLib \
           MediaServerWeb \ #\
     #GoogleTests
-    MediaServerApp
+    MediaServerApp \
+    MediaServerStartup
 

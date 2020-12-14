@@ -5,6 +5,7 @@ import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
 import SettingsLib 1.0
+import SettingsScreensaverLib 1.0
 
 Dialog
 {
@@ -17,10 +18,14 @@ Dialog
     padding: 1
     modal: true
 
-
     Settings
     {
         id: settings
+    }
+
+    SettingsScreensaver
+    {
+        id:settingsScreensaver
     }
 
     Loader {
@@ -825,7 +830,7 @@ Dialog
                         Layout.columnSpan: 3
                         onClicked:
                         {
-                            settings.screenSaverEnableSwitch_OnClicked(screensaverEnableSwitch.checked)
+                            settingsScreensaver.screenSaverEnableSwitch_OnClicked(screensaverEnableSwitch.checked)
                         }
                     }
                 }
@@ -848,7 +853,7 @@ Dialog
                 Layout.columnSpan: 2
                 onClicked:
                 {
-                    settings.bSaveScreenSaver_onClicked(timeOutSpinBox.value,pathScreenSaverTextField.text,startTimeSpinBox.value,randomCheckBox.checked)
+                    settingsScreensaver.bSaveScreenSaver_onClicked(timeOutSpinBox.value,pathScreenSaverTextField.text,startTimeSpinBox.value,randomCheckBox.checked)
                 }
                 onPressed: { busySettings.running=true }
                 onReleased:{ busySettings.running=false }
@@ -926,7 +931,7 @@ Dialog
         settings.checkWifi(wifiOnSwitch)
         wifiOnSwitch.updatestate()
         settings.loadWifiConfigFile()
-        settings.loadScreenSaverConfigurations(screensaverEnableSwitch,startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox,randomCheckBox)
+        settingsScreensaver.loadScreenSaverConfigurations(screensaverEnableSwitch,startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox,randomCheckBox)
         settings.checkTvHeadEndServiceStatus(tvHeadEndStatusSwitch,tvHeadEndStatusButton)
         settings.checkYMPDSystemdStatus(ympdStatusSwitch,ympdStatusButton)
         settings.checkMPDSystemdStatus(mpdStatusSwitch,mpdStatusButton)

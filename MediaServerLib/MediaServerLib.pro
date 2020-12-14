@@ -5,6 +5,9 @@ QT += quick
 
 SOURCES += \
     ViewModel/alarmconfig.cpp \
+    ViewModel/settingsipaddress.cpp \
+    ViewModel/settingsWifi.cpp \
+    ViewModel/settingsstatus.cpp \
     editftpconfigfile.cpp \
     editwificonfigfile.cpp \
     editdlnaconfigfile.cpp \
@@ -16,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     ViewModel/alarmconfig.h \
+    ViewModel/settings.h \
     editftpconfigfile.h \
     editwificonfigfile.h \
     editdlnaconfigfile.h \

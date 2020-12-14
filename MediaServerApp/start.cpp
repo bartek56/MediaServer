@@ -15,6 +15,7 @@
 #include "ViewModel/massstorage.h"
 #include "ViewModel/screensaver.h"
 #include "ViewModel/napimanager.h"
+#include "ViewModel/settingsscreensaver.h"
 #include "screensavermanager.h"
 
 
@@ -70,6 +71,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfig");
     qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");
     qmlRegisterType<Settings>("SettingsLib", 1, 0, "Settings");
+    qmlRegisterType<SettingsScreensaver>("SettingsScreensaverLib", 1, 0, "SettingsScreensaver");
     qmlRegisterType<MassStorage>("MassStorageLib", 1, 0, "MassStorage");
     qmlRegisterType<AlarmView>("AlarmViewLib", 1, 0, "AlarmView");
     qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
