@@ -545,6 +545,7 @@ Rectangle
                 text: qsTr("Exit")
                 onClicked:
                 {
+                    lastBusy.running=true
                     scanNetworkButton.enabled=false
                     connectButton.enabled=false
                     wifiOnSwitch.enabled=false
@@ -556,7 +557,6 @@ Rectangle
                     mainWindow.savePassword(textRootPassword.text)
                     mainWindow.updateConfig()
                 }
-                onPressed: {lastBusy.running=true}
             }
         }
     }
