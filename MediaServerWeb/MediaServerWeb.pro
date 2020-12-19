@@ -15,7 +15,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     start.cpp \
     youtubedl.cpp \
-    dataobjectmodel.cpp
+    playlistobjectmodel.cpp \
+    playlistobject.cpp
 
 RESOURCES += qml.qrc
 
@@ -33,4 +34,5 @@ INSTALLS += target
 
 HEADERS += \
     youtubedl.h \
-    dataobjectmodel.h
+    playlistobjectmodel.h \
+    playlistobject.h

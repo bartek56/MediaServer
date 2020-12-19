@@ -9,21 +9,44 @@ Rectangle {
     width: 800
     height: 440
 
-
     Youtubedl
     {
         id:youtubedl
     }
-
+    Component
+    {
+        id: myDelegate
+        Item
+        {
+            id: wrapper
+            width: 180
+            height: 60
+            Text {
+                id: contactInfo
+                text: dataObject.name + ": " + dataObject.link
+                color: wrapper.ListView.isCurrentItem ? "red" : "black"
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    console.log(myModel.get(index).name)
+                    console.log(dataObject.name)
+                    listView.currentIndex=index
+                }
+            }
+        }
+    }
     ListView {
         id: listView
         anchors.fill: parent
         model: myModel
-        delegate: Text { text: "Animal " + type + ", "+size}
+        delegate: myDelegate
+        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
     }
     Component.onCompleted:
     {
-        console.log("start");
         youtubedl.test(listView)
     }
 }

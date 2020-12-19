@@ -1,6 +1,7 @@
 #include "youtubedl.h"
 #include <QDebug>
-#include "dataobjectmodel.h"
+#include "playlistobjectmodel.h"
+#include "playlistobject.h"
 #include <qqmlcontext.h>
 
 Youtubedl::Youtubedl(QObject *parent) : QObject(parent)
@@ -10,14 +11,10 @@ Youtubedl::Youtubedl(QObject *parent) : QObject(parent)
 void Youtubedl::test(QObject *list)
 {
     qDebug() << "hello";
-    AnimalModel model;
-    model.addAnimal(Animal("Wolf", "Medium"));
-    model.addAnimal(Animal("Polar bear", "Large"));
-    model.addAnimal(Animal("Quoll", "Small"));
-    model.addAnimal(Animal("Quoll", "Small"));
-    model.addAnimal(Animal("Quoll", "Small"));
-    model.addAnimal(Animal("Quoll", "Small"));
+//    PlaylistObjectModel model;
+//    model.append(new PlaylistObject("relaks","https://relaks"));
+//    model.append(new PlaylistObject("impreza","https://impreza"));
 
-    QQmlContext *ctxt = Youtubedl::mainView->rootContext();
-    ctxt->setContextProperty("myModel", &model);
+//    QQmlContext *ctxt = Youtubedl::mainView->rootContext();
+//    ctxt->setContextProperty("myModel", &model);
 }

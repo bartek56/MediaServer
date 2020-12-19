@@ -3,15 +3,7 @@
 
 #include <QObject>
 #include <QQuickView>
-/*
-class DataObject : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString color READ color WRITE setColor NOTIFY colorChanged)
 
-};
-*/
 class Youtubedl : public QObject
 {
     Q_OBJECT
