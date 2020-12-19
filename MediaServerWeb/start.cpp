@@ -1,6 +1,9 @@
 #include <QApplication>
 #include <QtQuick>
-#include "ViewModel/alarmconfig.h"
+#include "youtubedl.h"
+#include "dataobjectmodel.h"
+
+QQuickView *Youtubedl::mainView;
 
 
 int main(int argc, char *argv[])
@@ -10,14 +13,18 @@ int main(int argc, char *argv[])
     QQuickView *view = new QQuickView;
     if (view->status() == QQuickView::Error)
         return -1;
+    Youtubedl::init(view);
 
     view->setWidth(800);
     view->setHeight(480);
     view->setResizeMode(QQuickView::SizeRootObjectToView);
 
-    qmlRegisterType<AlarmConfig>("AlarmConfigLib", 1, 0, "AlarmConfig");
+    qmlRegisterType<Youtubedl>("YoutubeLib", 1, 0, "Youtubedl");
 
-    view->setSource(QString("qrc:/main.qml"));
+
+
+
+    view->setSource(QString("qrc:/youtubedl.qml"));
 
     view->show();
 

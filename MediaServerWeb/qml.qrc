@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>alarm.qml</file>
+        <file>youtubedl.qml</file>
     </qresource>
 </RCC>

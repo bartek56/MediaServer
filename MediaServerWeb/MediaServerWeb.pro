@@ -14,7 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     start.cpp \
-    mainwindow.cpp
+    youtubedl.cpp \
+    dataobjectmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,4 +32,5 @@ target.path = /opt
 INSTALLS += target
 
 HEADERS += \
-    mainwindow.h
+    youtubedl.h \
+    dataobjectmodel.h
