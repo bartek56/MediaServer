@@ -2,6 +2,7 @@
 
 #include <QFile>
 #include <QTextStream>
+#include <QDebug>
 
 
 std::vector<HeadersConfig> EditHeadersConfigFile::OpenFile()
@@ -18,6 +19,7 @@ std::vector<HeadersConfig> EditHeadersConfigFile::OpenFile()
     {
         QByteArray line = file.readLine();
         std::string strLine(line);
+        QString qStrLine = QString(line);
 
         if(!strLine.find('['))
         {
@@ -31,9 +33,10 @@ std::vector<HeadersConfig> EditHeadersConfigFile::OpenFile()
         else
         {
             auto parameter = line.split('=');
-            auto parameterName = parameter[0];
-            auto parameterValue = parameter[1];
+            auto parameterName = qStrLine.section('=',0,0);
+            auto parameterValue = qStrLine.section('=',1);
 
+            qDebug() << parameterName << " " << parameterValue;
             parameterValue.remove(parameter[1].length()-1,1); // remove '\n' on last sign
             mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
         }
