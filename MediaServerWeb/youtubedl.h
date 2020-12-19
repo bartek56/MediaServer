@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QQuickView>
 #include "playlistobjectmodel.h"
+#include "editheadersconfigfile.h"
 
 class Youtubedl : public QObject
 {
@@ -18,9 +19,10 @@ public:
 
     Q_INVOKABLE void loadPlaylists();
 
-signals:
-
-public slots:
+private:
+    const QString YOUTUBEDL_CONFIGFILE = "/etc/mediaserver/youtubedl.ini";
+    EditHeadersConfigFile editHeadersConfigFile;
+    std::vector<HeadersConfig> vConfigs;
 };
 
 #endif // MAIN_H

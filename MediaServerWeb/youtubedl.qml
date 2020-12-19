@@ -3,7 +3,8 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import YoutubeLib 1.0
 
-Rectangle {
+Rectangle
+{
     id: rectangle
     visible: true
     width: 800
@@ -13,38 +14,53 @@ Rectangle {
     {
         id:youtubedl
     }
-    Component
-    {
-        id: playlistsDelegate
-        Item
+
+        Component
         {
-            id: wrapper
-            width: 180
-            height: 60
-            Text {
-                id: contactInfo
-                text: dataObject.name + ": " + dataObject.link
-                color: wrapper.ListView.isCurrentItem ? "red" : "black"
-            }
-            MouseArea
+            id: playlistsDelegate
+            Item
             {
-                anchors.fill: parent
-                onClicked:
+                id: wrapper
+                width: 180
+                height: 60
+
+                Column
                 {
-                    console.log(playlistsModel.get(index).name)
-                    console.log(dataObject.name)
-                    listView.currentIndex=index
+                    Text
+                    {
+                        font.family: "Helvetica"
+                        font.pointSize: 16
+                        text: dataObject.name
+                        color: wrapper.ListView.isCurrentItem ? "red" : "black"
+                    }
+                    Text
+                    {
+                        text:dataObject.link
+                        color: wrapper.ListView.isCurrentItem ? "red" : "black"
+
+                    }
+                }
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked:
+                    {
+                        console.log(playlistsModel.get(index).name)
+                        console.log(dataObject.name)
+                        listView.currentIndex=index
+                    }
                 }
             }
         }
-    }
-    ListView {
-        id: listView
-        anchors.fill: parent
-        model: playlistsModel
-        delegate: playlistsDelegate
-        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-    }
+        ListView
+        {
+            id: listView
+            anchors.fill: parent
+            model: playlistsModel
+            delegate: playlistsDelegate
+        }
+
+
     Component.onCompleted:
     {
         youtubedl.loadPlaylists()

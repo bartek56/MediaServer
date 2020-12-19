@@ -2,8 +2,6 @@
 
 #include <QFile>
 #include <QTextStream>
-#include <QDebug>
-
 
 std::vector<HeadersConfig> EditHeadersConfigFile::OpenFile()
 {
@@ -36,7 +34,6 @@ std::vector<HeadersConfig> EditHeadersConfigFile::OpenFile()
             auto parameterName = qStrLine.section('=',0,0);
             auto parameterValue = qStrLine.section('=',1);
 
-            qDebug() << parameterName << " " << parameterValue;
             parameterValue.remove(parameter[1].length()-1,1); // remove '\n' on last sign
             mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
         }
