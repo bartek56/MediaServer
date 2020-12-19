@@ -4,8 +4,7 @@
 #include "playlistobjectmodel.h"
 #include "playlistobject.h"
 
-QQuickView *Youtubedl::mainView;
-
+PlaylistObjectModel *Youtubedl::playlistObjectModel;
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +13,6 @@ int main(int argc, char *argv[])
     QQuickView *view = new QQuickView;
     if (view->status() == QQuickView::Error)
         return -1;
-    Youtubedl::init(view);
 
     view->setWidth(800);
     view->setHeight(480);
@@ -22,19 +20,14 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<Youtubedl>("YoutubeLib", 1, 0, "Youtubedl");
 
-
-    PlaylistObjectModel model;
-    model.append(new PlaylistObject("relaks","https://relaks"));
-    model.append(new PlaylistObject("impreza","https://impreza"));
+    PlaylistObjectModel *model = new PlaylistObjectModel;
+    Youtubedl::initPlaylist(model);
 
     QQmlContext *ctxt = view->rootContext();
-    ctxt->setContextProperty("myModel", &model);
-
+    ctxt->setContextProperty("playlistsModel", model);
 
     view->setSource(QString("qrc:/youtubedl.qml"));
-
     view->show();
 
     return app.exec();
-
 }

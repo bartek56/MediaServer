@@ -3,19 +3,20 @@
 
 #include <QObject>
 #include <QQuickView>
+#include "playlistobjectmodel.h"
 
 class Youtubedl : public QObject
 {
     Q_OBJECT
 public:
     explicit Youtubedl(QObject *parent = nullptr);
-    static QQuickView *mainView;
-    static void init (QQuickView *obj)
+    static PlaylistObjectModel *playlistObjectModel;
+    static void initPlaylist (PlaylistObjectModel *obj)
     {
-        mainView=obj;
+        playlistObjectModel=obj;
     }
 
-    Q_INVOKABLE void test(QObject *list);
+    Q_INVOKABLE void loadPlaylists();
 
 signals:
 

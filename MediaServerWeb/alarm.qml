@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.5
+import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import AlarmConfigLib 1.0
 
@@ -22,18 +22,6 @@ Rectangle {
         width: parent.width
         TabButton {
             text: qsTr("Alarm")
-        }
-    }
-    ScrollView {
-        anchors.fill: parent
-
-        ListView {
-            width: parent.width
-            model: 20
-            delegate: ItemDelegate {
-                text: "Item " + (index + 1)
-                width: parent.width
-            }
         }
     }
 

@@ -15,7 +15,7 @@ Rectangle {
     }
     Component
     {
-        id: myDelegate
+        id: playlistsDelegate
         Item
         {
             id: wrapper
@@ -31,7 +31,7 @@ Rectangle {
                 anchors.fill: parent
                 onClicked:
                 {
-                    console.log(myModel.get(index).name)
+                    console.log(playlistsModel.get(index).name)
                     console.log(dataObject.name)
                     listView.currentIndex=index
                 }
@@ -41,12 +41,12 @@ Rectangle {
     ListView {
         id: listView
         anchors.fill: parent
-        model: myModel
-        delegate: myDelegate
+        model: playlistsModel
+        delegate: playlistsDelegate
         highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
     }
     Component.onCompleted:
     {
-        youtubedl.test(listView)
+        youtubedl.loadPlaylists()
     }
 }
