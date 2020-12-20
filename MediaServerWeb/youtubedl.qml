@@ -12,10 +12,18 @@ Rectangle
         id:youtubedl
     }
 
+    Rectangle
+    {
+        id: scrollRectangle
+        width: 650
+        height: 300
+//        anchors.horizontalCenter: mainRectangle.horizontalCenter
+
     ScrollView
     {
         id:scroll
-        anchors.fill: parent
+        anchors.fill: scrollRectangle
+        anchors.centerIn: scrollRectangle
 
         ListView
         {
@@ -38,7 +46,6 @@ Rectangle
             Column
             {
                 spacing: -20
-
                 TextArea
                 {
                     height: 40
@@ -75,13 +82,20 @@ Rectangle
                     console.log(playlistsModel.get(index).name)
                     console.log(dataObject.name)
                     listView.currentIndex=index
+                    console.log(mainRectangle.height)
                 }
             }
         }
     }
 
+    }
     Component.onCompleted:
     {
         youtubedl.loadPlaylists()
     }
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/
