@@ -1,6 +1,6 @@
 #include "editwificonfigfile.h"
 #include <QFile>
-#include <QDebug>
+#include <QTextStream>
 
 std::vector<WifiConfigsName> EditWifiConfigFile::OpenFile()
 {
@@ -31,8 +31,10 @@ std::vector<WifiConfigsName> EditWifiConfigFile::OpenFile()
             auto parameter = line.split('=');
             auto parameterName = parameter[0];
             auto parameterValue = parameter[1];
-            parameterValue.remove(parameterValue.length()-1,1); // remove " on last sign
+            parameterValue.remove(parameterValue.length()-2,2); // remove " and \n on last sign
             parameterValue.remove(0,1); // remove " on first sign
+            parameterName.replace(" ","");
+
             mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
         }
 
@@ -54,9 +56,8 @@ void EditWifiConfigFile::SaveWifiConfigs(const std::vector<WifiConfigsName> &vWi
 
     QTextStream out(&file);
 
-    out << "ctrl_interface=/run/wpa_supplicant\n";
-    out << "ctrl_interface_group=wheel\n";
-    out << "update_config=1\n";
+    out << "ctrl_interface=/var/run/wpa_supplicant\n";
+    out << "ap_scan=1\n";
 
     for (auto it = std::begin(vWifiConfigs); it!=std::end(vWifiConfigs); ++it)
     {
