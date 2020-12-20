@@ -5,53 +5,18 @@ import YoutubeLib 1.0
 
 Rectangle
 {
-    id: rectangle
-    visible: true
-    width: 800
-    height: 440
+    id: mainRectangle
 
     Youtubedl
     {
         id:youtubedl
     }
 
-        Component
-        {
-            id: playlistsDelegate
-            Item
-            {
-                id: wrapper
-                width: 180
-                height: 60
+    ScrollView
+    {
+        id:scroll
+        anchors.fill: parent
 
-                Column
-                {
-                    Text
-                    {
-                        font.family: "Helvetica"
-                        font.pointSize: 16
-                        text: dataObject.name
-                        color: wrapper.ListView.isCurrentItem ? "red" : "black"
-                    }
-                    Text
-                    {
-                        text:dataObject.link
-                        color: wrapper.ListView.isCurrentItem ? "red" : "black"
-
-                    }
-                }
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked:
-                    {
-                        console.log(playlistsModel.get(index).name)
-                        console.log(dataObject.name)
-                        listView.currentIndex=index
-                    }
-                }
-            }
-        }
         ListView
         {
             id: listView
@@ -59,7 +24,61 @@ Rectangle
             model: playlistsModel
             delegate: playlistsDelegate
         }
+    }
 
+    Component
+    {
+        id: playlistsDelegate
+        Rectangle
+        {
+            id: wrapper
+            height: 60
+            width: mainRectangle.width
+
+            Column
+            {
+                spacing: -20
+
+                TextArea
+                {
+                    height: 40
+                    width: wrapper.width
+                    font.family: "Helvetica"
+                    readOnly: true
+                    font.pointSize: 16
+                    text: dataObject.name
+                    color: wrapper.ListView.isCurrentItem ? "red" : "black"
+                }
+
+                Flickable
+                {
+                    id: flickable
+                    width: wrapper.width
+                    height: 40
+
+                    TextArea.flickable: TextArea
+                    {
+                        id: linkText
+                        readOnly: true
+                        //fontSizeMode: Text.Fit
+                        text:dataObject.link
+                        color: wrapper.ListView.isCurrentItem ? "red" : "black"
+                        wrapMode:TextArea.Wrap
+                    }
+                }
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    console.log(playlistsModel.get(index).name)
+                    console.log(dataObject.name)
+                    listView.currentIndex=index
+                }
+            }
+        }
+    }
 
     Component.onCompleted:
     {
