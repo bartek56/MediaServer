@@ -75,6 +75,10 @@ Rectangle
     }
 
 
+    Youtubedl
+    {
+        id:youtubedl
+    }
     Flickable
     {
         anchors.fill: parent
@@ -116,13 +120,64 @@ Rectangle
                 y: header.height
                 width: xSizePreferred/2
                 height: ySizePreferred-header.height
-                color: "gold"
-                border.color: Qt.lighter(color)
-                Text
+
+                ListView
                 {
-                    anchors.centerIn: parent
-                    text: "left Frame"
+                    id: listView
+                    anchors.fill: parent
+                    model: playlistsModel
+                    delegate: playlistsDelegate
+                    width: parent.width
                 }
+
+                Component
+                {
+                    id: playlistsDelegate
+                    Rectangle
+                    {
+                        id: wrapper
+                        height: 60
+                        width: leftFrame.width
+
+                        Column
+                        {
+                            spacing: -20
+                            TextArea
+                            {
+                                height: 40
+                                width: wrapper.width
+                                font.family: "Helvetica"
+                                readOnly: true
+                                font.pointSize: 12
+                                text: dataObject.name
+                                color: wrapper.ListView.isCurrentItem ? "red" : "black"
+                            }
+
+
+                            TextArea
+                            {
+                                id: linkText
+                                readOnly: true
+                                //fontSizeMode: Text.Fit
+                                text: dataObject.link
+                                font.pointSize: 8
+                                color: wrapper.ListView.isCurrentItem ? "red" : "black"
+                                wrapMode:TextArea.Wrap
+                            }
+                        }
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                console.log(playlistsModel.get(index).name)
+                                console.log(dataObject.name)
+                                listView.currentIndex=index
+                            }
+                        }
+                    }
+                }
+
             }
 
             Rectangle
@@ -143,5 +198,9 @@ Rectangle
         }
         ScrollBar.horizontal: ScrollBar { id: hbar; height: 12; active: vbar.active; policy: xPolicy}
         ScrollBar.vertical: ScrollBar { id: vbar; width: 12; active: hbar.active; policy: yPolicy }
+    }
+    Component.onCompleted:
+    {
+        youtubedl.loadPlaylists()
     }
 }
