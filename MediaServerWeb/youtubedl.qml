@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import YoutubeLib 1.0
@@ -79,6 +79,7 @@ Rectangle
     {
         id:youtubedl
     }
+
     Flickable
     {
         anchors.fill: parent
@@ -121,63 +122,122 @@ Rectangle
                 width: xSizePreferred/2
                 height: ySizePreferred-header.height
 
-                ListView
-                {
-                    id: listView
-                    anchors.fill: parent
-                    model: playlistsModel
-                    delegate: playlistsDelegate
-                    width: parent.width
-                }
 
-                Component
-                {
-                    id: playlistsDelegate
-                    Rectangle
+                Column{
+                    id: column
+                    spacing: 50
+                    GridLayout
                     {
-                        id: wrapper
-                        height: 60
-                        width: leftFrame.width
 
-                        Column
+                        height: 100
+                        anchors.right: parent.right
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+                        columns: 2
+                        rows: 3
+
+
+                        Label
                         {
-                            spacing: -20
-                            TextArea
-                            {
-                                height: 40
-                                width: wrapper.width
-                                font.family: "Helvetica"
-                                readOnly: true
-                                font.pointSize: 12
-                                text: dataObject.name
-                                color: wrapper.ListView.isCurrentItem ? "red" : "black"
-                            }
-
-
-                            TextArea
-                            {
-                                id: linkText
-                                readOnly: true
-                                //fontSizeMode: Text.Fit
-                                text: dataObject.link
-                                font.pointSize: 8
-                                color: wrapper.ListView.isCurrentItem ? "red" : "black"
-                                wrapMode:TextArea.Wrap
-                            }
+                            height: 30
+                            text: "PlayList Name"
+                            verticalAlignment: Text.AlignVCenter
                         }
-                        MouseArea
+                        TextField
                         {
-                            anchors.fill: parent
-                            onClicked:
+                            height: 30
+                            text: "New Playlist"
+                            Layout.alignment: Qt.AlignCenter
+
+                        }
+                        Label
+                        {
+                            text: "Link"
+                            height: 30
+                        }
+                        TextField
+                        {
+                            height: 30
+                            Layout.alignment: Qt.AlignCenter
+
+                            text: "http://"
+                        }
+
+                        Button
+                        {
+                            height: 5
+                            text:"add"
+                            Layout.column: 1
+                            Layout.row: 3
+                            Layout.alignment: Qt.AlignCenter
+                        }
+                    }
+
+                    ListView
+                    {
+                        id: listView
+                        //                    anchors.fill: parent
+                        model: playlistsModel
+                        delegate: playlistsDelegate
+                        width: leftFrame.width
+                        height: 400
+                    }
+
+                    Component
+                    {
+                        id: playlistsDelegate
+                        Rectangle
+                        {
+                            id: wrapper
+                            height: 60
+                            width: leftFrame.width
+
+                            Column
                             {
-                                console.log(playlistsModel.get(index).name)
-                                console.log(dataObject.name)
-                                listView.currentIndex=index
+                                spacing: -20
+                                TextArea
+                                {
+                                    height: 40
+                                    width: wrapper.width
+                                    font.family: "Helvetica"
+                                    readOnly: true
+                                    font.pointSize: 12
+                                    text: dataObject.name
+                                    color: wrapper.ListView.isCurrentItem ? "red" : "black"
+                                }
+
+
+                                TextArea
+                                {
+                                    id: linkText
+                                    readOnly: true
+                                    //fontSizeMode: Text.Fit
+                                    text: dataObject.link
+                                    font.pointSize: 8
+                                    color: wrapper.ListView.isCurrentItem ? "red" : "black"
+                                    wrapMode:TextArea.Wrap
+                                }
+                            }
+                            MouseArea
+                            {
+                                anchors.fill: parent
+                                onClicked:
+                                {
+                                    console.log(playlistsModel.get(index).name)
+                                    console.log(dataObject.name)
+                                    listView.currentIndex=index
+                                }
                             }
                         }
                     }
-                }
 
+
+                    Button
+                    {
+                        text:"remove"
+                    }
+
+                }
             }
 
             Rectangle
@@ -204,3 +264,12 @@ Rectangle
         youtubedl.loadPlaylists()
     }
 }
+
+
+
+
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}D{i:8;anchors_width:512}
+}
+ ##^##*/
