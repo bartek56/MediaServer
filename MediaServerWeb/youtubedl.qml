@@ -5,97 +5,143 @@ import YoutubeLib 1.0
 
 Rectangle
 {
-    id: mainRectangle
+    id: root
+    visible: true
+    color: "gray"
+    border.color: Qt.lighter(color)
+    z: -1
 
-    Youtubedl
+    property int xPosition: 0
+    property int xPolicy: ScrollBar.AlwaysOn
+    property int yPolicy: ScrollBar.AlwaysOn
+    property int xSizePreferred: 1024
+    property int ySizePreferred: 768
+    property int xSizeActual: 0
+    property int ySizeActual: 0
+    property int xSizeMobile: xSizePreferred/2
+    property int ySizeMobile: ySizePreferred*2-header.height
+
+    property int rightFrameXPosition: xSizePreferred/2
+    property int rightFrameYPosition: header.height
+
+
+    onWidthChanged:
     {
-        id:youtubedl
-    }
-
-    Rectangle
-    {
-        id: scrollRectangle
-        width: 650
-        height: 300
-//        anchors.horizontalCenter: mainRectangle.horizontalCenter
-
-    ScrollView
-    {
-        id:scroll
-        anchors.fill: scrollRectangle
-        anchors.centerIn: scrollRectangle
-
-        ListView
+        if(root.width > xSizePreferred)
         {
-            id: listView
-            anchors.fill: parent
-            model: playlistsModel
-            delegate: playlistsDelegate
+            xSizeActual=xSizePreferred
+            ySizeActual=ySizePreferred
+
+            xPolicy = ScrollBar.AlwaysOff
+            xPosition = (root.width-xSizeActual)/2
+
+            rightFrameXPosition=xSizePreferred/2
+            rightFrameYPosition=header.height
+        }
+        else if(root.width < xSizePreferred && root.width>xSizeMobile)
+        {
+            ySizeActual=ySizeMobile
+            xSizeActual=xSizeMobile
+
+            xPolicy = ScrollBar.AlwaysOff
+            xPosition = (root.width-xSizeActual)/2
+
+            rightFrameXPosition=0
+            rightFrameYPosition=header.height+leftFrame.height
+        }
+        else
+        {
+            ySizeActual=ySizeMobile
+            xSizeActual=xSizeMobile
+
+            xPosition = 0;
+            xPolicy = ScrollBar.AlwaysOn
+
+            rightFrameXPosition=0
+            rightFrameYPosition=header.height+leftFrame.height
         }
     }
 
-    Component
+    onHeightChanged:
     {
-        id: playlistsDelegate
+        if(root.height > ySizePreferred)
+        {
+            yPolicy = ScrollBar.AlwaysOff
+        }
+        else
+        {
+            yPolicy = ScrollBar.AlwaysOn
+        }
+    }
+
+
+    Flickable
+    {
+        anchors.fill: parent
+        contentWidth: xSizeActual
+        contentHeight: ySizeActual
+
         Rectangle
         {
-            id: wrapper
-            height: 60
-            width: mainRectangle.width
+            id: mainFrame
+            width: xSizeActual
+            height: ySizeActual
 
-            Column
+            clip: true
+            color: "red"
+            border.color: Qt.lighter(color)
+            x: xPosition
+            y: 0
+
+            Rectangle
             {
-                spacing: -20
-                TextArea
+                id: header
+                anchors.top: mainFrame.top
+                anchors.right: mainFrame.right
+                anchors.left: mainFrame.left
+                height: 70
+                color: "orange"
+                border.color: Qt.lighter(color)
+                Text
                 {
-                    height: 40
-                    width: wrapper.width
-                    font.family: "Helvetica"
-                    readOnly: true
-                    font.pointSize: 16
-                    text: dataObject.name
-                    color: wrapper.ListView.isCurrentItem ? "red" : "black"
-                }
-
-                Flickable
-                {
-                    id: flickable
-                    width: wrapper.width
-                    height: 40
-
-                    TextArea.flickable: TextArea
-                    {
-                        id: linkText
-                        readOnly: true
-                        //fontSizeMode: Text.Fit
-                        text:dataObject.link
-                        color: wrapper.ListView.isCurrentItem ? "red" : "black"
-                        wrapMode:TextArea.Wrap
-                    }
+                    anchors.centerIn: parent
+                    text: "header"
                 }
             }
-            MouseArea
+
+            Rectangle
             {
-                anchors.fill: parent
-                onClicked:
+                id: leftFrame
+                x: 0
+                y: header.height
+                width: xSizePreferred/2
+                height: ySizePreferred-header.height
+                color: "gold"
+                border.color: Qt.lighter(color)
+                Text
                 {
-                    console.log(playlistsModel.get(index).name)
-                    console.log(dataObject.name)
-                    listView.currentIndex=index
-                    console.log(mainRectangle.height)
+                    anchors.centerIn: parent
+                    text: "left Frame"
+                }
+            }
+
+            Rectangle
+            {
+                id: rightFrame
+                x: rightFrameXPosition
+                y: rightFrameYPosition
+                width: xSizePreferred/2
+                height: ySizePreferred-header.height
+                color: "olive"
+                border.color: Qt.lighter(color)
+                Text
+                {
+                    anchors.centerIn: parent
+                    text: "right Frame"
                 }
             }
         }
-    }
-
-    }
-    Component.onCompleted:
-    {
-        youtubedl.loadPlaylists()
+        ScrollBar.horizontal: ScrollBar { id: hbar; height: 12; active: vbar.active; policy: xPolicy}
+        ScrollBar.vertical: ScrollBar { id: vbar; width: 12; active: hbar.active; policy: yPolicy }
     }
 }
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/
