@@ -122,23 +122,21 @@ Rectangle
                 y: header.height
                 width: xSizePreferred/2
                 height: ySizePreferred-header.height
+                border.color: Qt.lighter("blue")
 
 
                 Column{
-                    id: column
                     anchors.fill: parent
                     spacing: 60
                     bottomPadding: 200
                     GridLayout
                     {
-
                         height: 100
                         anchors.right: parent.right
                         anchors.left: parent.left
                         anchors.leftMargin: 10
                         columns: 2
                         rows: 3
-
 
                         Label
                         {
@@ -194,7 +192,7 @@ Rectangle
                         Rectangle
                         {
                             id: wrapper
-                            height: 60
+                            height: 45
                             width: leftFrame.width
 
                             Column
@@ -259,13 +257,63 @@ Rectangle
                 y: rightFrameYPosition
                 width: xSizePreferred/2
                 height: ySizePreferred-header.height
-                color: "olive"
-                border.color: Qt.lighter(color)
-
-                Text
+                border.color: Qt.lighter("blue")
+                Column
                 {
-                    anchors.centerIn: parent
-                    text: "right Frame"
+                    anchors.fill: parent
+                    topPadding: 20
+                    Text
+                    {
+                        horizontalAlignment: Text.AlignHCenter
+                        text: "Quick Download"
+                        font.pixelSize: 26
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        bottomPadding: 20
+                    }
+
+                    GridLayout
+                    {
+                        width: rightFrame.width
+                        columns: 3
+                        rowSpacing: 15
+
+                        Label
+                        {
+                            Layout.alignment: Qt.AlignCenter
+                            font.pixelSize: 20
+                            text: "Link:"
+                        }
+                        TextField
+                        {
+                            Layout.rightMargin: 10
+                            Layout.alignment: Qt.AlignRight
+                            Layout.preferredWidth:350
+                            Layout.columnSpan: 2
+                            text: "https://youtube.com"
+                        }
+                        RadioButton
+                        {
+                            Layout.alignment: Qt.AlignCenter
+                            text:"Audio MP3"
+                        }
+                        RadioButton
+                        {
+                            Layout.alignment: Qt.AlignCenter
+                            text:"Video MP4 480p"
+                        }
+                        RadioButton
+                        {
+                            Layout.alignment: Qt.AlignCenter
+                            text:"Video MP4 720p"
+                        }
+
+                        Button
+                        {
+                            Layout.columnSpan: 3
+                            Layout.alignment: Qt.AlignCenter
+                            text: "Download"
+                        }
+                    }
                 }
             }
         }
