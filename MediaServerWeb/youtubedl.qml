@@ -110,7 +110,8 @@ Rectangle
                 Text
                 {
                     anchors.centerIn: parent
-                    text: "header"
+                    font.pixelSize: 26
+                    text: "Youtube downloader"
                 }
             }
 
@@ -125,7 +126,9 @@ Rectangle
 
                 Column{
                     id: column
-                    spacing: 50
+                    anchors.fill: parent
+                    spacing: 60
+                    bottomPadding: 200
                     GridLayout
                     {
 
@@ -160,12 +163,11 @@ Rectangle
                             height: 30
                             Layout.alignment: Qt.AlignCenter
 
-                            text: "http://"
+                            text: "https://youtube"
                         }
 
                         Button
                         {
-                            height: 5
                             text:"add"
                             Layout.column: 1
                             Layout.row: 3
@@ -173,16 +175,19 @@ Rectangle
                         }
                     }
 
-                    ListView
-                    {
-                        id: listView
-                        //                    anchors.fill: parent
-                        model: playlistsModel
-                        delegate: playlistsDelegate
+                    ScrollView{
+                        id:scrollList
                         width: leftFrame.width
-                        height: 400
-                    }
+                        height: 380
 
+                        ListView
+                        {
+                            id: listView
+                            anchors.fill: scrollList
+                            model: playlistsModel
+                            delegate: playlistsDelegate
+                        }
+                    }
                     Component
                     {
                         id: playlistsDelegate
@@ -231,12 +236,19 @@ Rectangle
                         }
                     }
 
+                    Column{
+                        Button
+                        {
+                            x:10
+                            text:"remove"
+                        }
 
-                    Button
-                    {
-                        text:"remove"
+                        Button
+                        {
+                            x:370
+                            text:"apply"
+                        }
                     }
-
                 }
             }
 
@@ -249,6 +261,7 @@ Rectangle
                 height: ySizePreferred-header.height
                 color: "olive"
                 border.color: Qt.lighter(color)
+
                 Text
                 {
                     anchors.centerIn: parent
@@ -265,11 +278,3 @@ Rectangle
     }
 }
 
-
-
-
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:8;anchors_width:512}
-}
- ##^##*/
