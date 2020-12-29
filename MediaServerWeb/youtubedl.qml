@@ -124,7 +124,6 @@ Rectangle
                 height: ySizePreferred-header.height
                 border.color: Qt.lighter("blue")
 
-
                 Column{
                     anchors.fill: parent
                     spacing: 60
@@ -150,7 +149,6 @@ Rectangle
                             height: 30
                             text: "New Playlist"
                             Layout.alignment: Qt.AlignCenter
-
                         }
                         Label
                         {
@@ -168,10 +166,22 @@ Rectangle
 
                         Button
                         {
-                            text:"add"
+                            Layout.column: 0
+                            Layout.row: 3
+                            Layout.alignment: Qt.AlignRight
+                            text:"remove"
+                            onClicked:
+                            {
+                                youtubedl.removePlaylist(playlistTextField.text)
+                            }
+                        }
+
+                        Button
+                        {
+                            text:"add/update"
                             Layout.column: 1
                             Layout.row: 3
-                            Layout.alignment: Qt.AlignCenter
+                            Layout.alignment: Qt.AlignLeft
                             onClicked:
                             {
                                 youtubedl.addNewPlaylist(playlistTextField.text, linkTextField.text)
@@ -182,7 +192,7 @@ Rectangle
                     ScrollView{
                         id:scrollList
                         width: leftFrame.width
-                        height: 380
+                        height: 420
 
                         ListView
                         {
@@ -232,24 +242,31 @@ Rectangle
                                 anchors.fill: parent
                                 onClicked:
                                 {
-                                    console.log(playlistsModel.get(index).name)
-                                    console.log(dataObject.name)
                                     listView.currentIndex=index
+                                    playlistTextField.text=dataObject.name
+                                    linkTextField.text=dataObject.link
                                 }
                             }
                         }
                     }
 
-                    Column{
+
+                    Row
+                    {
+                        spacing: 20
+                        x:230
+
                         Button
                         {
-                            x:10
-                            text:"remove"
+                            x:200
+                            text:"reset"
                             onClicked:
                             {
-                                youtubedl.removePlaylist(listView.currentIndex, playlistsModel.get(listView.currentIndex).name)
+                                playlistsModel.clear()
+                                youtubedl.loadPlaylists()
                             }
                         }
+
 
                         Button
                         {
@@ -337,6 +354,8 @@ Rectangle
     Component.onCompleted:
     {
         youtubedl.loadPlaylists()
+        playlistTextField.text=playlistsModel.get(0).name
+        linkTextField.text=playlistsModel.get(0).link
     }
 }
 

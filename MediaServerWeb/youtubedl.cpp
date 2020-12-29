@@ -31,14 +31,16 @@ void Youtubedl::save()
 
 void Youtubedl::addNewPlaylist(const QString playlistName, const QString link)
 {
-   std::map<QString, QString> mConfigsParameters;
-   mConfigsParameters.insert(std::make_pair("name",playlistName));
-   mConfigsParameters.insert(std::make_pair("link",link));
-   vConfigs.push_back(HeadersConfig("["+playlistName+"]",mConfigsParameters));
-   playlistObjectModel->append(new PlaylistObject(playlistName,link));
+    removePlaylist(playlistName);
+
+    std::map<QString, QString> mConfigsParameters;
+    mConfigsParameters.insert(std::make_pair("name",playlistName));
+    mConfigsParameters.insert(std::make_pair("link",link));
+    vConfigs.push_back(HeadersConfig("["+playlistName+"]",mConfigsParameters));
+    playlistObjectModel->append(new PlaylistObject(playlistName,link));
 }
 
-void Youtubedl::removePlaylist(const int index, const QString playlistName)
+void Youtubedl::removePlaylist(const QString playlistName)
 {
     for (auto it = vConfigs.begin(); it != vConfigs.end(); ++it)
     {
@@ -50,8 +52,9 @@ void Youtubedl::removePlaylist(const int index, const QString playlistName)
         if(header==playlistName)
         {
             vConfigs.erase(it);
+            auto index = playlistObjectModel->getIndex(playlistName);
+            playlistObjectModel->remove(index);
             break;
         }
     }
-    playlistObjectModel->remove(index);
 }

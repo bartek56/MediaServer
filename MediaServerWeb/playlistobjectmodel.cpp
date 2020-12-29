@@ -1,5 +1,5 @@
 #include "playlistobjectmodel.h"
-
+#include "playlistobject.h"
 
 PlaylistObjectModel::PlaylistObjectModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -64,15 +64,15 @@ void PlaylistObjectModel::insert(QObject *o, int i)
 
 void PlaylistObjectModel::remove(int index)
 {
-   if(index>=0 && index<m_data.count())
-   {
-       beginRemoveRows(QModelIndex(),index,index);
-       m_data.removeAt(index);
+    if(index>=0 && index<m_data.count())
+    {
+        beginRemoveRows(QModelIndex(),index,index);
+        m_data.removeAt(index);
 
-       emit countChanged(count());
+        emit countChanged(count());
 
-       endRemoveRows();
-   }
+        endRemoveRows();
+    }
 }
 
 QObject* PlaylistObjectModel::get(int i)
@@ -80,6 +80,29 @@ QObject* PlaylistObjectModel::get(int i)
     if(i >= 0 && i < m_data.count())
         return m_data[i];
     return 0;
+}
+
+int PlaylistObjectModel::getIndex(const QString name)
+{
+    int index=0;
+    for(auto it=m_data.begin(); it!=m_data.end(); ++it)
+    {
+        PlaylistObject* playlist = qobject_cast<PlaylistObject*>(*it);
+
+        if(playlist->name()==name)
+        {
+            return index;
+        }
+        index++;
+    }
+    return 0;
+}
+
+void PlaylistObjectModel::clear()
+{
+    beginResetModel();
+    m_data.clear();
+    endResetModel();
 }
 
 QQmlListProperty<QObject> PlaylistObjectModel::content()

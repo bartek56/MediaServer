@@ -21,7 +21,7 @@ public:
     Q_INVOKABLE void save();
 
     Q_INVOKABLE void addNewPlaylist(const QString playlistName, const QString link);
-    Q_INVOKABLE void removePlaylist(const int index, const QString playlistName);
+    Q_INVOKABLE void removePlaylist(const QString playlistName);
 
 
 private:

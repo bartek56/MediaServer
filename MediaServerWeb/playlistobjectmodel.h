@@ -29,6 +29,8 @@ public slots:
     Q_INVOKABLE void insert(QObject* o, int i);
     Q_INVOKABLE void remove(int i);
     Q_INVOKABLE QObject* get(int i);
+    Q_INVOKABLE int getIndex(const QString name);
+    Q_INVOKABLE void clear();
 
     static void dataObjectAppend(QQmlListProperty<QObject> *list, QObject *e);
     static int dataObjectCount(QQmlListProperty<QObject> *list);
