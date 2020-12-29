@@ -18,6 +18,11 @@ public:
     }
 
     Q_INVOKABLE void loadPlaylists();
+    Q_INVOKABLE void save();
+
+    Q_INVOKABLE void addNewPlaylist(const QString playlistName, const QString link);
+    Q_INVOKABLE void removePlaylist(const int index, const QString playlistName);
+
 
 private:
     const QString YOUTUBEDL_CONFIGFILE = "/etc/mediaserver/youtubedl.ini";

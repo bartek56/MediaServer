@@ -146,6 +146,7 @@ Rectangle
                         }
                         TextField
                         {
+                            id: playlistTextField
                             height: 30
                             text: "New Playlist"
                             Layout.alignment: Qt.AlignCenter
@@ -158,6 +159,7 @@ Rectangle
                         }
                         TextField
                         {
+                            id: linkTextField
                             height: 30
                             Layout.alignment: Qt.AlignCenter
 
@@ -170,6 +172,10 @@ Rectangle
                             Layout.column: 1
                             Layout.row: 3
                             Layout.alignment: Qt.AlignCenter
+                            onClicked:
+                            {
+                                youtubedl.addNewPlaylist(playlistTextField.text, linkTextField.text)
+                            }
                         }
                     }
 
@@ -239,12 +245,20 @@ Rectangle
                         {
                             x:10
                             text:"remove"
+                            onClicked:
+                            {
+                                youtubedl.removePlaylist(listView.currentIndex, playlistsModel.get(listView.currentIndex).name)
+                            }
                         }
 
                         Button
                         {
                             x:370
                             text:"apply"
+                            onClicked:
+                            {
+                                youtubedl.save()
+                            }
                         }
                     }
                 }

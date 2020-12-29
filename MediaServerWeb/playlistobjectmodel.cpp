@@ -62,10 +62,24 @@ void PlaylistObjectModel::insert(QObject *o, int i)
     endInsertRows();
 }
 
+void PlaylistObjectModel::remove(int index)
+{
+   if(index>=0 && index<m_data.count())
+   {
+       beginRemoveRows(QModelIndex(),index,index);
+       m_data.removeAt(index);
+
+       emit countChanged(count());
+
+       endRemoveRows();
+   }
+}
+
 QObject* PlaylistObjectModel::get(int i)
 {
-    Q_ASSERT(i >= 0 && i <= m_data.count());
-    return m_data[i];
+    if(i >= 0 && i < m_data.count())
+        return m_data[i];
+    return 0;
 }
 
 QQmlListProperty<QObject> PlaylistObjectModel::content()
