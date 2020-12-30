@@ -87,6 +87,9 @@ public:
     Q_INVOKABLE void torrentClientStatusSwitch_OnClicked(const bool torrentClientStatusSwitchIsChecked);
     Q_INVOKABLE void torrentClientStatusButton_OnClicked(QObject *torrentClientStatusButton, const QString torrentClientStatusButtonText);
 
+    bool checkSystemdStatusExist(const QString &serviceName);
+    bool checkSystemdStatusIsEnabled(const QString &serviceNames);
+    bool checkSystemdStatusIsActive(const QString &serviceName);
 
 private:
     // IP Adress
@@ -108,7 +111,6 @@ private:
 
     void setCurrentIpAddressConfig(const int &networkInterfaceComboboxIndex);
 
-
     // Wifi Config
     QObject* bConnect;
     QObject* bScanNetwork;
@@ -117,9 +119,6 @@ private:
     EditWifiConfigFile editWifiConfigFile;
     std::vector<WifiConfigsName> vWifiConfigs;
 
-    bool checkSystemdStatusExist(const QString &serviceName);
-    bool checkSystemdStatusIsEnabled(const QString &serviceNames);
-    bool checkSystemdStatusIsActive(const QString &serviceName);
     void StatusSwitch_onClicked(const bool statusSwitchIsChecked, const QString &serviceName);
     void StatusButton_onClicked(QObject *statusButton, const QString statusButtonText, const QString &serviceName);
     void checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString nameservice);

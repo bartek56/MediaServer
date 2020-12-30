@@ -9,6 +9,12 @@ Youtubedl::Youtubedl(QObject *parent) : QObject(parent)
 {
 
 }
+
+void Youtubedl::checkStatus(QObject *autoStartupSwitch)
+{
+    autoStartupSwitch->setProperty("checked",
+                     QVariant(settings.checkSystemdStatusIsActive("youtubedl.timer")));
+}
 void Youtubedl::loadPlaylists()
 {
     vConfigs = editHeadersConfigFile.OpenFile();
@@ -56,5 +62,35 @@ void Youtubedl::removePlaylist(const QString playlistName)
             playlistObjectModel->remove(index);
             break;
         }
+    }
+}
+
+void Youtubedl::startDownload(QObject *bStartDownload)
+{
+    bStartDownload->setProperty("enabled",QVariant(false));
+    QProcess *process = new QProcess();
+    process->setProcessChannelMode(QProcess::SeparateChannels);
+    process->setReadChannel(QProcess::StandardOutput);
+
+    connect(process,QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            [=]()
+    {
+        bStartDownload->setProperty("enabled",QVariant(true));
+    });
+
+    process->start("python3 /opt/downloadFromYoutube.py >> /var/log/youtubedl.log");
+}
+
+void Youtubedl::autoStartupSwitch_OnClicked(bool autoStartupIsEnable)
+{
+    if(autoStartupIsEnable)
+    {
+        QProcess::execute("systemctl enable youtubedl.timer");
+        QProcess::execute("systemctl start youtubedl.timer");
+    }
+    else
+    {
+        QProcess::execute("systemctl stop youtubedl.timer");
+        QProcess::execute("systemctl disable youtubedl.timer");
     }
 }

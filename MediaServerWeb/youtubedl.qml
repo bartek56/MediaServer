@@ -74,7 +74,6 @@ Rectangle
         }
     }
 
-
     Youtubedl
     {
         id:youtubedl
@@ -91,7 +90,6 @@ Rectangle
             id: mainFrame
             width: xSizeActual
             height: ySizeActual
-
             clip: true
             color: "red"
             border.color: Qt.lighter(color)
@@ -192,7 +190,7 @@ Rectangle
                     ScrollView{
                         id:scrollList
                         width: leftFrame.width
-                        height: 420
+                        height: 360
 
                         ListView
                         {
@@ -209,7 +207,8 @@ Rectangle
                         {
                             id: wrapper
                             height: 45
-                            width: leftFrame.width
+                            width: leftFrame.width-10
+                            x: 5
 
                             Column
                             {
@@ -230,7 +229,6 @@ Rectangle
                                 {
                                     id: linkText
                                     readOnly: true
-                                    //fontSizeMode: Text.Fit
                                     text: dataObject.link
                                     font.pointSize: 8
                                     color: wrapper.ListView.isCurrentItem ? "red" : "black"
@@ -250,31 +248,56 @@ Rectangle
                         }
                     }
 
-
-                    Row
+                    Column
                     {
-                        spacing: 20
-                        x:230
-
-                        Button
+                        Row
                         {
-                            x:200
-                            text:"reset"
-                            onClicked:
+                            spacing: 10
+                            x:20
+                            Switch
                             {
-                                playlistsModel.clear()
-                                youtubedl.loadPlaylists()
+                                id: autoStartupSwitch
+                                text: qsTr("Auto Startup")
+                                checked: false
+                                font.pointSize: 10
+                                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                onClicked:
+                                {
+                                    youtubedl.autoStartupSwitch_OnClicked(autoStartupSwitch.checked)
+                                }
+                            }
+                            Button
+                            {
+                                id: startDownloadButton
+                                text:"start"
+                                onClicked:
+                                {
+                                    youtubedl.startDownload(startDownloadButton)
+                                }
                             }
                         }
-
-
-                        Button
+                        Row
                         {
-                            x:370
-                            text:"apply"
-                            onClicked:
+                            topPadding: 20
+                            spacing: 20
+                            x:260
+                            Button
                             {
-                                youtubedl.save()
+                                text:"reset"
+                                onClicked:
+                                {
+                                    playlistsModel.clear()
+                                    youtubedl.loadPlaylists()
+                                }
+                            }
+
+                            Button
+                            {
+                                text:"apply"
+                                onClicked:
+                                {
+                                    youtubedl.save()
+                                }
                             }
                         }
                     }
@@ -354,6 +377,7 @@ Rectangle
     Component.onCompleted:
     {
         youtubedl.loadPlaylists()
+        youtubedl.checkStatus(autoStartupSwitch)
         playlistTextField.text=playlistsModel.get(0).name
         linkTextField.text=playlistsModel.get(0).link
     }
