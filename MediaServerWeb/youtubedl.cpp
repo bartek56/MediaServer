@@ -78,7 +78,75 @@ void Youtubedl::startDownload(QObject *bStartDownload)
         bStartDownload->setProperty("enabled",QVariant(true));
     });
 
-    process->start("python3 /opt/downloadFromYoutube.py >> /var/log/youtubedl.log");
+    process->start("python3 /opt/downloadFromYoutube.py --playlists  > /var/log/youtubedl.log");
+}
+
+void Youtubedl::download480p(const QString link, QObject *bStartDownload)
+{
+    bStartDownload->setProperty("enabled",QVariant(false));
+    QProcess *process = new QProcess();
+    process->setProcessChannelMode(QProcess::SeparateChannels);
+    process->setReadChannel(QProcess::StandardOutput);
+
+    connect(process,QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            [=]()
+    {
+        bStartDownload->setProperty("enabled",QVariant(true));
+    });
+
+    process->start("python3 /opt/downloadFromYoutube.py --video " + link + " --quality l  >> /var/log/quickdownload.log");
+
+}
+
+void Youtubedl::download720p(const QString link, QObject *bStartDownload)
+{
+    bStartDownload->setProperty("enabled",QVariant(false));
+    QProcess *process = new QProcess();
+    process->setProcessChannelMode(QProcess::SeparateChannels);
+    process->setReadChannel(QProcess::StandardOutput);
+
+    connect(process,QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            [=]()
+    {
+        bStartDownload->setProperty("enabled",QVariant(true));
+    });
+
+    process->start("python3 /opt/downloadFromYoutube.py --video " + link + " --quality m >> /var/log/quickdownload.log");
+
+}
+
+void Youtubedl::download4K(const QString link, QObject *bStartDownload)
+{
+    bStartDownload->setProperty("enabled",QVariant(false));
+    QProcess *process = new QProcess();
+    process->setProcessChannelMode(QProcess::SeparateChannels);
+    process->setReadChannel(QProcess::StandardOutput);
+
+    connect(process,QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            [=]()
+    {
+        bStartDownload->setProperty("enabled",QVariant(true));
+    });
+
+    process->start("python3 /opt/downloadFromYoutube.py --video " + link + " --quality h >> /var/log/quickdownload.log");
+
+}
+
+void Youtubedl::downloadmp3(const QString link, QObject *bStartDownload)
+{
+    bStartDownload->setProperty("enabled",QVariant(false));
+    QProcess *process = new QProcess();
+    process->setProcessChannelMode(QProcess::SeparateChannels);
+    process->setReadChannel(QProcess::StandardOutput);
+
+    connect(process,QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            [=]()
+    {
+        bStartDownload->setProperty("enabled",QVariant(true));
+    });
+
+    process->start("python3 /opt/downloadFromYoutube.py --music " + link + " >> /var/log/quickdownload.log");
+
 }
 
 void Youtubedl::autoStartupSwitch_OnClicked(bool autoStartupIsEnable)

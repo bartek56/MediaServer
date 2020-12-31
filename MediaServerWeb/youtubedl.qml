@@ -339,6 +339,7 @@ Rectangle
                         }
                         TextField
                         {
+                            id: quickdownloadLinkTextField
                             Layout.rightMargin: 10
                             Layout.alignment: Qt.AlignRight
                             Layout.preferredWidth:350
@@ -347,25 +348,57 @@ Rectangle
                         }
                         RadioButton
                         {
+                            id: video480p
+                            Layout.alignment: Qt.AlignCenter
+                            text:"Video 480p"
+                        }
+                        RadioButton
+                        {
+                            id: video720p
+                            checked: true
+                            Layout.alignment: Qt.AlignCenter
+                            text:"Video 720p"
+                        }
+
+                        RadioButton
+                        {
+                            id: video4k
+                            Layout.alignment: Qt.AlignCenter
+                            text:"Video 4K"
+                        }
+                        RadioButton
+                        {
+                            id: audio
                             Layout.alignment: Qt.AlignCenter
                             text:"Audio MP3"
-                        }
-                        RadioButton
-                        {
-                            Layout.alignment: Qt.AlignCenter
-                            text:"Video MP4 480p"
-                        }
-                        RadioButton
-                        {
-                            Layout.alignment: Qt.AlignCenter
-                            text:"Video MP4 720p"
+                            Layout.columnSpan: 3
                         }
 
                         Button
                         {
+                            id:quickdownloadButton
                             Layout.columnSpan: 3
                             Layout.alignment: Qt.AlignCenter
                             text: "Download"
+                            onClicked:
+                            {
+                                if(video4k.checked)
+                                {
+                                    youtubedl.download4K(quickdownloadLinkTextField.text, quickdownloadButton);
+                                }
+                                else if (video720p.checked)
+                                {
+                                    youtubedl.download720p(quickdownloadLinkTextField.text, quickdownloadButton);
+                                }
+                                else if (video480p.checked)
+                                {
+                                    youtubedl.download480p(quickdownloadLinkTextField.text, quickdownloadButton)
+                                }
+                                else if (audio.checked)
+                                {
+                                    youtubedl.downloadmp3(quickdownloadLinkTextField.text, quickdownloadButton);
+                                }
+                            }
                         }
                     }
                 }
