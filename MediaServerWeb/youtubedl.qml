@@ -191,6 +191,8 @@ Rectangle
                         id:scrollList
                         width: leftFrame.width
                         height: 360
+                        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+                        ScrollBar.vertical.width: 12
 
                         ListView
                         {
@@ -355,7 +357,6 @@ Rectangle
                         RadioButton
                         {
                             id: video720p
-                            checked: true
                             Layout.alignment: Qt.AlignCenter
                             text:"Video 720p"
                         }
@@ -371,6 +372,7 @@ Rectangle
                             id: audio
                             Layout.alignment: Qt.AlignCenter
                             text:"Audio MP3"
+                            checked: true
                             Layout.columnSpan: 3
                         }
 
