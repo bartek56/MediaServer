@@ -77,8 +77,8 @@ void Youtubedl::startDownload(QObject *bStartDownload)
     {
         bStartDownload->setProperty("enabled",QVariant(true));
     });
-
-    process->start("python3 /opt/downloadFromYoutube.py --playlists  > /var/log/youtubedl.log");
+    process->setStandardOutputFile("/var/log/youtubedl.log");
+    process->start("python3 /opt/downloadFromYoutube.py --playlists");
 }
 
 void Youtubedl::download480p(const QString link, QObject *bStartDownload)
@@ -94,8 +94,8 @@ void Youtubedl::download480p(const QString link, QObject *bStartDownload)
         bStartDownload->setProperty("enabled",QVariant(true));
     });
 
-    process->start("python3 /opt/downloadFromYoutube.py --video " + link + " --quality l  >> /var/log/quickdownload.log");
-
+   process->setStandardOutputFile("/var/log/quickdownload.log",QIODevice::Append);
+   process->start("python3 /opt/downloadFromYoutube.py --video " + link + " --quality l");
 }
 
 void Youtubedl::download720p(const QString link, QObject *bStartDownload)
@@ -111,8 +111,8 @@ void Youtubedl::download720p(const QString link, QObject *bStartDownload)
         bStartDownload->setProperty("enabled",QVariant(true));
     });
 
-    process->start("python3 /opt/downloadFromYoutube.py --video " + link + " --quality m >> /var/log/quickdownload.log");
-
+    process->setStandardOutputFile("/var/log/quickdownload.log",QIODevice::Append);
+    process->start("python3 /opt/downloadFromYoutube.py --video " + link + " --quality m");
 }
 
 void Youtubedl::download4K(const QString link, QObject *bStartDownload)
@@ -128,8 +128,8 @@ void Youtubedl::download4K(const QString link, QObject *bStartDownload)
         bStartDownload->setProperty("enabled",QVariant(true));
     });
 
-    process->start("python3 /opt/downloadFromYoutube.py --video " + link + " --quality h >> /var/log/quickdownload.log");
-
+    process->setStandardOutputFile("/var/log/quickdownload.log",QIODevice::Append);
+    process->start("python3 /opt/downloadFromYoutube.py --video " + link + " --quality h ");
 }
 
 void Youtubedl::downloadmp3(const QString link, QObject *bStartDownload)
@@ -145,8 +145,8 @@ void Youtubedl::downloadmp3(const QString link, QObject *bStartDownload)
         bStartDownload->setProperty("enabled",QVariant(true));
     });
 
-    process->start("python3 /opt/downloadFromYoutube.py --music " + link + " >> /var/log/quickdownload.log");
-
+    process->setStandardOutputFile("/var/log/quickdownload.log",QIODevice::Append);
+    process->start("python3 /opt/downloadFromYoutube.py --music " + link);
 }
 
 void Youtubedl::autoStartupSwitch_OnClicked(bool autoStartupIsEnable)
