@@ -2,6 +2,7 @@
 
 #include <QFile>
 #include <QTextStream>
+#include <QDebug>
 
 std::vector<HeadersConfig> EditHeadersConfigFile::OpenFile()
 {
@@ -19,23 +20,32 @@ std::vector<HeadersConfig> EditHeadersConfigFile::OpenFile()
         std::string strLine(line);
         QString qStrLine = QString(line);
 
-        if(!strLine.find('['))
+        if(strLine.size()>2) // skip empty line
         {
-            if(!mConfigsParameters.empty())
+            if(!strLine.find('['))
             {
-                vConfigsName.push_back(HeadersConfig(parameterName,mConfigsParameters));
-                mConfigsParameters.clear();
+                if(!mConfigsParameters.empty())
+                {
+                    vConfigsName.push_back(HeadersConfig(parameterName,mConfigsParameters));
+                    mConfigsParameters.clear();
+                }
+                parameterName=line.remove(line.length()-1,1);
             }
-            parameterName=line.remove(line.length()-1,1);
-        }
-        else
-        {
-            auto parameter = line.split('=');
-            auto parameterName = qStrLine.section('=',0,0);
-            auto parameterValue = qStrLine.section('=',1);
+            else
+            {
+                QString parameterName;
+                QString parameterValue;
+                qDebug() << qStrLine;
 
-            parameterValue.remove(parameterValue.length()-1,1); // remove '\n' on last sign
-            mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
+                if(qStrLine.contains(" = "))
+                    qStrLine.replace(" = ","=");
+
+                parameterName = qStrLine.section('=',0,0);
+                parameterValue = qStrLine.section('=',1);
+
+                parameterValue.remove(parameterValue.length()-1,1); // remove '\n' on last sign
+                mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
+            }
         }
     }
     vConfigsName.push_back(HeadersConfig(parameterName,mConfigsParameters));
