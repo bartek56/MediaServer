@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
 import SettingsLib 1.0
 import SettingsScreensaverLib 1.0
+import SettingsPackagesLib 1.0
 
 Dialog
 {
@@ -26,6 +27,11 @@ Dialog
     SettingsScreensaver
     {
         id:settingsScreensaver
+    }
+
+    SettingsPackages
+    {
+        id:settingsPackages
     }
 
     Loader {
@@ -54,6 +60,7 @@ Dialog
     {
         id: tabBar
         width: parent.width
+
         TabButton {
             text: qsTr("Status")
         }
@@ -68,6 +75,10 @@ Dialog
         TabButton {
             text: qsTr("Screen Saver")
         }
+
+        TabButton {
+            text: qsTr("Update")
+        }
     }
 
     StackLayout
@@ -75,6 +86,7 @@ Dialog
         id: stackLayout
         width: parent.width
         currentIndex: tabBar.currentIndex
+
         Item
         {
             id: statusTag
@@ -477,7 +489,7 @@ Dialog
                         settings.connect(networksComboBox.currentText,passwordTextField.text)
                         passwordTextField.clear()
                     }
-                     onPressed: { busySettings.running=true }
+                    onPressed: { busySettings.running=true }
                     onReleased:{ busySettings.running=false }
 
                 }
@@ -579,8 +591,8 @@ Dialog
                     onDisplayTextChanged:
                     {
                         settings.loadIpAddressConfiguration(networkInterfaceComboBox.currentIndex, dynamicIPRadioButton,
-                                                   staticIPRadioButton,ipadressTextField,netmaskTextField,
-                                                   gatewayTextField,dnsserverTextField);
+                                                            staticIPRadioButton,ipadressTextField,netmaskTextField,
+                                                            gatewayTextField,dnsserverTextField);
                     }
                 }
 
@@ -859,6 +871,116 @@ Dialog
                 onReleased:{ busySettings.running=false }
             }
         }
+
+        Item
+        {
+            id: updateTag
+
+            GridLayout {
+                id: gridLayout
+                x: 22
+                y: 60
+                width: 378
+                height: 290
+                rows: 4
+                columns: 2
+
+                Text {
+                    text: qsTr("Package")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    font.pixelSize: 25
+                }
+
+                ComboBox {
+                    id: packageComboBox
+                    Layout.fillWidth: true
+                    onDisplayTextChanged:
+                    {
+                        settingsPackages.cbPackage_onDisplayTextChanged(packageComboBox.currentText, packageSpecificationTextField);
+                    }
+                }
+
+                Button {
+                    id: upgradeButton
+                    text: qsTr("Upgrade")
+                    Layout.rowSpan: 2
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.columnSpan: 2
+                    enabled: false
+                    onClicked:
+                    {
+                        settingsPackages.bUpgrade_onClicked(packageComboBox.currentText)
+                        settingsPackages.bUpdate_onClicked(packageComboBox, packageSpecificationTextField);
+                    }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
+                }
+
+                RowLayout {
+                    id: rowLayout1
+                    height: 100
+                    Layout.preferredHeight: 50
+                    Layout.preferredWidth: 300
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    Layout.columnSpan: 2
+
+                    Button {
+                        id: updateButton
+                        text: qsTr("Update")
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settingsPackages.bUpdate_onClicked(packageComboBox, packageSpecificationTextField);
+                            upgradeAllButton.enabled=true;
+                            upgradeButton.enabled=true;
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+                    }
+
+                    Button {
+                        id: upgradeAllButton
+                        text: qsTr("Upgrade all")
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        enabled: false
+                        onClicked:
+                        {
+                            settingsPackages.bUpgradeAll_onClicked()
+                            settingsPackages.bUpdate_onClicked(packageComboBox, packageSpecificationTextField);
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+                    }
+                }
+            }
+
+            GridLayout {
+                id: gridLayout1
+                x: 457
+                y: 60
+                width: 330
+                height: 290
+                rows: 2
+                Text {
+                    text: qsTr("Package Specification")
+                    horizontalAlignment: Text.AlignLeft
+
+                    font.pixelSize: 25
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                }
+
+                Text {
+                    id: packageSpecificationTextField
+                    wrapMode: Text.WordWrap
+                    Layout.fillWidth: true
+                    font.pixelSize: 10
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                }
+                columns: 1
+            }
+        }
     }
 
     RowLayout {
@@ -940,7 +1062,7 @@ Dialog
         settings.checkFileBrowserSystemdStatus(fileBrowserStatusSwitch,fileBrowserStatusButton)
         settings.checkFTPSystemdStatus(ftpStatusSwitch,ftpStatusButton)
         settings.checkTorrentClientSystemdStatus(torrentClientStatusSwitch,torrentClientStatusButton)
-
-        busyIndication.running = false
     }
 }
+
+

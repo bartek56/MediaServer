@@ -35,7 +35,6 @@ std::vector<HeadersConfig> EditHeadersConfigFile::OpenFile()
             {
                 QString parameterName;
                 QString parameterValue;
-                qDebug() << qStrLine;
 
                 if(qStrLine.contains(" = "))
                     qStrLine.replace(" = ","=");
