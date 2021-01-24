@@ -52,7 +52,7 @@ void SettingsPackages::bUpgrade_onClicked(const QString packageName)
      QProcess upgradeProcess;
      upgradeProcess.setProcessChannelMode(QProcess::MergedChannels);
      upgradeProcess.start("opkg install " + packageName);
-     while(upgradeProcess.waitForFinished());
+     while(upgradeProcess.waitForFinished(-1));
 }
 
 void SettingsPackages::bUpgradeAll_onClicked()
@@ -60,7 +60,7 @@ void SettingsPackages::bUpgradeAll_onClicked()
     QProcess upgradeProcess;
     upgradeProcess.setProcessChannelMode(QProcess::MergedChannels);
     upgradeProcess.start("opkg upgrade");
-    while(upgradeProcess.waitForFinished());
+    while(upgradeProcess.waitForFinished(-1));
 }
 
 void SettingsPackages::cbPackage_onDisplayTextChanged(const QString packageName, QObject *packageSpecificationText)
