@@ -1,6 +1,7 @@
 TEMPLATE = lib
 CONFIG += staticlib
 CONFIG -= app_bundle
+CONFIG += c++14
 QT += quick
 
 SOURCES += \
