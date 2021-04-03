@@ -102,7 +102,7 @@ Rectangle{
             {
                 id: tClockDate
                 verticalAlignment: Text.AlignVCenter
-                anchors.right:parent.right
+                Layout.alignment: Qt.AlignRight
                 font
                 {
                     family: "Comic Sans MS"
@@ -153,10 +153,10 @@ Rectangle{
         y: 57
         width: 800
         height: 423
-        anchors.right: parent.right
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        anchors.top: parent.top
+        anchors.right: mainRectangle.right
+        anchors.left: mainRectangle.left
+        anchors.bottom: mainRectangle.bottom
+        anchors.top: mainRectangle.top
 
         RowLayout {
             id: rowLayout
@@ -213,14 +213,14 @@ Rectangle{
                 background: Rectangle {color: "transparent"}
 
                 Image {
-                    id: gmplayerImage
+                    id: quotesImage
                     x: 37
                     y: 0
                     width: 116
                     height: 97
                     anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.Stretch
-                    source: "icons/gmplayer.png"
+                    source: "icons/quotes.png"
                 }
                 Text {
                     id: gmplayerText
@@ -228,7 +228,7 @@ Rectangle{
                     y: 94
                     width: 50
                     height: 26
-                    text: qsTr("Video")
+                    text: qsTr("Quotes")
                     font.letterSpacing: 1
                     anchors.horizontalCenter: parent.horizontalCenter
                     verticalAlignment: Text.AlignVCenter
@@ -238,7 +238,7 @@ Rectangle{
 
                 onClicked:
                 {
-                    mainWindow.startVideoApplication()
+                    loaderConfigWindow.setSource("quotes.qml")
                 }
             }
 

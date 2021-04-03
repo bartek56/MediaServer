@@ -22,17 +22,6 @@ void MainWindow::startMusicApplication()
     QProcess::startDetached("systemctl stop start.service");
 }
 
-void MainWindow::startVideoApplication()
-{
-    /*
-    QString commend2 = "/opt/startVideoPlayer.sh";
-    qint64 pid2;
-    QProcess appProcess2;
-    appProcess2.startDetached("sh", QStringList() << "-c" << commend2,QProcess::nullDevice(),&pid2);
-    MainWindow::mainView->destroy();
-    */
-}
-
 void MainWindow::startBrowser()
 {
     QProcess::startDetached("systemctl start pcmanfm.service");

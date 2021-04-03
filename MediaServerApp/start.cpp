@@ -17,6 +17,7 @@
 #include "ViewModel/napimanager.h"
 #include "ViewModel/settingsscreensaver.h"
 #include "ViewModel/settingspackages.h"
+#include "ViewModel/quotes.h"
 #include "screensavermanager.h"
 
 
@@ -77,6 +78,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<MassStorage>("MassStorageLib", 1, 0, "MassStorage");
     qmlRegisterType<AlarmView>("AlarmViewLib", 1, 0, "AlarmView");
     qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
+    qmlRegisterType<Quotes>("QuotesLib", 1, 0, "Quotes");
 
     view->setWidth(800);
     view->setHeight(480);
@@ -85,13 +87,13 @@ int main(int argc, char *argv[])
     ScreenSaverManager screen;
     screen.Init();
 
+
     ScreenSaverHelper screensaverhelper;
     view->rootContext()->setContextProperty("screensaverhelper",&screensaverhelper);
 
     QObject::connect(ScreenSaverManager::timer, &QTimer::timeout, [&screensaverhelper](){
            emit screensaverhelper.screensavertimeout();
         });
-
 
     if(isItAlarm())
         view->setSource(QString("qrc:/alarm.qml"));

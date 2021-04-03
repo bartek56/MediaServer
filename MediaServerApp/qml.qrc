@@ -10,7 +10,6 @@
         <file>icons/gmpc.svg</file>
         <file>icons/alarm.png</file>
         <file>icons/gqview.png</file>
-        <file>icons/gmplayer.png</file>
         <file>icons/samba.png</file>
         <file>icons/ftp.png</file>
         <file>icons/multimedia.png</file>
@@ -18,9 +17,11 @@
         <file>icons/pcmanfm.png</file>
         <file>icons/poweroff.png</file>
         <file>icons/qnapi.png</file>
+        <file>icons/quotes.png</file>
         <file>screensavermanager.qml</file>
         <file>screensaver.qml</file>
         <file>alarm.qml</file>
         <file>napi.qml</file>
+        <file>quotes.qml</file>
     </qresource>
 </RCC>

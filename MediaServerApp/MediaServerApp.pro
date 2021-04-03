@@ -21,6 +21,7 @@ LIBS += -L../MediaServerLib -lMediaServerLib
 SOURCES += \
     ViewModel/mainwindow.cpp \
     ViewModel/sambaconfig.cpp \
+    ViewModel/quotes.cpp \
     start.cpp \
     ViewModel/sambaconfigexternaldevice1.cpp \
     ViewModel/sambaconfigexternaldevice2.cpp \
@@ -60,6 +61,7 @@ HEADERS += \
     bluetoothctl.h \
     ViewModel/massstorage.h \
     ViewModel/multimediaconfig.h \
+    ViewModel/quotes.h \
     screensavermanager.h \
     ViewModel/screensaver.h \
     ViewModel/napimanager.h \

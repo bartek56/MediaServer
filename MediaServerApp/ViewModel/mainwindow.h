@@ -16,7 +16,6 @@ public:
     explicit MainWindow(QObject *parent = nullptr);
     Q_INVOKABLE void startPicturesApplication();
     Q_INVOKABLE void startMusicApplication();
-    Q_INVOKABLE void startVideoApplication();
     Q_INVOKABLE void startBrowser();
     Q_INVOKABLE void pairWithBluetoothDevice();
     Q_INVOKABLE void pairAndTrustWithBluetoothDevice();
