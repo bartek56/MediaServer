@@ -9,11 +9,17 @@ Rectangle{
     id: alarmDialog
     visible: true
     width: 800
-    height: 440
+    height: 480
 
     AlarmView
     {
         id:alarmView
+    }
+    Loader {
+        id: loaderWindow
+        anchors.fill: parent
+        active: true
+        asynchronous: true
     }
 
     GridLayout {
@@ -122,6 +128,8 @@ Rectangle{
             onClicked:
             {
                 alarmView.stopAlarm()
+                loaderWindow.setSource("quotes.qml")
+
             }
             onPressed: { busyAlarm.running=true }
             onReleased:{ busyAlarm.running=false }

@@ -20,7 +20,6 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent)
     }
 }
 
-
 void AlarmView::stopAlarm()
 {
     auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration();
@@ -28,7 +27,6 @@ void AlarmView::stopAlarm()
     QString defaultVolume = alarmConfigMap["defaultVolume"];
     QProcess::startDetached("mpc volume "+defaultVolume);
     QProcess::startDetached("systemctl stop alarm_snooze.timer");
-    QProcess::startDetached("systemctl start gmpc");
 
     QFile systemdVarFile ("/etc/mediaserver/systemdVariables");
 
@@ -36,21 +34,15 @@ void AlarmView::stopAlarm()
 
     arg.push_back("ARG1=stop\n");
 
-     if (!systemdVarFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    if (!systemdVarFile.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
 
-     QTextStream streamOut(&systemdVarFile);
-     for (auto it = std::begin(arg); it!=std::end(arg); ++it)
-     {
-         streamOut << *it;
-     }
-     systemdVarFile.close();
-
-    if(isSnooze)
-        QProcess::startDetached("systemctl stop alarm_snooze.service");
-    else
-        QProcess::startDetached("systemctl stop alarm.service");
-
+    QTextStream streamOut(&systemdVarFile);
+    for (auto it = std::begin(arg); it!=std::end(arg); ++it)
+    {
+        streamOut << *it;
+    }
+    systemdVarFile.close();
 }
 
 void AlarmView::snooze5min()
@@ -95,42 +87,42 @@ void AlarmView::snooze(int min)
 
     file.close();
 
-     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
 
-     QTextStream out(&file);
-     for (auto it = std::begin(vUsers); it!=std::end(vUsers); ++it)
-     {
-         out << *it;
-     }
-     file.close();
+    QTextStream out(&file);
+    for (auto it = std::begin(vUsers); it!=std::end(vUsers); ++it)
+    {
+        out << *it;
+    }
+    file.close();
 
-     QFile systemdVarFile ("/etc/mediaserver/systemdVariables");
+    QFile systemdVarFile ("/etc/mediaserver/systemdVariables");
 
-     QStringList arg;
+    QStringList arg;
 
-     arg.push_back("ARG1=restart\n");
+    arg.push_back("ARG1=restart\n");
 
-      if (!systemdVarFile.open(QIODevice::WriteOnly | QIODevice::Text))
-         return;
+    if (!systemdVarFile.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
 
-      QTextStream streamOut(&systemdVarFile);
-      for (auto it = std::begin(arg); it!=std::end(arg); ++it)
-      {
-          streamOut << *it;
-      }
-     systemdVarFile.close();
+    QTextStream streamOut(&systemdVarFile);
+    for (auto it = std::begin(arg); it!=std::end(arg); ++it)
+    {
+        streamOut << *it;
+    }
+    systemdVarFile.close();
 
-     QProcess builder;
-     builder.setProcessChannelMode(QProcess::MergedChannels);
-     builder.start("systemctl daemon-reload");
+    QProcess builder;
+    builder.setProcessChannelMode(QProcess::MergedChannels);
+    builder.start("systemctl daemon-reload");
 
-     while(builder.waitForFinished());
-     QProcess::startDetached("mpc stop");
-     QProcess::startDetached("systemctl restart alarm_snooze.timer");
+    while(builder.waitForFinished());
+    QProcess::startDetached("mpc stop");
+    QProcess::startDetached("systemctl restart alarm_snooze.timer");
 
-     if(isSnooze)
-         QProcess::startDetached("systemctl stop alarm_snooze.service");
-     else
-         QProcess::startDetached("systemctl stop alarm.service");
+    if(isSnooze)
+        QProcess::startDetached("systemctl stop alarm_snooze.service");
+    else
+        QProcess::startDetached("systemctl stop alarm.service");
 }

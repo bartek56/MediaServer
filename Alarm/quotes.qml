@@ -9,8 +9,7 @@ Dialog
     id: quotesDialog
     visible: true
     width: 800
-    height: 440
-    topMargin: 40
+    height: 480
     margins: 0
     padding: 1
     modal: true
@@ -48,16 +47,9 @@ Dialog
             {
                 var responseString = xhr.responseText.toString();
                 var response = JSON.parse(responseString);
-                if(!response.hasOwnProperty('error'))
-                {
-                    quoteEnglish = response.contents.quotes[0].quote;
-                    authorEnglish = response.contents.quotes[0].author;
-                    imageLink = response.contents.quotes[0].background;
-                }
-                else
-                {
-                    request_test()
-                }
+                quoteEnglish = response.contents.quotes[0].quote;
+                authorEnglish = response.contents.quotes[0].author;
+                imageLink = response.contents.quotes[0].background;
             }
         }
         xhr.open("GET", "https://quotes.rest/qod", true);
@@ -73,7 +65,7 @@ Dialog
         id: englishQuoteText
         x: 35
         y: 31
-        width: 730
+        width: 700
         height: 105
         text: quoteEnglish
         fontSizeMode: Text.Fit
@@ -85,10 +77,10 @@ Dialog
 
     Text {
         id: authorEnglishText
-        x: 406
-        y: 142
+        x: 404
+        y: 151
         width: 351
-        height: 37
+        height: 40
         text: authorEnglish
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignRight
@@ -97,9 +89,9 @@ Dialog
 
     Text {
         id: polishQuoteText
-        x: 27
-        y: 185
-        width: 730
+        x: 35
+        y: 210
+        width: 700
         height: 105
         text: quotePolish
         font.pixelSize: 25
@@ -111,10 +103,10 @@ Dialog
 
     Text {
         id: polishAuthorText
-        x: 414
-        y: 296
+        x: 404
+        y: 321
         width: 351
-        height: 53
+        height: 40
         text: authorPolish
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignRight
@@ -122,30 +114,30 @@ Dialog
     }
 
     Button {
-        x: 56
-        y: 368
+        x: 60
+        y: 396
         opacity: 0.5
         text: qsTr("Save and Close")
         onClicked: {
-            quotes.save(quoteEnglish.toString(), authorEnglish.toString(),
+            quotes.saveAndClose(quoteEnglish.toString(), authorEnglish.toString(),
                         quotePolish.toString(), authorPolish.toString())
-            quotesDialog.close()
         }
     }
 
     Button {
         x: 646
-        y: 368
+        y: 396
         opacity: 0.5
         text: qsTr("Close")
         onClicked:
         {
-            quotesDialog.close()
+            quotes.close()
         }
     }
 
     Component.onCompleted:
     {
+//        request_test()
         request()
         quotes.getQuote(quotesDialog)
     }

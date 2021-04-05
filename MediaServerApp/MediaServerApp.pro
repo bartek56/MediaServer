@@ -29,7 +29,6 @@ SOURCES += \
     ViewModel/sambaconfiglocal.cpp \
     ViewModel/sambaconfigglobal.cpp \
     ViewModel/ftpconfig.cpp \
-    ViewModel/alarmview.cpp \
     bluetoothctl.cpp \
     ViewModel/massstorage.cpp \
     ViewModel/multimediaconfig.cpp \
@@ -57,7 +56,6 @@ HEADERS += \
     ViewModel/mainwindow.h \
     ViewModel/sambaconfig.h \
     ViewModel/ftpconfig.h \
-    ViewModel/alarmview.h \
     bluetoothctl.h \
     ViewModel/massstorage.h \
     ViewModel/multimediaconfig.h \

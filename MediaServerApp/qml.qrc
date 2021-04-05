@@ -20,7 +20,6 @@
         <file>icons/quotes.png</file>
         <file>screensavermanager.qml</file>
         <file>screensaver.qml</file>
-        <file>alarm.qml</file>
         <file>napi.qml</file>
         <file>quotes.qml</file>
     </qresource>

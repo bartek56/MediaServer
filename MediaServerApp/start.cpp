@@ -11,7 +11,6 @@
 #include "ViewModel/settings.h"
 #include "ViewModel/multimediaconfig.h"
 #include "ViewModel/alarmconfig.h"
-#include "ViewModel/alarmview.h"
 #include "ViewModel/massstorage.h"
 #include "ViewModel/screensaver.h"
 #include "ViewModel/napimanager.h"
@@ -22,38 +21,7 @@
 
 
 QQuickView *MainWindow::mainView;
-
 QTimer *ScreenSaverManager::timer;
-
-bool isItAlarm()
-{
-    QProcess process;
-    process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("bash", QStringList() << "-c" << "systemctl is-active alarm.service");
-    process.setReadChannel(QProcess::StandardOutput);
-    process.waitForFinished();
-
-    auto text = process.readAll();
-    if(!text.contains("in")) // alarm active
-    {
-        return true;
-    }
-
-    QProcess process2;
-    process2.setProcessChannelMode(QProcess::MergedChannels);
-    process2.start("bash", QStringList() << "-c" << "systemctl is-active alarm_snooze.service");
-    process2.setReadChannel(QProcess::StandardOutput);
-    process2.waitForFinished();
-    auto text2 = process2.readAll();
-    if(!text2.contains("in")) // alarm active
-    {
-        return true;
-    }
-
-    return false;
-}
-
-
 
 int main(int argc, char *argv[])
 {
@@ -76,7 +44,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<SettingsScreensaver>("SettingsScreensaverLib", 1, 0, "SettingsScreensaver");
     qmlRegisterType<SettingsPackages>("SettingsPackagesLib", 1, 0, "SettingsPackages");
     qmlRegisterType<MassStorage>("MassStorageLib", 1, 0, "MassStorage");
-    qmlRegisterType<AlarmView>("AlarmViewLib", 1, 0, "AlarmView");
     qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
     qmlRegisterType<Quotes>("QuotesLib", 1, 0, "Quotes");
 
@@ -87,7 +54,6 @@ int main(int argc, char *argv[])
     ScreenSaverManager screen;
     screen.Init();
 
-
     ScreenSaverHelper screensaverhelper;
     view->rootContext()->setContextProperty("screensaverhelper",&screensaverhelper);
 
@@ -95,11 +61,7 @@ int main(int argc, char *argv[])
            emit screensaverhelper.screensavertimeout();
         });
 
-    if(isItAlarm())
-        view->setSource(QString("qrc:/alarm.qml"));
-    else
-        view->setSource(QString("qrc:/main.qml"));
-
+    view->setSource(QString("qrc:/main.qml"));
     view->show();
 
     return app.exec();

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "editalarmconfigfile.h"
+
 class AlarmView : public QObject
 {
     Q_OBJECT
@@ -19,7 +20,6 @@ private:
     const QString ALARM_TIMER = "alarm.timer";
     QString CONFIG_PATH = "/etc/mediaserver";
     EditAlarmConfigFile editAlarmConfigFile;
-
 };
 
 #endif // ALARMVIEW_H
