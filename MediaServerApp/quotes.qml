@@ -6,6 +6,14 @@ import QuotesLib 1.0
 
 Dialog
 {
+    id: quotesDialog
+    visible: true
+    width: 800
+    height: 440
+    topMargin: 40
+    margins: 0
+    padding: 1
+    modal: true
 
     property string imageLink: ""
     property string authorEnglish: ""
@@ -49,14 +57,6 @@ Dialog
         xhr.send();
     }
 
-    id: quotesDialog
-    visible: true
-    width: 800
-    height: 440
-    topMargin: 40
-    margins: 0
-    padding: 1
-    modal: true
 
     Image {
         id: name
@@ -109,22 +109,25 @@ Dialog
         y: 296
         width: 351
         height: 53
-        text: quotePolish
+        text: authorPolish
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignRight
         font.pixelSize: 24
     }
 
     Button {
-        id: button
         x: 56
         y: 368
         opacity: 0.5
-        text: qsTr("Save")
+        text: qsTr("Save and Close")
+        onClicked: {
+            quotes.save(quoteEnglish.toString(), authorEnglish.toString(),
+                        quotePolish.toString(), authorPolish.toString())
+            quotesDialog.close()
+        }
     }
 
     Button {
-        id: button1
         x: 646
         y: 368
         opacity: 0.5
@@ -137,7 +140,8 @@ Dialog
 
     Component.onCompleted:
     {
-        request_test()
-        quotes.getQuote(polishQuoteText, polishAuthorText)
+//        request_test()
+        request()
+        quotes.getQuote(quotesDialog)
     }
 }
