@@ -93,9 +93,6 @@ void Quotes::close()
 
 void Quotes::closePriv()
 {
-    QProcess::startDetached("systemctl start gmpc");
-    if(isSnooze)
-        QProcess::startDetached("systemctl stop alarm_snooze.service");
-    else
-        QProcess::startDetached("systemctl stop alarm.service");
+//    QProcess::startDetached("systemctl start gmpc");
+    QProcess::startDetached("systemctl stop alarm_gui.service");
 }

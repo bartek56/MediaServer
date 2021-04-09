@@ -175,11 +175,5 @@ Rectangle{
         width: 100
         running: false
     }
-
-    Component.onCompleted:
-    {
-
-    }
 }
-
 
