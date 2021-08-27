@@ -591,9 +591,7 @@ Rectangle
     InputPanel
     {
         id: inputPanel
-        z: 99
-        x: 0
-        y: dialog.height
+        y: 480
         width: dialog.width
 
         states: State
@@ -603,7 +601,7 @@ Rectangle
             PropertyChanges
             {
                 target: inputPanel
-                y: dialog.height - inputPanel.height
+                y: 480 - inputPanel.height
             }
         }
 

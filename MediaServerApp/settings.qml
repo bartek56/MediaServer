@@ -1015,9 +1015,7 @@ Dialog
     InputPanel
     {
         id: inputPanel
-        z: 99
-        x: 0
-        y: settingsDialog.height
+        y: 480
         width: settingsDialog.width
 
         states: State
@@ -1027,7 +1025,7 @@ Dialog
             PropertyChanges
             {
                 target: inputPanel
-                y: settingsDialog.height - inputPanel.height
+                y:480 - inputPanel.height
             }
         }
 

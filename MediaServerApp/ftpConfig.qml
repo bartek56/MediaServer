@@ -295,9 +295,7 @@ Dialog
     InputPanel
     {
         id: inputPanel
-        z: 99
-        x: 0
-        y: ftpConfigDialog.height
+        y: 480
         width: ftpConfigDialog.width
 
         states: State
@@ -307,7 +305,7 @@ Dialog
             PropertyChanges
             {
                 target: inputPanel
-                y: ftpConfigDialog.height - inputPanel.height
+                y: 480 - inputPanel.height
             }
         }
 

@@ -930,9 +930,7 @@ Dialog
     InputPanel
     {
         id: inputPanel
-        z: 99
-        x: 0
-        y: sambaConfigDialog.height
+        y: 480
         width: sambaConfigDialog.width
 
         states: State
@@ -942,7 +940,7 @@ Dialog
             PropertyChanges
             {
                 target: inputPanel
-                y: sambaConfigDialog.height - inputPanel.height
+                y: 480 - inputPanel.height
             }
         }
 

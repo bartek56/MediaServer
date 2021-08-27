@@ -299,9 +299,7 @@ Dialog
     InputPanel
     {
         id: inputPanel
-        z: 99
-        x: 0
-        y: multimediaConfigDialog.height
+        y: 480
         width: multimediaConfigDialog.width
 
         states: State
@@ -311,7 +309,7 @@ Dialog
             PropertyChanges
             {
                 target: inputPanel
-                y: multimediaConfigDialog.height - inputPanel.height
+                y: 480 - inputPanel.height
             }
         }
 
