@@ -15,9 +15,8 @@ QT_DEBUG_PLUGINS=1
 TEMPLATE = subdirs
 
 SUBDIRS = MediaServerLib \
-    Alarm \
-    MediaServerWeb \
-    #GoogleTests
     MediaServerApp \
+    Alarm \
+    #GoogleTests
     MediaServerStartup
 
