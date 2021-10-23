@@ -53,12 +53,20 @@ Rectangle{
             pixelSize: 20
         }
         MessageDialog {
-            id:shutdownMessage
+            id: shutdownMessage
             title: "Shutdown"
             icon: StandardIcon.Question
             text: "Are You sure to Power Off device?"
             standardButtons: StandardButton.Yes | StandardButton.No
             onYes: mainWindow.shutdownButton_OnClicked();
+        }
+        MessageDialog {
+            id: rebootMessage
+            title: "Reboot"
+            icon: StandardIcon.Question
+            text: "Are You sure to Reboot device?"
+            standardButtons: StandardButton.Yes | StandardButton.No
+            onYes: mainWindow.rebootButton_OnClicked();
         }
 
 
@@ -90,6 +98,12 @@ Rectangle{
                     }
                 }
                 MenuSeparator { }
+                MenuItem {
+                    text: "Reboot"
+                    onClicked: {
+                        rebootMessage.visible=true
+                    }
+                }
                 MenuItem {
                     text: "Power Off"
                     onClicked: {
