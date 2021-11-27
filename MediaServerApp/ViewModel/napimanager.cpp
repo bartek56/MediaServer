@@ -80,14 +80,13 @@ void NapiManager::bDownload_onClicked(QObject * text)
     {
         text->setProperty("text",QVariant("Succesfull downloaded subtitles"));
         QFile file(folderPath+"/"+subtitlesFileName);
-        bool result = file.rename(folderPath+"/"+movieName+"."+napiConfig[0].configs.at("language")+".srt");
+        bool result = file.copy(folderPath+"/"+movieName+"."+napiConfig[0].configs.at("language")+".srt");
         if(!result)
         {
             QFile oldFile(folderPath+"/"+movieName+"."+napiConfig[0].configs.at("language")+".srt");
             oldFile.remove();
-            file.rename(folderPath+"/"+movieName+"."+napiConfig[0].configs.at("language")+".srt");
+            file.copy(folderPath+"/"+movieName+"."+napiConfig[0].configs.at("language")+".srt");
         }
-
         file.close();
     }
     else
