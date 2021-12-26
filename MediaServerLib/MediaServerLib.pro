@@ -6,9 +6,7 @@ QT += quick
 
 SOURCES += \
     ViewModel/alarmconfig.cpp \
-    ViewModel/settingsipaddress.cpp \
-    ViewModel/settingsWifi.cpp \
-    ViewModel/settingsstatus.cpp \
+    ViewModel/settings.cpp \
     editftpconfigfile.cpp \
     editwificonfigfile.cpp \
     editdlnaconfigfile.cpp \
