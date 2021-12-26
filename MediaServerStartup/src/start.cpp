@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QtQuick>
 #include "mainwindow.h"
-#include "ViewModel/settings.h"
+#include "src/ViewModel/settings.h"
 
 int main(int argc, char *argv[])
 {

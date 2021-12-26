@@ -1,14 +1,14 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <QObject>
-#include <QProcess>
-#include <memory>
-#include <QtQuick>
-#include "editwificonfigfile.h"
-#include "editalarmconfigfile.h"
-#include "editheadersconfigfile.h"
+#include "../editwificonfigfile.h"
+#include "../editalarmconfigfile.h"
+#include "../editheadersconfigfile.h"
 
+#include <QProcess>
+#include <QtQuick>
+#include <QObject>
+#include <memory>
 
 class Settings : public QObject
 {

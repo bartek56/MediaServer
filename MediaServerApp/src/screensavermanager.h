@@ -2,7 +2,7 @@
 #define SCREENSAVERMANAGER_H
 #include <QTimer>
 #include <QObject>
-#include "editscreensaverconfigfile.h"
+#include "src/editscreensaverconfigfile.h"
 
 class ScreenSaverManager : public QObject
 {

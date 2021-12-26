@@ -2,7 +2,7 @@
 #define MASSSTORAGE_H
 
 #include <QObject>
-#include "managementofexternaldevices.h"
+#include <src/managementofexternaldevices.h>
 
 class MassStorage : public QObject
 {

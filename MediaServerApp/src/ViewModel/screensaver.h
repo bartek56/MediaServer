@@ -2,7 +2,7 @@
 #define SCREENSAVER_H
 
 #include <QtQuick>
-#include "editscreensaverconfigfile.h"
+#include "src/editscreensaverconfigfile.h"
 
 class ScreenSaver : public QObject
 {

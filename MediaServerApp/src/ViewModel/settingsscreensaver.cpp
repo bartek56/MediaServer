@@ -1,6 +1,6 @@
 #include "settingsscreensaver.h"
 #include "mainwindow.h"
-#include "screensavermanager.h"
+#include "../screensavermanager.h"
 
 SettingsScreensaver::SettingsScreensaver(QObject *parent) : QObject(parent)
 {

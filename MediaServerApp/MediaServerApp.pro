@@ -19,26 +19,26 @@ INCLUDEPATH += ../MediaServerLib
 LIBS += -L../MediaServerLib -lMediaServerLib
 
 SOURCES += \
-    ViewModel/mainwindow.cpp \
-    ViewModel/sambaconfig.cpp \
-    ViewModel/quotes.cpp \
-    start.cpp \
-    ViewModel/sambaconfigexternaldevice1.cpp \
-    ViewModel/sambaconfigexternaldevice2.cpp \
-    ViewModel/sambaconfigexternaldevice3.cpp \
-    ViewModel/sambaconfiglocal.cpp \
-    ViewModel/sambaconfigglobal.cpp \
-    ViewModel/ftpconfig.cpp \
-    bluetoothctl.cpp \
-    ViewModel/massstorage.cpp \
-    ViewModel/multimediaconfig.cpp \
-    screensavermanager.cpp \
-    ViewModel/screensaver.cpp \
-    ViewModel/napimanager.cpp \
-    ViewModel/settingsscreensaver.cpp \
-    ViewModel/settingspackages.cpp
+    src/ViewModel/mainwindow.cpp \
+    src/ViewModel/sambaconfig.cpp \
+    src/ViewModel/quotes.cpp \
+    src/start.cpp \
+    src/ViewModel/sambaconfigexternaldevice1.cpp \
+    src/ViewModel/sambaconfigexternaldevice2.cpp \
+    src/ViewModel/sambaconfigexternaldevice3.cpp \
+    src/ViewModel/sambaconfiglocal.cpp \
+    src/ViewModel/sambaconfigglobal.cpp \
+    src/ViewModel/ftpconfig.cpp \
+    src/bluetoothctl.cpp \
+    src/ViewModel/massstorage.cpp \
+    src/ViewModel/multimediaconfig.cpp \
+    src/screensavermanager.cpp \
+    src/ViewModel/screensaver.cpp \
+    src/ViewModel/napimanager.cpp \
+    src/ViewModel/settingsscreensaver.cpp \
+    src/ViewModel/settingspackages.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += resources/qml.qrc
 
 TEMPLATE = app
 
@@ -53,18 +53,18 @@ target.path = /opt
 INSTALLS += target
 
 HEADERS += \
-    ViewModel/mainwindow.h \
-    ViewModel/sambaconfig.h \
-    ViewModel/ftpconfig.h \
-    bluetoothctl.h \
-    ViewModel/massstorage.h \
-    ViewModel/multimediaconfig.h \
-    ViewModel/quotes.h \
-    screensavermanager.h \
-    ViewModel/screensaver.h \
-    ViewModel/napimanager.h \
-    ViewModel/settingsscreensaver.h \
-    ViewModel/settingspackages.h
+    src/ViewModel/mainwindow.h \
+    src/ViewModel/sambaconfig.h \
+    src/ViewModel/ftpconfig.h \
+    src/bluetoothctl.h \
+    src/ViewModel/massstorage.h \
+    src/ViewModel/multimediaconfig.h \
+    src/ViewModel/quotes.h \
+    src/screensavermanager.h \
+    src/ViewModel/screensaver.h \
+    src/ViewModel/napimanager.h \
+    src/ViewModel/settingsscreensaver.h \
+    src/ViewModel/settingspackages.h
 
 FORMS +=
 

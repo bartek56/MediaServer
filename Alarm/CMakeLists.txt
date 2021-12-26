@@ -9,10 +9,10 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 add_executable(${PROJECT_NAME}
-    alarmview.cpp
-    quotes.cpp    
-    main.cpp    
-    qml.qrc
+    src/alarmview.cpp
+    src/quotes.cpp    
+    src/main.cpp    
+    resources/qml.qrc
 )
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE

@@ -3,11 +3,6 @@
 #include <QTextStream>
 #include <QDebug>
 
-EditScreenSaverConfigFile::EditScreenSaverConfigFile()
-{
-
-}
-
 std::map<QString,QString> EditScreenSaverConfigFile::LoadConfiguration()
 {
     std::map<QString,QString> mConfigsParameters;

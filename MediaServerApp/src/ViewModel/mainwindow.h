@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 #include <QtQuick>
 #include <memory>
-#include "bluetoothctl.h"
+#include "../bluetoothctl.h"
 
 class MainWindow : public QObject
 {

@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <vector>
-#include "editheadersconfigfile.h"
-#include "editdlnaconfigfile.h"
+#include "src/editheadersconfigfile.h"
+#include "src/editdlnaconfigfile.h"
 #include <memory>
 
 

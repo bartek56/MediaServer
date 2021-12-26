@@ -3,7 +3,7 @@
 #include <QtQuick>
 #include <memory>
 #include <algorithm>
-#include "editftpconfigfile.h"
+#include "src/editftpconfigfile.h"
 
 class FtpConfig : public QObject
 {

@@ -3,7 +3,7 @@
 
 #include <QtQuick>
 #include <QObject>
-#include "editalarmconfigfile.h"
+#include "../editalarmconfigfile.h"
 
 class AlarmConfig : public QObject
 {

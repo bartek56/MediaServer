@@ -2,7 +2,7 @@
 #define ALARMVIEW_H
 
 #include <QObject>
-#include "editalarmconfigfile.h"
+#include "src/editalarmconfigfile.h"
 
 class AlarmView : public QObject
 {

@@ -9,16 +9,16 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 add_library(${PROJECT_NAME}
-        ViewModel/alarmconfig.cpp
-        ViewModel/settings.cpp
-        editalarmconfigfile.cpp
-        editscreensaverconfigfile.cpp
-        editdlnaconfigfile.cpp
-        editwificonfigfile.cpp
-        editftpconfigfile.cpp
-        managementofexternaldevices.cpp
-        editheadersconfigfile.cpp
-        editmpdconfigfile.cpp
+        src/ViewModel/alarmconfig.cpp
+        src/ViewModel/settings.cpp
+        src/editalarmconfigfile.cpp
+        src/editscreensaverconfigfile.cpp
+        src/editdlnaconfigfile.cpp
+        src/editwificonfigfile.cpp
+        src/editftpconfigfile.cpp
+        src/managementofexternaldevices.cpp
+        src/editheadersconfigfile.cpp
+        src/editmpdconfigfile.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC)

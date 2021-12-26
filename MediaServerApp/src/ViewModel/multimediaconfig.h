@@ -1,8 +1,8 @@
 #ifndef DLNACONFIG_H
 #define DLNACONFIG_H
 #include <QtQuick>
-#include "editdlnaconfigfile.h"
-#include "editmpdconfigfile.h"
+#include "src/editdlnaconfigfile.h"
+#include "src/editmpdconfigfile.h"
 
 class MultimediaConfig : public QObject
 {

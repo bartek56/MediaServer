@@ -1,8 +1,8 @@
 #ifndef SETTINGSSCREENSAVER_H
 #define SETTINGSSCREENSAVER_H
 
-#include "editscreensaverconfigfile.h"
 #include <QObject>
+#include <src/editscreensaverconfigfile.h>
 
 class SettingsScreensaver : public QObject
 {

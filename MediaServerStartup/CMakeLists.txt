@@ -8,9 +8,9 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 add_executable(${PROJECT_NAME}
-    mainwindow.cpp    
-    start.cpp    
-    qml.qrc
+    src/mainwindow.cpp    
+    src/start.cpp    
+    resources/qml.qrc
 )
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE
@@ -23,6 +23,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt5::Widgets        
         )
 
-install(TARGETS ${PROJECT_NAME} DESTINATION "${DEFAULT_INSTALL_PREFIX}/bin")
+install(TARGETS ${PROJECT_NAME} DESTINATION "/opt")
 
 

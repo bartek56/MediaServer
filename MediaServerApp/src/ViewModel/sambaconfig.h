@@ -3,7 +3,7 @@
 
 #include <QProcess>
 #include <memory>
-#include "editheadersconfigfile.h"
+#include "src/editheadersconfigfile.h"
 
 struct ConfigName {
     const QString WORKGROUP = "workgroup";

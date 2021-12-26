@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "screensavermanager.h"
+#include "../screensavermanager.h"
 #include <QProcess>
 #include <QTimer>
 #include <QThread>

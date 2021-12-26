@@ -21,10 +21,10 @@ INCLUDEPATH += ../MediaServerLib
 LIBS += -L../MediaServerLib -lMediaServerLib
 
 SOURCES += \
-    start.cpp \
-    mainwindow.cpp
+    src/start.cpp \
+    src/mainwindow.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += resources/qml.qrc
 
 TEMPLATE = app
 
@@ -38,4 +38,4 @@ target.path = /opt
 INSTALLS += target
 
 HEADERS += \
-    mainwindow.h
+    src/mainwindow.h

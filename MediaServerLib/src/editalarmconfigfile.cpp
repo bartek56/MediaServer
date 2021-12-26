@@ -3,11 +3,6 @@
 #include <QTextStream>
 #include <QTextCodec>
 
-EditAlarmConfigFile::EditAlarmConfigFile()
-{
-
-}
-
 std::map<QString,QString> EditAlarmConfigFile::LoadConfiguration()
 {
     std::map<QString,QString> mConfigsParameters;

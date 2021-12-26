@@ -17,16 +17,16 @@ INCLUDEPATH += ../MediaServerLib
 LIBS += -L../MediaServerLib -lMediaServerLib
 
 SOURCES += \
-        main.cpp \
-        alarmview.cpp \
-        quotes.cpp
+        src/main.cpp \
+        src/alarmview.cpp \
+        src/quotes.cpp
 
 HEADERS += \
-        alarmview.h \
-        quotes.h
+        src/alarmview.h \
+        src/quotes.h
         
 
-RESOURCES += qml.qrc
+RESOURCES += resources/qml.qrc
 
 TEMPLATE = app
 

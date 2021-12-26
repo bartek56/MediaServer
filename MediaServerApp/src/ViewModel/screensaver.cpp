@@ -1,5 +1,5 @@
 #include "screensaver.h"
-#include "screensavermanager.h"
+#include "../screensavermanager.h"
 
 ScreenSaver::ScreenSaver(QObject *parent) : QObject(parent)
 {
