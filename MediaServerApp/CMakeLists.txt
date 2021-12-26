@@ -33,10 +33,12 @@ add_executable(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE
   ../MediaServerLib
+  ../libsystemd-qt
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         MediaServerLib
+        QtSystemd
         Qt5::Quick
         Qt5::Widgets
         pthread

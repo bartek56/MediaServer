@@ -1,5 +1,6 @@
 #include "ftpconfig.h"
-
+#include <src/unit.h>
+#include <src/sdmanager.h>
 
 FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
 {
@@ -9,12 +10,9 @@ FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
 
 void FtpConfig::checkService(QObject *saveButton)
 {
-    QProcess process;
-    process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("bash", QStringList() << "-c" << "systemctl is-active vsftpd");
-    process.setReadChannel(QProcess::StandardOutput);
-    process.waitForFinished();
-    auto text = process.readAll();
+    const QString unitName("wallpaper.service");
+    auto text = Systemd::getUnit(Systemd::User, unitName).data()->activeState();
+    qDebug() << Systemd::startUnit(Systemd::User, unitName, Systemd::Unit::Replace);
     saveButton->setProperty("enabled",QVariant(!text.contains("in")));
 }
 
