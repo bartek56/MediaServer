@@ -15,9 +15,9 @@ static {
     QTPLUGIN += qtvirtualkeyboardplugin
 }
 
-INCLUDEPATH += ../MediaServerLib
+INCLUDEPATH += ../MediaServerLib  /usr/include/QtSystemd
 LIBS += -L../MediaServerLib -lMediaServerLib
-LIBS += -lQtSystemd
+unix:LIBS += -L/usr/lib -lQtSystemd
 
 SOURCES += \
     src/ViewModel/mainwindow.cpp \

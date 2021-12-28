@@ -33,7 +33,7 @@ add_executable(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE
   ../MediaServerLib
-  ../libsystemd-qt
+  ../libsystemd-qt/src
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
