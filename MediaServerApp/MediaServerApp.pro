@@ -1,4 +1,4 @@
-QT += core qml quick widgets
+QT += core qml quick widgets dbus
 CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
@@ -17,6 +17,7 @@ static {
 
 INCLUDEPATH += ../MediaServerLib
 LIBS += -L../MediaServerLib -lMediaServerLib
+LIBS += -lQtSystemd
 
 SOURCES += \
     src/ViewModel/mainwindow.cpp \
