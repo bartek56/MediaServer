@@ -1,3 +1,0 @@
-[submodule "libsystemd-qt"]
-	path = libsystemd-qt
-	url = https://github.com/bartek56/libsystemd-qt

@@ -1,6 +1,6 @@
 #include "ftpconfig.h"
-#include <unit.h>
-#include <sdmanager.h>
+#include <QtSystemd/unit.h>
+#include <QtSystemd/sdmanager.h>
 
 FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
 {

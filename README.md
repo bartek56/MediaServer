@@ -16,7 +16,7 @@ Dependencies:
 - qtvirtualkeyboard-plugin
 - qml-module-qt-labs-folderlistmodel
 - qml-module-qt-labs-settings
-- 
+- [QtSystemd](https://github.com/bartek56/libsystemd-qt)
 
 
 Configure and build qt5.15.2 for Ubuntu 18 this app:
