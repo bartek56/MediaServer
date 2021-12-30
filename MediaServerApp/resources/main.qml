@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import MainWindowLib 1.0
 import QtQuick.Dialogs 1.1
@@ -19,7 +19,7 @@ Rectangle{
 
     Connections{
             target: screensaverhelper
-            onScreensavertimeout: mainRectangle.startScreenSaver()
+            function onScreensavertimeout(){ mainRectangle.startScreenSaver();}
     }
 
 
@@ -164,24 +164,16 @@ Rectangle{
     Column {
         id: column
         x: 0
-        y: 57
-        width: 800
+        y: 70
+        anchors.right: parent.right
+        anchors.left: parent.left
         height: 423
-        anchors.right: mainRectangle.right
-        anchors.left: mainRectangle.left
-        anchors.bottom: mainRectangle.bottom
-        anchors.top: mainRectangle.top
+        spacing: 120
 
         RowLayout {
             id: rowLayout
-            anchors.rightMargin: 16
             anchors.right: parent.right
             anchors.left: parent.left
-            anchors.leftMargin: 22
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 229
-            anchors.top: parent.top
-            anchors.topMargin: 61
 
 
             ToolButton {
@@ -331,13 +323,11 @@ Rectangle{
         RowLayout {
             id: rowLayout1
             height: 100
-            anchors.rightMargin: 10
+            anchors.rightMargin: 21
             anchors.right: parent.right
             anchors.left: parent.left
-            anchors.leftMargin: 18
+            anchors.leftMargin: 21
             spacing: 10.7
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 54
 
             ToolButton {
                 Layout.preferredHeight: 80

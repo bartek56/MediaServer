@@ -9,8 +9,8 @@ Dialog
 {
     id: napiDialog
     visible: true
-    width: 800
-    height: 440
+    width: parent.width
+    height: parent.height - 40
     topMargin: 40
     margins: 0
     padding: 1
@@ -133,43 +133,51 @@ Dialog
             font.pixelSize: 28
         }
     }
-
-    Button {
-        id: bDownload
-        x: 480
-        y: 370
-        height: 40
-        text: "Download"
-        onClicked:
-        {
-            if(movieTitleTextField.text.length>1)
-            {
-                napiManager.bDownload_onClicked(infoText)
-            }
-            else
-            {
-                infoText.text="Path to movie is empty";
-            }
-        }
-        onPressed: { busyNapi.running=true }
-        onReleased:{ busyNapi.running=false }
-
-    }
-
-    Button
+    RowLayout
     {
-        id: bExit
-        x: 600
-        y: 370
-        text: "Exit"
-        height: 40
-        onClicked:
-        {
-            napiDialog.close()
+        id: rowLayout
+        anchors.bottom: parent.bottom
+
+        anchors.bottomMargin: 20
+        anchors.horizontalCenter: parent.horizontalCenter
+
+
+        Button {
+            id: bDownload
+            x: 480
+            y: 370
+            height: 40
+            text: "Download"
+            onClicked:
+            {
+                if(movieTitleTextField.text.length>1)
+                {
+                    napiManager.bDownload_onClicked(infoText)
+                }
+                else
+                {
+                    infoText.text="Path to movie is empty";
+                }
+            }
+            onPressed: { busyNapi.running=true }
+            onReleased:{ busyNapi.running=false }
+
         }
+
+        Button
+        {
+            id: bExit
+            x: 600
+            y: 370
+            text: "Exit"
+            height: 40
+            onClicked:
+            {
+                napiDialog.close()
+            }
+        }
+
     }
-
-
     BusyIndicator
     {
         id: busyNapi

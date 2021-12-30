@@ -10,8 +10,8 @@ Dialog
 {
     id: ftpConfigDialog
     visible: true
-    width: 800
-    height: 440
+    width: parent.width
+    height: parent.height - 40
     topMargin: 40
     margins: 0
     padding: 1
@@ -62,7 +62,9 @@ Dialog
     RowLayout
     {
         id: rowLayout
-        anchors.bottomMargin: 8
+        anchors.bottomMargin: 15
+        anchors.rightMargin: 15
+
         anchors.bottom: parent.bottom
         anchors.right: parent.right
 
@@ -291,11 +293,10 @@ Dialog
        running: false
    }
 
-
     InputPanel
     {
         id: inputPanel
-        y: 480
+        y: ftpConfigDialog.height+40
         width: ftpConfigDialog.width
 
         states: State
@@ -305,7 +306,7 @@ Dialog
             PropertyChanges
             {
                 target: inputPanel
-                y: 480 - inputPanel.height
+                y: ftpConfigDialog.parent.height - inputPanel.height
             }
         }
 
@@ -325,6 +326,7 @@ Dialog
             }
         }
     }
+
 
     Component.onCompleted:
     {

@@ -9,12 +9,12 @@ Dialog
 {
     id: multimediaConfigDialog
     visible: true
-    width: 800
-    height: 440
+    width: parent.width
+    height: parent.height - 40
     topMargin: 40
     margins: 0
     padding: 1
-    modal: true
+    modal: true    
 
     MultimediaConfig
     {
@@ -78,20 +78,17 @@ Dialog
         }
     }
 
-    RowLayout {
-        spacing: 80
-        anchors.rightMargin: 20
-        anchors.leftMargin: 20
-        anchors.topMargin: 20
-        anchors.bottomMargin: 20
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
+    GridLayout {
+        rowSpacing: 90
+        anchors.rightMargin: 15
         anchors.left: parent.left
-        anchors.top: parent.top
+        anchors.leftMargin: 15
+        anchors.right: parent.right
+        columns: 2
 
         GroupBox {
             id: groupBox
-            width: 390
+            width: 500
             font.pointSize: 16
             Layout.preferredHeight: 250
             Layout.preferredWidth: 400
@@ -198,10 +195,9 @@ Dialog
             width: 390
             font.pointSize: 16
             GridLayout {
-                anchors.left: parent.left
+                anchors.horizontalCenter: parent.horizontalCenter
                 rows: 2
                 anchors.bottom: parent.bottom
-                anchors.right: parent.right
                 columns: 2
                 Text {
                     id: portText
@@ -246,16 +242,20 @@ Dialog
             topPadding: 45
             Layout.preferredWidth: 250
             Layout.preferredHeight: 250
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+            Layout.alignment: Qt.AlignRight | Qt.AlignTop
             leftPadding: 50
         }
 
 
         RowLayout {
             id: rowLayout
-            anchors.bottomMargin: 8
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
+            spacing: 30
+            //            anchors.bottomMargin: 8
+            Layout.alignment: Qt.AlignRight | Qt.AlignBottom
+            Layout.columnSpan: 2
+
+            //            anchors.bottom: parent.bottom
+            //            anchors.right: parent.right
 
             Button
             {
@@ -285,21 +285,21 @@ Dialog
         }
     }
 
-   BusyIndicator
-   {
-       id: busyMultimediaConfig
-       anchors.centerIn: parent
-       height: 100
-       width: 100
-       running: false
-   }
+    BusyIndicator
+    {
+        id: busyMultimediaConfig
+        anchors.centerIn: parent
+        height: 100
+        width: 100
+        running: false
+    }
 
 
 
     InputPanel
     {
         id: inputPanel
-        y: 480
+        y: multimediaConfigDialog.height + 40
         width: multimediaConfigDialog.width
 
         states: State
@@ -309,7 +309,7 @@ Dialog
             PropertyChanges
             {
                 target: inputPanel
-                y: 480 - inputPanel.height
+                y: multimediaConfigDialog.parent.height - inputPanel.height
             }
         }
 
@@ -337,5 +337,4 @@ Dialog
         multimediaConfig.loadSettings(portEditText,nameEditText);
     }
 }
-
 

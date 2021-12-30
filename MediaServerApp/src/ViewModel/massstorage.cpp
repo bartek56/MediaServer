@@ -30,7 +30,7 @@ void MassStorage::bMount_onClicked(const QString mountpoint,const QString device
     //fstab_manager.sh true sda7 "/mnt/TOSHIBA EXT2" ntfs-3g
     if(mountpoint.count()>2) // umount
     {
-        QProcess::execute("bash /opt/fstab_manager.sh false " + deviceName);
+        QProcess::execute("bash", QStringList() << "-c" << "/opt/fstab_manager.sh false " + deviceName);
 
         QString commendUmount = "umount /dev/" + deviceName;
 
@@ -84,7 +84,7 @@ void MassStorage::bMount_onClicked(const QString mountpoint,const QString device
         if(autoMount)
         {
             QString mountPath = "/mnt/"+deviceLabel;
-            QProcess::execute("bash /opt/fstab_manager.sh true \"" + deviceName + "\" \"" + mountPath + "\" " + type);
+            QProcess::execute("bash", QStringList() << "-c" << "/opt/fstab_manager.sh true \"" + deviceName + "\" \"" + mountPath + "\" " + type);
         }
     }
 }

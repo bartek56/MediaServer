@@ -12,8 +12,8 @@ Dialog
 {
     id: settingsDialog
     visible: true
-    width: 800
-    height: 440
+    width: parent.width
+    height: parent.height - 40
     topMargin: 40
     margins: 0
     padding: 1
@@ -1015,7 +1015,7 @@ Dialog
     InputPanel
     {
         id: inputPanel
-        y: 480
+        y: settingsDialog.height + 40
         width: settingsDialog.width
 
         states: State
@@ -1025,7 +1025,7 @@ Dialog
             PropertyChanges
             {
                 target: inputPanel
-                y:480 - inputPanel.height
+                y: settingsDialog.parent.height - inputPanel.height
             }
         }
 

@@ -8,8 +8,8 @@ Dialog
 {
     id: alarmConfigDialog
     visible: true
-    width: 800
-    height: 440
+    width: parent.width
+    height: parent.height - 40
     topMargin: 40
     margins: 0
     padding: 1
@@ -206,7 +206,6 @@ Dialog
            }
 
         GridLayout {
-            anchors.right: parent.right
             width: 250
             Layout.preferredWidth: 300
             rowSpacing: 25
@@ -289,15 +288,9 @@ Dialog
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                 to: 59
             }
-
-
-        }
-
         RowLayout{
            id: rowLayout
-           anchors.bottomMargin: 5
-           anchors.bottom: parent.bottom
-           anchors.right: parent.right
+           Layout.columnSpan: 2
 
            Button
            {
@@ -315,7 +308,7 @@ Dialog
                 onPressed: { busyAlarmConfig.running=true }
                 onReleased:{ busyAlarmConfig.running=false }
             }
-            Button
+           Button
             {
                 id: closeButton
                 text: "Close"
@@ -327,6 +320,10 @@ Dialog
                 }
             }
        }
+
+
+        }
+
    }
 
    BusyIndicator

@@ -11,8 +11,8 @@ Dialog
 {
     id: sambaConfigDialog
     visible: true
-    width: 800
-    height: 440
+    width: parent.width
+    height: parent.height - 40
     topMargin: 40
     margins: 0
     padding: 1
@@ -927,43 +927,10 @@ Dialog
         }
     }
 
-    InputPanel
-    {
-        id: inputPanel
-        y: 480
-        width: sambaConfigDialog.width
-
-        states: State
-        {
-            name: "visible"
-            when: inputPanel.active
-            PropertyChanges
-            {
-                target: inputPanel
-                y: 480 - inputPanel.height
-            }
-        }
-
-        transitions: Transition
-        {
-            from: ""
-            to: "visible"
-            reversible: true
-            ParallelAnimation
-            {
-                NumberAnimation
-                {
-                    properties: "y"
-                    duration: 250
-                    easing.type: Easing.InOutQuad
-                }
-            }
-        }
-    }
-
     RowLayout {
         id: rowLayout
-        anchors.bottomMargin: 8
+        anchors.bottomMargin: 20
+        anchors.rightMargin: 20
         anchors.bottom: parent.bottom
         anchors.right: parent.right
 
@@ -1019,15 +986,48 @@ Dialog
             }
         }
     }
+    InputPanel
+    {
+        id: inputPanel
+        y: sambaConfigDialog.height + 40
+        width: sambaConfigDialog.width
 
-   BusyIndicator
-   {
-       id: busySambaConfig
-       anchors.centerIn: parent
-       height: 100
-       width: 100
-       running: false
-   }
+        states: State
+        {
+            name: "visible"
+            when: inputPanel.active
+            PropertyChanges
+            {
+                target: inputPanel
+                y: sambaConfigDialog.parent.height - inputPanel.height
+            }
+        }
+
+        transitions: Transition
+        {
+            from: ""
+            to: "visible"
+            reversible: true
+            ParallelAnimation
+            {
+                NumberAnimation
+                {
+                    properties: "y"
+                    duration: 250
+                    easing.type: Easing.InOutQuad
+                }
+            }
+        }
+    }
+
+    BusyIndicator
+    {
+        id: busySambaConfig
+        anchors.centerIn: parent
+        height: 100
+        width: 100
+        running: false
+    }
 
 
     Component.onCompleted:
