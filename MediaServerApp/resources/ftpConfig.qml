@@ -59,52 +59,18 @@ Dialog
         }
     }
 
-    RowLayout
-    {
-        id: rowLayout
-        anchors.bottomMargin: 15
-        anchors.rightMargin: 15
-
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-
-        Button
-        {
-            id:saveButton
-            height: 40
-            text: "Save"
-            onClicked:
-            {
-                ftpConfig.bSave_onClicked()
-            }
-            onPressed: { busyFtpConfig.running=true }
-            onReleased:{ busyFtpConfig.running=false }
-        }
-
-        Button
-        {
-            text: "Close"
-            width: 160
-            height: 40
-            onClicked:
-            {
-                ftpConfigDialog.close()
-            }
-        }
-    }
 
     RowLayout {
         id: rowLayout1
-        x: 8
-        y: 0
-        width: 792
-        height: 369
+        anchors.fill: parent
+        anchors.topMargin: 20
 
         GroupBox {
             id: groupBox1
             width: 412
             Layout.preferredHeight: 320
             Layout.preferredWidth: 400
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
             title: qsTr("Edit User")
 
             GridLayout {
@@ -196,6 +162,8 @@ Dialog
             height: 334
             Layout.preferredWidth: 353
             Layout.preferredHeight: 320
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+
             title: qsTr("Add User")
 
             GridLayout {
@@ -283,15 +251,49 @@ Dialog
         }
     }
 
+    RowLayout
+    {
+        id: buttonsRowLayout
+        anchors.bottomMargin: 15
+        anchors.rightMargin: 15
 
-   BusyIndicator
-   {
-       id: busyFtpConfig
-       anchors.centerIn: parent
-       height: 100
-       width: 100
-       running: false
-   }
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+
+        Button
+        {
+            id:saveButton
+            height: 40
+            text: "Save"
+            onClicked:
+            {
+                ftpConfig.bSave_onClicked()
+            }
+            onPressed: { busyFtpConfig.running=true }
+            onReleased:{ busyFtpConfig.running=false }
+        }
+
+        Button
+        {
+            text: "Close"
+            width: 160
+            height: 40
+            onClicked:
+            {
+                ftpConfigDialog.close()
+            }
+        }
+    }
+
+
+    BusyIndicator
+    {
+        id: busyFtpConfig
+        anchors.centerIn: parent
+        height: 100
+        width: 100
+        running: false
+    }
 
     InputPanel
     {

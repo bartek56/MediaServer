@@ -84,327 +84,335 @@ Dialog
     StackLayout
     {
         id: stackLayout
-        width: parent.width
         currentIndex: tabBar.currentIndex
+        anchors.fill: parent
 
         Item
         {
             id: statusTag
+            Layout.fillWidth: true
+            Layout.preferredWidth: parent.width
 
-            GridLayout {
-                x: 38
-                y: 51
-                width: 352
-                height: 350
-                rows: 8
-                columns: 3
+            RowLayout{
+                y:51
+                anchors.left: parent.left
+                anchors.right: parent.right
 
-                Text {
-                    id: tvHeadEndStatusText
-                    text: qsTr("TvHeadEnd")
-                    font.pixelSize: 16
-                }
+                GridLayout {
+                    width: 352
+                    rows: 8
+                    columns: 3
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignHCenter
+                    Layout.leftMargin: 10
+                    Layout.rightMargin: 10
 
-                Switch {
-                    id: tvHeadEndStatusSwitch
-                    text: qsTr("Auto Startup")
-                    checked: false
-                    font.pointSize: 10
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.tvHeadEndStatusSwitch_OnClicked(tvHeadEndStatusSwitch.checked)
+
+                    Text {
+                        id: tvHeadEndStatusText
+                        text: qsTr("TvHeadEnd")
+                        font.pixelSize: 16
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
 
-                }
+                    Switch {
+                        id: tvHeadEndStatusSwitch
+                        text: qsTr("Auto Startup")
+                        checked: false
+                        font.pointSize: 10
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.tvHeadEndStatusSwitch_OnClicked(tvHeadEndStatusSwitch.checked)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
 
-                Button {
-                    id: tvHeadEndStatusButton
-                    text: qsTr("Stop")
-                    Layout.preferredWidth: 70
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.tvHeadEndStatusButton_OnClicked(tvHeadEndStatusButton, tvHeadEndStatusButton.text)
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
 
-                }
+                    Button {
+                        id: tvHeadEndStatusButton
+                        text: qsTr("Stop")
+                        Layout.preferredWidth: 70
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.tvHeadEndStatusButton_OnClicked(tvHeadEndStatusButton, tvHeadEndStatusButton.text)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
 
-                Text {
-                    id: ympdStatusText
-                    text: qsTr("Website Music Player")
-                    font.pixelSize: 16
-                }
-
-                Switch {
-                    id: ympdStatusSwitch
-                    text: qsTr("Auto Startup")
-                    font.pointSize: 10
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.ympdStatusSwitch_OnClicked(ympdStatusSwitch.checked)
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
 
-                }
-
-                Button {
-                    id: ympdStatusButton
-                    text: qsTr("Stop")
-                    Layout.preferredWidth: 70
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.ympdStatusButton_OnClicked(ympdStatusButton, ympdStatusButton.text)
+                    Text {
+                        id: ympdStatusText
+                        text: qsTr("Website Music Player")
+                        font.pixelSize: 16
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
 
-                }
+                    Switch {
+                        id: ympdStatusSwitch
+                        text: qsTr("Auto Startup")
+                        font.pointSize: 10
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.ympdStatusSwitch_OnClicked(ympdStatusSwitch.checked)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
 
-                Text {
-                    id: mpdStatusText
-                    text: qsTr("Music Player Daemon")
-                    font.pixelSize: 16
-                }
-
-                Switch {
-                    id: mpdStatusSwitch
-                    text: qsTr("Auto Startup")
-                    font.pointSize: 10
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.mpdStatusSwitch_OnClicked(mpdStatusSwitch.checked)
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
 
-                }
+                    Button {
+                        id: ympdStatusButton
+                        text: qsTr("Stop")
+                        Layout.preferredWidth: 70
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.ympdStatusButton_OnClicked(ympdStatusButton, ympdStatusButton.text)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
 
-                Button {
-                    id: mpdStatusButton
-                    text: qsTr("Stop")
-                    Layout.preferredWidth: 70
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.mpdStatusButton_OnClicked(mpdStatusButton, mpdStatusButton.text)
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
 
-                }
-
-                Text {
-                    id: dlnaStatusText
-                    text: qsTr("DLNA")
-                    font.pixelSize: 16
-                }
-
-                Switch {
-                    id: dlnaStatusSwitch
-                    text: qsTr("Auto Startup")
-                    font.pointSize: 10
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.dlnaStatusSwitch_OnClicked(dlnaStatusSwitch.checked)
+                    Text {
+                        id: mpdStatusText
+                        text: qsTr("Music Player Daemon")
+                        font.pixelSize: 16
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
 
-                }
+                    Switch {
+                        id: mpdStatusSwitch
+                        text: qsTr("Auto Startup")
+                        font.pointSize: 10
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.mpdStatusSwitch_OnClicked(mpdStatusSwitch.checked)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
 
-                Button {
-                    id: dlnaStatusButton
-                    text: qsTr("Stop")
-                    Layout.preferredWidth: 70
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.dlnaStatusButton_OnClicked(dlnaStatusButton, dlnaStatusButton.text)
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
 
-                }
+                    Button {
+                        id: mpdStatusButton
+                        text: qsTr("Stop")
+                        Layout.preferredWidth: 70
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.mpdStatusButton_OnClicked(mpdStatusButton, mpdStatusButton.text)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
 
-                Text {
-                    id: sambaStatusText
-                    text: qsTr("Samba")
-                    font.pixelSize: 16
-                }
-
-                Switch {
-                    id: sambaStatusSwitch
-                    text: qsTr("Auto Startup")
-                    font.pointSize: 10
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.sambaStatusSwitch_OnClicked(sambaStatusSwitch.checked)
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
-                }
 
-                Button {
-                    id: sambaStatusButton
-                    text: qsTr("Stop")
-                    Layout.preferredWidth: 70
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.sambaStatusButton_OnClicked(sambaStatusButton, sambaStatusButton.text)
+                    Text {
+                        id: dlnaStatusText
+                        text: qsTr("DLNA")
+                        font.pixelSize: 16
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
-                }
 
-                Text {
-                    id: fileBrowserStatusText
-                    text: qsTr("File Browser")
-                    font.pixelSize: 16
-                }
+                    Switch {
+                        id: dlnaStatusSwitch
+                        text: qsTr("Auto Startup")
+                        font.pointSize: 10
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.dlnaStatusSwitch_OnClicked(dlnaStatusSwitch.checked)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
 
-                Switch {
-                    id: fileBrowserStatusSwitch
-                    text: qsTr("Auto Startup")
-                    checked: false
-                    font.pointSize: 10
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.fileBrowserStatusSwitch_OnClicked(fileBrowserStatusSwitch.checked)
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
-                }
 
-                Button {
-                    id: fileBrowserStatusButton
-                    text: qsTr("Stop")
-                    Layout.preferredWidth: 70
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.fileBrowserStatusButton_OnClicked(fileBrowserStatusButton, fileBrowserStatusButton.text)
+                    Button {
+                        id: dlnaStatusButton
+                        text: qsTr("Stop")
+                        Layout.preferredWidth: 70
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.dlnaStatusButton_OnClicked(dlnaStatusButton, dlnaStatusButton.text)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
-                }
 
-                Text {
-                    id: ftpStatusText
-                    text: qsTr("FTP")
-                    font.pixelSize: 16
-                }
-
-                Switch {
-                    id: ftpStatusSwitch
-                    text: qsTr("Auto Startup")
-                    font.pointSize: 10
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.ftpStatusSwitch_OnClicked(ftpStatusSwitch.checked)
+                    Text {
+                        id: sambaStatusText
+                        text: qsTr("Samba")
+                        font.pixelSize: 16
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
-                }
 
-                Button {
-                    id: ftpStatusButton
-                    text: qsTr("Stop")
-                    Layout.preferredWidth: 70
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.ftpStatusButton_OnClicked(ftpStatusButton, ftpStatusButton.text)
+                    Switch {
+                        id: sambaStatusSwitch
+                        text: qsTr("Auto Startup")
+                        font.pointSize: 10
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.sambaStatusSwitch_OnClicked(sambaStatusSwitch.checked)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
-                }
 
-                Text {
-                    id: torrentClientStatusText
-                    text: qsTr("Torrent Web Client")
-                    font.pixelSize: 16
-                }
-
-                Switch {
-                    id: torrentClientStatusSwitch
-                    text: qsTr("Auto Startup")
-                    font.pointSize: 10
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.torrentClientStatusSwitch_OnClicked(torrentClientStatusSwitch.checked)
+                    Button {
+                        id: sambaStatusButton
+                        text: qsTr("Stop")
+                        Layout.preferredWidth: 70
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.sambaStatusButton_OnClicked(sambaStatusButton, sambaStatusButton.text)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
-                }
 
-                Button {
-                    id: torrentClientStatusButton
-                    text: qsTr("Stop")
-                    Layout.preferredWidth: 70
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.torrentClientStatusButton_OnClicked(torrentClientStatusButton, torrentClientStatusButton.text)
+                    Text {
+                        id: fileBrowserStatusText
+                        text: qsTr("File Browser")
+                        font.pixelSize: 16
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
+
+                    Switch {
+                        id: fileBrowserStatusSwitch
+                        text: qsTr("Auto Startup")
+                        checked: false
+                        font.pointSize: 10
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.fileBrowserStatusSwitch_OnClicked(fileBrowserStatusSwitch.checked)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+                    }
+
+                    Button {
+                        id: fileBrowserStatusButton
+                        text: qsTr("Stop")
+                        Layout.preferredWidth: 70
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.fileBrowserStatusButton_OnClicked(fileBrowserStatusButton, fileBrowserStatusButton.text)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+                    }
+
+                    Text {
+                        id: ftpStatusText
+                        text: qsTr("FTP")
+                        font.pixelSize: 16
+                    }
+
+                    Switch {
+                        id: ftpStatusSwitch
+                        text: qsTr("Auto Startup")
+                        font.pointSize: 10
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.ftpStatusSwitch_OnClicked(ftpStatusSwitch.checked)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+                    }
+
+                    Button {
+                        id: ftpStatusButton
+                        text: qsTr("Stop")
+                        Layout.preferredWidth: 70
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.ftpStatusButton_OnClicked(ftpStatusButton, ftpStatusButton.text)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+                    }
+
+                    Text {
+                        id: torrentClientStatusText
+                        text: qsTr("Torrent Web Client")
+                        font.pixelSize: 16
+                    }
+
+                    Switch {
+                        id: torrentClientStatusSwitch
+                        text: qsTr("Auto Startup")
+                        font.pointSize: 10
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.torrentClientStatusSwitch_OnClicked(torrentClientStatusSwitch.checked)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+                    }
+
+                    Button {
+                        id: torrentClientStatusButton
+                        text: qsTr("Stop")
+                        Layout.preferredWidth: 70
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.torrentClientStatusButton_OnClicked(torrentClientStatusButton, torrentClientStatusButton.text)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+                    }
+
                 }
 
-            }
-
-            GridLayout {
-                x: 510
-                y: 51
-                width: 270
-                height: 310
-                rows: 2
-                columns: 1
-
-                Text {
-                    text: qsTr("Network Status")
-                    font.letterSpacing: 4
-                    lineHeight: 1
-                    horizontalAlignment: Text.AlignHCenter
+                GridLayout {
+                    width: 270
+                    rows: 2
+                    columns: 1
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                    font.pixelSize: 21
-                }
 
-                Text {
-                    id: networkInfoText
-                    Layout.preferredHeight: 200
-                    Layout.preferredWidth: 250
-                    wrapMode: Text.WordWrap
-                    font.family: "Tahoma"
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    horizontalAlignment: Text.AlignLeft
-                    font.pixelSize: 12
-                    function set() {
-                        settings.updateNetworkStatus(networkInfoText)
+
+                    Text {
+                        text: qsTr("Network Status")
+                        font.letterSpacing: 4
+                        lineHeight: 1
+                        horizontalAlignment: Text.AlignHCenter
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                        font.pixelSize: 21
                     }
-                }
 
-                Timer {
-                    id: timerNetworkStatus
-                    interval: 2000
-                    repeat: true
-                    running: true
-                    triggeredOnStart: true
-                    onTriggered: networkInfoText.set()
+                    Text {
+                        id: networkInfoText
+                        Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+                        Layout.preferredWidth: 360
+                        wrapMode: Text.WordWrap
+                        font.family: "Tahoma"
+                        horizontalAlignment: Text.AlignLeft
+                        font.pixelSize: 12
+                        function set() {
+                            settings.updateNetworkStatus(networkInfoText)
+                        }
+                    }
+
+                    Timer {
+                        id: timerNetworkStatus
+                        interval: 2000
+                        repeat: true
+                        running: true
+                        triggeredOnStart: true
+                        onTriggered: networkInfoText.set()
+                    }
+
                 }
 
             }
@@ -413,365 +421,377 @@ Dialog
         Item
         {
             id: wifiSettingsTag
+            RowLayout{
+                y:51
+                anchors.left: parent.left
+                anchors.right: parent.right
 
-            GridLayout {
-                x: 38
-                y: 51
-                width: 352
-                height: 313
-                rows: 5
-                columns: 2
-
-                Text {
-                    id: networkText
-                    text: qsTr("SSID")
-                    bottomPadding: 9
-                    verticalAlignment: Text.AlignTop
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
-                    horizontalAlignment: Text.AlignLeft
-                    Layout.columnSpan: 1
-                    font.pixelSize: 16
-                }
-
-                ComboBox {
-                    id: networksComboBox
-                    Layout.preferredWidth: 200
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
-                    onDisplayTextChanged:
-                    {
-                        settings.cbNetworks_onDisplayTextChanged(networksComboBox.currentText,wifiInfoText);
-                    }
-                }
-
-                Text {
-                    id: wifiInfoText
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignTop
+                GridLayout {
+                    width: 352
+                    rows: 5
+                    columns: 2
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                    Layout.columnSpan: 2
-                    font.pixelSize: 12
+                    Layout.leftMargin: 10
+                    Layout.rightMargin: 10
 
-                }
-
-                Text {
-                    id: passwordText
-                    text: qsTr("Password")
-                    font.pixelSize: 16
-                }
-
-                TextField {
-                    id: passwordTextField
-                    width: 80
-                    height: 20
-                    text: qsTr("")
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: 16
-                }
-
-                Button {
-                    id: scanNetworkButton
-                    text: qsTr("Scan Network")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.searchNetworks(networksComboBox)
+                    Text {
+                        id: networkText
+                        text: qsTr("SSID")
+                        bottomPadding: 9
+                        verticalAlignment: Text.AlignTop
+                        Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
+                        horizontalAlignment: Text.AlignLeft
+                        Layout.columnSpan: 1
+                        font.pixelSize: 16
                     }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
-                }
 
-                Button {
-                    id: connectButton
-                    text: qsTr("Connect")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    onClicked:
-                    {
-                        settings.connect(networksComboBox.currentText,passwordTextField.text)
-                        passwordTextField.clear()
-                    }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
-
-                }
-            }
-
-            GridLayout {
-                x: 414
-                y: 51
-                width: 352
-                height: 313
-                rows: 2
-                columns: 1
-
-                Text {
-                    text: qsTr("Info")
-                    font.letterSpacing: 4
-                    lineHeight: 1
-                    horizontalAlignment: Text.AlignHCenter
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                    font.pixelSize: 21
-                }
-
-                Text {
-                    id: infoWifiText
-                    Layout.preferredHeight: 210
-                    Layout.preferredWidth: 370
-                    wrapMode: Text.WordWrap
-                    font.family: "Tahoma"
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                    horizontalAlignment: Text.AlignLeft
-                    font.pixelSize: 12
-                    function set() {
-                        settings.updateWifiStatus(infoWifiText)
-                    }
-                }
-                Switch {
-                    id: wifiOnSwitch
-                    text: qsTr("Power on")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    function updatestate()
-                    {
-                        if (checked === true)
+                    ComboBox {
+                        id: networksComboBox
+                        Layout.preferredWidth: 200
+                        Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
+                        onDisplayTextChanged:
                         {
-                            connectButton.enabled=true
-                            scanNetworkButton.enabled=true
-                            networksComboBox.enabled=true
-                        }
-                        else
-                        {
-                            networksComboBox.enabled=false
-                            connectButton.enabled=false
-                            scanNetworkButton.enabled=false
+                            settings.cbNetworks_onDisplayTextChanged(networksComboBox.currentText,wifiInfoText);
                         }
                     }
-                    onCheckedChanged:
-                    {
-                        settings.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
-                        updatestate()
-                    }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
 
+                    Text {
+                        id: wifiInfoText
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignTop
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                        Layout.columnSpan: 2
+                        font.pixelSize: 12
+
+                    }
+
+                    Text {
+                        id: passwordText
+                        text: qsTr("Password")
+                        font.pixelSize: 16
+                    }
+
+                    TextField {
+                        id: passwordTextField
+                        width: 80
+                        height: 20
+                        text: qsTr("")
+                        horizontalAlignment: Text.AlignHCenter
+                        font.pixelSize: 16
+                    }
+
+                    Button {
+                        id: scanNetworkButton
+                        text: qsTr("Scan Network")
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.searchNetworks(networksComboBox)
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+                    }
+
+                    Button {
+                        id: connectButton
+                        text: qsTr("Connect")
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        onClicked:
+                        {
+                            settings.connect(networksComboBox.currentText,passwordTextField.text)
+                            passwordTextField.clear()
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+
+                    }
                 }
 
-                Timer {
-                    id: timerWifiStatus
-                    interval: 2000
-                    repeat: true
-                    running: true
-                    triggeredOnStart: true
-                    onTriggered: infoWifiText.set()
+                GridLayout {
+                    width: 352
+                    rows: 2
+                    columns: 1
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+
+                    Text {
+                        text: qsTr("Info")
+                        font.letterSpacing: 4
+                        lineHeight: 1
+                        horizontalAlignment: Text.AlignHCenter
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                        font.pixelSize: 21
+                    }
+
+                    Text {
+                        id: infoWifiText
+                        Layout.preferredHeight: 210
+                        Layout.preferredWidth: 370
+                        wrapMode: Text.WordWrap
+                        font.family: "Tahoma"
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                        horizontalAlignment: Text.AlignLeft
+                        font.pixelSize: 12
+                        function set() {
+                            settings.updateWifiStatus(infoWifiText)
+                        }
+                    }
+                    Switch {
+                        id: wifiOnSwitch
+                        text: qsTr("Power on")
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        function updatestate()
+                        {
+                            if (checked === true)
+                            {
+                                connectButton.enabled=true
+                                scanNetworkButton.enabled=true
+                                networksComboBox.enabled=true
+                            }
+                            else
+                            {
+                                networksComboBox.enabled=false
+                                connectButton.enabled=false
+                                scanNetworkButton.enabled=false
+                            }
+                        }
+                        onCheckedChanged:
+                        {
+                            settings.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
+                            updatestate()
+                        }
+                        onPressed: { busySettings.running=true }
+                        onReleased:{ busySettings.running=false }
+
+                    }
+
+                    Timer {
+                        id: timerWifiStatus
+                        interval: 2000
+                        repeat: true
+                        running: true
+                        triggeredOnStart: true
+                        onTriggered: infoWifiText.set()
+                    }
                 }
             }
         }
 
+
         Item
         {
+
             id: ipaddressSettingsTag
-            GridLayout {
-                x: 38
-                y: 51
-                width: 352
-                height: 260
-                columns: 2
+            RowLayout{
+                y:51
+                anchors.left: parent.left
+                anchors.right: parent.right
 
-                Text {
-                    id: networkInterfaceText
-                    text: qsTr("Interface")
-                    verticalAlignment: Text.AlignVCenter
-                    bottomPadding: 9
-                    horizontalAlignment: Text.AlignLeft
-                    font.pixelSize: 16
-                }
-
-                ComboBox {
-                    id: networkInterfaceComboBox
-                    Layout.preferredWidth: 200
-                    model:["Wi-Fi", "Ethernet"]
-                    onDisplayTextChanged:
-                    {
-                        settings.loadIpAddressConfiguration(networkInterfaceComboBox.currentIndex, dynamicIPRadioButton,
-                                                            staticIPRadioButton,ipadressTextField,netmaskTextField,
-                                                            gatewayTextField,dnsserverTextField);
-                    }
-                }
-
-                Text {
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignTop
+                GridLayout {
+                    width: 352
+                    columns: 2
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                    Layout.columnSpan: 2
-                    font.pixelSize: 12
+                    Layout.leftMargin: 10
+                    Layout.rightMargin: 10
 
-                }
+                    Text {
+                        id: networkInterfaceText
+                        text: qsTr("Interface")
+                        verticalAlignment: Text.AlignVCenter
+                        bottomPadding: 9
+                        horizontalAlignment: Text.AlignLeft
+                        font.pixelSize: 16
+                    }
 
-
-                ColumnLayout {
-                    id: columnLayout
-                    width: 100
-                    height: 100
-                    Layout.columnSpan: 2
-
-                    RadioButton {
-                        id: dynamicIPRadioButton
-                        text: qsTr("Dynamic IP [DHCP]")
-                        Layout.columnSpan: 2
-                        onClicked:
+                    ComboBox {
+                        id: networkInterfaceComboBox
+                        Layout.preferredWidth: 200
+                        model:["Wi-Fi", "Ethernet"]
+                        onDisplayTextChanged:
                         {
-                            if(dynamicIPRadioButton.checked)
-                            {
-                                ipadressTextField.enabled=false
-                                netmaskTextField.enabled=false
-                                gatewayTextField.enabled=false
-                                dnsserverTextField.enabled=false
-                                settings.rbDynamicIP_onClicked()
-                            }
+                            settings.loadIpAddressConfiguration(networkInterfaceComboBox.currentIndex, dynamicIPRadioButton,
+                                                                staticIPRadioButton,ipadressTextField,netmaskTextField,
+                                                                gatewayTextField,dnsserverTextField);
                         }
                     }
 
-                    RadioButton {
-                        id: staticIPRadioButton
-                        text: qsTr("Static IP")
+                    Text {
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignTop
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
                         Layout.columnSpan: 2
-                        onClicked:
-                        {
-                            if(staticIPRadioButton.checked)
+                        font.pixelSize: 12
+
+                    }
+
+
+                    ColumnLayout {
+                        id: columnLayout
+                        width: 100
+                        height: 100
+                        Layout.columnSpan: 2
+
+                        RadioButton {
+                            id: dynamicIPRadioButton
+                            text: qsTr("Dynamic IP [DHCP]")
+                            Layout.columnSpan: 2
+                            onClicked:
                             {
-                                ipadressTextField.enabled=true
-                                netmaskTextField.enabled=true
-                                gatewayTextField.enabled=true
-                                dnsserverTextField.enabled=true
-                                settings.rbStaticIP_onClicked(ipadressTextField.text, netmaskTextField.text,
-                                                              gatewayTextField.text, dnsserverTextField.text)
+                                if(dynamicIPRadioButton.checked)
+                                {
+                                    ipadressTextField.enabled=false
+                                    netmaskTextField.enabled=false
+                                    gatewayTextField.enabled=false
+                                    dnsserverTextField.enabled=false
+                                    settings.rbDynamicIP_onClicked()
+                                }
+                            }
+                        }
+
+                        RadioButton {
+                            id: staticIPRadioButton
+                            text: qsTr("Static IP")
+                            Layout.columnSpan: 2
+                            onClicked:
+                            {
+                                if(staticIPRadioButton.checked)
+                                {
+                                    ipadressTextField.enabled=true
+                                    netmaskTextField.enabled=true
+                                    gatewayTextField.enabled=true
+                                    dnsserverTextField.enabled=true
+                                    settings.rbStaticIP_onClicked(ipadressTextField.text, netmaskTextField.text,
+                                                                  gatewayTextField.text, dnsserverTextField.text)
+                                }
                             }
                         }
                     }
                 }
+
+                GridLayout {
+                    width: 362
+                    rows: 2
+                    columns: 2
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.leftMargin: 10
+                    Layout.rightMargin: 10
+
+                    Text {
+                        text: qsTr("IP Address")
+                        font.pixelSize: 16
+                    }
+
+                    TextField {
+                        id: ipadressTextField
+                        width: 80
+                        height: 20
+                        text: qsTr("192.168.1.155")
+                        horizontalAlignment: Text.AlignHCenter
+                        font.pixelSize: 16
+                        onEditingFinished:
+                        {
+                            settings.tfIpAddress_onEditingFinished(ipadressTextField.text)
+                        }
+
+                    }
+
+                    Text {
+                        text: qsTr("NetMask")
+                        font.pixelSize: 16
+                    }
+
+                    TextField {
+                        id: netmaskTextField
+                        width: 80
+                        height: 20
+                        text: qsTr("255.255.255.0")
+                        font.pixelSize: 16
+                        horizontalAlignment: Text.AlignHCenter
+                        onEditingFinished:
+                        {
+                            settings.tfNetMask_onEditingFinished(netmaskTextField.text)
+                        }
+
+                    }
+
+                    Text {
+                        text: qsTr("Gateway")
+                        font.pixelSize: 16
+                    }
+
+                    TextField {
+                        id: gatewayTextField
+                        width: 80
+                        height: 20
+                        text: qsTr("192.168.1.1")
+                        font.pixelSize: 16
+                        horizontalAlignment: Text.AlignHCenter
+                        onEditingFinished:
+                        {
+                            settings.tfGateway_onEditingFinished(gatewayTextField.text)
+                        }
+
+                    }
+
+                    Text {
+                        text: qsTr("DNS Server")
+                        font.pixelSize: 16
+                    }
+
+                    TextField {
+                        id: dnsserverTextField
+                        width: 80
+                        height: 20
+                        text: qsTr("192.168.1.1")
+                        font.pixelSize: 16
+                        horizontalAlignment: Text.AlignHCenter
+                        onEditingFinished:
+                        {
+                            settings.tfDNSServer_onEditingFinished(dnsserverTextField.text)
+                        }
+                    }
+                }
+
             }
 
-            GridLayout {
-                x: 417
-                y: 51
-                width: 362
-                height: 260
-                rows: 2
-                columns: 2
+            RowLayout {
+                id: rowLayout
+                y: 376
+                anchors.bottomMargin: 20
+                anchors.rightMargin: 140
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
 
-                Text {
-                    text: qsTr("IP Address")
-                    font.pixelSize: 16
-                }
-
-                TextField {
-                    id: ipadressTextField
-                    width: 80
-                    height: 20
-                    text: qsTr("192.168.1.155")
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: 16
-                    onEditingFinished:
-                    {
-                        settings.tfIpAddress_onEditingFinished(ipadressTextField.text)
-                    }
-
-                }
-
-                Text {
-                    text: qsTr("NetMask")
-                    font.pixelSize: 16
-                }
-
-                TextField {
-                    id: netmaskTextField
-                    width: 80
-                    height: 20
-                    text: qsTr("255.255.255.0")
-                    font.pixelSize: 16
-                    horizontalAlignment: Text.AlignHCenter
-                    onEditingFinished:
-                    {
-                        settings.tfNetMask_onEditingFinished(netmaskTextField.text)
-                    }
-
-                }
-
-                Text {
-                    text: qsTr("Gateway")
-                    font.pixelSize: 16
-                }
-
-                TextField {
-                    id: gatewayTextField
-                    width: 80
-                    height: 20
-                    text: qsTr("192.168.1.1")
-                    font.pixelSize: 16
-                    horizontalAlignment: Text.AlignHCenter
-                    onEditingFinished:
-                    {
-                        settings.tfGateway_onEditingFinished(gatewayTextField.text)
-                    }
-
-                }
-
-                Text {
-                    text: qsTr("DNS Server")
-                    font.pixelSize: 16
-                }
-
-                TextField {
-                    id: dnsserverTextField
-                    width: 80
-                    height: 20
-                    text: qsTr("192.168.1.1")
-                    font.pixelSize: 16
-                    horizontalAlignment: Text.AlignHCenter
-                    onEditingFinished:
-                    {
-                        settings.tfDNSServer_onEditingFinished(dnsserverTextField.text)
-                    }
-                }
-            }
-
-            Button
-            {
-                id: button
-                x: 560
-                y: 379
-                text: "Save"
-                height: 40
-                onClicked:
+                Button
                 {
-                    settings.saveIpAddressConfiguration()
+                    id: button7
+                    text: "Save"
+                    height: 40
+                    onClicked:
+                    {
+                        settings.saveIpAddressConfiguration()
+                    }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
                 }
-                onPressed: { busySettings.running=true }
-                onReleased:{ busySettings.running=false }
             }
         }
 
         Item
         {
             id: screensaverSettingsTag
-
-            RowLayout {
-
-                anchors.rightMargin: 20
-                anchors.leftMargin: 20
-                anchors.topMargin: 60
-                anchors.bottomMargin: -374
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
+            RowLayout{
+                y:51
                 anchors.left: parent.left
-                anchors.top: parent.top
+                anchors.right: parent.right
 
                 GridLayout {
-                    width: 100
-                    height: 100
                     rowSpacing: 28
                     rows: 4
                     Layout.preferredWidth: 300
-                    columns: 3
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+                    columns: 2
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.leftMargin: 10
+                    Layout.rightMargin: 10
 
 
                     Text {
@@ -784,7 +804,6 @@ Dialog
                         width: 138
                         from: 1
                         to: 15
-                        Layout.columnSpan: 2
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                         font.pointSize: 11
                     }
@@ -799,7 +818,6 @@ Dialog
                         width: 138
                         from: 1
                         to: 10
-                        Layout.columnSpan: 2
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                         font.pointSize: 11
                     }
@@ -807,9 +825,18 @@ Dialog
                     CheckBox {
                         id: randomCheckBox
                         text: qsTr("Random")
-                        Layout.columnSpan: 3
                         checkable: true
                     }
+                }
+                GridLayout
+                {
+                    rowSpacing: 28
+                    rows: 4
+                    Layout.preferredWidth: 300
+                    columns: 2
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.leftMargin: 10
+                    Layout.rightMargin: 10
 
                     Text {
                         text: qsTr("Catalog")
@@ -828,6 +855,8 @@ Dialog
                         id: openButton
                         text: qsTr("Open")
                         Layout.preferredWidth: 60
+
+                        Layout.columnSpan: 2
                         onClicked:
                         {
                             screenSaverFileDialog.open()
@@ -839,51 +868,60 @@ Dialog
                         id: screensaverEnableSwitch
                         text: qsTr("Enable")
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                        Layout.columnSpan: 3
+                        Layout.columnSpan: 2
+
                         onClicked:
                         {
                             settingsScreensaver.screenSaverEnableSwitch_OnClicked(screensaverEnableSwitch.checked)
                         }
                     }
-                }
 
-                GridLayout {
-                    width: 100
-                    height: 100
                 }
             }
+            RowLayout {
+                id: rowLayout2
+                y: 376
+                anchors.bottomMargin: 20
+                anchors.rightMargin: 140
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
 
-            Button
-            {
-                id:saveScreenSaverButton
-                x: 559
-                y: 380
-                width: 100
-                height: 40
-                text: "save"
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                Layout.columnSpan: 2
-                onClicked:
+                Button
                 {
-                    settingsScreensaver.bSaveScreenSaver_onClicked(timeOutSpinBox.value,pathScreenSaverTextField.text,startTimeSpinBox.value,randomCheckBox.checked)
+                    id:saveScreenSaverButton
+                    x: 559
+                    y: 380
+                    width: 100
+                    height: 40
+                    text: "Save"
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+                    Layout.columnSpan: 2
+                    onClicked:
+                    {
+                        settingsScreensaver.bSaveScreenSaver_onClicked(timeOutSpinBox.value,pathScreenSaverTextField.text,startTimeSpinBox.value,randomCheckBox.checked)
+                    }
+                    onPressed: { busySettings.running=true }
+                    onReleased:{ busySettings.running=false }
                 }
-                onPressed: { busySettings.running=true }
-                onReleased:{ busySettings.running=false }
             }
         }
 
         Item
         {
             id: updateTag
+            RowLayout{
+                y:51
+                anchors.left: parent.left
+                anchors.right: parent.right
 
             GridLayout {
                 id: gridLayout
-                x: 22
-                y: 60
                 width: 378
-                height: 290
                 rows: 4
                 columns: 2
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.leftMargin: 10
+                    Layout.rightMargin: 10
 
                 Text {
                     text: qsTr("Package")
@@ -957,11 +995,12 @@ Dialog
 
             GridLayout {
                 id: gridLayout1
-                x: 457
-                y: 60
                 width: 330
-                height: 290
                 rows: 2
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                Layout.leftMargin: 10
+                Layout.rightMargin: 10
+
                 Text {
                     text: qsTr("Package Specification")
                     horizontalAlignment: Text.AlignLeft
@@ -981,10 +1020,11 @@ Dialog
                 columns: 1
             }
         }
+            }
     }
 
     RowLayout {
-        id: rowLayout
+        id: rowLayout10
         y: 376
         spacing: 30
         anchors.bottomMargin: 20

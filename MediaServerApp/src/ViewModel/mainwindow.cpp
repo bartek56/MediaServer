@@ -1,31 +1,26 @@
 #include "mainwindow.h"
-#include "../screensavermanager.h"
-#include <QProcess>
-#include <QTimer>
-#include <QThread>
 
+#include <QProcess>
+#include <QThread>
+#include <QTimer>
+
+#include "../screensavermanager.h"
 
 MainWindow::MainWindow(QObject *parent) : QObject(parent)
 {
-    bluetoothctl = new Bluetoothctl();
+    bluetoothctl= new Bluetoothctl();
 }
 
 void MainWindow::startPicturesApplication()
 {
-    QProcess::startDetached("systemctl", QStringList() << "-c" << "start gqview.service");
-    QProcess::startDetached("systemctl", QStringList() << "-c" << "stop start.service");
 }
 
 void MainWindow::startMusicApplication()
 {
-    QProcess::startDetached("systemctl", QStringList() << "-c" << "start gmpc.service");
-    QProcess::startDetached("systemctl", QStringList() << "-c" << "stop start.service");
 }
 
 void MainWindow::startBrowser()
 {
-    QProcess::startDetached("systemctl", QStringList() << "-c" << "start pcmanfm.service");
-    QProcess::startDetached("systemctl", QStringList() << "-c" << "stop start.service");
 }
 
 void MainWindow::pairWithBluetoothDevice()
@@ -51,12 +46,13 @@ void MainWindow::getPairBluetoothMessage(QObject *messageDialog)
 void MainWindow::rebootButton_OnClicked()
 {
     QProcess appProcess2;
-    appProcess2.startDetached("sh", QStringList() << "-c" << "reboot");
+    appProcess2.startDetached("sh", QStringList() << "-c"
+                                                  << "reboot");
 }
 
 void MainWindow::shutdownButton_OnClicked()
 {
     QProcess appProcess2;
-    appProcess2.startDetached("sh", QStringList() << "-c" << "poweroff");
+    appProcess2.startDetached("sh", QStringList() << "-c"
+                                                  << "poweroff");
 }
-

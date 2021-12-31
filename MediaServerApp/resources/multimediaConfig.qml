@@ -14,7 +14,7 @@ Dialog
     topMargin: 40
     margins: 0
     padding: 1
-    modal: true    
+    modal: true
 
     MultimediaConfig
     {
@@ -78,24 +78,24 @@ Dialog
         }
     }
 
-    GridLayout {
-        rowSpacing: 90
-        anchors.rightMargin: 15
-        anchors.left: parent.left
-        anchors.leftMargin: 15
-        anchors.right: parent.right
-        columns: 2
+    RowLayout {
+        anchors.topMargin: 20
+        anchors.fill: parent
+//        anchors.left: parent.left
+//        anchors.leftMargin: 15
+//        anchors.right: parent.right
 
         GroupBox {
             id: groupBox
             width: 500
             font.pointSize: 16
+            Layout.leftMargin: 15
             Layout.preferredHeight: 250
             Layout.preferredWidth: 400
             title: qsTr("Media Directory")
             topPadding: 45
             leftPadding: 50
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
 
             GridLayout {
                 anchors.bottom: parent.bottom
@@ -192,8 +192,16 @@ Dialog
 
         GroupBox {
             id: groupBox1
+            title: qsTr("Settings")
             width: 390
             font.pointSize: 16
+            Layout.rightMargin: 15
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+            topPadding: 45
+            Layout.preferredWidth: 250
+            Layout.preferredHeight: 250
+            leftPadding: 50
+
             GridLayout {
                 anchors.horizontalCenter: parent.horizontalCenter
                 rows: 2
@@ -238,52 +246,47 @@ Dialog
                 Layout.alignment: Qt.AlignLeft | Qt.AlignTop
                 anchors.top: parent.top
             }
-            title: qsTr("Settings")
-            topPadding: 45
-            Layout.preferredWidth: 250
-            Layout.preferredHeight: 250
-            Layout.alignment: Qt.AlignRight | Qt.AlignTop
-            leftPadding: 50
+        }
+    }
+
+
+    RowLayout
+    {
+        id: rowLayout
+        anchors.bottomMargin: 15
+        anchors.rightMargin: 15
+
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+
+
+        Button
+        {
+            id: saveButton
+            width: 160
+            height: 40
+            text: "Save"
+            onClicked:
+            {
+                multimediaConfig.saveConfigs();
+            }
+            onPressed: { busyMultimediaConfig.running=true }
+            onReleased:{ busyMultimediaConfig.running=false }
         }
 
-
-        RowLayout {
-            id: rowLayout
-            spacing: 30
-            //            anchors.bottomMargin: 8
-            Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-            Layout.columnSpan: 2
-
-            //            anchors.bottom: parent.bottom
-            //            anchors.right: parent.right
-
-            Button
+        Button
+        {
+            id: closeButton
+            text: "Close"
+            width: 160
+            height: 40
+            onClicked:
             {
-                id: saveButton
-                width: 160
-                height: 40
-                text: "Save"
-                onClicked:
-                {
-                    multimediaConfig.saveConfigs();
-                }
-                onPressed: { busyMultimediaConfig.running=true }
-                onReleased:{ busyMultimediaConfig.running=false }
-            }
-
-            Button
-            {
-                id: closeButton
-                text: "Close"
-                width: 160
-                height: 40
-                onClicked:
-                {
-                    multimediaConfigDialog.close()
-                }
+                multimediaConfigDialog.close()
             }
         }
     }
+
 
     BusyIndicator
     {
