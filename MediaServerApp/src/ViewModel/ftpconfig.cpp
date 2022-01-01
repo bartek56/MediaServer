@@ -123,7 +123,7 @@ void FtpConfig::bSave_onClicked()
     SaveUsers();
     UpdateUsers();
     DeleteUsers();
-    QProcess::execute("systemctl restart vsftpd");
+    Systemd::restartUnit(Systemd::System, "vsftpd.service", Systemd::Unit::Replace);
 }
 
 void FtpConfig::SaveUsers()

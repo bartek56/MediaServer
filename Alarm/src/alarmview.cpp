@@ -1,20 +1,17 @@
-
 #include "alarmview.h"
 #include <QProcess>
 #include <QFile>
 #include <QDebug>
 #include <QDateTime>
+#include <QtSystemd/unit.h>
+#include <QtSystemd/sdmanager.h>
 
 AlarmView::AlarmView(QObject *parent) : QObject(parent)
 {
-    isSnooze = false;
-    QProcess process;
-    process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("bash", QStringList() << "-c" << "systemctl is-active alarm_snooze.service");
-    process.setReadChannel(QProcess::StandardOutput);
-    process.waitForFinished();
-    auto text = process.readAll();
-    if(!text.contains("in")) // alarm active
+    const QString unitName("alarm_snooze.service");
+    auto text = Systemd::getUnit(Systemd::System, unitName).data()->activeState();
+
+    if(!text.contains("in"))// alarm active
     {
         isSnooze = true;
     }
@@ -22,16 +19,17 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent)
 
 void AlarmView::stopAlarm()
 {
-    auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration();
+    Systemd::stopUnit(Systemd::System, "alarm_snooze.timer", Systemd::Unit::Replace);
 
-    QString defaultVolume = alarmConfigMap["defaultVolume"];
-    QProcess::startDetached("systemctl stop alarm_snooze.timer");
     if(isSnooze)
-        QProcess::startDetached("systemctl stop alarm_snooze.service");
-    else
-        QProcess::startDetached("systemctl stop alarm.service");
+        Systemd::stopUnit(Systemd::System, "alarm_snooze.service", Systemd::Unit::Replace);
 
-    QProcess::startDetached("mpc volume "+defaultVolume);
+    else
+        Systemd::stopUnit(Systemd::System, "alarm.service", Systemd::Unit::Replace);
+
+    auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration();
+    QString defaultVolume = alarmConfigMap["defaultVolume"];
+    QProcess::startDetached("mpc", QStringList() << "volume " << defaultVolume);
 }
 
 void AlarmView::snooze5min()
@@ -51,13 +49,13 @@ void AlarmView::snooze15min()
 
 void AlarmView::snooze(int min)
 {
-    QFile file (CONFIG_PATH+"/alarm_snooze.timer");
+    QFile file(CONFIG_PATH + "/alarm_snooze.timer");
 
     QStringList vUsers;
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
-    while (!file.atEnd())
+    while(!file.atEnd())
     {
         QByteArray line = file.readLine();
         QString qstrLine(line);
@@ -65,8 +63,8 @@ void AlarmView::snooze(int min)
         if(qstrLine.contains("OnCalendar"))
         {
             QDateTime local(QDateTime::currentDateTime());
-            local = local.addSecs(60*min);
-            vUsers.push_back("OnCalendar=*-*-* "+local.toString("hh:mm")+"\n");
+            local = local.addSecs(60 * min);
+            vUsers.push_back("OnCalendar=*-*-* " + local.toString("hh:mm") + "\n");
         }
         else
         {
@@ -76,45 +74,42 @@ void AlarmView::snooze(int min)
 
     file.close();
 
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
 
     QTextStream out(&file);
-    for (auto it = std::begin(vUsers); it!=std::end(vUsers); ++it)
+    for(auto it = std::begin(vUsers); it != std::end(vUsers); ++it)
     {
         out << *it;
     }
     file.close();
 
-    QFile systemdVarFile ("/etc/mediaserver/systemdVariables");
+    QFile systemdVarFile("/etc/mediaserver/systemdVariables");
 
     QStringList arg;
 
     arg.push_back("ARG1=restart\n");
 
-    if (!systemdVarFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    if(!systemdVarFile.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
 
     QTextStream streamOut(&systemdVarFile);
-    for (auto it = std::begin(arg); it!=std::end(arg); ++it)
+    for(auto it = std::begin(arg); it != std::end(arg); ++it)
     {
         streamOut << *it;
     }
     systemdVarFile.close();
 
-    QProcess builder;
-    builder.setProcessChannelMode(QProcess::MergedChannels);
-    builder.start("systemctl daemon-reload");
+    Systemd::reload(Systemd::System);
 
-    while(builder.waitForFinished());
-    QProcess::startDetached("mpc stop");
-    QProcess::startDetached("systemctl restart alarm_snooze.timer");
+    QProcess::startDetached("mpc", QStringList() << "stop");
+    Systemd::restartUnit(Systemd::System, "alarm_snooze.timer", Systemd::Unit::Replace);
 
     if(isSnooze)
-        QProcess::startDetached("systemctl stop alarm_snooze.service");
+        Systemd::stopUnit(Systemd::System, "alarm_snooze.service", Systemd::Unit::Replace);
     else
-        QProcess::startDetached("systemctl stop alarm.service");
-    QProcess::startDetached("systemctl stop alarm_gui.service");
+        Systemd::stopUnit(Systemd::System, "alarm.service", Systemd::Unit::Replace);
 
-
+    QProcess::startDetached("systemctl", QStringList() << "stop"
+                                                       << "alarm_gui.service");
 }

@@ -7,15 +7,15 @@
 
 QStringList EditFtpConfigFile::OpenUsersListFile(const QString &fileLocation)
 {
-    QFile file (fileLocation);
+    QFile file(fileLocation);
     QStringList vUsers;
 
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return vUsers;
 
     QByteArray parameterName;
 
-    while (!file.atEnd())
+    while(!file.atEnd())
     {
         QByteArray line = file.readLine();
         std::string strLine(line);
@@ -30,15 +30,15 @@ QStringList EditFtpConfigFile::OpenUsersListFile(const QString &fileLocation)
 
 QString EditFtpConfigFile::OpenUserPathFile(const QString &fileLocation)
 {
-    QFile file (fileLocation);
+    QFile file(fileLocation);
     QString vUserPath;
 
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return vUserPath;
 
     QByteArray parameterName;
 
-    while (!file.atEnd())
+    while(!file.atEnd())
     {
         QByteArray line = file.readLine();
         auto line2 = line.split('=');
@@ -53,35 +53,38 @@ void EditFtpConfigFile::DeleteUsersFile(const QString user)
 {
     QString commend = "rm /etc/vsftpd_user_conf/";
     commend.push_back(user);
-    QProcess::execute(commend);
+    QProcess::execute("rm", QStringList() << commend);
 }
 
 void EditFtpConfigFile::AddUser(const QString userName, const QString password)
 {
-    QString commend = "htpasswd -b -d /etc/vsftpd/ftpd.passwd ";
-    commend.push_back(userName);
-    commend.push_back(" ");
-    commend.push_back(password);
-    QProcess::execute(commend);
+    QStringList commend;
+    commend.append("-b");
+    commend.append("-d");
+    commend.append("/etc/vsftpd/ftpd.passwd");
+    commend.append(userName);
+    commend.append(password);
+    QProcess::execute("htpasswd", commend);
 }
 
 void EditFtpConfigFile::DeleteUser(const QString userName)
 {
-    QString commend = "htpasswd -D /etc/vsftpd/ftpd.passwd ";
-    commend.push_back(userName);
-    QProcess::execute(commend);
+    QStringList commend;
+    commend.append("-D");
+    commend.append("/etc/vsftpd/ftpd.passwd");
+    commend.append(userName);
+    QProcess::execute("htpasswd", commend);
 }
 
 void EditFtpConfigFile::CreateOrEditUserConfigFile(const QString userName, const QString pathToFile)
 {
-        QString filename="/etc/vsftpd_user_conf/";
-        filename.push_back(userName);
-        QFile file(filename);
-        if (file.open(QIODevice::ReadWrite))
-        {
-            QTextStream stream(&file);
-            stream << "local_root=" << pathToFile;
-        }
-        file.close();
+    QString filename = "/etc/vsftpd_user_conf/";
+    filename.push_back(userName);
+    QFile file(filename);
+    if(file.open(QIODevice::ReadWrite))
+    {
+        QTextStream stream(&file);
+        stream << "local_root=" << pathToFile;
+    }
+    file.close();
 }
-

@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 INCLUDEPATH += ../MediaServerLib
 LIBS += -L../MediaServerLib -lMediaServerLib
+LIBS += -lQtSystemd
 
 SOURCES += \
         src/main.cpp \

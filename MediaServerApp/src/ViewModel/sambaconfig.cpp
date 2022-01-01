@@ -3,6 +3,8 @@
 #include <QDebug>
 #include <QObject>
 #include <QFile>
+#include <QtSystemd/sdmanager.h>
+#include <QtSystemd/unit.h>
 
 SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 {
@@ -11,13 +13,7 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 
 bool SambaConfig::isServiceActive()
 {
-    QProcess process;
-    process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("bash", QStringList() << "-c" << "systemctl is-active nmb");
-    process.setReadChannel(QProcess::StandardOutput);
-    process.waitForFinished();
-    auto text = process.readAll();
-    process.close();
+    auto text = Systemd::getUnit(Systemd::System, "nmb.service").data()->activeState();
     return !text.contains("in");
 }
 
@@ -28,26 +24,25 @@ void SambaConfig::loadAllConfigs()
 
     showGlobalConfigs();
     showLocalConfigs();
-    if(countShare==2)
+    if(countShare == 2)
     {
         saveDefaultConfigsForExternalDisk1();
         saveDefaultConfigsForExternalDisk2();
         saveDefaultConfigsForExternalDisk3();
     }
-    else if(countShare==3)
+    else if(countShare == 3)
     {
         enabledCheckBox1->setProperty("checked", QVariant(true));
         saveDefaultConfigsForExternalDisk2();
         saveDefaultConfigsForExternalDisk3();
     }
-    else if(countShare==4)
+    else if(countShare == 4)
     {
         enabledCheckBox1->setProperty("checked", QVariant(true));
         enabledCheckBox2->setProperty("checked", QVariant(true));
         saveDefaultConfigsForExternalDisk3();
-
     }
-    else if(countShare==5)
+    else if(countShare == 5)
     {
         enabledCheckBox1->setProperty("checked", QVariant(true));
         enabledCheckBox2->setProperty("checked", QVariant(true));
@@ -57,7 +52,6 @@ void SambaConfig::loadAllConfigs()
     showConfigsForExternalDisk1();
     showConfigsForExternalDisk2();
     showConfigsForExternalDisk3();
-
 }
 
 void SambaConfig::showLocalConfigs()
@@ -73,7 +67,6 @@ void SambaConfig::showLocalConfigs()
     setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox);
     setCheckboxesFromFileSettings(configsParameters.at(configName.WRITABLE), writablecheckBox);
     setCheckboxesFromFileSettings(configsParameters.at(configName.GUEST_OK), guestOkCheckBox);
-
 }
 
 void SambaConfig::showGlobalConfigs()
@@ -81,9 +74,9 @@ void SambaConfig::showGlobalConfigs()
     auto globalConfig = vConfigs[0];
     auto configsParameters = globalConfig.configs;
 
-    workGroupTextField->setProperty("text",QVariant(configsParameters.at(configName.WORKGROUP)));
-    serverStringTextField->setProperty("text",QVariant(configsParameters.at(configName.SERVER_STRING)));
-    netBiosTextField->setProperty("text",QVariant(configsParameters.at(configName.NETBIOS_NAME)));
+    workGroupTextField->setProperty("text", QVariant(configsParameters.at(configName.WORKGROUP)));
+    serverStringTextField->setProperty("text", QVariant(configsParameters.at(configName.SERVER_STRING)));
+    netBiosTextField->setProperty("text", QVariant(configsParameters.at(configName.NETBIOS_NAME)));
 
     setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), globalBrowsableCheckBox);
     setCheckboxesFromFileSettings(configsParameters.at(configName.LOCAL_MASTER), localMastercheckBox);
@@ -93,48 +86,48 @@ void SambaConfig::showGlobalConfigs()
 void SambaConfig::saveDefaultConfigsForExternalDisk1()
 {
     std::map<QString, QString> mConfigsParameters;
-    mConfigsParameters.insert(std::make_pair(configName.PATH,"/mnt/externalDisk1"));
-    mConfigsParameters.insert(std::make_pair(configName.COMMENT,"DISK1"));
-    mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE,"yes"));
-    mConfigsParameters.insert(std::make_pair(configName.WRITABLE,"yes"));
-    mConfigsParameters.insert(std::make_pair(configName.GUEST_OK,"yes"));
-    mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
-    mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
-    mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-    vConfigs.push_back(HeadersConfig("[DISK1]",mConfigsParameters));
+    mConfigsParameters.insert(std::make_pair(configName.PATH, "/mnt/externalDisk1"));
+    mConfigsParameters.insert(std::make_pair(configName.COMMENT, "DISK1"));
+    mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE, "yes"));
+    mConfigsParameters.insert(std::make_pair(configName.WRITABLE, "yes"));
+    mConfigsParameters.insert(std::make_pair(configName.GUEST_OK, "yes"));
+    mConfigsParameters.insert(std::make_pair(configName.READ_ONLY, "no"));
+    mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE, "0644"));
+    mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE, "0755"));
+    vConfigs.push_back(HeadersConfig("[DISK1]", mConfigsParameters));
 }
 
 void SambaConfig::saveDefaultConfigsForExternalDisk2()
 {
     std::map<QString, QString> mConfigsParameters;
-    mConfigsParameters.insert(std::make_pair(configName.PATH,"/mnt/externalDisk2"));
-    mConfigsParameters.insert(std::make_pair(configName.COMMENT,"DISK2"));
-    mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE,"yes"));
-    mConfigsParameters.insert(std::make_pair(configName.WRITABLE,"yes"));
-    mConfigsParameters.insert(std::make_pair(configName.GUEST_OK,"yes"));
-    mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
-    mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
-    mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-    vConfigs.push_back(HeadersConfig("[DISK2]",mConfigsParameters));
+    mConfigsParameters.insert(std::make_pair(configName.PATH, "/mnt/externalDisk2"));
+    mConfigsParameters.insert(std::make_pair(configName.COMMENT, "DISK2"));
+    mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE, "yes"));
+    mConfigsParameters.insert(std::make_pair(configName.WRITABLE, "yes"));
+    mConfigsParameters.insert(std::make_pair(configName.GUEST_OK, "yes"));
+    mConfigsParameters.insert(std::make_pair(configName.READ_ONLY, "no"));
+    mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE, "0644"));
+    mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE, "0755"));
+    vConfigs.push_back(HeadersConfig("[DISK2]", mConfigsParameters));
 }
 
 void SambaConfig::saveDefaultConfigsForExternalDisk3()
 {
     std::map<QString, QString> mConfigsParameters;
-    mConfigsParameters.insert(std::make_pair(configName.PATH,"/mnt/externalDisk3"));
-    mConfigsParameters.insert(std::make_pair(configName.COMMENT,"DISK3"));
-    mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE,"yes"));
-    mConfigsParameters.insert(std::make_pair(configName.WRITABLE,"yes"));
-    mConfigsParameters.insert(std::make_pair(configName.GUEST_OK,"yes"));
-    mConfigsParameters.insert(std::make_pair(configName.READ_ONLY,"no"));
-    mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE,"0644"));
-    mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE,"0755"));
-    vConfigs.push_back(HeadersConfig("[DISK3]",mConfigsParameters));
+    mConfigsParameters.insert(std::make_pair(configName.PATH, "/mnt/externalDisk3"));
+    mConfigsParameters.insert(std::make_pair(configName.COMMENT, "DISK3"));
+    mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE, "yes"));
+    mConfigsParameters.insert(std::make_pair(configName.WRITABLE, "yes"));
+    mConfigsParameters.insert(std::make_pair(configName.GUEST_OK, "yes"));
+    mConfigsParameters.insert(std::make_pair(configName.READ_ONLY, "no"));
+    mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE, "0644"));
+    mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE, "0755"));
+    vConfigs.push_back(HeadersConfig("[DISK3]", mConfigsParameters));
 }
 
 void SambaConfig::showConfigsForExternalDisk1()
 {
-    externalDiskTabButton1->setProperty("visible",QVariant(true));
+    externalDiskTabButton1->setProperty("visible", QVariant(true));
     auto localConfig = vConfigs[2];
     auto configsParameters = localConfig.configs;
 
@@ -142,8 +135,8 @@ void SambaConfig::showConfigsForExternalDisk1()
     directoryModeTextField1->setProperty("text", QVariant(configsParameters.at(configName.DIRECTORY_MODE)));
     pathTextField1->setProperty("text", QVariant(configsParameters.at(configName.PATH)));
     auto name = localConfig.name;
-    name.remove(0,1);
-    name.remove(name.length()-1,1);
+    name.remove(0, 1);
+    name.remove(name.length() - 1, 1);
 
     nameTextField1->setProperty("text", QVariant(name));
     setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox1);
@@ -154,14 +147,14 @@ void SambaConfig::showConfigsForExternalDisk1()
 
 void SambaConfig::showConfigsForExternalDisk2()
 {
-    externalDiskTabButton2->setProperty("visible",QVariant(true));
+    externalDiskTabButton2->setProperty("visible", QVariant(true));
     auto localConfig = vConfigs[3];
     auto configsParameters = localConfig.configs;
     createModeTextField2->setProperty("text", QVariant(configsParameters.at(configName.CREATE_MODE)));
     pathTextField2->setProperty("text", QVariant(configsParameters.at(configName.PATH)));
     auto name = localConfig.name;
-    name.remove(0,1);
-    name.remove(name.length()-1,1);
+    name.remove(0, 1);
+    name.remove(name.length() - 1, 1);
 
     nameTextField2->setProperty("text", QVariant(name));
     directoryModeTextField2->setProperty("text", QVariant(configsParameters.at(configName.DIRECTORY_MODE)));
@@ -173,15 +166,15 @@ void SambaConfig::showConfigsForExternalDisk2()
 
 void SambaConfig::showConfigsForExternalDisk3()
 {
-    externalDiskTabButton3->setProperty("visible",QVariant(true));
+    externalDiskTabButton3->setProperty("visible", QVariant(true));
     auto localConfig = vConfigs[4];
     auto configsParameters = localConfig.configs;
     createModeTextField3->setProperty("text", QVariant(configsParameters.at(configName.CREATE_MODE)));
     directoryModeTextField3->setProperty("text", QVariant(configsParameters.at(configName.DIRECTORY_MODE)));
     pathTextField3->setProperty("text", QVariant(configsParameters.at(configName.PATH)));
     auto name = localConfig.name;
-    name.remove(0,1);
-    name.remove(name.length()-1,1);
+    name.remove(0, 1);
+    name.remove(name.length() - 1, 1);
 
     nameTextField3->setProperty("text", QVariant(name));
     setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox3);
@@ -195,30 +188,30 @@ void SambaConfig::bSave_onClicked()
     if(!enabledCheckBox1->property("checked").toBool())
     {
         auto index = indexOfExternalDiskConfigurationByName(nameTextField1->property("text").toString());
-        if(index!=0)
-            vConfigs.erase (vConfigs.begin()+index);
+        if(index != 0)
+            vConfigs.erase(vConfigs.begin() + index);
     }
     if(!enabledCheckBox2->property("checked").toBool())
     {
         auto index = indexOfExternalDiskConfigurationByName(nameTextField2->property("text").toString());
-        if(index!=0)
-            vConfigs.erase (vConfigs.begin()+index);
+        if(index != 0)
+            vConfigs.erase(vConfigs.begin() + index);
     }
     if(!enabledCheckBox3->property("checked").toBool())
     {
         auto index = indexOfExternalDiskConfigurationByName(nameTextField3->property("text").toString());
-        if(index!=0)
-            vConfigs.erase (vConfigs.begin()+index);
+        if(index != 0)
+            vConfigs.erase(vConfigs.begin() + index);
     }
     editFile->SaveFile(vConfigs);
     if(isServiceActive())
     {
-        QProcess::execute("systemctl restart nmb");
-        QProcess::execute("systemctl restart smb");
+        Systemd::restartUnit(Systemd::System, "nmb.service", Systemd::Unit::Replace);
+        Systemd::restartUnit(Systemd::System, "smb.service", Systemd::Unit::Replace);
     }
 }
 
-void SambaConfig::setSettingFromCheckboxes(unsigned long row, QString configName,bool checked)
+void SambaConfig::setSettingFromCheckboxes(unsigned long row, QString configName, bool checked)
 {
     if(checked)
     {
@@ -230,45 +223,45 @@ void SambaConfig::setSettingFromCheckboxes(unsigned long row, QString configName
     }
 }
 
-void SambaConfig::setCheckboxesFromFileSettings(const QString configsParameters, QObject* checkbox)
+void SambaConfig::setCheckboxesFromFileSettings(const QString configsParameters, QObject *checkbox)
 {
     if(!configsParameters.compare("yes"))
     {
-        checkbox->setProperty("checked",QVariant(true));
+        checkbox->setProperty("checked", QVariant(true));
     }
     else
     {
-        checkbox->setProperty("checked",QVariant(false));
+        checkbox->setProperty("checked", QVariant(false));
     }
 }
 
-void SambaConfig::setExternalDiskTabButton1(QObject* obj)
+void SambaConfig::setExternalDiskTabButton1(QObject *obj)
 {
     externalDiskTabButton1 = obj;
 }
 
-void SambaConfig::setExternalDiskTabButton2(QObject* obj)
+void SambaConfig::setExternalDiskTabButton2(QObject *obj)
 {
     externalDiskTabButton2 = obj;
 }
 
-void SambaConfig::setExternalDiskTabButton3(QObject* obj)
+void SambaConfig::setExternalDiskTabButton3(QObject *obj)
 {
     externalDiskTabButton3 = obj;
 }
 
 unsigned int SambaConfig::indexOfExternalDiskConfiguration(QString comment)
 {
-    unsigned int index=2;
-    auto iter=vConfigs.begin();
+    unsigned int index = 2;
+    auto iter = vConfigs.begin();
     iter++;
     iter++;
-    while (iter != vConfigs.end())
+    while(iter != vConfigs.end())
     {
         auto map = iter->configs;
         QString name = map.at(configName.COMMENT);
 
-        if(name==comment)
+        if(name == comment)
         {
             return index;
         }
@@ -281,11 +274,11 @@ unsigned int SambaConfig::indexOfExternalDiskConfiguration(QString comment)
 
 unsigned int SambaConfig::indexOfExternalDiskConfigurationByName(QString name)
 {
-    unsigned int index=2;
-    auto iter=vConfigs.begin();
+    unsigned int index = 2;
+    auto iter = vConfigs.begin();
     iter++;
     iter++;
-    while (iter != vConfigs.end())
+    while(iter != vConfigs.end())
     {
         auto configName = iter->name;
         if(configName.contains(name))
@@ -300,28 +293,28 @@ unsigned int SambaConfig::indexOfExternalDiskConfigurationByName(QString name)
 
 void SambaConfig::bFileDialog_onAccepted(QString catalog)
 {
-    QString path = catalog.remove(0,7);
-    pathTextField->setProperty("text",QVariant(path));
-    vConfigs[1].configs.at(configName.PATH)=path;
+    QString path = catalog.remove(0, 7);
+    pathTextField->setProperty("text", QVariant(path));
+    vConfigs[1].configs.at(configName.PATH) = path;
 }
 
 void SambaConfig::bFileDialog1_onAccepted(QString catalog)
 {
-    QString path = catalog.remove(0,7);
-    pathTextField1->setProperty("text",QVariant(path));
-    vConfigs[2].configs.at(configName.PATH)=path;
+    QString path = catalog.remove(0, 7);
+    pathTextField1->setProperty("text", QVariant(path));
+    vConfigs[2].configs.at(configName.PATH) = path;
 }
 
 void SambaConfig::bFileDialog2_onAccepted(QString catalog)
 {
-    QString path = catalog.remove(0,7);
-    pathTextField2->setProperty("text",QVariant(path));
-    vConfigs[3].configs.at(configName.PATH)=path;
+    QString path = catalog.remove(0, 7);
+    pathTextField2->setProperty("text", QVariant(path));
+    vConfigs[3].configs.at(configName.PATH) = path;
 }
 
 void SambaConfig::bFileDialog3_onAccepted(QString catalog)
 {
-    QString path = catalog.remove(0,7);
-    pathTextField3->setProperty("text",QVariant(path));
-    vConfigs[4].configs.at(configName.PATH)=path;
+    QString path = catalog.remove(0, 7);
+    pathTextField3->setProperty("text", QVariant(path));
+    vConfigs[4].configs.at(configName.PATH) = path;
 }

@@ -4,6 +4,9 @@ CONFIG -= app_bundle
 CONFIG += c++17
 QT += quick
 
+LIBS += -lQtSystemd
+
+
 SOURCES += \
     src/ViewModel/alarmconfig.cpp \
     src/ViewModel/settings.cpp \

@@ -4,6 +4,8 @@
 #include <QFile>
 #include <map>
 #include <bitset>
+#include <QtSystemd/sdmanager.h>
+#include <QtSystemd/unit.h>
 
 Settings::Settings(QObject *parent) : QObject(parent)
 {
@@ -15,12 +17,13 @@ void Settings::updateNetworkStatus(QObject *obj)
 {
     QProcess builder;
     builder.setProcessChannelMode(QProcess::MergedChannels);
-    builder.start("networkctl status");
+    builder.start("networkctl", QStringList() << "status");
 
-    while(builder.waitForFinished());
+    while(builder.waitForFinished())
+        ;
 
     QString info = builder.readAll();
-    obj->setProperty("text",QVariant(info));
+    obj->setProperty("text", QVariant(info));
 }
 
 void Settings::checkTvHeadEndServiceStatus(QObject *statusSwitch, QObject *statusButton)
@@ -55,10 +58,9 @@ void Settings::ympdStatusButton_OnClicked(QObject *ympdStatusSwitch, const QStri
 }
 
 
-
 void Settings::checkMPDSystemdStatus(QObject *mpdStatusSwitch, QObject *mpdStatusButton)
 {
-     checkSystemdStatus(mpdStatusSwitch, mpdStatusButton, MPD_SERVICE);
+    checkSystemdStatus(mpdStatusSwitch, mpdStatusButton, MPD_SERVICE);
 }
 
 void Settings::mpdStatusSwitch_OnClicked(const bool mpdStatusSwitchIsChecked)
@@ -106,7 +108,6 @@ void Settings::sambaStatusButton_OnClicked(QObject *sambaStatusButton, const QSt
 }
 
 
-
 void Settings::checkFTPSystemdStatus(QObject *ftpStatusSwitch, QObject *ftpStatusButton)
 {
     checkSystemdStatus(ftpStatusSwitch, ftpStatusButton, VSFTPD_SERVICE);
@@ -123,7 +124,6 @@ void Settings::ftpStatusButton_OnClicked(QObject *ftpStatusButton, const QString
 }
 
 
-
 void Settings::checkFileBrowserSystemdStatus(QObject *fileBrowserStatusSwitch, QObject *fileBrowserStatusButton)
 {
     checkSystemdStatus(fileBrowserStatusSwitch, fileBrowserStatusButton, FILEBROWSER_SERVICE);
@@ -138,7 +138,6 @@ void Settings::fileBrowserStatusButton_OnClicked(QObject *ftpStatusButton, const
 {
     StatusButton_onClicked(ftpStatusButton, ftpStatusButtonText, FILEBROWSER_SERVICE);
 }
-
 
 
 void Settings::checkTorrentClientSystemdStatus(QObject *torrentClientStatusSwitch, QObject *torrentCLientStatusButton)
@@ -158,23 +157,13 @@ void Settings::torrentClientStatusButton_OnClicked(QObject *torrentClientStatusB
 
 bool Settings::checkSystemdStatusIsActive(const QString &serviceName)
 {
-    QProcess process;
-    process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("bash", QStringList() << "-c" << "systemctl is-active "+serviceName);
-    process.setReadChannel(QProcess::StandardOutput);
-    process.waitForFinished();
-    auto text = process.readAll();
+    auto text = Systemd::getUnit(Systemd::System, serviceName).data()->activeState();
     return !text.contains("in");
 }
 
 bool Settings::checkSystemdStatusIsEnabled(const QString &serviceName)
 {
-    QProcess process;
-    process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("bash", QStringList() << "-c" << "systemctl is-enabled "+serviceName);
-    process.setReadChannel(QProcess::StandardOutput);
-    process.waitForFinished();
-    auto text = process.readAll();
+    auto text = Systemd::getUnitFileState(Systemd::System, serviceName);
     return text.contains("enabled");
 }
 
@@ -182,7 +171,8 @@ bool Settings::checkSystemdStatusExist(const QString &serviceName)
 {
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("bash", QStringList() << "-c" << "systemctl is-enabled "+serviceName);
+    process.start("bash", QStringList() << "-c"
+                                        << "systemctl is-enabled " + serviceName);
     process.setReadChannel(QProcess::StandardOutput);
     process.waitForFinished();
     auto text = process.readAll();
@@ -193,133 +183,127 @@ void Settings::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, 
 {
     auto serviceExist = checkSystemdStatusExist(nameService);
 
-    statusButton->setProperty("enabled",QVariant(serviceExist));
-    statusSwitch->setProperty("enabled",QVariant(serviceExist));
+    statusButton->setProperty("enabled", QVariant(serviceExist));
+    statusSwitch->setProperty("enabled", QVariant(serviceExist));
 
     if(serviceExist)
     {
-      bool serviceIsEnable = checkSystemdStatusIsEnabled(nameService);
-      statusSwitch->setProperty("checked",QVariant(serviceIsEnable));
-      auto serviceIsActive = checkSystemdStatusIsActive(nameService);
+        bool serviceIsEnable = checkSystemdStatusIsEnabled(nameService);
+        statusSwitch->setProperty("checked", QVariant(serviceIsEnable));
+        auto serviceIsActive = checkSystemdStatusIsActive(nameService);
 
-      if(serviceIsActive)
-      {
-          statusButton->setProperty("text",QVariant("stop"));
-      }
-      else
-      {
-          statusButton->setProperty("text",QVariant("start"));
-      }
+        if(serviceIsActive)
+        {
+            statusButton->setProperty("text", QVariant("stop"));
+        }
+        else
+        {
+            statusButton->setProperty("text", QVariant("start"));
+        }
     }
 }
 
 void Settings::StatusSwitch_onClicked(const bool statusSwitchIsChecked, const QString &serviceName)
 {
     if(statusSwitchIsChecked)
-    {
-          QProcess::execute("systemctl", QStringList() << "-c" << "is-active vsftpd");
-    }
+        Systemd::enableUnitFiles(Systemd::System, QStringList() << serviceName, true, true);
     else
-    {
-        QProcess::execute("systemctl disable "+serviceName);
-    }
+        Systemd::disableUnitFiles(Systemd::System, QStringList() << serviceName, true);
 }
 
 void Settings::StatusButton_onClicked(QObject *statusButton, const QString statusButtonText, const QString &serviceName)
 {
     if(statusButtonText.contains("start"))
     {
-        QProcess::execute("systemctl start " + serviceName);
-        statusButton->setProperty("text",QVariant("stop"));
+        Systemd::startUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
+        statusButton->setProperty("text", QVariant("stop"));
     }
     else
     {
-        QProcess::execute("systemctl stop " + serviceName);
-        statusButton->setProperty("text",QVariant("start"));
+        Systemd::stopUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
+        statusButton->setProperty("text", QVariant("start"));
     }
 }
 
 
-void Settings::loadIpAddressConfiguration(const int networkInterfaceComboboxIndex, QObject *dynamicIPRadioButton,
-                                          QObject *staticIPRadioButton, QObject *ipadressTextField,
-                                          QObject *netmaskTextField, QObject *gatewayTextField,
-                                          QObject *dnsserverTextField)
+void Settings::loadIpAddressConfiguration(const int networkInterfaceComboboxIndex, QObject *dynamicIPRadioButton, QObject *staticIPRadioButton, QObject *ipadressTextField, QObject *netmaskTextField,
+                                          QObject *gatewayTextField, QObject *dnsserverTextField)
 {
-   setCurrentIpAddressConfig(networkInterfaceComboboxIndex);
+    setCurrentIpAddressConfig(networkInterfaceComboboxIndex);
 
-   if(vIpAddressConfigsPtr->back().configs.find("DHCP") != vIpAddressConfigsPtr->back().configs.end())
-   {
-       if(vIpAddressConfigsPtr->back().configs.at("DHCP") == "yes")
-       {
-           dynamicIPRadioButton->setProperty("checked", QVariant(true));
+    if(vIpAddressConfigsPtr->back().configs.find("DHCP") != vIpAddressConfigsPtr->back().configs.end())
+    {
+        if(vIpAddressConfigsPtr->back().configs.at("DHCP") == "yes")
+        {
+            dynamicIPRadioButton->setProperty("checked", QVariant(true));
 
-           ipadressTextField->setProperty("enabled", QVariant(false));
-           netmaskTextField->setProperty("enabled", QVariant(false));
-           gatewayTextField->setProperty("enabled", QVariant(false));
-           dnsserverTextField->setProperty("enabled", QVariant(false));
-       }
-   }
-   else
-   {
-       staticIPRadioButton->setProperty("checked", QVariant(true));
+            ipadressTextField->setProperty("enabled", QVariant(false));
+            netmaskTextField->setProperty("enabled", QVariant(false));
+            gatewayTextField->setProperty("enabled", QVariant(false));
+            dnsserverTextField->setProperty("enabled", QVariant(false));
+        }
+    }
+    else
+    {
+        staticIPRadioButton->setProperty("checked", QVariant(true));
 
-       ipadressTextField->setProperty("enabled", QVariant(true));
-       netmaskTextField->setProperty("enabled", QVariant(true));
-       gatewayTextField->setProperty("enabled", QVariant(true));
-       dnsserverTextField->setProperty("enabled", QVariant(true));
+        ipadressTextField->setProperty("enabled", QVariant(true));
+        netmaskTextField->setProperty("enabled", QVariant(true));
+        gatewayTextField->setProperty("enabled", QVariant(true));
+        dnsserverTextField->setProperty("enabled", QVariant(true));
 
-       QStringList ipAddressWithMask = vIpAddressConfigsPtr->back().configs.at("Address").split("/");
-       QString ipAddress = ipAddressWithMask[0];
+        QStringList ipAddressWithMask = vIpAddressConfigsPtr->back().configs.at("Address").split("/");
+        QString ipAddress = ipAddressWithMask[0];
 
-       QString netMask = convertNetMaskToFull(ipAddressWithMask[1]);
+        QString netMask = convertNetMaskToFull(ipAddressWithMask[1]);
 
-       ipadressTextField->setProperty("text", QVariant(ipAddress));
-       netmaskTextField->setProperty("text", QVariant(netMask));
-       gatewayTextField->setProperty("text", QVariant(vIpAddressConfigsPtr->back().configs.at("Gateway")));
-       dnsserverTextField->setProperty("text", QVariant(vIpAddressConfigsPtr->back().configs.at("DNS")));
-   }
+        ipadressTextField->setProperty("text", QVariant(ipAddress));
+        netmaskTextField->setProperty("text", QVariant(netMask));
+        gatewayTextField->setProperty("text", QVariant(vIpAddressConfigsPtr->back().configs.at("Gateway")));
+        dnsserverTextField->setProperty("text", QVariant(vIpAddressConfigsPtr->back().configs.at("DNS")));
+    }
 }
 
 void Settings::tfIpAddress_onEditingFinished(QString text)
 {
     QStringList ipAddressWithMask = vIpAddressConfigsPtr->back().configs.at("Address").split("/");
     QString netMask = ipAddressWithMask[1];
-    QString newIpAddressWithMask = text+"/"+netMask;
-    vIpAddressConfigsPtr->back().configs.at("Address")=newIpAddressWithMask;
+    QString newIpAddressWithMask = text + "/" + netMask;
+    vIpAddressConfigsPtr->back().configs.at("Address") = newIpAddressWithMask;
 }
 
 void Settings::rbDynamicIP_onClicked()
 {
     vIpAddressConfigsPtr->back().configs.clear();
-    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("DHCP","yes"));
+    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("DHCP", "yes"));
 }
 
 void Settings::rbStaticIP_onClicked(const QString ipAddressTextField, const QString netmaskTextField, const QString gatewayTextField, const QString dnsserverTextField)
 {
-    QString ipAddressWithMask = ipAddressTextField+"/"+convertNetMaskToShort(netmaskTextField);
+    QString ipAddressWithMask = ipAddressTextField + "/" + convertNetMaskToShort(netmaskTextField);
 
     vIpAddressConfigsPtr->back().configs.clear();
-    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("Address",ipAddressWithMask));
-    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("Gateway",gatewayTextField));
-    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("DNS",dnsserverTextField));
+    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("Address", ipAddressWithMask));
+    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("Gateway", gatewayTextField));
+    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("DNS", dnsserverTextField));
 }
 
 void Settings::tfNetMask_onEditingFinished(QString text)
 {
     QStringList ipAddressWithMask = vIpAddressConfigsPtr->back().configs.at("Address").split("/");
     QString ipAddress = ipAddressWithMask[0];
-    QString newIpAddressWithMask = ipAddress+"/"+convertNetMaskToShort(text);
-    vIpAddressConfigsPtr->back().configs.at("Address")=newIpAddressWithMask;
+    QString newIpAddressWithMask = ipAddress + "/" + convertNetMaskToShort(text);
+    vIpAddressConfigsPtr->back().configs.at("Address") = newIpAddressWithMask;
 }
 
 void Settings::tfGateway_onEditingFinished(QString text)
 {
-    vIpAddressConfigsPtr->back().configs.at("Gateway")=text;
+    vIpAddressConfigsPtr->back().configs.at("Gateway") = text;
 }
 
 void Settings::tfDNSServer_onEditingFinished(QString text)
 {
-    vIpAddressConfigsPtr->back().configs.at("DNS")=text;
+    vIpAddressConfigsPtr->back().configs.at("DNS") = text;
 }
 
 void Settings::saveIpAddressConfiguration()
@@ -329,16 +313,16 @@ void Settings::saveIpAddressConfiguration()
     if(vEtnernetIpAddressConfigsPtr != nullptr)
         ethernetIpAddressConfigFile->SaveFile(*vEtnernetIpAddressConfigsPtr.get());
 
-    QProcess::execute("systemctl restart systemd-networkd");
+    Systemd::restartUnit(Systemd::System, "systemd-networkd", Systemd::Unit::Replace);
 }
 
 void Settings::setCurrentIpAddressConfig(const int &networkInterfaceComboboxIndex)
 {
-    if(networkInterfaceComboboxIndex==0)
+    if(networkInterfaceComboboxIndex == 0)
     {
         if(vWifiIpAddressConfigsPtr == nullptr)
         {
-            vWifiIpAddressConfigsPtr = std::make_shared< std::vector<HeadersConfig> >(std::move( wifiIpAddressConfigFile->OpenFile() ));
+            vWifiIpAddressConfigsPtr = std::make_shared<std::vector<HeadersConfig>>(std::move(wifiIpAddressConfigFile->OpenFile()));
         }
         vIpAddressConfigsPtr = vWifiIpAddressConfigsPtr;
     }
@@ -360,7 +344,7 @@ QString Settings::convertNetMaskToShort(QString decMask)
     QString binMask = decToBin(fullMask[0]) + decToBin(fullMask[1]) + decToBin(fullMask[2]) + decToBin(fullMask[3]);
     int count = binMask.count(QLatin1Char('1'));
 
-    netmask=QString::number(count);
+    netmask = QString::number(count);
     return netmask;
 }
 
@@ -370,16 +354,17 @@ QString Settings::convertNetMaskToFull(QString decMaskStr)
     QString netMask;
     int decMask = decMaskStr.toInt();
 
-    for(int i=0; i<32;i++)
+    for(int i = 0; i < 32; i++)
     {
-        if(i<decMask)
-            binMask+="1";
-        else {
-            binMask+="0";
+        if(i < decMask)
+            binMask += "1";
+        else
+        {
+            binMask += "0";
         }
     }
 
-    QStringList binMaskList = splitString(binMask,8);
+    QStringList binMaskList = splitString(binMask, 8);
     netMask = binToDec(binMaskList[0]) + "." + binToDec(binMaskList[1]) + "." + binToDec(binMaskList[2]) + "." + binToDec(binMaskList[3]);
 
     return netMask;
@@ -387,16 +372,16 @@ QString Settings::convertNetMaskToFull(QString decMaskStr)
 
 QString Settings::binToDec(QString bin)
 {
-    int base=1;
+    int base = 1;
     int temp = bin.toInt();
-    int dec_value=0;
+    int dec_value = 0;
 
-    while (temp)
+    while(temp)
     {
-        int last_digit = temp%10;
-        temp = temp/10;
+        int last_digit = temp % 10;
+        temp = temp / 10;
         dec_value += last_digit * base;
-        base=base*2;
+        base = base * 2;
     }
     return QString::number(dec_value);
 }
@@ -413,7 +398,8 @@ QStringList Settings::splitString(const QString &str, int n)
 
     QString tmp(str);
 
-    while (!tmp.isEmpty()) {
+    while(!tmp.isEmpty())
+    {
         stringList.append(tmp.left(n));
         tmp.remove(0, n);
     }
@@ -426,52 +412,56 @@ void Settings::updateWifiStatus(QObject *obj)
 {
     QProcess builder;
     builder.setProcessChannelMode(QProcess::MergedChannels);
-    builder.start("iw dev wlan0 link");
+    builder.start("iw", QStringList() << "dev"
+                                      << "wlan0"
+                                      << "link");
 
-    while(builder.waitForFinished());
+    while(builder.waitForFinished())
+        ;
 
     QString info = builder.readAll();
-    obj->setProperty("text",QVariant(info));
-
+    obj->setProperty("text", QVariant(info));
 }
 
-void Settings::searchNetworks(QObject* obj)
+void Settings::searchNetworks(QObject *obj)
 {
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("bash", QStringList() << "-c" << "iw wlan0 scan | egrep 'SSID|freq|signal|capability'");
+    process.start("bash", QStringList() << "-c"
+                                        << "iw wlan0 scan | egrep 'SSID|freq|signal|capability'");
 
     process.setReadChannel(QProcess::StandardOutput);
     QStringList networksList;
-    while(process.waitForFinished());
-    while (process.canReadLine())
+    while(process.waitForFinished())
+        ;
+    while(process.canReadLine())
     {
-       auto line = process.readLine();
-       std::string strLine(line);
-       if (strLine.find("SSID")!=std::string::npos)
-       {
-           auto lineList = line.split(':');
-           auto networkName = lineList[1];
-           networkName=networkName.remove(0,1);
-           networkName=networkName.remove(networkName.length()-1,1);
-           std::string strNetworkName(networkName);
-           QString qstrNetworkName = QString::fromStdString(strNetworkName);
-           networksList.push_back(qstrNetworkName);
-       }
+        auto line = process.readLine();
+        std::string strLine(line);
+        if(strLine.find("SSID") != std::string::npos)
+        {
+            auto lineList = line.split(':');
+            auto networkName = lineList[1];
+            networkName = networkName.remove(0, 1);
+            networkName = networkName.remove(networkName.length() - 1, 1);
+            std::string strNetworkName(networkName);
+            QString qstrNetworkName = QString::fromStdString(strNetworkName);
+            networksList.push_back(qstrNetworkName);
+        }
     }
-    obj->setProperty("model",QVariant(networksList));
+    obj->setProperty("model", QVariant(networksList));
 }
 
-void Settings::connect(const QString networkName,const QString password)
+void Settings::connect(const QString networkName, const QString password)
 {
-    bool networkExist=false;
-    for (auto iter=vWifiConfigs.begin(); iter != vWifiConfigs.end();++iter)
+    bool networkExist = false;
+    for(auto iter = vWifiConfigs.begin(); iter != vWifiConfigs.end(); ++iter)
     {
         auto &mConfigs = iter->configs;
-        if(mConfigs.at("ssid")==networkName)
+        if(mConfigs.at("ssid") == networkName)
         {
-            mConfigs.at("psk")=password;
-            networkExist=true;
+            mConfigs.at("psk") = password;
+            networkExist = true;
             break;
         }
     }
@@ -486,12 +476,11 @@ void Settings::connect(const QString networkName,const QString password)
     }
 
     editWifiConfigFile.SaveWifiConfigs(vWifiConfigs);
-    QProcess::execute("systemctl restart " + WPASUPPLICANT_SERVICE);
+    Systemd::restartUnit(Systemd::System, WPASUPPLICANT_SERVICE, Systemd::Unit::Replace);
 }
 
 void Settings::cbNetworks_onDisplayTextChanged(QString networkName, QObject *obj)
 {
-
     QProcess process;
     QString commend = "iw wlan0 scan | egrep 'SSID|freq|signal|capability' | egrep -B1 '";
     commend.push_back(networkName);
@@ -499,43 +488,48 @@ void Settings::cbNetworks_onDisplayTextChanged(QString networkName, QObject *obj
     process.start("bash", QStringList() << "-c" << commend);
 
     QStringList networksList;
-    while(process.waitForFinished());
+    while(process.waitForFinished())
+        ;
 
-    obj->setProperty("text",QVariant(process.readAll()));
+    obj->setProperty("text", QVariant(process.readAll()));
 }
 
 void Settings::sWifiOn_OnCheckedChanged(bool wifiOnSwitch)
 {
     if(wifiOnSwitch)
     {
-        QProcess::execute("ifconfig wlan0 up");
+        QProcess::execute("ifconfig", QStringList() << "wlan0"
+                                                    << "up");
     }
     else if(!wifiOnSwitch)
     {
-        QProcess::execute("ifconfig wlan0 down");
+        QProcess::execute("ifconfig", QStringList() << "wlan0"
+                                                    << "down");
     }
 }
 
 void Settings::checkWifi(QObject *obj)
 {
     QProcess process;
-    process.start("iw wlan0 info");
+    process.start("iw", QStringList() << "wlan0"
+                                      << "info");
 
     QStringList networksList;
-    while(process.waitForFinished());
+    while(process.waitForFinished())
+        ;
 
 
     auto line = process.readAll();
     std::string strLine(line);
-    if (strLine.find("txpower")!=std::string::npos)
+    if(strLine.find("txpower") != std::string::npos)
     {
-        wifiIsOn=true;
-        obj->setProperty("checked",QVariant("true"));
+        wifiIsOn = true;
+        obj->setProperty("checked", QVariant("true"));
     }
     else
     {
-        wifiIsOn=false;
-        obj->setProperty("checked",QVariant("false"));
+        wifiIsOn = false;
+        obj->setProperty("checked", QVariant("false"));
     }
 }
 
@@ -543,4 +537,3 @@ void Settings::loadWifiConfigFile()
 {
     vWifiConfigs = editWifiConfigFile.OpenFile();
 }
-

@@ -12,14 +12,16 @@ void ScreenSaverManager::Init()
     timer = new QTimer();
     QString startTimeString = mConfigs.at("startTime");
     timer->setInterval(startTimeString.toInt());
-    if(mConfigs.at("enable")=="true")
+    if(mConfigs.at("enable") == "true")
         timer->start();
 }
 
 void ScreenSaverManager::startScreen()
 {
-    QProcess::startDetached("systemctl start screensaver.service");
-    QProcess::startDetached("systemctl stop start.service");
+    QProcess::startDetached("systemctl", QStringList() << "start"
+                                                       << "screensaver.service");
+    QProcess::startDetached("systemctl", QStringList() << "stop"
+                                                       << "start.service");
 }
 
 void ScreenSaverManager::resetTimer()

@@ -23,6 +23,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         MediaServerLib
         Qt5::Quick
         Qt5::Widgets        
+        QtSystemd
         )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION "/opt")
