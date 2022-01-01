@@ -19,6 +19,7 @@ static {
 
 INCLUDEPATH += ../MediaServerLib
 LIBS += -L../MediaServerLib -lMediaServerLib
+LIBS += -lQtSystemd
 
 SOURCES += \
     src/start.cpp \
