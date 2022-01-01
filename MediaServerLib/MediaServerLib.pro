@@ -1,5 +1,5 @@
 TEMPLATE = lib
-#CONFIG += staticlib
+CONFIG += staticlib
 CONFIG -= app_bundle
 CONFIG += c++17
 QT += quick
