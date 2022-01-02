@@ -213,15 +213,21 @@ void Settings::StatusSwitch_onClicked(const bool statusSwitchIsChecked, const QS
 
 void Settings::StatusButton_onClicked(QObject *statusButton, const QString statusButtonText, const QString &serviceName)
 {
-    if(statusButtonText.contains("start"))
+    auto unitExist = Systemd::getUnit(Systemd::System, serviceName);
+
+    if(unitExist)
     {
-        Systemd::startUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
-        statusButton->setProperty("text", QVariant("stop"));
-    }
-    else
-    {
-        Systemd::stopUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
-        statusButton->setProperty("text", QVariant("start"));
+
+        if(statusButtonText.contains("start"))
+        {
+            Systemd::startUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
+            statusButton->setProperty("text", QVariant("stop"));
+        }
+        else
+        {
+            Systemd::stopUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
+            statusButton->setProperty("text", QVariant("start"));
+        }
     }
 }
 

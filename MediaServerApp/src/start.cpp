@@ -30,14 +30,14 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QQuickView *view = new QQuickView;
     MainWindow::init(view);
-    if (view->status() == QQuickView::Error)
+    if(view->status() == QQuickView::Error)
         return -1;
 
     qmlRegisterType<ScreenSaver>("ScreenSaverLib", 1, 0, "ScreenSaver");
     qmlRegisterType<ScreenSaverManager>("ScreenSaverManagerLib", 1, 0, "ScreenSaverManager");
     qmlRegisterType<AlarmConfig>("AlarmConfigLib", 1, 0, "AlarmConfig");
     qmlRegisterType<MultimediaConfig>("MultimediaConfigLib", 1, 0, "MultimediaConfig");
-    qmlRegisterType<NapiManager>("NapiManagerLib",1,0,"NapiManager");
+    qmlRegisterType<NapiManager>("NapiManagerLib", 1, 0, "NapiManager");
     qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfig");
     qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");
     qmlRegisterType<Settings>("SettingsLib", 1, 0, "Settings");
@@ -55,11 +55,9 @@ int main(int argc, char *argv[])
     screen.Init();
 
     ScreenSaverHelper screensaverhelper;
-    view->rootContext()->setContextProperty("screensaverhelper",&screensaverhelper);
+    view->rootContext()->setContextProperty("screensaverhelper", &screensaverhelper);
 
-    QObject::connect(ScreenSaverManager::timer, &QTimer::timeout, [&screensaverhelper](){
-           emit screensaverhelper.screensavertimeout();
-        });
+    QObject::connect(ScreenSaverManager::timer, &QTimer::timeout, [&screensaverhelper]() { emit screensaverhelper.screensavertimeout(); });
 
     view->setSource(QString("qrc:/main.qml"));
     view->show();

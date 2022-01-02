@@ -60,12 +60,19 @@ void MultimediaConfig::loadSettings(QObject *port, QObject *name)
 void MultimediaConfig::saveConfigs()
 {
     editDlnaConfigFile.SaveFile(mDlnaConfigs);
-    editMpdConfigFile.SaveFile(mMpdConfigs);
-    if(isServiceActive(DLNA_SERVICE))
-        Systemd::restartUnit(Systemd::System, DLNA_SERVICE, Systemd::Unit::Replace);
+    restartService(DLNA_SERVICE);
 
-    if(isServiceActive(MPD_SERVICE))
-        Systemd::restartUnit(Systemd::System, MPD_SERVICE, Systemd::Unit::Replace);
+    editMpdConfigFile.SaveFile(mMpdConfigs);
+    restartService(MPD_SERVICE);
+}
+void MultimediaConfig::restartService(const QString &service)
+{
+    auto serviceExist = Systemd::getUnit(Systemd::System, service);
+    if(serviceExist)
+    {
+        if(isServiceActive(service))
+            Systemd::restartUnit(Systemd::System, service, Systemd::Unit::Replace);
+    }
 }
 
 bool MultimediaConfig::isServiceActive(QString serviceName)

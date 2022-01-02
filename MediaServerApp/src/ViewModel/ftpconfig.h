@@ -8,12 +8,11 @@
 class FtpConfig : public QObject
 {
     Q_OBJECT
-
 public:
     explicit FtpConfig(QObject *parent = nullptr);
-    Q_INVOKABLE void setUsersComboBox(QObject* obj);
-    Q_INVOKABLE void setPathTextField1(QObject* obj);
-    Q_INVOKABLE void setPathTextField2(QObject* obj);
+    Q_INVOKABLE void setUsersComboBox(QObject *obj);
+    Q_INVOKABLE void setPathTextField1(QObject *obj);
+    Q_INVOKABLE void setPathTextField2(QObject *obj);
     Q_INVOKABLE void cbUser_onDisplayTextChanged(const QString text);
     Q_INVOKABLE void tfUser_onEditingFinished(const QString text);
     Q_INVOKABLE void bAddUser_onClicked(const QString userName, const QString password, const QString catalog);
@@ -25,11 +24,12 @@ public:
     Q_INVOKABLE void checkService(QObject *saveButton);
 
 private:
-    QObject* cbUsers;
-    QObject* tfUser;
-    QObject* tfPassword;
-    QObject* tfPath1;
-    QObject* tfPath2;
+    const QString FTP_SERVICE = "vsftpd.service";
+    QObject *cbUsers;
+    QObject *tfUser;
+    QObject *tfPassword;
+    QObject *tfPath1;
+    QObject *tfPath2;
     EditFtpConfigFile editFile;
     QStringList users;
     std::vector<std::shared_ptr<FtpUser>> vNewUsersConfig;
@@ -40,7 +40,6 @@ private:
     void SaveUsers();
     void DeleteUsers();
     void UpdateUsers();
-
 };
 
-#endif // FTPCONFIG_H
+#endif// FTPCONFIG_H

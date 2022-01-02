@@ -70,12 +70,21 @@ QStringList AlarmConfig::loadMPDPlaylists()
 
 bool AlarmConfig::checkAlarmIsActive()
 {
-    auto text = Systemd::getUnit(Systemd::System, ALARM_TIMER).data()->activeState();
-    return !text.contains("in");
+    auto unitExist = Systemd::getUnit(Systemd::System, ALARM_TIMER);
+    if(unitExist)
+    {
+        auto text = Systemd::getUnit(Systemd::System, ALARM_TIMER).data()->activeState();
+        return !text.contains("in");
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void AlarmConfig::checkAlarmService(QObject *enableAlarmSwitch)
 {
+
     if(checkAlarmIsActive())
     {
         enableAlarmSwitch->setProperty("checked", QVariant(true));
@@ -138,15 +147,20 @@ void AlarmConfig::loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, Q
 
 void AlarmConfig::switchEnableAlarm_onClicked(const bool isEnable)
 {
-    if(isEnable)
+    auto unitExist = Systemd::getUnit(Systemd::System, ALARM_TIMER);
+
+    if(unitExist)
     {
-        Systemd::startUnit(Systemd::System, ALARM_TIMER, Systemd::Unit::Replace);
-        Systemd::enableUnitFiles(Systemd::System, QStringList() << ALARM_TIMER, true, true);
-    }
-    else
-    {
-        Systemd::stopUnit(Systemd::System, ALARM_TIMER, Systemd::Unit::Replace);
-        Systemd::disableUnitFiles(Systemd::System, QStringList() << ALARM_TIMER, true);
+        if(isEnable)
+        {
+            Systemd::startUnit(Systemd::System, ALARM_TIMER, Systemd::Unit::Replace);
+            Systemd::enableUnitFiles(Systemd::System, QStringList() << ALARM_TIMER, true, true);
+        }
+        else
+        {
+            Systemd::stopUnit(Systemd::System, ALARM_TIMER, Systemd::Unit::Replace);
+            Systemd::disableUnitFiles(Systemd::System, QStringList() << ALARM_TIMER, true);
+        }
     }
 }
 

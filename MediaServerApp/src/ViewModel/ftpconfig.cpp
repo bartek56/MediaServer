@@ -9,9 +9,13 @@ FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
 
 void FtpConfig::checkService(QObject *saveButton)
 {
-    const QString unitName("vsftpd.service");
-    auto text = Systemd::getUnit(Systemd::User, unitName).data()->activeState();
-    saveButton->setProperty("enabled", QVariant(!text.contains("in")));
+    auto unitExist = Systemd::getUnit(Systemd::System, FTP_SERVICE);
+
+    if(unitExist)
+    {
+        auto text = Systemd::getUnit(Systemd::User, FTP_SERVICE).data()->activeState();
+        saveButton->setProperty("enabled", QVariant(!text.contains("in")));
+    }
 }
 
 

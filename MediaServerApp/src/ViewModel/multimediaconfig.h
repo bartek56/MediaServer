@@ -12,7 +12,7 @@ public:
     explicit MultimediaConfig(QObject *parent = nullptr);
     Q_INVOKABLE void openConfigFile();
     Q_INVOKABLE void saveConfigs();
-    Q_INVOKABLE void loadMediaDirectoryConfigs(QObject *videoPath,QObject *audioPath,QObject *picturePath);
+    Q_INVOKABLE void loadMediaDirectoryConfigs(QObject *videoPath, QObject *audioPath, QObject *picturePath);
     Q_INVOKABLE void loadSettings(QObject *port, QObject *name);
     Q_INVOKABLE void bVideoFileDialog_onAccepted(QString folderPath, QObject *textField);
     Q_INVOKABLE void tfPort_onEditingFinished(const QString port);
@@ -41,8 +41,7 @@ private:
 
     EditMpdConfigFile editMpdConfigFile;
     std::map<QString, QString> mMpdConfigs;
-
-
+    void restartService(const QString &service);
 };
 
-#endif // DLNACONFIG_H
+#endif// DLNACONFIG_H
