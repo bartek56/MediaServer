@@ -22,8 +22,18 @@ void Settings::updateNetworkStatus(QObject *obj)
     while(builder.waitForFinished())
         ;
 
-    QString info = builder.readAll();
-    obj->setProperty("text", QVariant(info));
+    QString resultInfo = "";
+    while(builder.canReadLine())
+    {
+        auto line = builder.readLine();
+        qDebug() << line;
+        if(line.contains("systemd"))
+        {
+            break;
+        }
+        resultInfo += line;
+    }
+    obj->setProperty("text", QVariant(resultInfo));
 }
 
 void Settings::checkTvHeadEndServiceStatus(QObject *statusSwitch, QObject *statusButton)
