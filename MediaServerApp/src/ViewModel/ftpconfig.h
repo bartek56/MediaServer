@@ -25,6 +25,7 @@ public:
 
 private:
     const QString FTP_SERVICE = "vsftpd.service";
+    bool serviceExist = false;
     QObject *cbUsers;
     QObject *tfUser;
     QObject *tfPassword;

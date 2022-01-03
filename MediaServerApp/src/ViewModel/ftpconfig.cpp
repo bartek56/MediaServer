@@ -4,16 +4,16 @@
 
 FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
 {
+    auto unitExist = Systemd::getUnit(Systemd::System, FTP_SERVICE);
+    serviceExist = (bool) unitExist;
 }
 
 
 void FtpConfig::checkService(QObject *saveButton)
 {
-    auto unitExist = Systemd::getUnit(Systemd::System, FTP_SERVICE);
-
-    if(unitExist)
+    if(serviceExist)
     {
-        auto text = Systemd::getUnit(Systemd::User, FTP_SERVICE).data()->activeState();
+        auto text = Systemd::getUnit(Systemd::System, FTP_SERVICE).data()->activeState();
         saveButton->setProperty("enabled", QVariant(!text.contains("in")));
     }
 }
@@ -69,7 +69,6 @@ void FtpConfig::setUsersComboBox(QObject *obj)
 
 void FtpConfig::cbUser_onDisplayTextChanged(const QString userName)
 {
-
     QString path = getUpdateUserPath(userName);
     if(path == nullptr)
     {
@@ -127,7 +126,8 @@ void FtpConfig::bSave_onClicked()
     SaveUsers();
     UpdateUsers();
     DeleteUsers();
-    Systemd::restartUnit(Systemd::System, "vsftpd.service", Systemd::Unit::Replace);
+    if(serviceExist)
+        Systemd::restartUnit(Systemd::System, FTP_SERVICE, Systemd::Unit::Replace);
 }
 
 void FtpConfig::SaveUsers()

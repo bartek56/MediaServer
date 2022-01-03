@@ -13,8 +13,16 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 
 bool SambaConfig::isServiceActive()
 {
-    auto text = Systemd::getUnit(Systemd::System, "nmb.service").data()->activeState();
-    return !text.contains("in");
+    auto unitExist = Systemd::getUnit(Systemd::System, "nmb.service");
+    if(unitExist)
+    {
+        auto text = Systemd::getUnit(Systemd::System, "nmb.service").data()->activeState();
+        return !text.contains("in");
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void SambaConfig::loadAllConfigs()
