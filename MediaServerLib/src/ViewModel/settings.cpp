@@ -2,10 +2,10 @@
 
 #include <QDebug>
 #include <QFile>
-#include <map>
-#include <bitset>
 #include <QtSystemd/sdmanager.h>
 #include <QtSystemd/unit.h>
+#include <bitset>
+#include <map>
 
 Settings::Settings(QObject *parent) : QObject(parent)
 {
@@ -41,7 +41,6 @@ void Settings::tvHeadEndStatusButton_OnClicked(QObject *tvHeadEndStatusSwitch, c
     StatusButton_onClicked(tvHeadEndStatusSwitch, tvHeadEndStatusButton, TVHEADEND_SERVICE);
 }
 
-
 void Settings::checkYMPDSystemdStatus(QObject *ympdStatusSwitch, QObject *ympdStatusButton)
 {
     checkSystemdStatus(ympdStatusSwitch, ympdStatusButton, YMPD_SERVICE);
@@ -56,7 +55,6 @@ void Settings::ympdStatusButton_OnClicked(QObject *ympdStatusSwitch, const QStri
 {
     StatusButton_onClicked(ympdStatusSwitch, ympdStatusButton, YMPD_SERVICE);
 }
-
 
 void Settings::checkMPDSystemdStatus(QObject *mpdStatusSwitch, QObject *mpdStatusButton)
 {
@@ -73,7 +71,6 @@ void Settings::mpdStatusButton_OnClicked(QObject *mpdStatusButton, const QString
     StatusButton_onClicked(mpdStatusButton, mpdStatusButtonText, MPD_SERVICE);
 }
 
-
 void Settings::checkDLNASystemdStatus(QObject *dlnaStatusSwitch, QObject *dlnaStatusButton)
 {
     checkSystemdStatus(dlnaStatusSwitch, dlnaStatusButton, MINIDLNA_SERVICE);
@@ -88,7 +85,6 @@ void Settings::dlnaStatusButton_OnClicked(QObject *dlnaStatusButton, const QStri
 {
     StatusButton_onClicked(dlnaStatusButton, dlnaStatusButtonText, MINIDLNA_SERVICE);
 }
-
 
 void Settings::checkSMBSystemdStatus(QObject *smbStatusSwitch, QObject *smbStatusButton)
 {
@@ -107,7 +103,6 @@ void Settings::sambaStatusButton_OnClicked(QObject *sambaStatusButton, const QSt
     StatusButton_onClicked(sambaStatusButton, sambaStatusButtonText, NMB_SERVICE);
 }
 
-
 void Settings::checkFTPSystemdStatus(QObject *ftpStatusSwitch, QObject *ftpStatusButton)
 {
     checkSystemdStatus(ftpStatusSwitch, ftpStatusButton, VSFTPD_SERVICE);
@@ -123,7 +118,6 @@ void Settings::ftpStatusButton_OnClicked(QObject *ftpStatusButton, const QString
     StatusButton_onClicked(ftpStatusButton, ftpStatusButtonText, VSFTPD_SERVICE);
 }
 
-
 void Settings::checkFileBrowserSystemdStatus(QObject *fileBrowserStatusSwitch, QObject *fileBrowserStatusButton)
 {
     checkSystemdStatus(fileBrowserStatusSwitch, fileBrowserStatusButton, FILEBROWSER_SERVICE);
@@ -138,7 +132,6 @@ void Settings::fileBrowserStatusButton_OnClicked(QObject *ftpStatusButton, const
 {
     StatusButton_onClicked(ftpStatusButton, ftpStatusButtonText, FILEBROWSER_SERVICE);
 }
-
 
 void Settings::checkTorrentClientSystemdStatus(QObject *torrentClientStatusSwitch, QObject *torrentCLientStatusButton)
 {
@@ -169,14 +162,13 @@ bool Settings::checkSystemdStatusIsEnabled(const QString &serviceName)
 
 bool Settings::checkSystemdStatusExist(const QString &serviceName)
 {
-    QProcess process;
-    process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start("bash", QStringList() << "-c"
-                                        << "systemctl is-enabled " + serviceName);
-    process.setReadChannel(QProcess::StandardOutput);
-    process.waitForFinished();
-    auto text = process.readAll();
-    return (text.contains("enabled") || text.contains("disabled"));
+    auto unitExist = Systemd::getUnit(Systemd::System, serviceName);
+    if(unitExist)
+        return true;
+    else
+    {
+        return false;
+    }
 }
 
 void Settings::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString nameService)
@@ -231,42 +223,45 @@ void Settings::StatusButton_onClicked(QObject *statusButton, const QString statu
     }
 }
 
-
 void Settings::loadIpAddressConfiguration(const int networkInterfaceComboboxIndex, QObject *dynamicIPRadioButton, QObject *staticIPRadioButton, QObject *ipadressTextField, QObject *netmaskTextField,
                                           QObject *gatewayTextField, QObject *dnsserverTextField)
 {
     setCurrentIpAddressConfig(networkInterfaceComboboxIndex);
 
-    if(vIpAddressConfigsPtr->back().configs.find("DHCP") != vIpAddressConfigsPtr->back().configs.end())
+    if(vIpAddressConfigsPtr->size() > 0)
     {
-        if(vIpAddressConfigsPtr->back().configs.at("DHCP") == "yes")
+
+        if(vIpAddressConfigsPtr->back().configs.find("DHCP") != vIpAddressConfigsPtr->back().configs.end())
         {
-            dynamicIPRadioButton->setProperty("checked", QVariant(true));
+            if(vIpAddressConfigsPtr->back().configs.at("DHCP") == "yes")
+            {
+                dynamicIPRadioButton->setProperty("checked", QVariant(true));
 
-            ipadressTextField->setProperty("enabled", QVariant(false));
-            netmaskTextField->setProperty("enabled", QVariant(false));
-            gatewayTextField->setProperty("enabled", QVariant(false));
-            dnsserverTextField->setProperty("enabled", QVariant(false));
+                ipadressTextField->setProperty("enabled", QVariant(false));
+                netmaskTextField->setProperty("enabled", QVariant(false));
+                gatewayTextField->setProperty("enabled", QVariant(false));
+                dnsserverTextField->setProperty("enabled", QVariant(false));
+            }
         }
-    }
-    else
-    {
-        staticIPRadioButton->setProperty("checked", QVariant(true));
+        else
+        {
+            staticIPRadioButton->setProperty("checked", QVariant(true));
 
-        ipadressTextField->setProperty("enabled", QVariant(true));
-        netmaskTextField->setProperty("enabled", QVariant(true));
-        gatewayTextField->setProperty("enabled", QVariant(true));
-        dnsserverTextField->setProperty("enabled", QVariant(true));
+            ipadressTextField->setProperty("enabled", QVariant(true));
+            netmaskTextField->setProperty("enabled", QVariant(true));
+            gatewayTextField->setProperty("enabled", QVariant(true));
+            dnsserverTextField->setProperty("enabled", QVariant(true));
 
-        QStringList ipAddressWithMask = vIpAddressConfigsPtr->back().configs.at("Address").split("/");
-        QString ipAddress = ipAddressWithMask[0];
+            QStringList ipAddressWithMask = vIpAddressConfigsPtr->back().configs.at("Address").split("/");
+            QString ipAddress = ipAddressWithMask[0];
 
-        QString netMask = convertNetMaskToFull(ipAddressWithMask[1]);
+            QString netMask = convertNetMaskToFull(ipAddressWithMask[1]);
 
-        ipadressTextField->setProperty("text", QVariant(ipAddress));
-        netmaskTextField->setProperty("text", QVariant(netMask));
-        gatewayTextField->setProperty("text", QVariant(vIpAddressConfigsPtr->back().configs.at("Gateway")));
-        dnsserverTextField->setProperty("text", QVariant(vIpAddressConfigsPtr->back().configs.at("DNS")));
+            ipadressTextField->setProperty("text", QVariant(ipAddress));
+            netmaskTextField->setProperty("text", QVariant(netMask));
+            gatewayTextField->setProperty("text", QVariant(vIpAddressConfigsPtr->back().configs.at("Gateway")));
+            dnsserverTextField->setProperty("text", QVariant(vIpAddressConfigsPtr->back().configs.at("DNS")));
+        }
     }
 }
 
@@ -413,7 +408,6 @@ QStringList Settings::splitString(const QString &str, int n)
     return stringList;
 }
 
-
 void Settings::updateWifiStatus(QObject *obj)
 {
     QProcess builder;
@@ -523,7 +517,6 @@ void Settings::checkWifi(QObject *obj)
     QStringList networksList;
     while(process.waitForFinished())
         ;
-
 
     auto line = process.readAll();
     std::string strLine(line);

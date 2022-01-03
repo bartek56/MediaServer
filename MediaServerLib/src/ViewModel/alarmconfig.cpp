@@ -71,6 +71,7 @@ QStringList AlarmConfig::loadMPDPlaylists()
 bool AlarmConfig::checkAlarmIsActive()
 {
     auto unitExist = Systemd::getUnit(Systemd::System, ALARM_TIMER);
+
     if(unitExist)
     {
         auto text = Systemd::getUnit(Systemd::System, ALARM_TIMER).data()->activeState();
