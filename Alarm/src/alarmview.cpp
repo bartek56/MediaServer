@@ -8,48 +8,71 @@
 
 AlarmView::AlarmView(QObject *parent) : QObject(parent)
 {
-    const QString unitName("alarm_snooze.service");
-    auto text = Systemd::getUnit(Systemd::System, unitName).data()->activeState();
+    auto state = Systemd::getUnitFileState(Systemd::System, ALARM_SNOOZE_SERVICE);
 
-    if(!text.contains("in"))// alarm active
+    if(state.contains("able"))
     {
-        isSnooze = true;
+        auto alarmSnoozeState = Systemd::loadUnit(Systemd::System, ALARM_SNOOZE_SERVICE)->activeState();
+        auto alarmState = Systemd::loadUnit(Systemd::System, ALARM_SERVICE)->activeState();
+        qDebug() << "alarm snooze state" << alarmSnoozeState;
+        qDebug() << "alarm state" << alarmState;
+
+        //auto state2 = Systemd::getUnit(Systemd::System, ALARM_SNOOZE_SERVICE).data()->activeState();
+
+        if(!alarmSnoozeState.contains("in"))
+        {
+            isSnooze = true;
+        }
+        if(!alarmSnoozeState.contains("in") || !alarmState.contains("in"))
+        {
+            systemdSupportExist = true;
+        }
+    }
+    else
+    {
+        qDebug() << "alarm service not exist";
     }
 }
 
 void AlarmView::stopAlarm()
 {
-    Systemd::stopUnit(Systemd::System, "alarm_snooze.timer", Systemd::Unit::Replace);
+    if(systemdSupportExist)
+    {
+        Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_TIMER, Systemd::Unit::Replace);
 
-    if(isSnooze)
-        Systemd::stopUnit(Systemd::System, "alarm_snooze.service", Systemd::Unit::Replace);
+        if(isSnooze)
+            Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_SERVICE, Systemd::Unit::Replace);
 
-    else
-        Systemd::stopUnit(Systemd::System, "alarm.service", Systemd::Unit::Replace);
+        else
+            Systemd::stopUnit(Systemd::System, ALARM_SERVICE, Systemd::Unit::Replace);
 
-    auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration();
-    QString defaultVolume = alarmConfigMap["defaultVolume"];
-    QProcess::startDetached("mpc", QStringList() << "volume " << defaultVolume);
+        auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration();
+        QString defaultVolume = alarmConfigMap["defaultVolume"];
+        QProcess::startDetached("mpc", QStringList() << "volume " << defaultVolume);
+    }
 }
 
 void AlarmView::snooze5min()
 {
-    snooze(5);
+    if(systemdSupportExist)
+        snooze(5);
 }
 
 void AlarmView::snooze10min()
 {
-    snooze(10);
+    if(systemdSupportExist)
+        snooze(10);
 }
 
 void AlarmView::snooze15min()
 {
-    snooze(15);
+    if(systemdSupportExist)
+        snooze(15);
 }
 
 void AlarmView::snooze(int min)
 {
-    QFile file(CONFIG_PATH + "/alarm_snooze.timer");
+    QFile file(CONFIG_PATH + "/" + ALARM_SNOOZE_TIMER);
 
     QStringList vUsers;
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -103,12 +126,12 @@ void AlarmView::snooze(int min)
     Systemd::reload(Systemd::System);
 
     QProcess::startDetached("mpc", QStringList() << "stop");
-    Systemd::restartUnit(Systemd::System, "alarm_snooze.timer", Systemd::Unit::Replace);
+    Systemd::restartUnit(Systemd::System, ALARM_SNOOZE_TIMER, Systemd::Unit::Replace);
 
     if(isSnooze)
-        Systemd::stopUnit(Systemd::System, "alarm_snooze.service", Systemd::Unit::Replace);
+        Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_SERVICE, Systemd::Unit::Replace);
     else
-        Systemd::stopUnit(Systemd::System, "alarm.service", Systemd::Unit::Replace);
+        Systemd::stopUnit(Systemd::System, ALARM_SERVICE, Systemd::Unit::Replace);
 
     QProcess::startDetached("systemctl", QStringList() << "stop"
                                                        << "alarm_gui.service");

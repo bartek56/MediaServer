@@ -6,17 +6,22 @@
 #include <QTextStream>
 #include <QtSystemd/unit.h>
 #include <QtSystemd/sdmanager.h>
+#include <QDebug>
 
 Quotes::Quotes(QObject *parent) : QObject(parent)
 {
-    isSnooze = false;
+    //    auto state = Systemd::getUnitFileState(Systemd::System, ALARM_GUI_SERVICE);
+    auto state = Systemd::loadUnit(Systemd::System, ALARM_GUI_SERVICE)->activeState();
 
-    const QString unitName("alarm_snooze.service");
-    auto text = Systemd::getUnit(Systemd::System, unitName).data()->activeState();
 
-    if(!text.contains("in"))// alarm active
+    if(!state.contains("in"))// does not contain inactive
     {
-        isSnooze = true;
+        systemdSupportExist = true;
+    }
+    else
+    {
+        qDebug() << "systemd not support";
+        systemdSupportExist = false;
     }
 }
 
@@ -94,6 +99,6 @@ void Quotes::close()
 
 void Quotes::closePriv()
 {
-    QProcess::startDetached("systemctl", QStringList() << "stop"
-                                                       << "alarm_gui.service");
+    if(systemdSupportExist)
+        QProcess::startDetached("systemctl", QStringList() << "stop" << ALARM_GUI_SERVICE);
 }

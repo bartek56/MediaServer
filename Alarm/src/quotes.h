@@ -5,7 +5,10 @@
 
 class Quotes : public QObject
 {
+
+    const QString ALARM_GUI_SERVICE = "alarm_gui.service";
     bool isSnooze;
+    bool systemdSupportExist;
     void closePriv();
     Q_OBJECT
 public:
@@ -15,4 +18,4 @@ public:
     Q_INVOKABLE void close();
 };
 
-#endif // QUOTES_H
+#endif// QUOTES_H
