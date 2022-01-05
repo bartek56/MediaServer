@@ -28,11 +28,12 @@ public:
     Q_OBJECT
 public:
     explicit Settings(QObject *parent = nullptr);
+    ~Settings();
 
     // Wifi
-    Q_INVOKABLE void searchNetworks(QObject* obj);
-    Q_INVOKABLE void updateWifiStatus(QObject* obj);
-    Q_INVOKABLE void updateNetworkStatus(QObject* obj);
+    Q_INVOKABLE void searchNetworks(QObject *obj);
+    Q_INVOKABLE void updateWifiStatus(QObject *obj);
+    Q_INVOKABLE void updateNetworkStatus(QObject *obj);
     Q_INVOKABLE void connect(const QString networkName, const QString password);
     Q_INVOKABLE void loadWifiConfigFile();
     Q_INVOKABLE void cbNetworks_onDisplayTextChanged(QString networkName, QObject *obj);
@@ -41,17 +42,14 @@ public:
 
 
     // IP Address
-    Q_INVOKABLE void loadIpAddressConfiguration(const int networkInterfaceIndexComboBox, QObject* dynamicIPRadioButton,
-                                                QObject* staticIPRadioButton, QObject* ipadressTextField,
-                                                QObject* netmaskTextField, QObject* gatewayTextField,
-                                                QObject* dnsserverTextField);
+    Q_INVOKABLE void loadIpAddressConfiguration(const int networkInterfaceIndexComboBox, QObject *dynamicIPRadioButton, QObject *staticIPRadioButton, QObject *ipadressTextField,
+                                                QObject *netmaskTextField, QObject *gatewayTextField, QObject *dnsserverTextField);
     Q_INVOKABLE void tfIpAddress_onEditingFinished(const QString text);
     Q_INVOKABLE void tfNetMask_onEditingFinished(const QString text);
     Q_INVOKABLE void tfGateway_onEditingFinished(const QString text);
     Q_INVOKABLE void tfDNSServer_onEditingFinished(const QString text);
     Q_INVOKABLE void rbDynamicIP_onClicked();
-    Q_INVOKABLE void rbStaticIP_onClicked(const QString ipadressTextField, const QString netmaskTextField,
-                                          const QString gatewayTextField, const QString dnsserverTextField);
+    Q_INVOKABLE void rbStaticIP_onClicked(const QString ipadressTextField, const QString netmaskTextField, const QString gatewayTextField, const QString dnsserverTextField);
     Q_INVOKABLE void saveIpAddressConfiguration();
 
     //Systemd services
@@ -87,21 +85,21 @@ public:
     Q_INVOKABLE void torrentClientStatusSwitch_OnClicked(const bool torrentClientStatusSwitchIsChecked);
     Q_INVOKABLE void torrentClientStatusButton_OnClicked(QObject *torrentClientStatusButton, const QString torrentClientStatusButtonText);
 
+    Q_INVOKABLE void close();
+
     bool checkSystemdStatusExist(const QString &serviceName);
     bool checkSystemdStatusIsEnabled(const QString &serviceNames);
     bool checkSystemdStatusIsActive(const QString &serviceName);
 
 private:
     // IP Adress
-    const QString ETHERNET_CONFIG_FILE="/etc/mediaserver/10-wired.network";
-    const QString WIFI_CONFIG_FILE="/etc/mediaserver/20-wireless.network";
+    const QString ETHERNET_CONFIG_FILE = "/etc/mediaserver/10-wired.network";
+    const QString WIFI_CONFIG_FILE = "/etc/mediaserver/20-wireless.network";
 
-    std::unique_ptr<EditHeadersConfigFile> wifiIpAddressConfigFile;
-    std::unique_ptr<EditHeadersConfigFile> ethernetIpAddressConfigFile;
+    std::shared_ptr<QSettings> ipSettings;
+    std::shared_ptr<QSettings> wifiSettings;
+    std::shared_ptr<QSettings> ethSettings;
 
-    std::shared_ptr<std::vector<HeadersConfig>> vEtnernetIpAddressConfigsPtr;
-    std::shared_ptr<std::vector<HeadersConfig>> vWifiIpAddressConfigsPtr;
-    std::shared_ptr<std::vector<HeadersConfig>> vIpAddressConfigsPtr;
 
     QStringList splitString(const QString &str, int n);
     QString binToDec(QString bin);
@@ -112,8 +110,8 @@ private:
     void setCurrentIpAddressConfig(const int &networkInterfaceComboboxIndex);
 
     // Wifi Config
-    QObject* bConnect;
-    QObject* bScanNetwork;
+    QObject *bConnect;
+    QObject *bScanNetwork;
     bool wifiIsOn;
 
     EditWifiConfigFile editWifiConfigFile;
@@ -122,7 +120,6 @@ private:
     void StatusSwitch_onClicked(const bool statusSwitchIsChecked, const QString &serviceName);
     void StatusButton_onClicked(QObject *statusButton, const QString statusButtonText, const QString &serviceName);
     void checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString nameservice);
-
 };
 
-#endif // SETTINGS_H
+#endif// SETTINGS_H
