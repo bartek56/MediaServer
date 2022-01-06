@@ -25,6 +25,19 @@ struct ConfigName
     const QString FORCE_USER = "force user";
 };
 
+struct GlobalConfigName
+{
+    const QString BROWSE_ABLE = "GLOBAL/browseable";
+    const QString DOMAIN_MASTER = "GLOBAL/domain master";
+    const QString FORCE_USER = "GLOBAL/force user";
+    const QString LOCAL_MASTER = "GLOBAL/local master";
+    const QString MAP_TO_GUEST = "GLOBAL/map to guest";
+    const QString NETBIOS_NAME = "GLOBAL/netbios name";
+    const QString SECURITY = "GLOBAL/security";
+    const QString SERVER_STRING = "GLOBAL/server string";
+    const QString WORKGROUP = "GLOBAL/workgroup";
+};
+
 struct GlobalConfig
 {
     QString workgroup;
@@ -185,10 +198,11 @@ public:
 
 private:
     const QString SAMBA_CONFIG_FILE = "/etc/mediaserver/smb.conf";
-    //    std::unique_ptr<EditHeadersConfigFile> editFile;
-    //    std::vector<HeadersConfig> vConfigs;
+    const QString SMB_SERVICE = "smb.service";
+    const QString NMB_SERVICE = "nmb.service";
 
     ConfigName configName;
+    GlobalConfigName globalConfigName;
 
     GlobalConfig globalConfig;
     ShareConfig shareConfig1;
@@ -210,17 +224,12 @@ private:
     void showGlobalConfigs();
     void showLocalConfigs();
 
-    void loadConfigsForShare2_4(ShareConfig &shareConfig, const QSettings &settings, const QString &shareName);
+    void loadConfigsForShare(ShareConfig &shareConfig, const QSettings &settings, const QString &shareName);
 
-
-    void setDefaultConfigs(ShareConfig &shareConfig, const QString &name, const QString &path);
-    void saveDefaultConfigsForExternalDisk1();
-    void saveDefaultConfigsForExternalDisk2();
-    void saveDefaultConfigsForExternalDisk3();
-
+    void setDefaultConfigsForShare(ShareConfig &shareConfig, const QString &name, const QString &path);
+    void saveShare(QSettings &settings, const ShareConfig &shareConfig);
 
     void showConfigsForExternalDisk(const SambaShareObjects &sambaConfig, const ShareConfig &shareConfig);
-
     bool isServiceActive();
 
 public slots:

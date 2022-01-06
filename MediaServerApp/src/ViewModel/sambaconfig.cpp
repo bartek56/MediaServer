@@ -12,10 +12,10 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 
 bool SambaConfig::isServiceActive()
 {
-    auto unitExist = Systemd::getUnit(Systemd::System, "nmb.service");
+    auto unitExist = Systemd::getUnit(Systemd::System, NMB_SERVICE);
     if(unitExist)
     {
-        auto text = Systemd::getUnit(Systemd::System, "nmb.service").data()->activeState();
+        auto text = Systemd::getUnit(Systemd::System, NMB_SERVICE).data()->activeState();
         return !text.contains("in");
     }
     else
@@ -29,57 +29,62 @@ void SambaConfig::loadAllConfigs()
 {
     QSettings settings(SAMBA_CONFIG_FILE, QSettings::IniFormat);
 
-    //auto countShare = settings.childGroups().count();
-    auto keys = settings.allKeys();
+    auto keys = settings.childGroups();
+    auto countShare = keys.count();
 
-    globalConfig.browseable = settings.value("GLOBAL/browseable").toString();
-    globalConfig.domainMaster = settings.value("GLOBAL/domain master").toString();
-    globalConfig.forceUser = settings.value("GLOBAL/force user").toString();
-    globalConfig.localMaster = settings.value("GLOBAL/local master").toString();
-    globalConfig.mapToGuest = settings.value("GLOBAL/map to guest").toString();
-    globalConfig.netbiosName = settings.value("GLOBAL/netbios name").toString();
-    globalConfig.security = settings.value("GLOBAL/security").toString();
-    globalConfig.serverString = settings.value("GLOBAL/server string").toString();
-    globalConfig.workgroup = settings.value("GLOBAL/workgroup").toString();
+    globalConfig.browseable = settings.value(globalConfigName.BROWSE_ABLE).toString();
+    globalConfig.domainMaster = settings.value(globalConfigName.DOMAIN_MASTER).toString();
+    globalConfig.forceUser = settings.value(globalConfigName.FORCE_USER).toString();
+    globalConfig.localMaster = settings.value(globalConfigName.LOCAL_MASTER).toString();
+    globalConfig.mapToGuest = settings.value(globalConfigName.MAP_TO_GUEST).toString();
+    globalConfig.netbiosName = settings.value(globalConfigName.NETBIOS_NAME).toString();
+    globalConfig.security = settings.value(globalConfigName.SECURITY).toString();
+    globalConfig.serverString = settings.value(globalConfigName.SERVER_STRING).toString();
+    globalConfig.workgroup = settings.value(globalConfigName.WORKGROUP).toString();
 
-    shareConfig1.browseable = settings.value("share1/browseable").toString();
-    shareConfig1.comment = settings.value("share1/comment").toString();
-    shareConfig1.createMode = settings.value("share1/create mode").toString();
-    shareConfig1.directoryMode = settings.value("share1/directory mode").toString();
-    shareConfig1.guestOk = settings.value("share1/guest ok").toString();
-    shareConfig1.path = settings.value("share1/path").toString();
-    shareConfig1.readOnly = settings.value("share1/read only").toString();
-    shareConfig1.writable = settings.value("share1/writable").toString();
-
+    loadConfigsForShare(shareConfig1, settings, keys.at(1));
 
     showGlobalConfigs();
     showLocalConfigs();
 
-    if(keys.contains("share2/path"))
+    if(countShare == 2)
     {
-        loadConfigsForShare2_4(shareConfig2, settings, "share2");
+        setDefaultConfigsForShare(shareConfig2, "share2", "/mnt/share2");
+        setDefaultConfigsForShare(shareConfig3, "share3", "/mnt/share3");
+        setDefaultConfigsForShare(shareConfig4, "share4", "/mnt/share4");
+    }
+    else if(countShare == 3)
+    {
+        auto shareName = keys.at(2);
         sambaShare2.enabledCheckBox->setProperty("checked", QVariant(true));
+        loadConfigsForShare(shareConfig2, settings, shareName);
+        setDefaultConfigsForShare(shareConfig3, "share3", "/mnt/share3");
+        setDefaultConfigsForShare(shareConfig4, "share4", "/mnt/share4");
     }
-    else
-        setDefaultConfigs(shareConfig2, "share2", "/mnt/share2");
-
-
-    if(keys.contains("share3/path"))
+    else if(countShare == 4)
     {
-        loadConfigsForShare2_4(shareConfig3, settings, "share3");
+        auto shareName2 = keys.at(2);
+        auto shareName3 = keys.at(3);
+        sambaShare2.enabledCheckBox->setProperty("checked", QVariant(true));
         sambaShare3.enabledCheckBox->setProperty("checked", QVariant(true));
+
+        loadConfigsForShare(shareConfig2, settings, shareName2);
+        loadConfigsForShare(shareConfig3, settings, shareName3);
+        setDefaultConfigsForShare(shareConfig4, "share4", "/mnt/share4");
     }
-    else
-        setDefaultConfigs(shareConfig3, "share3", "/mnt/share3");
-
-
-    if(keys.contains("share4/path"))
+    else if(countShare == 5)
     {
-        loadConfigsForShare2_4(shareConfig4, settings, "share4");
+        auto shareName2 = keys.at(2);
+        auto shareName3 = keys.at(3);
+        auto shareName4 = keys.at(4);
+        sambaShare2.enabledCheckBox->setProperty("checked", QVariant(true));
+        sambaShare3.enabledCheckBox->setProperty("checked", QVariant(true));
         sambaShare4.enabledCheckBox->setProperty("checked", QVariant(true));
+
+        loadConfigsForShare(shareConfig2, settings, shareName2);
+        loadConfigsForShare(shareConfig3, settings, shareName3);
+        loadConfigsForShare(shareConfig4, settings, shareName4);
     }
-    else
-        setDefaultConfigs(shareConfig4, "share4", "/mnt/share4");
 
     showConfigsForExternalDisk(sambaShare2, shareConfig2);
     showConfigsForExternalDisk(sambaShare3, shareConfig3);
@@ -99,7 +104,7 @@ void SambaConfig::showLocalConfigs()
     setCheckboxesFromFileSettings(shareConfig1.guestOk, sambaShare1.guestOkCheckBox);
 }
 
-void SambaConfig::loadConfigsForShare2_4(ShareConfig &shareConfig, const QSettings &settings, const QString &shareName)
+void SambaConfig::loadConfigsForShare(ShareConfig &shareConfig, const QSettings &settings, const QString &shareName)
 {
     shareConfig.browseable = settings.value(shareName + "/" + configName.BROWSEABLE).toString();
     shareConfig.comment = settings.value(shareName + "/" + configName.COMMENT).toString();
@@ -111,7 +116,7 @@ void SambaConfig::loadConfigsForShare2_4(ShareConfig &shareConfig, const QSettin
     shareConfig.writable = settings.value(shareName + "/" + configName.WRITABLE).toString();
 }
 
-void SambaConfig::setDefaultConfigs(ShareConfig &shareConfig, const QString &name, const QString &path)
+void SambaConfig::setDefaultConfigsForShare(ShareConfig &shareConfig, const QString &name, const QString &path)
 {
     shareConfig.path = path;
     shareConfig.comment = name;
@@ -151,65 +156,46 @@ void SambaConfig::bSave_onClicked()
     QSettings settings(SAMBA_CONFIG_FILE, QSettings::IniFormat);
 
     settings.clear();
-    settings.setValue("GLOBAL/workgroup", globalConfig.workgroup);
-    settings.setValue("GLOBAL/server string", globalConfig.serverString);
-    settings.setValue("GLOBAL/netbios name", globalConfig.netbiosName);
-    settings.setValue("GLOBAL/map to guest", globalConfig.mapToGuest);
-    settings.setValue("GLOBAL/force user", globalConfig.forceUser);
-    settings.setValue("GLOBAL/browseable", globalConfig.browseable);
-    settings.setValue("GLOBAL/local master", globalConfig.localMaster);
-    settings.setValue("GLOBAL/domain master", globalConfig.domainMaster);
+    settings.setValue(globalConfigName.WORKGROUP, globalConfig.workgroup);
+    settings.setValue(globalConfigName.SERVER_STRING, globalConfig.serverString);
+    settings.setValue(globalConfigName.NETBIOS_NAME, globalConfig.netbiosName);
+    settings.setValue(globalConfigName.MAP_TO_GUEST, globalConfig.mapToGuest);
+    settings.setValue(globalConfigName.FORCE_USER, globalConfig.forceUser);
+    settings.setValue(globalConfigName.BROWSE_ABLE, globalConfig.browseable);
+    settings.setValue(globalConfigName.LOCAL_MASTER, globalConfig.localMaster);
+    settings.setValue(globalConfigName.DOMAIN_MASTER, globalConfig.domainMaster);
 
-    settings.setValue("share1/comment", shareConfig1.comment);
-    settings.setValue("share1/path", shareConfig1.path);
-    settings.setValue("share1/create mode", shareConfig1.createMode);
-    settings.setValue("share1/directory mode", shareConfig1.directoryMode);
-    settings.setValue("share1/browseable", shareConfig1.browseable);
-    settings.setValue("share1/writable", shareConfig1.writable);
-    settings.setValue("share1/guest ok", shareConfig1.guestOk);
-    settings.setValue("share1/read only", shareConfig1.readOnly);
+    saveShare(settings, shareConfig1);
 
     if(sambaShare2.enabledCheckBox->property("checked").toBool())
-    {
-        settings.setValue("share2/comment", shareConfig2.comment);
-        settings.setValue("share2/path", shareConfig2.path);
-        settings.setValue("share2/create mode", shareConfig2.createMode);
-        settings.setValue("share2/directory mode", shareConfig2.directoryMode);
-        settings.setValue("share2/browseable", shareConfig2.browseable);
-        settings.setValue("share2/writable", shareConfig2.writable);
-        settings.setValue("share2/guest ok", shareConfig2.guestOk);
-        settings.setValue("share2/read only", shareConfig2.readOnly);
-    }
+        saveShare(settings, shareConfig2);
+
     if(sambaShare3.enabledCheckBox->property("checked").toBool())
-    {
-        settings.setValue("share3/comment", shareConfig3.comment);
-        settings.setValue("share3/path", shareConfig3.path);
-        settings.setValue("share3/create mode", shareConfig3.createMode);
-        settings.setValue("share3/directory mode", shareConfig3.directoryMode);
-        settings.setValue("share3/browseable", shareConfig3.browseable);
-        settings.setValue("share3/writable", shareConfig3.writable);
-        settings.setValue("share3/guest ok", shareConfig3.guestOk);
-        settings.setValue("share3/read only", shareConfig3.readOnly);
-    }
+        saveShare(settings, shareConfig3);
 
     if(sambaShare4.enabledCheckBox->property("checked").toBool())
-    {
-        settings.setValue("share4/comment", shareConfig4.comment);
-        settings.setValue("share4/path", shareConfig4.path);
-        settings.setValue("share4/create mode", shareConfig4.createMode);
-        settings.setValue("share4/directory mode", shareConfig4.directoryMode);
-        settings.setValue("share4/browseable", shareConfig4.browseable);
-        settings.setValue("share4/writable", shareConfig4.writable);
-        settings.setValue("share4/guest ok", shareConfig4.guestOk);
-        settings.setValue("share4/read only", shareConfig4.readOnly);
-    }
+        saveShare(settings, shareConfig4);
 
     if(isServiceActive())
     {
-        Systemd::restartUnit(Systemd::System, "nmb.service", Systemd::Unit::Replace);
-        Systemd::restartUnit(Systemd::System, "smb.service", Systemd::Unit::Replace);
+        Systemd::restartUnit(Systemd::System, NMB_SERVICE, Systemd::Unit::Replace);
+        Systemd::restartUnit(Systemd::System, SMB_SERVICE, Systemd::Unit::Replace);
     }
 }
+
+
+void SambaConfig::saveShare(QSettings &settings, const ShareConfig &shareConfig)
+{
+    settings.setValue(shareConfig.comment + "/" + configName.COMMENT, shareConfig.comment);
+    settings.setValue(shareConfig.comment + "/" + configName.PATH, shareConfig.path);
+    settings.setValue(shareConfig.comment + "/" + configName.CREATE_MODE, shareConfig.createMode);
+    settings.setValue(shareConfig.comment + "/" + configName.DIRECTORY_MODE, shareConfig.directoryMode);
+    settings.setValue(shareConfig.comment + "/" + configName.BROWSEABLE, shareConfig.browseable);
+    settings.setValue(shareConfig.comment + "/" + configName.WRITABLE, shareConfig.writable);
+    settings.setValue(shareConfig.comment + "/" + configName.GUEST_OK, shareConfig.guestOk);
+    settings.setValue(shareConfig.comment + "/" + configName.READ_ONLY, shareConfig.readOnly);
+}
+
 
 void SambaConfig::setSettingFromCheckboxes(QString &configName, bool checked)
 {
