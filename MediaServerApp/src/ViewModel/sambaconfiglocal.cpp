@@ -4,75 +4,75 @@
 
 void SambaConfig::tfName_onEditingFinished(QString text)
 {
-    localConfig.comment = text;
+    shareConfig1.comment = text;
 }
 
 void SambaConfig::tfCreateMode_onEditingFinished(QString text)
 {
-    localConfig.createMode = text;
+    shareConfig1.createMode = text;
 }
 
 void SambaConfig::tfDirectoryMode_onEditingFinished(QString text)
 {
-    localConfig.directoryMode = text;
+    shareConfig1.directoryMode = text;
 }
 
 void SambaConfig::chbBrowseable_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(localConfig.browseable, checked);
+    setSettingFromCheckboxes(shareConfig1.browseable, checked);
 }
 
 void SambaConfig::chbWritable_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(localConfig.writable, checked);
+    setSettingFromCheckboxes(shareConfig1.writable, checked);
 }
 
 void SambaConfig::chbGuestOk_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(localConfig.guestOk, checked);
+    setSettingFromCheckboxes(shareConfig1.guestOk, checked);
 }
 
 void SambaConfig::chbReadOnly_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(localConfig.readOnly, checked);
+    setSettingFromCheckboxes(shareConfig1.readOnly, checked);
 }
 
 void SambaConfig::setCommentTextField(QObject *obj)
 {
-    nameTextField = obj;
+    sambaShare1.nameTextField = obj;
 }
 
 void SambaConfig::setPathTextField(QObject *obj)
 {
-    pathTextField = obj;
+    sambaShare1.pathTextField = obj;
 }
 
 void SambaConfig::setCreateModeTextField(QObject *obj)
 {
-    createModeTextField = obj;
+    sambaShare1.createModeTextField = obj;
 }
 
 void SambaConfig::setDirectoryModeTextField(QObject *obj)
 {
-    directoryModeTextField = obj;
+    sambaShare1.directoryModeTextField = obj;
 }
 
 void SambaConfig::setBrowsableCheckBox(QObject *obj)
 {
-    browsableCheckBox = obj;
+    sambaShare1.browsableCheckBox = obj;
 }
 
 void SambaConfig::setWritablecheckBox(QObject *obj)
 {
-    writablecheckBox = obj;
+    sambaShare1.writablecheckBox = obj;
 }
 
 void SambaConfig::setGuestOkCheckBox(QObject *obj)
 {
-    guestOkCheckBox = obj;
+    sambaShare1.guestOkCheckBox = obj;
 }
 
 void SambaConfig::setReadOnlyCheckBox(QObject *obj)
 {
-    readOnlyCheckBox = obj;
+    sambaShare1.readOnlyCheckBox = obj;
 }

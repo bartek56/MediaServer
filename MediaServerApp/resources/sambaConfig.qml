@@ -1137,10 +1137,6 @@ Dialog
         sambaConfig.setReadOnlyCheckBox3(readOnly3CheckBox);
         sambaConfig.setEnabled3(enabled3CheckBox);
 
-        sambaConfig.setExternalDiskTabButton1(externalDisk1TabButton);
-        sambaConfig.setExternalDiskTabButton2(externalDisk2TabButton);
-        sambaConfig.setExternalDiskTabButton3(externalDisk3TabButton);
-
         sambaConfig.loadAllConfigs();
     }
 }

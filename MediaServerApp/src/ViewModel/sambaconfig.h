@@ -50,6 +50,19 @@ struct ShareConfig
     QString readOnly;
 };
 
+struct SambaShareObjects
+{
+    QObject *nameTextField;
+    QObject *pathTextField;
+    QObject *createModeTextField;
+    QObject *directoryModeTextField;
+    QObject *browsableCheckBox;
+    QObject *writablecheckBox;
+    QObject *guestOkCheckBox;
+    QObject *readOnlyCheckBox;
+    QObject *enabledCheckBox;
+};
+
 class SambaConfig : public QObject
 {
     Q_OBJECT
@@ -64,52 +77,6 @@ public:
     QObject *domainMasterCheckBox;
     QObject *securityComboBox;
     QObject *mapToGuestComboBox;
-
-    QObject *nameTextField;
-    QObject *pathTextField;
-    QObject *createModeTextField;
-    QObject *directoryModeTextField;
-    QObject *browsableCheckBox;
-    QObject *writablecheckBox;
-    QObject *guestOkCheckBox;
-    QObject *readOnlyCheckBox;
-
-
-    QObject *externalDiskTabButton1;
-
-    QObject *nameTextField1;
-    QObject *pathTextField1;
-    QObject *createModeTextField1;
-    QObject *directoryModeTextField1;
-    QObject *browsableCheckBox1;
-    QObject *writablecheckBox1;
-    QObject *guestOkCheckBox1;
-    QObject *readOnlyCheckBox1;
-    QObject *enabledCheckBox1;
-
-    QObject *externalDiskTabButton2;
-
-    QObject *nameTextField2;
-    QObject *pathTextField2;
-    QObject *createModeTextField2;
-    QObject *directoryModeTextField2;
-    QObject *browsableCheckBox2;
-    QObject *writablecheckBox2;
-    QObject *guestOkCheckBox2;
-    QObject *readOnlyCheckBox2;
-    QObject *enabledCheckBox2;
-
-    QObject *externalDiskTabButton3;
-
-    QObject *nameTextField3;
-    QObject *pathTextField3;
-    QObject *createModeTextField3;
-    QObject *directoryModeTextField3;
-    QObject *browsableCheckBox3;
-    QObject *writablecheckBox3;
-    QObject *guestOkCheckBox3;
-    QObject *readOnlyCheckBox3;
-    QObject *enabledCheckBox3;
 
     explicit SambaConfig(QObject *parent = nullptr);
 
@@ -133,7 +100,6 @@ public:
     Q_INVOKABLE void setGuestOkCheckBox(QObject *obj);
     Q_INVOKABLE void setReadOnlyCheckBox(QObject *obj);
 
-    Q_INVOKABLE void setExternalDiskTabButton1(QObject *obj);
     Q_INVOKABLE void setCommentTextField1(QObject *obj);
     Q_INVOKABLE void setPathTextField1(QObject *obj);
     Q_INVOKABLE void setCreateModeTextField1(QObject *obj);
@@ -144,7 +110,6 @@ public:
     Q_INVOKABLE void setReadOnlyCheckBox1(QObject *obj);
     Q_INVOKABLE void setEnabled1(QObject *obj);
 
-    Q_INVOKABLE void setExternalDiskTabButton2(QObject *obj);
     Q_INVOKABLE void setCommentTextField2(QObject *obj);
     Q_INVOKABLE void setPathTextField2(QObject *obj);
     Q_INVOKABLE void setCreateModeTextField2(QObject *obj);
@@ -155,7 +120,6 @@ public:
     Q_INVOKABLE void setReadOnlyCheckBox2(QObject *obj);
     Q_INVOKABLE void setEnabled2(QObject *obj);
 
-    Q_INVOKABLE void setExternalDiskTabButton3(QObject *obj);
     Q_INVOKABLE void setCommentTextField3(QObject *obj);
     Q_INVOKABLE void setPathTextField3(QObject *obj);
     Q_INVOKABLE void setCreateModeTextField3(QObject *obj);
@@ -227,10 +191,16 @@ private:
     ConfigName configName;
 
     GlobalConfig globalConfig;
-    ShareConfig localConfig;
     ShareConfig shareConfig1;
     ShareConfig shareConfig2;
     ShareConfig shareConfig3;
+    ShareConfig shareConfig4;
+
+    SambaShareObjects sambaShare1;
+    SambaShareObjects sambaShare2;
+    SambaShareObjects sambaShare3;
+    SambaShareObjects sambaShare4;
+
 
     unsigned int indexOfExternalDiskConfiguration(QString diskName);
     unsigned int indexOfExternalDiskConfigurationByName(QString name);
@@ -240,19 +210,17 @@ private:
     void showGlobalConfigs();
     void showLocalConfigs();
 
-    void loadConfigsForExternalDisk1(const QSettings &settings);
-    void loadConfigsForExternalDisk2(const QSettings &settings);
-    void loadConfigsForExternalDisk3(const QSettings &settings);
+    void loadConfigsForShare2_4(ShareConfig &shareConfig, const QSettings &settings, const QString &shareName);
 
 
+    void setDefaultConfigs(ShareConfig &shareConfig, const QString &name, const QString &path);
     void saveDefaultConfigsForExternalDisk1();
     void saveDefaultConfigsForExternalDisk2();
     void saveDefaultConfigsForExternalDisk3();
 
 
-    void showConfigsForExternalDisk1();
-    void showConfigsForExternalDisk2();
-    void showConfigsForExternalDisk3();
+    void showConfigsForExternalDisk(const SambaShareObjects &sambaConfig, const ShareConfig &shareConfig);
+
     bool isServiceActive();
 
 public slots:
