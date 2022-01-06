@@ -9,8 +9,35 @@
 
 Settings::Settings(QObject *parent) : QObject(parent)
 {
-    wifiSettings = std::make_shared<QSettings>(WIFI_CONFIG_FILE, QSettings::IniFormat, this);
-    ethSettings = std::make_shared<QSettings>(ETHERNET_CONFIG_FILE, QSettings::IniFormat, this);
+    ethSettings = std::make_shared<NetworkConfig>();
+    wifiSettings = std::make_shared<NetworkConfig>();
+
+    QSettings wifiqsettings(WIFI_CONFIG_FILE, QSettings::IniFormat);
+    if(wifiqsettings.allKeys().contains("Network/DHCP"))
+    {
+        if(wifiqsettings.value("Network/DHCP").toString().contains("yes"))
+            wifiSettings->DHCPisEnable = true;
+    }
+    else
+    {
+        wifiSettings->dns = wifiqsettings.value("Network/DNS").toString();
+        wifiSettings->gateway = wifiqsettings.value("Network/Gateway").toString();
+        wifiSettings->ipAddressWithMask = wifiqsettings.value("Network/Address").toString();
+    }
+
+
+    QSettings ethqsettings(ETHERNET_CONFIG_FILE, QSettings::IniFormat);
+    if(ethqsettings.allKeys().contains("Network/DHCP"))
+    {
+        if(ethqsettings.value("Network/DHCP").toString().contains("yes"))
+            ethSettings->DHCPisEnable = true;
+    }
+    else
+    {
+        ethSettings->dns = ethqsettings.value("Network/DNS").toString();
+        ethSettings->gateway = ethqsettings.value("Network/Gateway").toString();
+        ethSettings->ipAddressWithMask = ethqsettings.value("Network/Address").toString();
+    }
 }
 
 Settings::~Settings()
@@ -242,20 +269,18 @@ void Settings::StatusButton_onClicked(QObject *statusButton, const QString statu
 void Settings::loadIpAddressConfiguration(const int networkInterfaceComboboxIndex, QObject *dynamicIPRadioButton, QObject *staticIPRadioButton, QObject *ipadressTextField, QObject *netmaskTextField,
                                           QObject *gatewayTextField, QObject *dnsserverTextField)
 {
+    QSettings settings(WIFI_CONFIG_FILE, QSettings::IniFormat);
+
     setCurrentIpAddressConfig(networkInterfaceComboboxIndex);
 
     //        if(vIpAddressConfigsPtr->back().configs.find("DHCP") != vIpAddressConfigsPtr->back().configs.end())
-    if(ipSettings->allKeys().contains("Network/DHCP"))
+    if(ipSettings->DHCPisEnable)
     {
-        // if(vIpAddressConfigsPtr->back().configs.at("DHCP") == "yes")
-        if(ipSettings->value("Network/DHCP").toString() == "yes")
-        {
-            dynamicIPRadioButton->setProperty("checked", QVariant(true));
-            ipadressTextField->setProperty("enabled", QVariant(false));
-            netmaskTextField->setProperty("enabled", QVariant(false));
-            gatewayTextField->setProperty("enabled", QVariant(false));
-            dnsserverTextField->setProperty("enabled", QVariant(false));
-        }
+        dynamicIPRadioButton->setProperty("checked", QVariant(true));
+        ipadressTextField->setProperty("enabled", QVariant(false));
+        netmaskTextField->setProperty("enabled", QVariant(false));
+        gatewayTextField->setProperty("enabled", QVariant(false));
+        dnsserverTextField->setProperty("enabled", QVariant(false));
     }
     else
     {
@@ -266,9 +291,7 @@ void Settings::loadIpAddressConfiguration(const int networkInterfaceComboboxInde
         gatewayTextField->setProperty("enabled", QVariant(true));
         dnsserverTextField->setProperty("enabled", QVariant(true));
 
-        //QStringList ipAddressWithMask = vIpAddressConfigsPtr->back().configs.at("Address").split("/");
-        //qDebug() << ipSettings->allKeys().at(0);
-        QStringList ipAddressWithMask = ipSettings->value("Network/Address").toString().split("/");
+        QStringList ipAddressWithMask = ipSettings->ipAddressWithMask.split("/");
         QString ipAddress = ipAddressWithMask[0];
 
 
@@ -276,66 +299,51 @@ void Settings::loadIpAddressConfiguration(const int networkInterfaceComboboxInde
 
         ipadressTextField->setProperty("text", QVariant(ipAddress));
         netmaskTextField->setProperty("text", QVariant(netMask));
-        gatewayTextField->setProperty("text", ipSettings->value("Network/Gateway"));
-        // vIpAddressConfigsPtr->back().configs.at("Gateway")));
-        dnsserverTextField->setProperty("text", ipSettings->value("Network/DNS"));
-        //QVariant(vIpAddressConfigsPtr->back().configs.at("DNS")));
+        gatewayTextField->setProperty("text", ipSettings->gateway);
+        dnsserverTextField->setProperty("text", ipSettings->dns);
     }
 }
 
 void Settings::tfIpAddress_onEditingFinished(QString text)
 {
-    //    QStringList ipAddressWithMask = vIpAddressConfigsPtr->back().configs.at("Address").split("/");
-    QStringList ipAddressWithMask = ipSettings->value("Network/Address").toString().split("/");
+    QStringList ipAddressWithMask = ipSettings->ipAddressWithMask.split("/");
     QString netMask = ipAddressWithMask[1];
     QString newIpAddressWithMask = text + "/" + netMask;
-    //    vIpAddressConfigsPtr->back().configs.at("Address") = newIpAddressWithMask;
-    ipSettings->setValue("Network/Address", QVariant(newIpAddressWithMask));
+    ipSettings->ipAddressWithMask = newIpAddressWithMask;
 }
 
 void Settings::rbDynamicIP_onClicked()
 {
-    //    vIpAddressConfigsPtr->back().configs.clear();
-    //    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("DHCP", "yes"));
-    ipSettings->remove("Network");
-
-    ipSettings->setValue("Network/DHCP", QVariant("yes"));
+    ipSettings->DHCPisEnable = true;
 }
 
 void Settings::rbStaticIP_onClicked(const QString ipAddressTextField, const QString netmaskTextField, const QString gatewayTextField, const QString dnsserverTextField)
 {
     QString ipAddressWithMask = ipAddressTextField + "/" + convertNetMaskToShort(netmaskTextField);
-
-    //    vIpAddressConfigsPtr->back().configs.clear();
-    //    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("Address", ipAddressWithMask));
-    //    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("Gateway", gatewayTextField));
-    //    vIpAddressConfigsPtr->back().configs.insert(std::make_pair("DNS", dnsserverTextField));
-    ipSettings->remove("Network");
-    ipSettings->setValue("Network/Address", QVariant(ipAddressWithMask));
-    ipSettings->setValue("Network/Gateway", QVariant(gatewayTextField));
-    ipSettings->setValue("Network/DNS", QVariant(dnsserverTextField));
+    ipSettings->DHCPisEnable = false;
+    ipSettings->ipAddressWithMask = ipAddressWithMask;
+    ipSettings->gateway = gatewayTextField;
+    ipSettings->dns = dnsserverTextField;
 }
 
 void Settings::tfNetMask_onEditingFinished(QString text)
 {
     //    QStringList ipAddressWithMask = vIpAddressConfigsPtr->back().configs.at("Address").split("/");
-    QStringList ipAddressWithMask = ipSettings->value("Network/Address").toString().split("/");
+    QStringList ipAddressWithMask = ipSettings->ipAddressWithMask.split("/");
     QString ipAddress = ipAddressWithMask[0];
     QString newIpAddressWithMask = ipAddress + "/" + convertNetMaskToShort(text);
     //    vIpAddressConfigsPtr->back().configs.at("Address") = newIpAddressWithMask;
-    ipSettings->setValue("Network/Address", QVariant(newIpAddressWithMask));
+    ipSettings->ipAddressWithMask = newIpAddressWithMask;
 }
 
 void Settings::tfGateway_onEditingFinished(QString text)
 {
-    //vIpAddressConfigsPtr->back().configs.at("Gateway") = text;
-    ipSettings->setValue("Network/Gateway", QVariant(text));
+    ipSettings->gateway = text;
 }
 
 void Settings::tfDNSServer_onEditingFinished(QString text)
 {
-    //    vIpAddressConfigsPtr->back().configs.at("DNS") = text;
-    ipSettings->setValue("Network/DNS", QVariant(text));
+    ipSettings->dns = text;
 }
 
 void Settings::saveIpAddressConfiguration()
@@ -344,30 +352,47 @@ void Settings::saveIpAddressConfiguration()
     //        wifiIpAddressConfigFile->SaveFile(*vWifiIpAddressConfigsPtr.get());
     //    if(vEtnernetIpAddressConfigsPtr != nullptr)
     //        ethernetIpAddressConfigFile->SaveFile(*vEtnernetIpAddressConfigsPtr.get());
-    wifiSettings->sync();
-    ethSettings->sync();
+
+    QSettings wifiqsettings(WIFI_CONFIG_FILE, QSettings::IniFormat);
+    wifiqsettings.clear();
+    wifiqsettings.setValue("Match/Name", QVariant("wlan0"));
+    if(wifiSettings->DHCPisEnable)
+        wifiqsettings.setValue("Network/DHCP", QVariant("yes"));
+    else
+    {
+        wifiqsettings.setValue("Network/Address", QVariant(wifiSettings->ipAddressWithMask));
+        wifiqsettings.setValue("Network/Gateway", QVariant(wifiSettings->gateway));
+        wifiqsettings.setValue("Network/DNS", QVariant(wifiSettings->dns));
+    }
+    wifiqsettings.sync();
+
+
+    QSettings ethqsettings(ETHERNET_CONFIG_FILE, QSettings::IniFormat);
+    ethqsettings.clear();
+    ethqsettings.setValue("Match/Name", QVariant("eth0"));
+    if(ethSettings->DHCPisEnable)
+        ethqsettings.setValue("Network/DHCP", QVariant("yes"));
+    else
+    {
+        ethqsettings.setValue("Network/Address", QVariant(ethSettings->ipAddressWithMask));
+        ethqsettings.setValue("Network/Gateway", QVariant(ethSettings->gateway));
+        ethqsettings.setValue("Network/DNS", QVariant(ethSettings->dns));
+    }
+    ethqsettings.sync();
+
+
     Systemd::restartUnit(Systemd::System, "systemd-networkd", Systemd::Unit::Replace);
 }
 
 void Settings::setCurrentIpAddressConfig(const int &networkInterfaceComboboxIndex)
 {
+
     if(networkInterfaceComboboxIndex == 0)
     {
-        //        if(vWifiIpAddressConfigsPtr == nullptr)
-        //        {
-        //            vWifiIpAddressConfigsPtr = std::make_shared<std::vector<HeadersConfig>>(std::move(wifiIpAddressConfigFile->OpenFile()));
-        //        }
-        //vIpAddressConfigsPtr = vWifiIpAddressConfigsPtr;
         ipSettings = wifiSettings;
     }
     else
     {
-        //        if(vEtnernetIpAddressConfigsPtr == nullptr)
-        //        {
-        //            vEtnernetIpAddressConfigsPtr = std::make_shared<std::vector<HeadersConfig>>(std::move(ethernetIpAddressConfigFile->OpenFile()));
-        //        }
-
-        //vIpAddressConfigsPtr = vEtnernetIpAddressConfigsPtr;
         ipSettings = ethSettings;
     }
 }

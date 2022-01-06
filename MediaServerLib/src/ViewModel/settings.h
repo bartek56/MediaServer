@@ -10,6 +10,15 @@
 #include <QObject>
 #include <memory>
 
+struct NetworkConfig
+{
+    QString ipAddressWithMask;
+    QString gateway;
+    QString dns;
+    bool DHCPisEnable;
+};
+
+
 class Settings : public QObject
 {
 
@@ -96,9 +105,9 @@ private:
     const QString ETHERNET_CONFIG_FILE = "/etc/mediaserver/10-wired.network";
     const QString WIFI_CONFIG_FILE = "/etc/mediaserver/20-wireless.network";
 
-    std::shared_ptr<QSettings> ipSettings;
-    std::shared_ptr<QSettings> wifiSettings;
-    std::shared_ptr<QSettings> ethSettings;
+    std::shared_ptr<NetworkConfig> wifiSettings;
+    std::shared_ptr<NetworkConfig> ethSettings;
+    std::shared_ptr<NetworkConfig> ipSettings;
 
 
     QStringList splitString(const QString &str, int n);
