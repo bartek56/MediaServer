@@ -3,6 +3,22 @@
 
 MultimediaConfig::MultimediaConfig(QObject *parent) : QObject(parent)
 {
+    auto state = Systemd::getUnitFileState(Systemd::System, DLNA_SERVICE);
+
+    if(state.contains("able"))
+        systemdDlnaSupport = true;
+    else
+    {
+        qDebug() << "DLNA systemd not support";
+    }
+    state = Systemd::getUnitFileState(Systemd::System, MPD_SERVICE);
+
+    if(state.contains("able"))
+        systemdMpdSupport = true;
+    else
+    {
+        qDebug() << "MPD systemd not support";
+    }
 }
 
 void MultimediaConfig::bVideoFileDialog_onAccepted(QString folderPath, QObject *tfVideoPath)
@@ -60,19 +76,17 @@ void MultimediaConfig::loadSettings(QObject *port, QObject *name)
 void MultimediaConfig::saveConfigs()
 {
     editDlnaConfigFile.SaveFile(mDlnaConfigs);
-    restartService(DLNA_SERVICE);
+    if(systemdDlnaSupport)
+        restartService(DLNA_SERVICE);
 
     editMpdConfigFile.SaveFile(mMpdConfigs);
-    restartService(MPD_SERVICE);
+    if(systemdMpdSupport)
+        restartService(MPD_SERVICE);
 }
 void MultimediaConfig::restartService(const QString &service)
 {
-    auto serviceExist = Systemd::getUnit(Systemd::System, service);
-    if(serviceExist)
-    {
-        if(isServiceActive(service))
-            Systemd::restartUnit(Systemd::System, service, Systemd::Unit::Replace);
-    }
+    if(isServiceActive(service))
+        Systemd::restartUnit(Systemd::System, service, Systemd::Unit::Replace);
 }
 
 bool MultimediaConfig::isServiceActive(QString serviceName)

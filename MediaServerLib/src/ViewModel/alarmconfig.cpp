@@ -4,6 +4,14 @@
 
 AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent)
 {
+    auto state = Systemd::getUnitFileState(Systemd::System, ALARM_SERVICE);
+
+    if(state.contains("able"))
+        systemdAlarmSupport = true;
+    else
+    {
+        qDebug() << "alarm systemd not support";
+    }
 }
 
 void AlarmConfig::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox, QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox,
@@ -70,11 +78,9 @@ QStringList AlarmConfig::loadMPDPlaylists()
 
 bool AlarmConfig::checkAlarmIsActive()
 {
-    auto unitExist = Systemd::getUnit(Systemd::System, ALARM_TIMER);
-
-    if(unitExist)
+    if(systemdAlarmSupport)
     {
-        auto text = Systemd::getUnit(Systemd::System, ALARM_TIMER).data()->activeState();
+        auto text = Systemd::loadUnit(Systemd::System, ALARM_TIMER)->activeState();
         return !text.contains("in");
     }
     else
@@ -148,9 +154,7 @@ void AlarmConfig::loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, Q
 
 void AlarmConfig::switchEnableAlarm_onClicked(const bool isEnable)
 {
-    auto unitExist = Systemd::getUnit(Systemd::System, ALARM_TIMER);
-
-    if(unitExist)
+    if(systemdAlarmSupport)
     {
         if(isEnable)
         {
@@ -164,7 +168,6 @@ void AlarmConfig::switchEnableAlarm_onClicked(const bool isEnable)
         }
     }
 }
-
 
 void AlarmConfig::bStartTestAlarm_onClicked()
 {
@@ -234,8 +237,8 @@ void AlarmConfig::bSaveAlarmService_onClicked(const bool monCheckBox, const bool
     daysOfWeek.remove(daysOfWeek.length() - 1, 1);// remove ',' on last sign
 
     saveAlarmIsSystemdTimer(daysOfWeek, time);
-
-    Systemd::reload(Systemd::System);
+    if(systemdAlarmSupport)
+        Systemd::reload(Systemd::System);
 }
 
 

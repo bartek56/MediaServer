@@ -12,12 +12,9 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent)
 
     if(state.contains("able"))
     {
+        Systemd::getUnit(Systemd::System, ALARM_SNOOZE_SERVICE);//support QDBusAbstractInterfaceSupport
         auto alarmSnoozeState = Systemd::loadUnit(Systemd::System, ALARM_SNOOZE_SERVICE)->activeState();
         auto alarmState = Systemd::loadUnit(Systemd::System, ALARM_SERVICE)->activeState();
-        qDebug() << "alarm snooze state" << alarmSnoozeState;
-        qDebug() << "alarm state" << alarmState;
-
-        //auto state2 = Systemd::getUnit(Systemd::System, ALARM_SNOOZE_SERVICE).data()->activeState();
 
         if(!alarmSnoozeState.contains("in"))
         {

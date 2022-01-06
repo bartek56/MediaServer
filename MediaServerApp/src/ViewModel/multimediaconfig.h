@@ -30,11 +30,13 @@ private:
     const QString PICTURESDIR = "media_dir=P";
     const QString NAME = "friendly_name";
     const QString DLNA_SERVICE = "minidlnad.service";
+    bool systemdDlnaSupport = false;
 
     //mpd
     const QString MUSIC_DIRECTORY = "music_directory";
     const QString PLAYLIST_DIRECTORY = "playlist_directory";
     const QString MPD_SERVICE = "mpd.service";
+    bool systemdMpdSupport = false;
 
     EditDlnaConfigFile editDlnaConfigFile;
     std::map<QString, QString> mDlnaConfigs;

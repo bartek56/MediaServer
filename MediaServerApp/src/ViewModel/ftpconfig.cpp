@@ -4,8 +4,14 @@
 
 FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
 {
-    auto unitExist = Systemd::getUnit(Systemd::System, FTP_SERVICE);
-    serviceExist = (bool) unitExist;
+    auto state = Systemd::getUnitFileState(Systemd::System, FTP_SERVICE);
+
+    if(state.contains("able"))
+        serviceExist = true;
+    else
+    {
+        qDebug() << "ftp systemd not support";
+    }
 }
 
 
