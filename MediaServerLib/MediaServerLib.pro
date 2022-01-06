@@ -16,7 +16,6 @@ SOURCES += \
     src/editmpdconfigfile.cpp \
     src/editscreensaverconfigfile.cpp \
     src/editalarmconfigfile.cpp \
-    src/editheadersconfigfile.cpp \
     src/managementofexternaldevices.cpp
 
 HEADERS += \
@@ -28,5 +27,4 @@ HEADERS += \
     src/editmpdconfigfile.h \
     src/editscreensaverconfigfile.h \
     src/managementofexternaldevices.h \
-    src/editalarmconfigfile.h \
-    src/editheadersconfigfile.h
+    src/editalarmconfigfile.h

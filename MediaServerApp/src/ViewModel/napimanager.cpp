@@ -8,26 +8,23 @@
 
 NapiManager::NapiManager(QObject *parent) : QObject(parent)
 {
-
 }
 
 void NapiManager::init(QObject *englishLanguageRadioButton, QObject *polishLanguageRadioButton)
 {
-   napiConfigFile = std::make_unique<EditHeadersConfigFile>(NAPI_CONFIG_FILE);
-   napiConfig = napiConfigFile->OpenFile();
-   QString language = napiConfig[0].configs.at("language");
+    QSettings settings(NAPI_CONFIG_FILE, QSettings::IniFormat);
+    QString language = settings.value("qnapi/language", QVariant("pl")).toString();
 
-   if(language=="en")
-   {
-       englishLanguageRadioButton->setProperty("checked",QVariant(true));
-       polishLanguageRadioButton->setProperty("checked",QVariant(false));
-
-   }
-   else if (language=="pl")
-   {
-       englishLanguageRadioButton->setProperty("checked",QVariant(false));
-       polishLanguageRadioButton->setProperty("checked",QVariant(true));
-   }
+    if(language == "en")
+    {
+        englishLanguageRadioButton->setProperty("checked", QVariant(true));
+        polishLanguageRadioButton->setProperty("checked", QVariant(false));
+    }
+    else if(language == "pl")
+    {
+        englishLanguageRadioButton->setProperty("checked", QVariant(false));
+        polishLanguageRadioButton->setProperty("checked", QVariant(true));
+    }
 }
 
 void NapiManager::setVideoPath(QObject *object)
@@ -41,55 +38,57 @@ void NapiManager::setVideoPath(QObject *object)
 void NapiManager::bNapiFileDialog_onAccepted(const QString folderPathFileDialog, const QString fileNameFileDialog)
 {
     QString temp = folderPathFileDialog;
-    folderPath = temp.remove(0,7);
+    folderPath = temp.remove(0, 7);
     fileName = fileNameFileDialog;
-    filePath = folderPath+"/"+fileName;
+    filePath = folderPath + "/" + fileName;
 }
 
 void NapiManager::rbEnglish_onClicked()
 {
-    napiConfig[0].configs.at("language")="en";
+    napiConfig.language = "en";
 }
 
 void NapiManager::rbPolish_onClicked()
 {
-    napiConfig[0].configs.at("language")="pl";
+    napiConfig.language = "pl";
 }
 
-void NapiManager::bDownload_onClicked(QObject * text)
+void NapiManager::bDownload_onClicked(QObject *text)
 {
-    napiConfigFile->SaveFile(napiConfig);
+    QSettings settings(NAPI_CONFIG_FILE, QSettings::IniFormat);
 
+    settings.setValue("qnapi/language", QVariant(napiConfig.language));
+    settings.sync();
     QProcess process;
     QString commend = "cd /etc/mediaserver && qnapi -q \"" + filePath + "\"";
     QStringList commend_new;
     commend_new << "-c" << commend;
     process.start("bash", commend_new);
-    while(process.waitForFinished());
+    while(process.waitForFinished())
+        ;
     process.close();
 
     QStringList fileList = fileName.split('.');
     auto movieExtended = fileList.last();
 
     QString fileNameCopy = fileName;
-    QString movieName = fileNameCopy.replace("."+movieExtended,"");
+    QString movieName = fileNameCopy.replace("." + movieExtended, "");
     QString subtitlesFileName = movieName;
     subtitlesFileName.append(".srt");
 
     if(QFile::exists(folderPath + "/" + subtitlesFileName))
     {
-        text->setProperty("text",QVariant("Succesfull downloaded subtitles"));
-        QFile file(folderPath+"/"+subtitlesFileName);
-        bool result = file.copy(folderPath+"/"+movieName+"."+napiConfig[0].configs.at("language")+".srt");
+        text->setProperty("text", QVariant("Succesfull downloaded subtitles"));
+        QFile file(folderPath + "/" + subtitlesFileName);
+        bool result = file.copy(folderPath + "/" + movieName + "." + napiConfig.language + ".srt");
         if(!result)
         {
-            QFile oldFile(folderPath+"/"+movieName+"."+napiConfig[0].configs.at("language")+".srt");
+            QFile oldFile(folderPath + "/" + movieName + "." + napiConfig.language + ".srt");
             oldFile.remove();
-            file.copy(folderPath+"/"+movieName+"."+napiConfig[0].configs.at("language")+".srt");
+            file.copy(folderPath + "/" + movieName + "." + napiConfig.language + ".srt");
         }
         file.close();
     }
     else
-        text->setProperty("text",QVariant("Failed download subtitles"));
-
+        text->setProperty("text", QVariant("Failed download subtitles"));
 }

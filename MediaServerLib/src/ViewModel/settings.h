@@ -3,7 +3,6 @@
 
 #include "../editwificonfigfile.h"
 #include "../editalarmconfigfile.h"
-#include "../editheadersconfigfile.h"
 
 #include <QProcess>
 #include <QtQuick>
@@ -94,8 +93,6 @@ public:
     Q_INVOKABLE void torrentClientStatusSwitch_OnClicked(const bool torrentClientStatusSwitchIsChecked);
     Q_INVOKABLE void torrentClientStatusButton_OnClicked(QObject *torrentClientStatusButton, const QString torrentClientStatusButtonText);
 
-    Q_INVOKABLE void close();
-
     bool checkSystemdStatusExist(const QString &serviceName);
     bool checkSystemdStatusIsEnabled(const QString &serviceNames);
     bool checkSystemdStatusIsActive(const QString &serviceName);
@@ -115,6 +112,7 @@ private:
     QString decToBin(QString dev);
     QString convertNetMaskToFull(QString decMask);
     QString convertNetMaskToShort(QString decMask);
+    NetworkConfig loadNetworkConfig(const QString &configFile);
 
     void setCurrentIpAddressConfig(const int &networkInterfaceComboboxIndex);
 

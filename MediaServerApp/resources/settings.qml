@@ -1038,6 +1038,8 @@ Dialog
             text: "Close"
             onClicked:
             {
+                timerNetworkStatus.stop()
+                timerWifiStatus.stop()
                 settingsDialog.close()
             }
         }

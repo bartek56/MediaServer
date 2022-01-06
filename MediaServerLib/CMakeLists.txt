@@ -17,7 +17,6 @@ add_library(${PROJECT_NAME}
         src/editwificonfigfile.cpp
         src/editftpconfigfile.cpp
         src/managementofexternaldevices.cpp
-        src/editheadersconfigfile.cpp
         src/editmpdconfigfile.cpp
 )
 

@@ -2,51 +2,45 @@
 
 void SambaConfig::tfNetbiosName_onEditingFinished(QString text)
 {
-    vConfigs[0].configs.at(configName.NETBIOS_NAME)=text;
+    globalConfig.netbiosName = text;
 }
 
 void SambaConfig::tfWorkgroup_onEditingFinished(QString text)
 {
-    vConfigs[0].configs.at(configName.WORKGROUP)=text;
+    globalConfig.workgroup = text;
 }
 
 void SambaConfig::tfServerString_onEditingFinished(QString text)
 {
-    vConfigs[0].configs.at(configName.SERVER_STRING)=text;
+    globalConfig.serverString = text;
 }
 
 void SambaConfig::cbMapToGuest_onDisplayTextChanged(QString text)
 {
-    if(!vConfigs.empty())
-    {
-        vConfigs[0].configs.at(configName.MAP_TO_GUEST)=text;
-    }
+    globalConfig.mapToGuest = text;
 }
 
 void SambaConfig::cbSecurity_onDisplayTextChanged(QString text)
 {
-    if(!vConfigs.empty())
-    {
-        vConfigs[0].configs.at(configName.SECURITY)=text;
-    }
+    globalConfig.security = text;
 }
 
 void SambaConfig::cbLocalMaster_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(0,configName.LOCAL_MASTER,checked);
+    setSettingFromCheckboxes(globalConfig.localMaster, checked);
 }
 
 void SambaConfig::cbDomainMaster_onClicked(bool checked)
 {
-   setSettingFromCheckboxes(0,configName.DOMAIN_MASTER, checked);
+    setSettingFromCheckboxes(globalConfig.domainMaster, checked);
 }
 
 void SambaConfig::cbGlobalBrowseable_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(0,configName.BROWSEABLE,checked);
+    setSettingFromCheckboxes(globalConfig.browseable, checked);
 }
 
-void SambaConfig::setWorkGroupTextField(QObject* obj)
+void SambaConfig::setWorkGroupTextField(QObject *obj)
 {
     workGroupTextField = obj;
 }
@@ -88,5 +82,5 @@ void SambaConfig::setMapToGuestComboBox(QObject *obj)
 
 void SambaConfig::setStackLayout(QObject *obj)
 {
-    stackLayout=obj;
+    stackLayout = obj;
 }

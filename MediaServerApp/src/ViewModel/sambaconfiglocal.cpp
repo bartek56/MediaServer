@@ -4,76 +4,75 @@
 
 void SambaConfig::tfName_onEditingFinished(QString text)
 {
-    vConfigs[1].configs.at(configName.COMMENT)=text;
-    vConfigs[1].name="["+text+"]";
+    localConfig.comment = text;
 }
 
 void SambaConfig::tfCreateMode_onEditingFinished(QString text)
 {
-    vConfigs[1].configs.at(configName.CREATE_MODE)=text;
+    localConfig.createMode = text;
 }
 
 void SambaConfig::tfDirectoryMode_onEditingFinished(QString text)
 {
-    vConfigs[1].configs.at(configName.DIRECTORY_MODE)=text;
+    localConfig.directoryMode = text;
 }
 
 void SambaConfig::chbBrowseable_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(1,configName.BROWSEABLE,checked);
+    setSettingFromCheckboxes(localConfig.browseable, checked);
 }
 
 void SambaConfig::chbWritable_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(1,configName.WRITABLE,checked);
+    setSettingFromCheckboxes(localConfig.writable, checked);
 }
 
 void SambaConfig::chbGuestOk_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(1,configName.GUEST_OK,checked);
+    setSettingFromCheckboxes(localConfig.guestOk, checked);
 }
 
 void SambaConfig::chbReadOnly_onClicked(bool checked)
 {
-    setSettingFromCheckboxes(1,configName.READ_ONLY,checked);
+    setSettingFromCheckboxes(localConfig.readOnly, checked);
 }
 
-void SambaConfig::setCommentTextField(QObject* obj)
+void SambaConfig::setCommentTextField(QObject *obj)
 {
     nameTextField = obj;
 }
 
-void SambaConfig::setPathTextField(QObject* obj)
+void SambaConfig::setPathTextField(QObject *obj)
 {
     pathTextField = obj;
 }
 
-void SambaConfig::setCreateModeTextField(QObject* obj)
+void SambaConfig::setCreateModeTextField(QObject *obj)
 {
     createModeTextField = obj;
 }
 
-void SambaConfig::setDirectoryModeTextField(QObject* obj)
+void SambaConfig::setDirectoryModeTextField(QObject *obj)
 {
     directoryModeTextField = obj;
 }
 
-void SambaConfig::setBrowsableCheckBox(QObject* obj)
+void SambaConfig::setBrowsableCheckBox(QObject *obj)
 {
     browsableCheckBox = obj;
 }
 
-void SambaConfig::setWritablecheckBox(QObject* obj)
+void SambaConfig::setWritablecheckBox(QObject *obj)
 {
     writablecheckBox = obj;
 }
 
-void SambaConfig::setGuestOkCheckBox(QObject* obj)
+void SambaConfig::setGuestOkCheckBox(QObject *obj)
 {
     guestOkCheckBox = obj;
 }
 
-void SambaConfig::setReadOnlyCheckBox(QObject* obj)
+void SambaConfig::setReadOnlyCheckBox(QObject *obj)
 {
     readOnlyCheckBox = obj;
 }

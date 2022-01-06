@@ -8,7 +8,6 @@
 
 SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 {
-    editFile = std::make_unique<EditHeadersConfigFile>(SAMBA_CONFIG_FILE);
 }
 
 bool SambaConfig::isServiceActive()
@@ -25,10 +24,32 @@ bool SambaConfig::isServiceActive()
     }
 }
 
+
 void SambaConfig::loadAllConfigs()
 {
-    vConfigs = editFile->OpenFile();
-    auto countShare = vConfigs.size();
+    QSettings settings(SAMBA_CONFIG_FILE, QSettings::IniFormat);
+
+    auto countShare = settings.childGroups().count();
+
+    globalConfig.browseable = settings.value("GLOBAL/browseable").toString();
+    globalConfig.domainMaster = settings.value("GLOBAL/domain master").toString();
+    globalConfig.forceUser = settings.value("GLOBAL/force user").toString();
+    globalConfig.localMaster = settings.value("GLOBAL/local master").toString();
+    globalConfig.mapToGuest = settings.value("GLOBAL/map to guest").toString();
+    globalConfig.netbiosName = settings.value("GLOBAL/netbios name").toString();
+    globalConfig.security = settings.value("GLOBAL/security").toString();
+    globalConfig.serverString = settings.value("GLOBAL/server string").toString();
+    globalConfig.workgroup = settings.value("GLOBAL/workgroup").toString();
+
+    localConfig.browseable = settings.value("share/browseable").toString();
+    localConfig.comment = settings.value("share/comment").toString();
+    localConfig.createMode = settings.value("share/create mode").toString();
+    localConfig.directoryMode = settings.value("share/directory mode").toString();
+    localConfig.guestOk = settings.value("share/guest ok").toString();
+    localConfig.path = settings.value("share/path").toString();
+    localConfig.readOnly = settings.value("share/read only").toString();
+    localConfig.writable = settings.value("share/writable").toString();
+
 
     showGlobalConfigs();
     showLocalConfigs();
@@ -41,6 +62,8 @@ void SambaConfig::loadAllConfigs()
     else if(countShare == 3)
     {
         enabledCheckBox1->setProperty("checked", QVariant(true));
+
+        loadConfigsForExternalDisk1(settings);
         saveDefaultConfigsForExternalDisk2();
         saveDefaultConfigsForExternalDisk3();
     }
@@ -48,6 +71,9 @@ void SambaConfig::loadAllConfigs()
     {
         enabledCheckBox1->setProperty("checked", QVariant(true));
         enabledCheckBox2->setProperty("checked", QVariant(true));
+
+        loadConfigsForExternalDisk1(settings);
+        loadConfigsForExternalDisk2(settings);
         saveDefaultConfigsForExternalDisk3();
     }
     else if(countShare == 5)
@@ -55,6 +81,10 @@ void SambaConfig::loadAllConfigs()
         enabledCheckBox1->setProperty("checked", QVariant(true));
         enabledCheckBox2->setProperty("checked", QVariant(true));
         enabledCheckBox3->setProperty("checked", QVariant(true));
+
+        loadConfigsForExternalDisk1(settings);
+        loadConfigsForExternalDisk2(settings);
+        loadConfigsForExternalDisk3(settings);
     }
 
     showConfigsForExternalDisk1();
@@ -64,154 +94,198 @@ void SambaConfig::loadAllConfigs()
 
 void SambaConfig::showLocalConfigs()
 {
-    auto localConfig = vConfigs[1];
-    auto configsParameters = localConfig.configs;
 
-    nameTextField->setProperty("text", QVariant(configsParameters.at(configName.COMMENT)));
-    pathTextField->setProperty("text", QVariant(configsParameters.at(configName.PATH)));
-    createModeTextField->setProperty("text", QVariant(configsParameters.at(configName.CREATE_MODE)));
-    directoryModeTextField->setProperty("text", QVariant(configsParameters.at(configName.DIRECTORY_MODE)));
+    nameTextField->setProperty("text", QVariant(localConfig.comment));
+    pathTextField->setProperty("text", QVariant(localConfig.path));
+    createModeTextField->setProperty("text", QVariant(localConfig.createMode));
+    directoryModeTextField->setProperty("text", QVariant(localConfig.directoryMode));
 
-    setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.WRITABLE), writablecheckBox);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.GUEST_OK), guestOkCheckBox);
+    setCheckboxesFromFileSettings(localConfig.browseable, browsableCheckBox);
+    setCheckboxesFromFileSettings(localConfig.writable, writablecheckBox);
+    setCheckboxesFromFileSettings(localConfig.guestOk, guestOkCheckBox);
+}
+
+void SambaConfig::loadConfigsForExternalDisk1(const QSettings &settings)
+{
+    shareConfig1.browseable = settings.value("share1/browseable").toString();
+    shareConfig1.comment = settings.value("share1/comment").toString();
+    shareConfig1.createMode = settings.value("share1/create mode").toString();
+    shareConfig1.directoryMode = settings.value("share1/directory mode").toString();
+    shareConfig1.guestOk = settings.value("share1/guest ok").toString();
+    shareConfig1.path = settings.value("share1/path").toString();
+    shareConfig1.readOnly = settings.value("share1/read only").toString();
+    shareConfig1.writable = settings.value("share1/writable").toString();
+}
+
+void SambaConfig::loadConfigsForExternalDisk2(const QSettings &settings)
+{
+    shareConfig2.browseable = settings.value("share2/browseable").toString();
+    shareConfig2.comment = settings.value("share2/comment").toString();
+    shareConfig2.createMode = settings.value("share2/create mode").toString();
+    shareConfig2.directoryMode = settings.value("share2/directory mode").toString();
+    shareConfig2.guestOk = settings.value("share2/guest ok").toString();
+    shareConfig2.path = settings.value("share2/path").toString();
+    shareConfig2.readOnly = settings.value("share2/read only").toString();
+    shareConfig2.writable = settings.value("share2/writable").toString();
+}
+
+void SambaConfig::loadConfigsForExternalDisk3(const QSettings &settings)
+{
+    shareConfig3.browseable = settings.value("share3/browseable").toString();
+    shareConfig3.comment = settings.value("share3/comment").toString();
+    shareConfig3.createMode = settings.value("share3/create mode").toString();
+    shareConfig3.directoryMode = settings.value("share3/directory mode").toString();
+    shareConfig3.guestOk = settings.value("share3/guest ok").toString();
+    shareConfig3.path = settings.value("share3/path").toString();
+    shareConfig3.readOnly = settings.value("share3/read only").toString();
+    shareConfig3.writable = settings.value("share3/writable").toString();
 }
 
 void SambaConfig::showGlobalConfigs()
 {
-    auto globalConfig = vConfigs[0];
-    auto configsParameters = globalConfig.configs;
+    workGroupTextField->setProperty("text", QVariant(globalConfig.workgroup));
+    serverStringTextField->setProperty("text", QVariant(globalConfig.serverString));
+    netBiosTextField->setProperty("text", QVariant(globalConfig.netbiosName));
 
-    workGroupTextField->setProperty("text", QVariant(configsParameters.at(configName.WORKGROUP)));
-    serverStringTextField->setProperty("text", QVariant(configsParameters.at(configName.SERVER_STRING)));
-    netBiosTextField->setProperty("text", QVariant(configsParameters.at(configName.NETBIOS_NAME)));
-
-    setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), globalBrowsableCheckBox);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.LOCAL_MASTER), localMastercheckBox);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.DOMAIN_MASTER), domainMasterCheckBox);
+    setCheckboxesFromFileSettings(globalConfig.browseable, globalBrowsableCheckBox);
+    setCheckboxesFromFileSettings(globalConfig.localMaster, localMastercheckBox);
+    setCheckboxesFromFileSettings(globalConfig.domainMaster, domainMasterCheckBox);
 }
 
 void SambaConfig::saveDefaultConfigsForExternalDisk1()
 {
-    std::map<QString, QString> mConfigsParameters;
-    mConfigsParameters.insert(std::make_pair(configName.PATH, "/mnt/externalDisk1"));
-    mConfigsParameters.insert(std::make_pair(configName.COMMENT, "DISK1"));
-    mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE, "yes"));
-    mConfigsParameters.insert(std::make_pair(configName.WRITABLE, "yes"));
-    mConfigsParameters.insert(std::make_pair(configName.GUEST_OK, "yes"));
-    mConfigsParameters.insert(std::make_pair(configName.READ_ONLY, "no"));
-    mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE, "0644"));
-    mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE, "0755"));
-    vConfigs.push_back(HeadersConfig("[DISK1]", mConfigsParameters));
+    shareConfig1.path = "/mnt/externalDisk1";
+    shareConfig1.comment = "DISK1";
+    shareConfig1.browseable = "yes";
+    shareConfig1.writable = "yes";
+    shareConfig1.guestOk = "yes";
+    shareConfig1.readOnly = "no";
+    shareConfig1.createMode = "0644";
+    shareConfig1.directoryMode = "0755";
 }
 
 void SambaConfig::saveDefaultConfigsForExternalDisk2()
 {
-    std::map<QString, QString> mConfigsParameters;
-    mConfigsParameters.insert(std::make_pair(configName.PATH, "/mnt/externalDisk2"));
-    mConfigsParameters.insert(std::make_pair(configName.COMMENT, "DISK2"));
-    mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE, "yes"));
-    mConfigsParameters.insert(std::make_pair(configName.WRITABLE, "yes"));
-    mConfigsParameters.insert(std::make_pair(configName.GUEST_OK, "yes"));
-    mConfigsParameters.insert(std::make_pair(configName.READ_ONLY, "no"));
-    mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE, "0644"));
-    mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE, "0755"));
-    vConfigs.push_back(HeadersConfig("[DISK2]", mConfigsParameters));
+    shareConfig2.path = "/mnt/externalDisk2";
+    shareConfig2.comment = "DISK2";
+    shareConfig2.browseable = "yes";
+    shareConfig2.writable = "yes";
+    shareConfig2.guestOk = "yes";
+    shareConfig2.readOnly = "no";
+    shareConfig2.createMode = "0644";
+    shareConfig2.directoryMode = "0755";
 }
 
 void SambaConfig::saveDefaultConfigsForExternalDisk3()
 {
-    std::map<QString, QString> mConfigsParameters;
-    mConfigsParameters.insert(std::make_pair(configName.PATH, "/mnt/externalDisk3"));
-    mConfigsParameters.insert(std::make_pair(configName.COMMENT, "DISK3"));
-    mConfigsParameters.insert(std::make_pair(configName.BROWSEABLE, "yes"));
-    mConfigsParameters.insert(std::make_pair(configName.WRITABLE, "yes"));
-    mConfigsParameters.insert(std::make_pair(configName.GUEST_OK, "yes"));
-    mConfigsParameters.insert(std::make_pair(configName.READ_ONLY, "no"));
-    mConfigsParameters.insert(std::make_pair(configName.CREATE_MODE, "0644"));
-    mConfigsParameters.insert(std::make_pair(configName.DIRECTORY_MODE, "0755"));
-    vConfigs.push_back(HeadersConfig("[DISK3]", mConfigsParameters));
+    shareConfig3.path = "/mnt/externalDisk3";
+    shareConfig3.comment = "DISK3";
+    shareConfig3.browseable = "yes";
+    shareConfig3.writable = "yes";
+    shareConfig3.guestOk = "yes";
+    shareConfig3.readOnly = "no";
+    shareConfig3.createMode = "0644";
+    shareConfig3.directoryMode = "0755";
 }
 
 void SambaConfig::showConfigsForExternalDisk1()
 {
     externalDiskTabButton1->setProperty("visible", QVariant(true));
-    auto localConfig = vConfigs[2];
-    auto configsParameters = localConfig.configs;
 
-    createModeTextField1->setProperty("text", QVariant(configsParameters.at(configName.CREATE_MODE)));
-    directoryModeTextField1->setProperty("text", QVariant(configsParameters.at(configName.DIRECTORY_MODE)));
-    pathTextField1->setProperty("text", QVariant(configsParameters.at(configName.PATH)));
-    auto name = localConfig.name;
-    name.remove(0, 1);
-    name.remove(name.length() - 1, 1);
-
-    nameTextField1->setProperty("text", QVariant(name));
-    setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox1);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.WRITABLE), writablecheckBox1);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.GUEST_OK), guestOkCheckBox1);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.READ_ONLY), readOnlyCheckBox1);
+    createModeTextField1->setProperty("text", QVariant(shareConfig1.createMode));
+    directoryModeTextField1->setProperty("text", QVariant(shareConfig1.directoryMode));
+    pathTextField1->setProperty("text", QVariant(shareConfig1.path));
+    nameTextField1->setProperty("text", QVariant(shareConfig1.comment));
+    setCheckboxesFromFileSettings(shareConfig1.browseable, browsableCheckBox1);
+    setCheckboxesFromFileSettings(shareConfig1.writable, writablecheckBox1);
+    setCheckboxesFromFileSettings(shareConfig1.guestOk, guestOkCheckBox1);
+    setCheckboxesFromFileSettings(shareConfig1.readOnly, readOnlyCheckBox1);
 }
 
 void SambaConfig::showConfigsForExternalDisk2()
 {
     externalDiskTabButton2->setProperty("visible", QVariant(true));
-    auto localConfig = vConfigs[3];
-    auto configsParameters = localConfig.configs;
-    createModeTextField2->setProperty("text", QVariant(configsParameters.at(configName.CREATE_MODE)));
-    pathTextField2->setProperty("text", QVariant(configsParameters.at(configName.PATH)));
-    auto name = localConfig.name;
-    name.remove(0, 1);
-    name.remove(name.length() - 1, 1);
-
-    nameTextField2->setProperty("text", QVariant(name));
-    directoryModeTextField2->setProperty("text", QVariant(configsParameters.at(configName.DIRECTORY_MODE)));
-    setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox2);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.WRITABLE), writablecheckBox2);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.GUEST_OK), guestOkCheckBox2);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.READ_ONLY), readOnlyCheckBox2);
+    createModeTextField2->setProperty("text", QVariant(shareConfig2.createMode));
+    pathTextField2->setProperty("text", QVariant(shareConfig2.path));
+    nameTextField2->setProperty("text", QVariant(shareConfig2.comment));
+    directoryModeTextField2->setProperty("text", QVariant(shareConfig2.directoryMode));
+    setCheckboxesFromFileSettings(shareConfig2.browseable, browsableCheckBox2);
+    setCheckboxesFromFileSettings(shareConfig2.writable, writablecheckBox2);
+    setCheckboxesFromFileSettings(shareConfig2.guestOk, guestOkCheckBox2);
+    setCheckboxesFromFileSettings(shareConfig2.readOnly, readOnlyCheckBox2);
 }
 
 void SambaConfig::showConfigsForExternalDisk3()
 {
     externalDiskTabButton3->setProperty("visible", QVariant(true));
-    auto localConfig = vConfigs[4];
-    auto configsParameters = localConfig.configs;
-    createModeTextField3->setProperty("text", QVariant(configsParameters.at(configName.CREATE_MODE)));
-    directoryModeTextField3->setProperty("text", QVariant(configsParameters.at(configName.DIRECTORY_MODE)));
-    pathTextField3->setProperty("text", QVariant(configsParameters.at(configName.PATH)));
-    auto name = localConfig.name;
-    name.remove(0, 1);
-    name.remove(name.length() - 1, 1);
-
-    nameTextField3->setProperty("text", QVariant(name));
-    setCheckboxesFromFileSettings(configsParameters.at(configName.BROWSEABLE), browsableCheckBox3);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.WRITABLE), writablecheckBox3);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.GUEST_OK), guestOkCheckBox3);
-    setCheckboxesFromFileSettings(configsParameters.at(configName.READ_ONLY), readOnlyCheckBox3);
+    createModeTextField3->setProperty("text", QVariant(shareConfig3.createMode));
+    directoryModeTextField3->setProperty("text", QVariant(shareConfig3.directoryMode));
+    pathTextField3->setProperty("text", QVariant(shareConfig3.path));
+    nameTextField3->setProperty("text", QVariant(shareConfig3.comment));
+    setCheckboxesFromFileSettings(shareConfig3.browseable, browsableCheckBox3);
+    setCheckboxesFromFileSettings(shareConfig3.writable, writablecheckBox3);
+    setCheckboxesFromFileSettings(shareConfig3.guestOk, guestOkCheckBox3);
+    setCheckboxesFromFileSettings(shareConfig3.readOnly, readOnlyCheckBox3);
 }
 
 void SambaConfig::bSave_onClicked()
 {
-    if(!enabledCheckBox1->property("checked").toBool())
+    QSettings settings(SAMBA_CONFIG_FILE, QSettings::IniFormat);
+
+    settings.clear();
+    settings.setValue("GLOBAL/workgroup", globalConfig.workgroup);
+    settings.setValue("GLOBAL/server string", globalConfig.serverString);
+    settings.setValue("GLOBAL/netbios name", globalConfig.netbiosName);
+    settings.setValue("GLOBAL/map to guest", globalConfig.mapToGuest);
+    settings.setValue("GLOBAL/force user", globalConfig.forceUser);
+    settings.setValue("GLOBAL/browseable", globalConfig.browseable);
+    settings.setValue("GLOBAL/local master", globalConfig.localMaster);
+    settings.setValue("GLOBAL/domain master", globalConfig.domainMaster);
+
+    settings.setValue("share/comment", localConfig.comment);
+    settings.setValue("share/path", localConfig.path);
+    settings.setValue("share/create mode", localConfig.createMode);
+    settings.setValue("share/directory mode", localConfig.directoryMode);
+    settings.setValue("share/browseable", localConfig.browseable);
+    settings.setValue("share/writable", localConfig.writable);
+    settings.setValue("share/guest ok", localConfig.guestOk);
+    settings.setValue("share/read only", localConfig.readOnly);
+
+    if(enabledCheckBox1->property("checked").toBool())
     {
-        auto index = indexOfExternalDiskConfigurationByName(nameTextField1->property("text").toString());
-        if(index != 0)
-            vConfigs.erase(vConfigs.begin() + index);
+        settings.setValue("share1/comment", shareConfig1.comment);
+        settings.setValue("share1/path", shareConfig1.path);
+        settings.setValue("share1/create mode", shareConfig1.createMode);
+        settings.setValue("share1/directory mode", shareConfig1.directoryMode);
+        settings.setValue("share1/browseable", shareConfig1.browseable);
+        settings.setValue("share1/writable", shareConfig1.writable);
+        settings.setValue("share1/guest ok", shareConfig1.guestOk);
+        settings.setValue("share1/read only", shareConfig1.readOnly);
     }
-    if(!enabledCheckBox2->property("checked").toBool())
+    if(enabledCheckBox2->property("checked").toBool())
     {
-        auto index = indexOfExternalDiskConfigurationByName(nameTextField2->property("text").toString());
-        if(index != 0)
-            vConfigs.erase(vConfigs.begin() + index);
+        settings.setValue("share2/comment", shareConfig2.comment);
+        settings.setValue("share2/path", shareConfig2.path);
+        settings.setValue("share2/create mode", shareConfig2.createMode);
+        settings.setValue("share2/directory mode", shareConfig2.directoryMode);
+        settings.setValue("share2/browseable", shareConfig2.browseable);
+        settings.setValue("share2/writable", shareConfig2.writable);
+        settings.setValue("share2/guest ok", shareConfig2.guestOk);
+        settings.setValue("share2/read only", shareConfig2.readOnly);
     }
-    if(!enabledCheckBox3->property("checked").toBool())
+
+    if(enabledCheckBox3->property("checked").toBool())
     {
-        auto index = indexOfExternalDiskConfigurationByName(nameTextField3->property("text").toString());
-        if(index != 0)
-            vConfigs.erase(vConfigs.begin() + index);
+        settings.setValue("share3/comment", shareConfig3.comment);
+        settings.setValue("share3/path", shareConfig3.path);
+        settings.setValue("share3/create mode", shareConfig3.createMode);
+        settings.setValue("share3/directory mode", shareConfig3.directoryMode);
+        settings.setValue("share3/browseable", shareConfig3.browseable);
+        settings.setValue("share3/writable", shareConfig3.writable);
+        settings.setValue("share3/guest ok", shareConfig3.guestOk);
+        settings.setValue("share3/read only", shareConfig3.readOnly);
     }
-    editFile->SaveFile(vConfigs);
+
     if(isServiceActive())
     {
         Systemd::restartUnit(Systemd::System, "nmb.service", Systemd::Unit::Replace);
@@ -219,15 +293,15 @@ void SambaConfig::bSave_onClicked()
     }
 }
 
-void SambaConfig::setSettingFromCheckboxes(unsigned long row, QString configName, bool checked)
+void SambaConfig::setSettingFromCheckboxes(QString &configName, bool checked)
 {
     if(checked)
     {
-        vConfigs[row].configs.at(configName) = "yes";
+        configName = "yes";
     }
     else
     {
-        vConfigs[row].configs.at(configName) = "no";
+        configName = "no";
     }
 }
 
@@ -258,71 +332,30 @@ void SambaConfig::setExternalDiskTabButton3(QObject *obj)
     externalDiskTabButton3 = obj;
 }
 
-unsigned int SambaConfig::indexOfExternalDiskConfiguration(QString comment)
-{
-    unsigned int index = 2;
-    auto iter = vConfigs.begin();
-    iter++;
-    iter++;
-    while(iter != vConfigs.end())
-    {
-        auto map = iter->configs;
-        QString name = map.at(configName.COMMENT);
-
-        if(name == comment)
-        {
-            return index;
-        }
-        index++;
-
-        iter++;
-    }
-    return 0;
-}
-
-unsigned int SambaConfig::indexOfExternalDiskConfigurationByName(QString name)
-{
-    unsigned int index = 2;
-    auto iter = vConfigs.begin();
-    iter++;
-    iter++;
-    while(iter != vConfigs.end())
-    {
-        auto configName = iter->name;
-        if(configName.contains(name))
-        {
-            return index;
-        }
-        index++;
-        iter++;
-    }
-    return 0;
-}
-
 void SambaConfig::bFileDialog_onAccepted(QString catalog)
 {
     QString path = catalog.remove(0, 7);
     pathTextField->setProperty("text", QVariant(path));
-    vConfigs[1].configs.at(configName.PATH) = path;
+    localConfig.path = path;
 }
 
 void SambaConfig::bFileDialog1_onAccepted(QString catalog)
 {
     QString path = catalog.remove(0, 7);
     pathTextField1->setProperty("text", QVariant(path));
-    vConfigs[2].configs.at(configName.PATH) = path;
+    shareConfig1.path = path;
 }
 
 void SambaConfig::bFileDialog2_onAccepted(QString catalog)
 {
     QString path = catalog.remove(0, 7);
     pathTextField2->setProperty("text", QVariant(path));
-    vConfigs[3].configs.at(configName.PATH) = path;
+    shareConfig2.path = path;
 }
 
 void SambaConfig::bFileDialog3_onAccepted(QString catalog)
 {
     QString path = catalog.remove(0, 7);
     pathTextField3->setProperty("text", QVariant(path));
-    vConfigs[4].configs.at(configName.PATH) = path;
+    shareConfig3.path = path;
 }

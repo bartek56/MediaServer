@@ -3,10 +3,14 @@
 
 #include <QObject>
 #include <vector>
-#include "src/editheadersconfigfile.h"
 #include "src/editdlnaconfigfile.h"
 #include <memory>
 
+
+struct NapiConfig
+{
+    QString language;
+};
 
 class NapiManager : public QObject
 {
@@ -21,14 +25,12 @@ public:
     Q_INVOKABLE void setVideoPath(QObject *object);
 
 private:
-    std::unique_ptr<EditHeadersConfigFile> napiConfigFile;
-    const QString NAPI_CONFIG_FILE="/etc/mediaserver/qnapi.ini";
-    std::vector<HeadersConfig> napiConfig;
+    const QString NAPI_CONFIG_FILE = "/etc/mediaserver/qnapi.ini";
     QString filePath;
     QString folderPath;
     QString fileName;
     EditDlnaConfigFile editDlnaConfigFile;
-
+    NapiConfig napiConfig;
 };
 
-#endif // NAPIMANAGER_H
+#endif// NAPIMANAGER_H

@@ -9,40 +9,12 @@
 
 Settings::Settings(QObject *parent) : QObject(parent)
 {
-    ethSettings = std::make_shared<NetworkConfig>();
-    wifiSettings = std::make_shared<NetworkConfig>();
-
-    QSettings wifiqsettings(WIFI_CONFIG_FILE, QSettings::IniFormat);
-    if(wifiqsettings.allKeys().contains("Network/DHCP"))
-    {
-        if(wifiqsettings.value("Network/DHCP").toString().contains("yes"))
-            wifiSettings->DHCPisEnable = true;
-    }
-    else
-    {
-        wifiSettings->dns = wifiqsettings.value("Network/DNS").toString();
-        wifiSettings->gateway = wifiqsettings.value("Network/Gateway").toString();
-        wifiSettings->ipAddressWithMask = wifiqsettings.value("Network/Address").toString();
-    }
-
-
-    QSettings ethqsettings(ETHERNET_CONFIG_FILE, QSettings::IniFormat);
-    if(ethqsettings.allKeys().contains("Network/DHCP"))
-    {
-        if(ethqsettings.value("Network/DHCP").toString().contains("yes"))
-            ethSettings->DHCPisEnable = true;
-    }
-    else
-    {
-        ethSettings->dns = ethqsettings.value("Network/DNS").toString();
-        ethSettings->gateway = ethqsettings.value("Network/Gateway").toString();
-        ethSettings->ipAddressWithMask = ethqsettings.value("Network/Address").toString();
-    }
+    ethSettings = std::make_shared<NetworkConfig>(loadNetworkConfig(ETHERNET_CONFIG_FILE));
+    wifiSettings = std::make_shared<NetworkConfig>(loadNetworkConfig(WIFI_CONFIG_FILE));
 }
 
 Settings::~Settings()
 {
-    qDebug() << "destruct";
 }
 
 void Settings::updateNetworkStatus(QObject *obj)
@@ -190,11 +162,6 @@ void Settings::torrentClientStatusButton_OnClicked(QObject *torrentClientStatusB
     StatusButton_onClicked(torrentClientStatusButton, torrentClientStatusButtonText, TRANSMISSION_SERVICE);
 }
 
-void Settings::close()
-{
-    this->~Settings();
-}
-
 bool Settings::checkSystemdStatusIsActive(const QString &serviceName)
 {
     auto text = Systemd::getUnit(Systemd::System, serviceName).data()->activeState();
@@ -266,14 +233,30 @@ void Settings::StatusButton_onClicked(QObject *statusButton, const QString statu
     }
 }
 
+NetworkConfig Settings::loadNetworkConfig(const QString &configFile)
+{
+    QSettings settings(configFile, QSettings::IniFormat);
+    NetworkConfig networkConfig;
+    if(settings.allKeys().contains("Network/DHCP"))
+    {
+        if(settings.value("Network/DHCP").toString().contains("yes"))
+            networkConfig.DHCPisEnable = true;
+    }
+    else
+    {
+        networkConfig.dns = settings.value("Network/DNS").toString();
+        networkConfig.gateway = settings.value("Network/Gateway").toString();
+        networkConfig.ipAddressWithMask = settings.value("Network/Address").toString();
+    }
+    return networkConfig;
+}
+
+
 void Settings::loadIpAddressConfiguration(const int networkInterfaceComboboxIndex, QObject *dynamicIPRadioButton, QObject *staticIPRadioButton, QObject *ipadressTextField, QObject *netmaskTextField,
                                           QObject *gatewayTextField, QObject *dnsserverTextField)
 {
-    QSettings settings(WIFI_CONFIG_FILE, QSettings::IniFormat);
-
     setCurrentIpAddressConfig(networkInterfaceComboboxIndex);
 
-    //        if(vIpAddressConfigsPtr->back().configs.find("DHCP") != vIpAddressConfigsPtr->back().configs.end())
     if(ipSettings->DHCPisEnable)
     {
         dynamicIPRadioButton->setProperty("checked", QVariant(true));
@@ -348,11 +331,6 @@ void Settings::tfDNSServer_onEditingFinished(QString text)
 
 void Settings::saveIpAddressConfiguration()
 {
-    //    if(vWifiIpAddressConfigsPtr != nullptr)
-    //        wifiIpAddressConfigFile->SaveFile(*vWifiIpAddressConfigsPtr.get());
-    //    if(vEtnernetIpAddressConfigsPtr != nullptr)
-    //        ethernetIpAddressConfigFile->SaveFile(*vEtnernetIpAddressConfigsPtr.get());
-
     QSettings wifiqsettings(WIFI_CONFIG_FILE, QSettings::IniFormat);
     wifiqsettings.clear();
     wifiqsettings.setValue("Match/Name", QVariant("wlan0"));
