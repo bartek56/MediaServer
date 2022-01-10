@@ -164,7 +164,8 @@ void Settings::torrentClientStatusButton_OnClicked(QObject *torrentClientStatusB
 
 bool Settings::checkSystemdStatusIsActive(const QString &serviceName)
 {
-    auto text = Systemd::getUnit(Systemd::System, serviceName).data()->activeState();
+    Systemd::getUnit(Systemd::System, serviceName);
+    auto text = Systemd::loadUnit(Systemd::System, serviceName)->activeState();
     return !text.contains("in");
 }
 

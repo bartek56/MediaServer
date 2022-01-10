@@ -4,6 +4,8 @@
 
 AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent)
 {
+    Systemd::getUnit(Systemd::System, ALARM_SERVICE);//support QDBusAbstractInterfaceSupport
+
     auto state = Systemd::getUnitFileState(Systemd::System, ALARM_SERVICE);
 
     if(state.contains("able"))
