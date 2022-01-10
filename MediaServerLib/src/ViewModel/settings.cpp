@@ -11,6 +11,8 @@ Settings::Settings(QObject *parent) : QObject(parent)
 {
     ethSettings = std::make_shared<NetworkConfig>(loadNetworkConfig(ETHERNET_CONFIG_FILE));
     wifiSettings = std::make_shared<NetworkConfig>(loadNetworkConfig(WIFI_CONFIG_FILE));
+    ///TODO QDBusAbstractInterface: type UnitConditionList must be registered with Qt D-Bus before it can be used to read property
+    Systemd::getUnit(Systemd::System, MPD_SERVICE);
 }
 
 Settings::~Settings()
@@ -30,7 +32,6 @@ void Settings::updateNetworkStatus(QObject *obj)
     while(builder.canReadLine())
     {
         auto line = builder.readLine();
-        qDebug() << line;
         if(line.contains("systemd"))
         {
             break;
@@ -164,7 +165,6 @@ void Settings::torrentClientStatusButton_OnClicked(QObject *torrentClientStatusB
 
 bool Settings::checkSystemdStatusIsActive(const QString &serviceName)
 {
-    Systemd::getUnit(Systemd::System, serviceName);
     auto text = Systemd::loadUnit(Systemd::System, serviceName)->activeState();
     return !text.contains("in");
 }
@@ -178,7 +178,6 @@ bool Settings::checkSystemdStatusIsEnabled(const QString &serviceName)
 bool Settings::checkSystemdStatusExist(const QString &serviceName)
 {
     auto state = Systemd::getUnitFileState(Systemd::System, serviceName);
-
     return state.contains("able");
 }
 
@@ -209,28 +208,22 @@ void Settings::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, 
 void Settings::StatusSwitch_onClicked(const bool statusSwitchIsChecked, const QString &serviceName)
 {
     if(statusSwitchIsChecked)
-        Systemd::enableUnitFiles(Systemd::System, QStringList() << serviceName, true, true);
+        Systemd::enableUnitFiles(Systemd::System, QStringList() << serviceName, false, true);
     else
-        Systemd::disableUnitFiles(Systemd::System, QStringList() << serviceName, true);
+        Systemd::disableUnitFiles(Systemd::System, QStringList() << serviceName, false);
 }
 
 void Settings::StatusButton_onClicked(QObject *statusButton, const QString statusButtonText, const QString &serviceName)
 {
-    auto unitExist = Systemd::getUnit(Systemd::System, serviceName);
-
-    if(unitExist)
+    if(statusButtonText.contains("start"))
     {
-
-        if(statusButtonText.contains("start"))
-        {
-            Systemd::startUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
-            statusButton->setProperty("text", QVariant("stop"));
-        }
-        else
-        {
-            Systemd::stopUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
-            statusButton->setProperty("text", QVariant("start"));
-        }
+        Systemd::startUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
+        statusButton->setProperty("text", QVariant("stop"));
+    }
+    else
+    {
+        Systemd::stopUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
+        statusButton->setProperty("text", QVariant("start"));
     }
 }
 
@@ -312,11 +305,9 @@ void Settings::rbStaticIP_onClicked(const QString ipAddressTextField, const QStr
 
 void Settings::tfNetMask_onEditingFinished(QString text)
 {
-    //    QStringList ipAddressWithMask = vIpAddressConfigsPtr->back().configs.at("Address").split("/");
     QStringList ipAddressWithMask = ipSettings->ipAddressWithMask.split("/");
     QString ipAddress = ipAddressWithMask[0];
     QString newIpAddressWithMask = ipAddress + "/" + convertNetMaskToShort(text);
-    //    vIpAddressConfigsPtr->back().configs.at("Address") = newIpAddressWithMask;
     ipSettings->ipAddressWithMask = newIpAddressWithMask;
 }
 
