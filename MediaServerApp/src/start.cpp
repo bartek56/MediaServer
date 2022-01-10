@@ -28,6 +28,9 @@ int main(int argc, char *argv[])
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
+    QCoreApplication::setOrganizationName("MediaServer");
+    QCoreApplication::setOrganizationDomain("MediaServer");
+    QCoreApplication::setApplicationName("Media Server");
     QQuickView *view = new QQuickView;
     MainWindow::init(view);
     if(view->status() == QQuickView::Error)
