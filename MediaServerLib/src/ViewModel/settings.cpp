@@ -181,7 +181,7 @@ bool Settings::checkSystemdStatusExist(const QString &serviceName)
     return state.contains("able");
 }
 
-void Settings::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString nameService)
+void Settings::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString &serviceName)
 {
     auto serviceExist = false;
     auto state = Systemd::getUnitFileState(Systemd::System, serviceName);
@@ -196,7 +196,7 @@ void Settings::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, 
     {
         bool serviceIsEnable = state.contains("enabled");
         statusSwitch->setProperty("checked", QVariant(serviceIsEnable));
-        auto serviceIsActive = checkSystemdStatusIsActive(nameService);
+        auto serviceIsActive = checkSystemdStatusIsActive(serviceName);
 
         if(serviceIsActive)
         {

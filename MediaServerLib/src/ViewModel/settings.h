@@ -126,7 +126,7 @@ private:
 
     void StatusSwitch_onClicked(const bool statusSwitchIsChecked, const QString &serviceName);
     void StatusButton_onClicked(QObject *statusButton, const QString statusButtonText, const QString &serviceName);
-    void checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString nameservice);
+    void checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString &serviceName);
 };
 
 #endif// SETTINGS_H
