@@ -239,9 +239,12 @@ NetworkConfig Settings::loadNetworkConfig(const QString &configFile)
     {
         if(settings.value("Network/DHCP").toString().contains("yes"))
             networkConfig.DHCPisEnable = true;
+        else
+            networkConfig.DHCPisEnable = false;
     }
     else
     {
+        networkConfig.DHCPisEnable = false;
         networkConfig.dns = settings.value("Network/DNS").toString();
         networkConfig.gateway = settings.value("Network/Gateway").toString();
         networkConfig.ipAddressWithMask = settings.value("Network/Address").toString();
