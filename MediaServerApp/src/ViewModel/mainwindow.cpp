@@ -8,7 +8,7 @@
 
 MainWindow::MainWindow(QObject *parent) : QObject(parent)
 {
-    bluetoothctl= new Bluetoothctl();
+    bluetoothctl = new Bluetoothctl();
 }
 
 void MainWindow::startPicturesApplication()
@@ -17,6 +17,9 @@ void MainWindow::startPicturesApplication()
 
 void MainWindow::startMusicApplication()
 {
+    QProcess appProcess2;
+    appProcess2.startDetached("systemctl", QStringList() << "start"
+                                                         << "mpc_mediaserver.service");
 }
 
 void MainWindow::startBrowser()
