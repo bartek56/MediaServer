@@ -181,6 +181,10 @@ void SambaConfig::bSave_onClicked()
         Systemd::restartUnit(Systemd::System, NMB_SERVICE, Systemd::Unit::Replace);
         Systemd::restartUnit(Systemd::System, SMB_SERVICE, Systemd::Unit::Replace);
     }
+    settings.sync();
+
+    QProcess::startDetached("/bin/bash", QStringList() << "-c"
+                                                       << "sed -i 's/%20/ /g' " + SAMBA_CONFIG_FILE + " ");
 }
 
 
