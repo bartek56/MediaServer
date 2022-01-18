@@ -3,22 +3,20 @@
 
 MultimediaConfig::MultimediaConfig(QObject *parent) : QObject(parent)
 {
+    Systemd::getUnit(Systemd::System, DLNA_SERVICE);//support QDBusAbstractInterfaceSupport
+
     auto state = Systemd::getUnitFileState(Systemd::System, DLNA_SERVICE);
 
     if(state.contains("able"))
         systemdDlnaSupport = true;
     else
-    {
         qDebug() << "DLNA systemd not support";
-    }
     state = Systemd::getUnitFileState(Systemd::System, MPD_SERVICE);
 
     if(state.contains("able"))
         systemdMpdSupport = true;
     else
-    {
         qDebug() << "MPD systemd not support";
-    }
 }
 
 void MultimediaConfig::bVideoFileDialog_onAccepted(QString folderPath, QObject *tfVideoPath)
@@ -91,6 +89,6 @@ void MultimediaConfig::restartService(const QString &service)
 
 bool MultimediaConfig::isServiceActive(QString serviceName)
 {
-    auto text = Systemd::getUnit(Systemd::System, serviceName).data()->activeState();
+    auto text = Systemd::loadUnit(Systemd::System, serviceName)->activeState();
     return !text.contains("in");
 }
