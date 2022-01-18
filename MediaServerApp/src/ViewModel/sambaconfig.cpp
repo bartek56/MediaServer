@@ -12,10 +12,11 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 
 bool SambaConfig::isServiceActive()
 {
-    auto unitExist = Systemd::getUnit(Systemd::System, NMB_SERVICE);
-    if(unitExist)
+    Systemd::getUnit(Systemd::System, NMB_SERVICE);//support QDBusAbstractInterfaceSupport
+    auto state = Systemd::getUnitFileState(Systemd::System, NMB_SERVICE);
+    if(state.contains("able"))
     {
-        auto text = Systemd::getUnit(Systemd::System, NMB_SERVICE).data()->activeState();
+        auto text = Systemd::loadUnit(Systemd::System, NMB_SERVICE)->activeState();
         return !text.contains("in");
     }
     else
