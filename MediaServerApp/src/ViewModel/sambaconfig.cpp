@@ -176,15 +176,15 @@ void SambaConfig::bSave_onClicked()
     if(sambaShare4.enabledCheckBox->property("checked").toBool())
         saveShare(settings, shareConfig4);
 
+    settings.sync();
+    QProcess::startDetached("/bin/bash", QStringList() << "-c"
+                                                       << "sed -i 's/%20/ /g' " + SAMBA_CONFIG_FILE + " ");
+
     if(isServiceActive())
     {
         Systemd::restartUnit(Systemd::System, NMB_SERVICE, Systemd::Unit::Replace);
         Systemd::restartUnit(Systemd::System, SMB_SERVICE, Systemd::Unit::Replace);
     }
-    settings.sync();
-
-    QProcess::startDetached("/bin/bash", QStringList() << "-c"
-                                                       << "sed -i 's/%20/ /g' " + SAMBA_CONFIG_FILE + " ");
 }
 
 
