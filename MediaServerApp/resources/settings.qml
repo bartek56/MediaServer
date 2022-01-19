@@ -33,6 +33,11 @@ Dialog
     {
         id:settingsPackages
     }
+    function startScreenSaver()
+    {
+        loaderScreenSaver.setSource("screensaver.qml")
+    }
+
 
     Loader {
         anchors.fill:parent
@@ -47,7 +52,7 @@ Dialog
         selectFolder: true
         onAccepted:
         {
-            settings.bScreenSaverFileDialog_onAccepted(screenSaverFileDialog.folder, pathScreenSaverTextField)
+            settingsScreensaver.bScreenSaverFileDialog_onAccepted(screenSaverFileDialog.folder, pathScreenSaverTextField)
             settingsDialog.visible=true
         }
         onRejected:
@@ -854,13 +859,20 @@ Dialog
                     Button {
                         id: openButton
                         text: qsTr("Open")
-                        Layout.preferredWidth: 60
-
-                        Layout.columnSpan: 2
                         onClicked:
                         {
                             screenSaverFileDialog.open()
                             settingsDialog.visible=false
+                        }
+                    }
+                    Button
+                    {
+                        id:screenSaverTestButton
+                        text: "Test"
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+                        onClicked:
+                        {
+                            settingsDialog.startScreenSaver()
                         }
                     }
 
@@ -914,113 +926,113 @@ Dialog
                 anchors.left: parent.left
                 anchors.right: parent.right
 
-            GridLayout {
-                id: gridLayout
-                width: 378
-                rows: 4
-                columns: 2
+                GridLayout {
+                    id: gridLayout
+                    width: 378
+                    rows: 4
+                    columns: 2
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
                     Layout.leftMargin: 10
                     Layout.rightMargin: 10
 
-                Text {
-                    text: qsTr("Package")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    horizontalAlignment: Text.AlignLeft
-                    font.pixelSize: 25
-                }
-
-                ComboBox {
-                    id: packageComboBox
-                    Layout.fillWidth: true
-                    onDisplayTextChanged:
-                    {
-                        settingsPackages.cbPackage_onDisplayTextChanged(packageComboBox.currentText, packageSpecificationTextField);
-                    }
-                }
-
-                Button {
-                    id: upgradeButton
-                    text: qsTr("Upgrade")
-                    Layout.rowSpan: 2
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                    Layout.columnSpan: 2
-                    enabled: false
-                    onClicked:
-                    {
-                        settingsPackages.bUpgrade_onClicked(packageComboBox.currentText)
-                        settingsPackages.bUpdate_onClicked(packageComboBox, packageSpecificationTextField);
-                    }
-                    onPressed: { busySettings.running=true }
-                    onReleased:{ busySettings.running=false }
-                }
-
-                RowLayout {
-                    id: rowLayout1
-                    height: 100
-                    Layout.preferredHeight: 50
-                    Layout.preferredWidth: 300
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    Layout.columnSpan: 2
-
-                    Button {
-                        id: updateButton
-                        text: qsTr("Update")
+                    Text {
+                        text: qsTr("Package")
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                        onClicked:
+                        horizontalAlignment: Text.AlignLeft
+                        font.pixelSize: 25
+                    }
+
+                    ComboBox {
+                        id: packageComboBox
+                        Layout.fillWidth: true
+                        onDisplayTextChanged:
                         {
-                            settingsPackages.bUpdate_onClicked(packageComboBox, packageSpecificationTextField);
-                            upgradeAllButton.enabled=true;
-                            upgradeButton.enabled=true;
+                            settingsPackages.cbPackage_onDisplayTextChanged(packageComboBox.currentText, packageSpecificationTextField);
                         }
-                        onPressed: { busySettings.running=true }
-                        onReleased:{ busySettings.running=false }
                     }
 
                     Button {
-                        id: upgradeAllButton
-                        text: qsTr("Upgrade all")
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        id: upgradeButton
+                        text: qsTr("Upgrade")
+                        Layout.rowSpan: 2
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                        Layout.columnSpan: 2
                         enabled: false
                         onClicked:
                         {
-                            settingsPackages.bUpgradeAll_onClicked()
+                            settingsPackages.bUpgrade_onClicked(packageComboBox.currentText)
                             settingsPackages.bUpdate_onClicked(packageComboBox, packageSpecificationTextField);
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
                     }
+
+                    RowLayout {
+                        id: rowLayout1
+                        height: 100
+                        Layout.preferredHeight: 50
+                        Layout.preferredWidth: 300
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        Layout.columnSpan: 2
+
+                        Button {
+                            id: updateButton
+                            text: qsTr("Update")
+                            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                            onClicked:
+                            {
+                                settingsPackages.bUpdate_onClicked(packageComboBox, packageSpecificationTextField);
+                                upgradeAllButton.enabled=true;
+                                upgradeButton.enabled=true;
+                            }
+                            onPressed: { busySettings.running=true }
+                            onReleased:{ busySettings.running=false }
+                        }
+
+                        Button {
+                            id: upgradeAllButton
+                            text: qsTr("Upgrade all")
+                            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                            enabled: false
+                            onClicked:
+                            {
+                                settingsPackages.bUpgradeAll_onClicked()
+                                settingsPackages.bUpdate_onClicked(packageComboBox, packageSpecificationTextField);
+                            }
+                            onPressed: { busySettings.running=true }
+                            onReleased:{ busySettings.running=false }
+                        }
+                    }
                 }
-            }
 
-            GridLayout {
-                id: gridLayout1
-                width: 330
-                rows: 2
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                Layout.leftMargin: 10
-                Layout.rightMargin: 10
-
-                Text {
-                    text: qsTr("Package Specification")
-                    horizontalAlignment: Text.AlignLeft
-
-                    font.pixelSize: 25
+                GridLayout {
+                    id: gridLayout1
+                    width: 330
+                    rows: 2
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                }
+                    Layout.leftMargin: 10
+                    Layout.rightMargin: 10
 
-                Text {
-                    id: packageSpecificationTextField
-                    wrapMode: Text.WordWrap
-                    Layout.fillWidth: true
-                    font.pixelSize: 10
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Text {
+                        text: qsTr("Package Specification")
+                        horizontalAlignment: Text.AlignLeft
+
+                        font.pixelSize: 25
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    }
+
+                    Text {
+                        id: packageSpecificationTextField
+                        wrapMode: Text.WordWrap
+                        Layout.fillWidth: true
+                        font.pixelSize: 10
+                        Layout.fillHeight: true
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    }
+                    columns: 1
                 }
-                columns: 1
             }
         }
-            }
     }
 
     RowLayout {
@@ -1052,6 +1064,12 @@ Dialog
         width: 100
         height: 100
         running: false
+    }
+    Loader {
+        id: loaderScreenSaver
+        width: parent.width
+        height: parent.height + 40
+        active: true
     }
 
     InputPanel

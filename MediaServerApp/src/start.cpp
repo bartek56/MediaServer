@@ -60,7 +60,9 @@ int main(int argc, char *argv[])
     ScreenSaverHelper screensaverhelper;
     view->rootContext()->setContextProperty("screensaverhelper", &screensaverhelper);
 
-    QObject::connect(ScreenSaverManager::timer, &QTimer::timeout, [&screensaverhelper]() { emit screensaverhelper.screensavertimeout(); });
+    QObject::connect(ScreenSaverManager::timer, &QTimer::timeout, [&screensaverhelper]() {
+        emit screensaverhelper.screensavertimeout();
+    });
 
     view->setSource(QString("qrc:/main.qml"));
     view->show();

@@ -16,14 +16,6 @@ void ScreenSaverManager::Init()
         timer->start();
 }
 
-void ScreenSaverManager::startScreen()
-{
-    QProcess::startDetached("systemctl", QStringList() << "start"
-                                                       << "screensaver.service");
-    QProcess::startDetached("systemctl", QStringList() << "stop"
-                                                       << "start.service");
-}
-
 void ScreenSaverManager::resetTimer()
 {
     if(timer->isActive())

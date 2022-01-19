@@ -19,7 +19,16 @@ Rectangle{
 
     Connections{
             target: screensaverhelper
-            function onScreensavertimeout(){ mainRectangle.startScreenSaver();}
+            onScreensavertimeout:
+            {
+                mainRectangle.startScreenSaver();
+            }
+// TODO support with Qt6
+//            function onScreensavertimeout(){
+//                console.log("start screensaver");
+//                mainRectangle.startScreenSaver();
+//            }
+
     }
 
 

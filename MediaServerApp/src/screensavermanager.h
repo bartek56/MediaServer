@@ -14,10 +14,7 @@ public:
     Q_INVOKABLE void resetTimer();
 signals:
 
-public slots:
-    void startScreen();
 private:
-
     EditScreenSaverConfigFile editScreenSaverConfigFile;
 };
 

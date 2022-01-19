@@ -8,19 +8,21 @@ Dialog
     id: screenSaverDialog
     visible: true
     modal: true
-    width: 800
-    height: 480
+    width: parent.width
+    height: parent.height
 
     property int i: 0
     property bool isRandom: false
+    property int totalFileCount: folderModel.count
+
 
     ScreenSaver{
         id: screenSaver
     }
 
     Rectangle{
-        height: 480
-        width: 800
+        height: parent.height+25
+        width: parent.width+25
         x:parent.x-25
         y:parent.y-25
         color: "black"
@@ -42,19 +44,27 @@ Dialog
         nameFilters: ["*.jpg"]
     }
 
+    onTotalFileCountChanged: {
+        timer.triggeredOnStart = true
+        timer.start()
+    }
+
     Image {
         id: image
-        width: 800
-        height: 450
-        x:parent.x-25
+        width: screenSaverDialog.width
+        height: (9/16)*screenSaverDialog.width
+        anchors.verticalCenter: parent.verticalCenter
+        x: parent.x-25
     }
 
     Timer {
         id:timer
         repeat: true;
-        triggeredOnStart: true;
         onTriggered:
         {
+            console.log(folderModel.count)
+            console.log(Math.ceil(Math.random()*folderModel.count))
+
             if(isRandom)
             {
                 image.source = folderModel.folder +"/"+ folderModel.get( Math.ceil(Math.random()*folderModel.count),"fileBaseName")
