@@ -11,17 +11,18 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QQuickView view;
-    if (view.status() == QQuickView::Error)
+    if(view.status() == QQuickView::Error)
         return -1;
 
     qmlRegisterType<AlarmView>("AlarmViewLib", 1, 0, "AlarmView");
     qmlRegisterType<Quotes>("QuotesLib", 1, 0, "Quotes");
-
+    QObject::connect((QObject *) view.engine(), SIGNAL(quit()), &app, SLOT(quit()));
     view.setWidth(800);
     view.setHeight(480);
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setSource(QString("qrc:/main.qml"));
     view.show();
+
 
     return app.exec();
 }

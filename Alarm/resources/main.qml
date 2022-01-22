@@ -66,6 +66,7 @@ Rectangle{
             onClicked:
             {
                 alarmView.snooze5min()
+                Qt.callLater(Qt.quit)
             }
             onPressed: { busyAlarm.running=true }
             onReleased:{ busyAlarm.running=false }
@@ -96,6 +97,7 @@ Rectangle{
             onClicked:
             {
                 alarmView.snooze10min()
+                Qt.callLater(Qt.quit)
             }
             onPressed: { busyAlarm.running=true }
             onReleased:{ busyAlarm.running=false }
@@ -129,7 +131,6 @@ Rectangle{
             {
                 alarmView.stopAlarm()
                 loaderWindow.setSource("quotes.qml")
-
             }
             onPressed: { busyAlarm.running=true }
             onReleased:{ busyAlarm.running=false }
@@ -161,6 +162,8 @@ Rectangle{
             onClicked:
             {
                 alarmView.snooze15min()
+                Qt.callLater(Qt.quit)
+
             }
             onPressed: { busyAlarm.running=true }
             onReleased:{ busyAlarm.running=false }

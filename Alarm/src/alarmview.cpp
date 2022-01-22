@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include <QtSystemd/unit.h>
 #include <QtSystemd/sdmanager.h>
+#include <QApplication>
 
 AlarmView::AlarmView(QObject *parent) : QObject(parent)
 {
@@ -129,7 +130,4 @@ void AlarmView::snooze(int min)
         Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_SERVICE, Systemd::Unit::Replace);
     else
         Systemd::stopUnit(Systemd::System, ALARM_SERVICE, Systemd::Unit::Replace);
-
-    QProcess::startDetached("systemctl", QStringList() << "stop"
-                                                       << "alarm_gui.service");
 }

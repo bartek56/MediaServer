@@ -119,8 +119,9 @@ Dialog
         opacity: 0.5
         text: qsTr("Save and Close")
         onClicked: {
-            quotes.saveAndClose(quoteEnglish.toString(), authorEnglish.toString(),
+            quotes.save(quoteEnglish.toString(), authorEnglish.toString(),
                         quotePolish.toString(), authorPolish.toString())
+                Qt.callLater(Qt.quit)
         }
     }
 
@@ -131,7 +132,7 @@ Dialog
         text: qsTr("Close")
         onClicked:
         {
-            quotes.close()
+            Qt.callLater(Qt.quit)
         }
     }
 

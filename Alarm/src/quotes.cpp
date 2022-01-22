@@ -48,7 +48,7 @@ void Quotes::getQuote(QObject *quote)
     process.waitForFinished();
 }
 
-void Quotes::saveAndClose(QString englishQuote, QString englishAuthor, QString polishQuote, QString polishAuthor)
+void Quotes::save(QString englishQuote, QString englishAuthor, QString polishQuote, QString polishAuthor)
 {
     QString path("/home/bbrzozowski/Documents/");
     QDir dir;
@@ -89,16 +89,4 @@ void Quotes::saveAndClose(QString englishQuote, QString englishAuthor, QString p
         out << "\n";
 
     file.close();
-    closePriv();
-}
-
-void Quotes::close()
-{
-    closePriv();
-}
-
-void Quotes::closePriv()
-{
-    if(systemdSupportExist)
-        QProcess::startDetached("systemctl", QStringList() << "stop" << ALARM_GUI_SERVICE);
 }
