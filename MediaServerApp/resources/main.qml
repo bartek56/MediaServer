@@ -264,13 +264,13 @@ Rectangle{
                 background: Rectangle {color: "transparent"}
                 Image {
                     id: gqviewImage
-                    x: 37
+                    x: 28
                     y: 0
                     width: 116
                     height: 97
                     anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.Stretch
-                    source: "icons/gqview.png"
+                    source: "icons/weather.png"
                 }
                 Text {
                     id: gqviewText
@@ -278,7 +278,7 @@ Rectangle{
                     y: 94
                     width: 50
                     height: 26
-                    text: qsTr("Pictures")
+                    text: qsTr("Weather")
                     font.letterSpacing: 1
                     anchors.horizontalCenter: parent.horizontalCenter
                     verticalAlignment: Text.AlignVCenter
@@ -287,7 +287,7 @@ Rectangle{
                 }
                 onClicked:
                 {
-                    mainWindow.startPicturesApplication()
+                    mainWindow.startWeatherApplication()
                 }
             }
 

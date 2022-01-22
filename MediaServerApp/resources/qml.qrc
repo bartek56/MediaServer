@@ -9,7 +9,6 @@
         <file>alarmConfig.qml</file>
         <file>icons/gmpc.svg</file>
         <file>icons/alarm.png</file>
-        <file>icons/gqview.png</file>
         <file>icons/samba.png</file>
         <file>icons/ftp.png</file>
         <file>icons/multimedia.png</file>
@@ -22,5 +21,6 @@
         <file>screensaver.qml</file>
         <file>napi.qml</file>
         <file>quotes.qml</file>
+        <file>icons/weather.png</file>
     </qresource>
 </RCC>

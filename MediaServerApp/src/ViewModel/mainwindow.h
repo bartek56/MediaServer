@@ -9,12 +9,12 @@ class MainWindow : public QObject
     Q_OBJECT
 public:
     static QQuickView *mainView;
-    static void init (QQuickView *obj)
+    static void init(QQuickView *obj)
     {
-        mainView=obj;
+        mainView = obj;
     }
     explicit MainWindow(QObject *parent = nullptr);
-    Q_INVOKABLE void startPicturesApplication();
+    Q_INVOKABLE void startWeatherApplication();
     Q_INVOKABLE void startMusicApplication();
     Q_INVOKABLE void startBrowser();
     Q_INVOKABLE void pairWithBluetoothDevice();
@@ -31,4 +31,4 @@ private:
     Bluetoothctl *bluetoothctl;
 };
 
-#endif // MAINWINDOW_H
+#endif// MAINWINDOW_H

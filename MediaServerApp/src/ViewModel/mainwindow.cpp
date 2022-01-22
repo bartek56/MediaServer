@@ -11,15 +11,18 @@ MainWindow::MainWindow(QObject *parent) : QObject(parent)
     bluetoothctl = new Bluetoothctl();
 }
 
-void MainWindow::startPicturesApplication()
+void MainWindow::startWeatherApplication()
 {
+    QProcess appProcess;
+    appProcess.startDetached("systemctl", QStringList() << "start"
+                                                        << "weather.service");
 }
 
 void MainWindow::startMusicApplication()
 {
-    QProcess appProcess2;
-    appProcess2.startDetached("systemctl", QStringList() << "start"
-                                                         << "mpc_mediaserver.service");
+    QProcess appProcess;
+    appProcess.startDetached("systemctl", QStringList() << "start"
+                                                        << "mpc_mediaserver.service");
 }
 
 void MainWindow::startBrowser()
@@ -48,14 +51,14 @@ void MainWindow::getPairBluetoothMessage(QObject *messageDialog)
 
 void MainWindow::rebootButton_OnClicked()
 {
-    QProcess appProcess2;
-    appProcess2.startDetached("sh", QStringList() << "-c"
-                                                  << "reboot");
+    QProcess appProcess;
+    appProcess.startDetached("sh", QStringList() << "-c"
+                                                 << "reboot");
 }
 
 void MainWindow::shutdownButton_OnClicked()
 {
-    QProcess appProcess2;
-    appProcess2.startDetached("sh", QStringList() << "-c"
-                                                  << "poweroff");
+    QProcess appProcess;
+    appProcess.startDetached("sh", QStringList() << "-c"
+                                                 << "poweroff");
 }
