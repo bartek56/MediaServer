@@ -105,22 +105,6 @@ void AlarmView::snooze(int min)
     }
     file.close();
 
-    QFile systemdVarFile("/etc/mediaserver/systemdVariables");
-
-    QStringList arg;
-
-    arg.push_back("ARG1=restart\n");
-
-    if(!systemdVarFile.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-
-    QTextStream streamOut(&systemdVarFile);
-    for(auto it = std::begin(arg); it != std::end(arg); ++it)
-    {
-        streamOut << *it;
-    }
-    systemdVarFile.close();
-
     Systemd::reload(Systemd::System);
 
     QProcess::startDetached("mpc", QStringList() << "stop");
