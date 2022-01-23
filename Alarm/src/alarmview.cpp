@@ -46,7 +46,7 @@ void AlarmView::stopAlarm()
 
         auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration();
         QString defaultVolume = alarmConfigMap["defaultVolume"];
-        QProcess::startDetached("mpc", QStringList() << "volume " << defaultVolume);
+        QProcess::startDetached("mpc", QStringList() << "volume" << defaultVolume);
     }
 }
 

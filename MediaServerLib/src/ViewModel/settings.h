@@ -30,7 +30,7 @@ public:
     const QString SMB_SERVICE = "smb.service";
     const QString NMB_SERVICE = "nmb.service";
     const QString VSFTPD_SERVICE = "vsftpd.service";
-    const QString FILEBROWSER_SERVICE = "fileBrowser.service";
+    const QString FILEBROWSER_SERVICE = "filebrowser.service";
     const QString TRANSMISSION_SERVICE = "transmission-daemon.service";
 
     Q_OBJECT

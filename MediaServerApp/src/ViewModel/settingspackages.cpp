@@ -10,11 +10,15 @@ SettingsPackages::SettingsPackages(QObject *parent) : QObject(parent)
 void SettingsPackages::bUpdate_onClicked(QObject *updateList, QObject *packageInfo)
 {
     // opkg update
+    QProcess processListUpdate;
+    processListUpdate.setProcessChannelMode(QProcess::MergedChannels);
+    processListUpdate.start("opkg", QStringList() << "update");
+    while(processListUpdate.waitForFinished())
+        ;
 
     QProcess processListUpgradable;
     processListUpgradable.setProcessChannelMode(QProcess::MergedChannels);
-    processListUpgradable.start("bash", QStringList() << "-c"
-                                                      << "opkg list-upgradable");
+    processListUpgradable.start("opkg", QStringList() << "list-upgradable");
 
     processListUpgradable.setReadChannel(QProcess::StandardOutput);
     QStringList packagesList;
@@ -36,8 +40,7 @@ void SettingsPackages::bUpdate_onClicked(QObject *updateList, QObject *packageIn
     {
         QProcess processPackageInfo;
         processPackageInfo.setProcessChannelMode(QProcess::MergedChannels);
-        processPackageInfo.start("bash", QStringList() << "-c"
-                                                       << "opkg info " + packagesList[0]);
+        processPackageInfo.start("opkg", QStringList() << "info" << packagesList[0]);
 
         while(processPackageInfo.waitForFinished())
             ;
@@ -73,8 +76,7 @@ void SettingsPackages::cbPackage_onDisplayTextChanged(const QString packageName,
 {
     QProcess processPackageInfo;
     processPackageInfo.setProcessChannelMode(QProcess::MergedChannels);
-    processPackageInfo.start("bash", QStringList() << "-c"
-                                                   << "opkg info " + packageName);
+    processPackageInfo.start("opkg", QStringList() << "info" << packageName);
     while(processPackageInfo.waitForFinished())
         ;
 
