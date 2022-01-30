@@ -9,7 +9,9 @@ LIBS += -lQtSystemd
 
 SOURCES += \
     src/ViewModel/alarmconfig.cpp \
-    src/ViewModel/settings.cpp \
+    src/ViewModel/settingsStatus.cpp \
+    src/ViewModel/settingsIpAddress.cpp \
+    src/ViewModel/settingsWifi.cpp \
     src/editftpconfigfile.cpp \
     src/editwificonfigfile.cpp \
     src/editdlnaconfigfile.cpp \
@@ -20,7 +22,9 @@ SOURCES += \
 
 HEADERS += \
     src/ViewModel/alarmconfig.h \
-    src/ViewModel/settings.h \
+    src/ViewModel/settingsStatus.h \
+    src/ViewModel/settingsIpAddress.h \
+    src/ViewModel/settingsWifi.h \
     src/editftpconfigfile.h \
     src/editwificonfigfile.h \
     src/editdlnaconfigfile.h \

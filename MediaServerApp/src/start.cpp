@@ -1,14 +1,14 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QQmlContext>
 #include <QApplication>
 #include <QtQuick>
 #include <QObject>
-#include <QThread>
 #include "ViewModel/mainwindow.h"
 #include "ViewModel/sambaconfig.h"
 #include "ViewModel/ftpconfig.h"
-#include "src/ViewModel/settings.h"
+#include "src/ViewModel/settingsIpAddress.h"
+#include "src/ViewModel/settingsStatus.h"
+#include "src/ViewModel/settingsWifi.h"
 #include "ViewModel/multimediaconfig.h"
 #include "src/ViewModel/alarmconfig.h"
 #include "ViewModel/massstorage.h"
@@ -43,7 +43,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<NapiManager>("NapiManagerLib", 1, 0, "NapiManager");
     qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfig");
     qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");
-    qmlRegisterType<Settings>("SettingsLib", 1, 0, "Settings");
+    qmlRegisterType<SettingsStatus>("SettingsStatusLib", 1, 0, "SettingsStatus");
+    qmlRegisterType<SettingsWifi>("SettingsWifiLib", 1, 0, "SettingsWifi");
+    qmlRegisterType<SettingsIpAddress>("SettingsIpAddressLib", 1, 0, "SettingsIpAddress");
     qmlRegisterType<SettingsScreensaver>("SettingsScreensaverLib", 1, 0, "SettingsScreensaver");
     qmlRegisterType<SettingsPackages>("SettingsPackagesLib", 1, 0, "SettingsPackages");
     qmlRegisterType<MassStorage>("MassStorageLib", 1, 0, "MassStorage");
@@ -60,9 +62,7 @@ int main(int argc, char *argv[])
     ScreenSaverHelper screensaverhelper;
     view->rootContext()->setContextProperty("screensaverhelper", &screensaverhelper);
 
-    QObject::connect(ScreenSaverManager::timer, &QTimer::timeout, [&screensaverhelper]() {
-        emit screensaverhelper.screensavertimeout();
-    });
+    QObject::connect(ScreenSaverManager::timer, &QTimer::timeout, [&screensaverhelper]() { emit screensaverhelper.screensavertimeout(); });
 
     view->setSource(QString("qrc:/main.qml"));
     view->show();

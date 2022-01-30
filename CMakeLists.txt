@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 project(MediaServer)
 
-find_package(Qt5 COMPONENTS Core Widgets Quick)
+find_package(Qt5 COMPONENTS Core Widgets Quick DBus)
 # -DCMAKE_FIND_DEBUG_MODE=1
 
 #-DCMAKE_PREFIX_PATH=/opt/qt5.15.2

@@ -24,6 +24,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt5::Quick
         Qt5::Widgets        
         QtSystemd
+        Qt5::DBus
         )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION "/opt")

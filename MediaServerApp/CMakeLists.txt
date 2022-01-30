@@ -43,6 +43,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         QtSystemd
         Qt5::Quick
         Qt5::Widgets
+        Qt5::DBus
         pthread
 )
 

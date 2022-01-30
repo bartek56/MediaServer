@@ -1,7 +1,8 @@
 #include <QApplication>
 #include <QtQuick>
 #include "mainwindow.h"
-#include "src/ViewModel/settings.h"
+#include "src/ViewModel/settingsIpAddress.h"
+#include "src/ViewModel/settingsWifi.h"
 
 int main(int argc, char *argv[])
 {
@@ -9,7 +10,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
     QQuickView *view = new QQuickView;
-    if (view->status() == QQuickView::Error)
+    if(view->status() == QQuickView::Error)
         return -1;
 
     view->setWidth(800);
@@ -17,7 +18,8 @@ int main(int argc, char *argv[])
     view->setResizeMode(QQuickView::SizeRootObjectToView);
 
     qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
-    qmlRegisterType<Settings>("SettingsLib", 1, 0, "Settings");
+    qmlRegisterType<SettingsWifi>("SettingsWifiLib", 1, 0, "SettingsWifi");
+    qmlRegisterType<SettingsIpAddress>("SettingsIpAddressLib", 1, 0, "SettingsIpAddress");
 
     view->setSource(QString("qrc:/main.qml"));
 

@@ -4,7 +4,9 @@ import QtQuick.Dialogs 1.0
 import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
-import SettingsLib 1.0
+import SettingsStatusLib 1.0
+import SettingsWifiLib 1.0
+import SettingsIpAddressLib 1.0
 import SettingsScreensaverLib 1.0
 import SettingsPackagesLib 1.0
 
@@ -19,9 +21,17 @@ Dialog
     padding: 1
     modal: true
 
-    Settings
+    SettingsIpAddress
     {
-        id: settings
+        id: settingsIpAddress
+    }
+    SettingsWifi
+    {
+        id: settingsWifi
+    }
+    SettingsStatus
+    {
+        id: settingsStatus
     }
 
     SettingsScreensaver
@@ -126,7 +136,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.tvHeadEndStatusSwitch_OnClicked(tvHeadEndStatusSwitch.checked)
+                            settingsStatus.tvHeadEndStatusSwitch_OnClicked(tvHeadEndStatusSwitch.checked)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -140,7 +150,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.tvHeadEndStatusButton_OnClicked(tvHeadEndStatusButton, tvHeadEndStatusButton.text)
+                            settingsStatus.tvHeadEndStatusButton_OnClicked(tvHeadEndStatusButton, tvHeadEndStatusButton.text)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -160,7 +170,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.ympdStatusSwitch_OnClicked(ympdStatusSwitch.checked)
+                            settingsStatus.ympdStatusSwitch_OnClicked(ympdStatusSwitch.checked)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -174,7 +184,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.ympdStatusButton_OnClicked(ympdStatusButton, ympdStatusButton.text)
+                            settingsStatus.ympdStatusButton_OnClicked(ympdStatusButton, ympdStatusButton.text)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -194,7 +204,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.mpdStatusSwitch_OnClicked(mpdStatusSwitch.checked)
+                            settingsStatus.mpdStatusSwitch_OnClicked(mpdStatusSwitch.checked)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -208,7 +218,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.mpdStatusButton_OnClicked(mpdStatusButton, mpdStatusButton.text)
+                            settingsStatus.mpdStatusButton_OnClicked(mpdStatusButton, mpdStatusButton.text)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -228,7 +238,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.dlnaStatusSwitch_OnClicked(dlnaStatusSwitch.checked)
+                            settingsStatus.dlnaStatusSwitch_OnClicked(dlnaStatusSwitch.checked)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -242,7 +252,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.dlnaStatusButton_OnClicked(dlnaStatusButton, dlnaStatusButton.text)
+                            settingsStatus.dlnaStatusButton_OnClicked(dlnaStatusButton, dlnaStatusButton.text)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -262,7 +272,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.sambaStatusSwitch_OnClicked(sambaStatusSwitch.checked)
+                            settingsStatus.sambaStatusSwitch_OnClicked(sambaStatusSwitch.checked)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -275,7 +285,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.sambaStatusButton_OnClicked(sambaStatusButton, sambaStatusButton.text)
+                            settingsStatus.sambaStatusButton_OnClicked(sambaStatusButton, sambaStatusButton.text)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -295,7 +305,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.fileBrowserStatusSwitch_OnClicked(fileBrowserStatusSwitch.checked)
+                            settingsStatus.fileBrowserStatusSwitch_OnClicked(fileBrowserStatusSwitch.checked)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -308,7 +318,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.fileBrowserStatusButton_OnClicked(fileBrowserStatusButton, fileBrowserStatusButton.text)
+                            settingsStatus.fileBrowserStatusButton_OnClicked(fileBrowserStatusButton, fileBrowserStatusButton.text)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -327,7 +337,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.ftpStatusSwitch_OnClicked(ftpStatusSwitch.checked)
+                            settingsStatus.ftpStatusSwitch_OnClicked(ftpStatusSwitch.checked)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -340,7 +350,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.ftpStatusButton_OnClicked(ftpStatusButton, ftpStatusButton.text)
+                            settingsStatus.ftpStatusButton_OnClicked(ftpStatusButton, ftpStatusButton.text)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -359,7 +369,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.torrentClientStatusSwitch_OnClicked(torrentClientStatusSwitch.checked)
+                            settingsStatus.torrentClientStatusSwitch_OnClicked(torrentClientStatusSwitch.checked)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -372,7 +382,7 @@ Dialog
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.torrentClientStatusButton_OnClicked(torrentClientStatusButton, torrentClientStatusButton.text)
+                            settingsStatus.torrentClientStatusButton_OnClicked(torrentClientStatusButton, torrentClientStatusButton.text)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -405,7 +415,7 @@ Dialog
                         horizontalAlignment: Text.AlignLeft
                         font.pixelSize: 12
                         function set() {
-                            settings.updateNetworkStatus(networkInfoText)
+                            settingsStatus.updateNetworkStatus(networkInfoText)
                         }
                     }
 
@@ -456,7 +466,7 @@ Dialog
                         Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
                         onDisplayTextChanged:
                         {
-                            settings.cbNetworks_onDisplayTextChanged(networksComboBox.currentText,wifiInfoText);
+                            settingsWifi.cbNetworks_onDisplayTextChanged(networksComboBox.currentText,wifiInfoText);
                         }
                     }
 
@@ -491,7 +501,7 @@ Dialog
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.searchNetworks(networksComboBox)
+                            settingsWifi.searchNetworks(networksComboBox)
                         }
                         onPressed: { busySettings.running=true }
                         onReleased:{ busySettings.running=false }
@@ -503,7 +513,7 @@ Dialog
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                         onClicked:
                         {
-                            settings.connect(networksComboBox.currentText,passwordTextField.text)
+                            settingsWifi.connect(networksComboBox.currentText,passwordTextField.text)
                             passwordTextField.clear()
                         }
                         onPressed: { busySettings.running=true }
@@ -537,7 +547,7 @@ Dialog
                         horizontalAlignment: Text.AlignLeft
                         font.pixelSize: 12
                         function set() {
-                            settings.updateWifiStatus(infoWifiText)
+                            settingsWifi.updateWifiStatus(infoWifiText)
                         }
                     }
                     Switch {
@@ -561,7 +571,7 @@ Dialog
                         }
                         onCheckedChanged:
                         {
-                            settings.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
+                            settingsWifi.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
                             updatestate()
                         }
                         onPressed: { busySettings.running=true }
@@ -613,7 +623,7 @@ Dialog
                         model:["Wi-Fi", "Ethernet"]
                         onDisplayTextChanged:
                         {
-                            settings.loadIpAddressConfiguration(networkInterfaceComboBox.currentIndex, dynamicIPRadioButton,
+                            settingsIpAddress.loadIpAddressConfiguration(networkInterfaceComboBox.currentIndex, dynamicIPRadioButton,
                                                                 staticIPRadioButton,ipadressTextField,netmaskTextField,
                                                                 gatewayTextField,dnsserverTextField);
                         }
@@ -647,7 +657,7 @@ Dialog
                                     netmaskTextField.enabled=false
                                     gatewayTextField.enabled=false
                                     dnsserverTextField.enabled=false
-                                    settings.rbDynamicIP_onClicked()
+                                    settingsIpAddress.rbDynamicIP_onClicked()
                                 }
                             }
                         }
@@ -664,7 +674,7 @@ Dialog
                                     netmaskTextField.enabled=true
                                     gatewayTextField.enabled=true
                                     dnsserverTextField.enabled=true
-                                    settings.rbStaticIP_onClicked(ipadressTextField.text, netmaskTextField.text,
+                                    settingsIpAddress.rbStaticIP_onClicked(ipadressTextField.text, netmaskTextField.text,
                                                                   gatewayTextField.text, dnsserverTextField.text)
                                 }
                             }
@@ -694,7 +704,7 @@ Dialog
                         font.pixelSize: 16
                         onEditingFinished:
                         {
-                            settings.tfIpAddress_onEditingFinished(ipadressTextField.text)
+                            settingsIpAddress.tfIpAddress_onEditingFinished(ipadressTextField.text)
                         }
 
                     }
@@ -713,7 +723,7 @@ Dialog
                         horizontalAlignment: Text.AlignHCenter
                         onEditingFinished:
                         {
-                            settings.tfNetMask_onEditingFinished(netmaskTextField.text)
+                            settingsIpAddress.tfNetMask_onEditingFinished(netmaskTextField.text)
                         }
 
                     }
@@ -732,7 +742,7 @@ Dialog
                         horizontalAlignment: Text.AlignHCenter
                         onEditingFinished:
                         {
-                            settings.tfGateway_onEditingFinished(gatewayTextField.text)
+                            settingsIpAddress.tfGateway_onEditingFinished(gatewayTextField.text)
                         }
 
                     }
@@ -751,7 +761,7 @@ Dialog
                         horizontalAlignment: Text.AlignHCenter
                         onEditingFinished:
                         {
-                            settings.tfDNSServer_onEditingFinished(dnsserverTextField.text)
+                            settingsIpAddress.tfDNSServer_onEditingFinished(dnsserverTextField.text)
                         }
                     }
                 }
@@ -773,7 +783,7 @@ Dialog
                     height: 40
                     onClicked:
                     {
-                        settings.saveIpAddressConfiguration()
+                        settingsIpAddress.saveIpAddressConfiguration()
                     }
                     onPressed: { busySettings.running=true }
                     onReleased:{ busySettings.running=false }
@@ -1108,18 +1118,18 @@ Dialog
 
     Component.onCompleted:
     {
-        settings.checkWifi(wifiOnSwitch)
+        settingsWifi.checkWifi(wifiOnSwitch)
         wifiOnSwitch.updatestate()
-        settings.loadWifiConfigFile()
+        settingsWifi.loadWifiConfigFile()
         settingsScreensaver.loadScreenSaverConfigurations(screensaverEnableSwitch,startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox,randomCheckBox)
-        settings.checkTvHeadEndServiceStatus(tvHeadEndStatusSwitch,tvHeadEndStatusButton)
-        settings.checkYMPDSystemdStatus(ympdStatusSwitch,ympdStatusButton)
-        settings.checkMPDSystemdStatus(mpdStatusSwitch,mpdStatusButton)
-        settings.checkDLNASystemdStatus(dlnaStatusSwitch,dlnaStatusButton)
-        settings.checkSMBSystemdStatus(sambaStatusSwitch,sambaStatusButton)
-        settings.checkFileBrowserSystemdStatus(fileBrowserStatusSwitch,fileBrowserStatusButton)
-        settings.checkFTPSystemdStatus(ftpStatusSwitch,ftpStatusButton)
-        settings.checkTorrentClientSystemdStatus(torrentClientStatusSwitch,torrentClientStatusButton)
+        settingsStatus.checkTvHeadEndServiceStatus(tvHeadEndStatusSwitch,tvHeadEndStatusButton)
+        settingsStatus.checkYMPDSystemdStatus(ympdStatusSwitch,ympdStatusButton)
+        settingsStatus.checkMPDSystemdStatus(mpdStatusSwitch,mpdStatusButton)
+        settingsStatus.checkDLNASystemdStatus(dlnaStatusSwitch,dlnaStatusButton)
+        settingsStatus.checkSMBSystemdStatus(sambaStatusSwitch,sambaStatusButton)
+        settingsStatus.checkFileBrowserSystemdStatus(fileBrowserStatusSwitch,fileBrowserStatusButton)
+        settingsStatus.checkFTPSystemdStatus(ftpStatusSwitch,ftpStatusButton)
+        settingsStatus.checkTorrentClientSystemdStatus(torrentClientStatusSwitch,torrentClientStatusButton)
     }
 }
 
