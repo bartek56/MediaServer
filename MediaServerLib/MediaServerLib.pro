@@ -8,8 +8,6 @@ LIBS += -lQtSystemd
 
 
 SOURCES += \
-    src/ViewModel/alarmconfig.cpp \
-    src/ViewModel/settingsStatus.cpp \
     src/ViewModel/settingsIpAddress.cpp \
     src/ViewModel/settingsWifi.cpp \
     src/editftpconfigfile.cpp \
@@ -21,8 +19,6 @@ SOURCES += \
     src/managementofexternaldevices.cpp
 
 HEADERS += \
-    src/ViewModel/alarmconfig.h \
-    src/ViewModel/settingsStatus.h \
     src/ViewModel/settingsIpAddress.h \
     src/ViewModel/settingsWifi.h \
     src/editftpconfigfile.h \

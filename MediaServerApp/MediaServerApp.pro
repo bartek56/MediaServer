@@ -36,7 +36,10 @@ SOURCES += \
     src/ViewModel/screensaver.cpp \
     src/ViewModel/napimanager.cpp \
     src/ViewModel/settingsscreensaver.cpp \
-    src/ViewModel/settingspackages.cpp
+    src/ViewModel/settingspackages.cpp \
+    src/ViewModel/alarmconfig.cpp \
+    src/ViewModel/settingsStatus.cpp
+
 
 RESOURCES += resources/qml.qrc
 
@@ -64,7 +67,10 @@ HEADERS += \
     src/ViewModel/screensaver.h \
     src/ViewModel/napimanager.h \
     src/ViewModel/settingsscreensaver.h \
-    src/ViewModel/settingspackages.h
+    src/ViewModel/settingspackages.h \
+    src/ViewModel/alarmconfig.h \
+    src/ViewModel/settingsStatus.h
+
 
 FORMS +=
 

@@ -9,8 +9,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 add_library(${PROJECT_NAME}
-        src/ViewModel/alarmconfig.cpp
-        src/ViewModel/settingsStatus.cpp
+
         src/ViewModel/settingsWifi.cpp
         src/ViewModel/settingsIpAddress.cpp
         src/editalarmconfigfile.cpp

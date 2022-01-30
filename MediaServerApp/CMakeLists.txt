@@ -13,6 +13,7 @@ find_package(QtSystemd REQUIRED)
 
 add_executable(${PROJECT_NAME}
     src/ViewModel/ftpconfig.cpp
+    src/ViewModel/alarmconfig.cpp
     src/ViewModel/quotes.cpp
     src/ViewModel/screensaver.cpp    
     src/ViewModel/sambaconfig.cpp
@@ -24,7 +25,8 @@ add_executable(${PROJECT_NAME}
     src/ViewModel/multimediaconfig.cpp  
     src/ViewModel/sambaconfiglocal.cpp
     src/ViewModel/sambaconfigglobal.cpp
-    src/ViewModel/napimanager.cpp 
+    src/ViewModel/napimanager.cpp
+    src/ViewModel/settingsStatus.cpp
     src/ViewModel/settingspackages.cpp
     src/ViewModel/settingsscreensaver.cpp
     src/ViewModel/mainwindow.cpp    

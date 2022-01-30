@@ -1,8 +1,8 @@
 #ifndef SETTINGS_STATUS_H
 #define SETTINGS_STATUS_H
 
-#include "../editwificonfigfile.h"
-#include "../editalarmconfigfile.h"
+#include "src/editwificonfigfile.h"
+#include "src/editalarmconfigfile.h"
 
 #include <QObject>
 #include <memory>
