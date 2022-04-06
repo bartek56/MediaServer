@@ -4,7 +4,8 @@ import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
 import MainWindowLib 1.0
-import SettingsLib 1.0
+import SettingsIpAddressLib 1.0
+import SettingsWifiLib 1.0
 
 Rectangle
 {
@@ -12,9 +13,14 @@ Rectangle
     height: 480
     width: 800
 
-    Settings
+    SettingsIpAddress
     {
-        id: settings
+        id: settingsIpAddress
+    }
+
+    SettingsWifi
+    {
+        id: settingsWifi
     }
 
     MainWindow
@@ -185,7 +191,7 @@ Rectangle
                     model:["Wi-Fi", "Ethernet"]
                     onDisplayTextChanged:
                     {
-                        settings.loadIpAddressConfiguration(networkInterfaceComboBox.currentIndex, dynamicIPRadioButton,
+                        settingsIpAddress.loadIpAddressConfiguration(networkInterfaceComboBox.currentIndex, dynamicIPRadioButton,
                                                             staticIPRadioButton,ipadressTextField,netmaskTextField,
                                                             gatewayTextField,dnsserverTextField);
                     }
@@ -219,7 +225,7 @@ Rectangle
                                 netmaskTextField.enabled=false
                                 gatewayTextField.enabled=false
                                 dnsserverTextField.enabled=false
-                                settings.rbDynamicIP_onClicked()
+                                settingsIpAddress.rbDynamicIP_onClicked()
                             }
                         }
                     }
@@ -236,7 +242,7 @@ Rectangle
                                 netmaskTextField.enabled=true
                                 gatewayTextField.enabled=true
                                 dnsserverTextField.enabled=true
-                                settings.rbStaticIP_onClicked(ipadressTextField.text, netmaskTextField.text,
+                                settingsIpAddress.rbStaticIP_onClicked(ipadressTextField.text, netmaskTextField.text,
                                                               gatewayTextField.text, dnsserverTextField.text)
                             }
                         }
@@ -266,7 +272,7 @@ Rectangle
                     font.pixelSize: 16
                     onEditingFinished:
                     {
-                        settings.tfIpAddress_onEditingFinished(ipadressTextField.text)
+                        settingsIpAddress.tfIpAddress_onEditingFinished(ipadressTextField.text)
                     }
 
                 }
@@ -285,7 +291,7 @@ Rectangle
                     horizontalAlignment: Text.AlignHCenter
                     onEditingFinished:
                     {
-                        settings.tfNetMask_onEditingFinished(netmaskTextField.text)
+                        settingsIpAddress.tfNetMask_onEditingFinished(netmaskTextField.text)
                     }
 
                 }
@@ -304,7 +310,7 @@ Rectangle
                     horizontalAlignment: Text.AlignHCenter
                     onEditingFinished:
                     {
-                        settings.tfGateway_onEditingFinished(gatewayTextField.text)
+                        settingsIpAddress.tfGateway_onEditingFinished(gatewayTextField.text)
                     }
 
                 }
@@ -323,7 +329,7 @@ Rectangle
                     horizontalAlignment: Text.AlignHCenter
                     onEditingFinished:
                     {
-                        settings.tfDNSServer_onEditingFinished(dnsserverTextField.text)
+                        settingsIpAddress.tfDNSServer_onEditingFinished(dnsserverTextField.text)
                     }
                 }
             }
@@ -345,7 +351,7 @@ Rectangle
                 onClicked:
                 {
                     layout.currentIndex=3
-                    settings.saveIpAddressConfiguration()
+                    settingsIpAddress.saveIpAddressConfiguration()
                 }
                 onPressed: {busy.running=true}
                 onReleased: {busy.running=false}
@@ -393,7 +399,7 @@ Rectangle
                     Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
                     onDisplayTextChanged:
                     {
-                        settings.cbNetworks_onDisplayTextChanged(networksComboBox.currentText,wifiInfoText);
+                        settingsWifi.cbNetworks_onDisplayTextChanged(networksComboBox.currentText,wifiInfoText);
                     }
                 }
 
@@ -428,7 +434,7 @@ Rectangle
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     onClicked:
                     {
-                        settings.searchNetworks(networksComboBox)
+                        settingsWifi.searchNetworks(networksComboBox)
                     }
                     onPressed: { busy.running=true }
                     onReleased:{ busy.running=false }
@@ -440,7 +446,7 @@ Rectangle
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     onClicked:
                     {
-                        settings.connect(networksComboBox.currentText,passwordTextField.text)
+                        settingsWifi.connect(networksComboBox.currentText,passwordTextField.text)
                         passwordTextField.clear()
                     }
                     onPressed: { busy.running=true }
@@ -476,7 +482,7 @@ Rectangle
                     horizontalAlignment: Text.AlignLeft
                     font.pixelSize: 12
                     function set() {
-                        settings.updateWifiStatus(infoWifiText)
+                        settingsWifi.updateWifiStatus(infoWifiText)
                     }
                 }
                 Switch {
@@ -500,7 +506,7 @@ Rectangle
                     }
                     onCheckedChanged:
                     {
-                        settings.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
+                        settingsWifi.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
                         updatestate()
                     }
                     onPressed: { busy.running=true }
@@ -556,6 +562,7 @@ Rectangle
 
                     mainWindow.savePassword(textRootPassword.text)
                     mainWindow.updateConfig()
+                    dialog.quit()
                 }
             }
         }
