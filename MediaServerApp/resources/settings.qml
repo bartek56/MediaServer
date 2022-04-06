@@ -955,6 +955,7 @@ Dialog
                     ComboBox {
                         id: packageComboBox
                         Layout.fillWidth: true
+                        editable: false
                         onDisplayTextChanged:
                         {
                             settingsPackages.cbPackage_onDisplayTextChanged(packageComboBox.currentText, packageSpecificationTextField);
@@ -991,12 +992,12 @@ Dialog
                             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                             onClicked:
                             {
+                                busySettings.running=true
                                 settingsPackages.bUpdate_onClicked(packageComboBox, packageSpecificationTextField);
-                                upgradeAllButton.enabled=true;
-                                upgradeButton.enabled=true;
+                                upgradeAllButton.enabled=packageComboBox.editable;
+                                upgradeButton.enabled=packageComboBox.editable;
+                                busySettings.running=false
                             }
-                            onPressed: { busySettings.running=true }
-                            onReleased:{ busySettings.running=false }
                         }
 
                         Button {

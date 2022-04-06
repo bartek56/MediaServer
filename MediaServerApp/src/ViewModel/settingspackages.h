@@ -6,7 +6,6 @@
 class SettingsPackages : public QObject
 {
 private:
-
     Q_OBJECT
 public:
     explicit SettingsPackages(QObject *parent = nullptr);
@@ -15,7 +14,10 @@ public:
     Q_INVOKABLE void bUpgrade_onClicked(const QString packageName);
     Q_INVOKABLE void bUpgradeAll_onClicked();
     Q_INVOKABLE void cbPackage_onDisplayTextChanged(const QString packageName, QObject *packageSpecificationText);
+
+private:
+    bool checkIfServerIsConnected();
 };
 
 
-#endif // SETTINGSPACKAGES_H
+#endif// SETTINGSPACKAGES_H
