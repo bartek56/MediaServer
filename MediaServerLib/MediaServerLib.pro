@@ -13,6 +13,7 @@ SOURCES += \
     src/editftpconfigfile.cpp \
     src/editwificonfigfile.cpp \
     src/editdlnaconfigfile.cpp \
+    src/mpdconfigfile.cpp \
     src/editmpdconfigfile.cpp \
     src/editscreensaverconfigfile.cpp \
     src/editalarmconfigfile.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     src/editftpconfigfile.h \
     src/editwificonfigfile.h \
     src/editdlnaconfigfile.h \
+    src/mpdconfigfile.h \
     src/editmpdconfigfile.h \
     src/editscreensaverconfigfile.h \
     src/managementofexternaldevices.h \

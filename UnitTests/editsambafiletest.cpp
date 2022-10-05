@@ -1,4 +1,3 @@
-#include "editfiletest.h"
 #include <gtest/gtest.h>
 #include <QDebug>
 #include "../MediaServerApp/editsambaconfigfile.h"

@@ -42,7 +42,7 @@ private:
     std::map<QString, QString> mDlnaConfigs;
 
     EditMpdConfigFile editMpdConfigFile;
-    std::map<QString, QString> mMpdConfigs;
+    std::unordered_map<QString, QString> mMpdConfigs;
     void restartService(const QString &service);
 };
 

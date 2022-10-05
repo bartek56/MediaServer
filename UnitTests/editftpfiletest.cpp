@@ -1,7 +1,7 @@
-#include "editfiletest.h"
 #include <gtest/gtest.h>
 #include <QDebug>
-#include "../MediaServerApp/editftpconfigfile.h"
+#include "../MediaServerLib/src/editftpconfigfile.h"
+
 
 class openFtpFileTest : public ::testing::Test {
 public:
@@ -13,10 +13,11 @@ public:
         location.push_back("/filesToTests/ftpd.passwd");
     }
 };
-
+/*
 TEST_F(openFtpFileTest, fileHasTwoUsers)
 {
     EditFtpConfigFile editFile;
     auto list = editFile.OpenUsersListFile(location);
     ASSERT_EQ(list.size(), 2);
 }
+*/

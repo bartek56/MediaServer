@@ -1,7 +1,8 @@
 #include "multimediaconfig.h"
+#include "src/mpdconfigfile.h"
 #include <QtSystemd/sdmanager.h>
 
-MultimediaConfig::MultimediaConfig(QObject *parent) : QObject(parent)
+MultimediaConfig::MultimediaConfig(QObject *parent) : QObject(parent),editMpdConfigFile(std::make_shared<MpdConfigFile>())
 {
     Systemd::getUnit(Systemd::System, DLNA_SERVICE);//support QDBusAbstractInterfaceSupport
 

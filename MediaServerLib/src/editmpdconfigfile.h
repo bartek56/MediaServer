@@ -1,16 +1,22 @@
 #ifndef EDITMPDCONFIGFILE_H
 #define EDITMPDCONFIGFILE_H
 
-#include <map>
+#include <unordered_map>
 #include <QString>
+#include <memory>
+
+#include "IFileManager.h"
 
 class EditMpdConfigFile
 {
 private:
     const QString MPDCONFIG_PATH="/etc/mediaserver/mpd.conf";
+    std::shared_ptr<IFileManager> fileManager;
 public:
-    std::map<QString, QString> OpenFile();
-    void SaveFile(const std::map<QString, QString> &mConfigs);
+    EditMpdConfigFile(std::shared_ptr<IFileManager> ptrFileManager);
+    std::unordered_map<QString, QString> OpenFile();
+
+    void SaveFile(const std::unordered_map<QString, QString> &mConfigs);
 };
 
 #endif // EDITMPDCONFIGFILE_H
