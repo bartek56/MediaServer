@@ -7,12 +7,10 @@ EditMpdConfigFile::EditMpdConfigFile(std::shared_ptr<IFileManager> ptrFileManage
 {
 }
 
-std::unordered_map<QString, QString> EditMpdConfigFile::OpenFile()
+bool EditMpdConfigFile::OpenFile(std::unordered_map<QString, QString>& mConfigsParameters)
 {
     QString fileData="";
     fileManager->read(fileData);
-
-    std::unordered_map<QString, QString> mConfigsParameters;
 
     QStringList lines = fileData.split('\n');
 
@@ -20,18 +18,20 @@ std::unordered_map<QString, QString> EditMpdConfigFile::OpenFile()
     {
         if (lines[i] <= 2)
             break;
+
         auto parameter = lines[i].split(" \"");
+        if (parameter.size() != 2)
+            return false;
         auto parameterName = parameter[0];
         auto parameterValue = parameter[1];
         parameterValue.remove(parameterValue.length()-1,1);
         mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
     }
-    return mConfigsParameters;
+    return true;
 }
 
 void EditMpdConfigFile::SaveFile(const std::unordered_map<QString, QString> &mConfigs)
 {
-    qDebug() << "before saved";
 
     QString dataToFile;
     for (const auto& [key, value] : mConfigs)
@@ -40,8 +40,6 @@ void EditMpdConfigFile::SaveFile(const std::unordered_map<QString, QString> &mCo
         lineData = key + " \"" + value + "\"\n";
         dataToFile.push_front(lineData);
     }
-    qDebug() << dataToFile;
-
 
     bool result = fileManager->save(dataToFile);
 

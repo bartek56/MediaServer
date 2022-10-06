@@ -14,7 +14,7 @@ private:
     std::shared_ptr<IFileManager> fileManager;
 public:
     EditMpdConfigFile(std::shared_ptr<IFileManager> ptrFileManager);
-    std::unordered_map<QString, QString> OpenFile();
+    bool OpenFile(std::unordered_map<QString, QString>& fileData);
 
     void SaveFile(const std::unordered_map<QString, QString> &mConfigs);
 };

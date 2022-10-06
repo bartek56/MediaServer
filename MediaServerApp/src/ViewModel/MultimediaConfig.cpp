@@ -56,7 +56,7 @@ void MultimediaConfig::tfPort_onEditingFinished(const QString port)
 void MultimediaConfig::openConfigFile()
 {
     mDlnaConfigs = editDlnaConfigFile.OpenFile();
-    mMpdConfigs = editMpdConfigFile.OpenFile();
+    editMpdConfigFile.OpenFile(mMpdConfigs);
 }
 
 void MultimediaConfig::loadMediaDirectoryConfigs(QObject *videoPath, QObject *audioPath, QObject *picturePath)
