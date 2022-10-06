@@ -130,7 +130,7 @@ Rectangle{
             onClicked:
             {
                 alarmView.stopAlarm()
-                loaderWindow.setSource("quotes.qml")
+                loaderWindow.setSource("Quotes.qml")
             }
             onPressed: { busyAlarm.running=true }
             onReleased:{ busyAlarm.running=false }

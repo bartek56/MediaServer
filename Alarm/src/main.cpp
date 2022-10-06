@@ -1,5 +1,5 @@
-#include "alarmview.h"
-#include "quotes.h"
+#include "AlarmView.h"
+#include "Quotes.h"
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickView>

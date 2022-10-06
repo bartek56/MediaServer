@@ -1,8 +1,8 @@
 #include <QApplication>
 #include <QtQuick>
-#include "mainwindow.h"
-#include "src/ViewModel/settingsIpAddress.h"
-#include "src/ViewModel/settingsWifi.h"
+#include "MainWindow.h"
+#include "src/ViewModel/SettingsIpAddress.h"
+#include "src/ViewModel/SettingsWifi.h"
 
 int main(int argc, char *argv[])
 {

@@ -9,16 +9,15 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 add_library(${PROJECT_NAME}
-
-        src/ViewModel/settingsWifi.cpp
-        src/ViewModel/settingsIpAddress.cpp
-        src/editalarmconfigfile.cpp
-        src/editscreensaverconfigfile.cpp
-        src/editdlnaconfigfile.cpp
-        src/editwificonfigfile.cpp
-        src/editftpconfigfile.cpp
-        src/managementofexternaldevices.cpp
-        src/editmpdconfigfile.cpp
+        src/ViewModel/SettingsWifi.cpp
+        src/ViewModel/SettingsIpAddress.cpp
+        src/EditAlarmConfigFile.cpp
+        src/EditScreenSaverConfigFile.cpp
+        src/EditDlnaConfigFile.cpp
+        src/EditWifiConfigFile.cpp
+        src/EditFtpConfigFile.cpp
+        src/ManagementYfExternalDevices.cpp
+        src/EditMpdConfigFile.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC)

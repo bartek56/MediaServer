@@ -1,12 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>sambaConfig.qml</file>
-        <file>massStorage.qml</file>
-        <file>ftpConfig.qml</file>
-        <file>settings.qml</file>
-        <file>multimediaConfig.qml</file>
-        <file>alarmConfig.qml</file>
+        <file>SambaConfig.qml</file>
+        <file>MassStorage.qml</file>
+        <file>FtpConfig.qml</file>
+        <file>Settings.qml</file>
+        <file>MultimediaConfig.qml</file>
+        <file>AlarmConfig.qml</file>
         <file>icons/gmpc.svg</file>
         <file>icons/alarm.png</file>
         <file>icons/samba.png</file>
@@ -17,10 +17,10 @@
         <file>icons/poweroff.png</file>
         <file>icons/qnapi.png</file>
         <file>icons/quotes.png</file>
-        <file>screensavermanager.qml</file>
-        <file>screensaver.qml</file>
-        <file>napi.qml</file>
-        <file>quotes.qml</file>
+        <file>ScreenSaverManager.qml</file>
+        <file>ScreenSaver.qml</file>
+        <file>Napi.qml</file>
+        <file>Quotes.qml</file>
         <file>icons/weather.png</file>
     </qresource>
 </RCC>

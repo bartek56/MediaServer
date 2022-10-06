@@ -18,13 +18,13 @@ LIBS += -L../MediaServerLib -lMediaServerLib
 LIBS += -lQtSystemd
 
 SOURCES += \
-        src/main.cpp \
-        src/alarmview.cpp \
-        src/quotes.cpp
+        src/AlarmView.cpp \
+        src/Quotes.cpp \
+        src/main.cpp
 
 HEADERS += \
-        src/alarmview.h \
-        src/quotes.h
+        src/AlarmView.h \
+        src/Quotes.h
         
 
 RESOURCES += resources/qml.qrc

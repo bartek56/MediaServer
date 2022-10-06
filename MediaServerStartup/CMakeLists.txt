@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 add_executable(${PROJECT_NAME}
-    src/mainwindow.cpp    
+    src/MainWindow.cpp
     src/start.cpp    
     resources/qml.qrc
 )

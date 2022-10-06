@@ -9,9 +9,9 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 add_executable(${PROJECT_NAME}
-    src/alarmview.cpp
-    src/quotes.cpp    
-    src/main.cpp    
+    src/AlarmView.cpp
+    src/Quotes.cpp
+    src/Main.cpp
     resources/qml.qrc
 )
 

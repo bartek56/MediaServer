@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>quotes.qml</file>
+        <file>Quotes.qml</file>
     </qresource>
 </RCC>

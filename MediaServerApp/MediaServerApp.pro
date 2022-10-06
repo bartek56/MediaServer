@@ -19,26 +19,26 @@ LIBS += -L../MediaServerLib -lMediaServerLib
 LIBS += -lQtSystemd
 
 SOURCES += \
-    src/ViewModel/mainwindow.cpp \
-    src/ViewModel/sambaconfig.cpp \
-    src/ViewModel/quotes.cpp \
+    src/ViewModel/MainWindow.cpp \
+    src/ViewModel/SambaConfig.cpp \
+    src/ViewModel/Quotes.cpp \
     src/start.cpp \
-    src/ViewModel/sambaconfigexternaldevice1.cpp \
-    src/ViewModel/sambaconfigexternaldevice2.cpp \
-    src/ViewModel/sambaconfigexternaldevice3.cpp \
-    src/ViewModel/sambaconfiglocal.cpp \
-    src/ViewModel/sambaconfigglobal.cpp \
-    src/ViewModel/ftpconfig.cpp \
-    src/bluetoothctl.cpp \
-    src/ViewModel/massstorage.cpp \
-    src/ViewModel/multimediaconfig.cpp \
-    src/screensavermanager.cpp \
-    src/ViewModel/screensaver.cpp \
-    src/ViewModel/napimanager.cpp \
-    src/ViewModel/settingsscreensaver.cpp \
-    src/ViewModel/settingspackages.cpp \
-    src/ViewModel/alarmconfig.cpp \
-    src/ViewModel/settingsStatus.cpp
+    src/ViewModel/SambaConfigExternalDevice1.cpp \
+    src/ViewModel/SambaConfigExternalDevice2.cpp \
+    src/ViewModel/SambaConfigExternalDevice3.cpp \
+    src/ViewModel/SambaConfigLocal.cpp \
+    src/ViewModel/SambaConfigGlobal.cpp \
+    src/ViewModel/FtpConfig.cpp \
+    src/Bluetoothctl.cpp \
+    src/ViewModel/MassStorage.cpp \
+    src/ViewModel/MultimediaConfig.cpp \
+    src/ScreenSaverManager.cpp \
+    src/ViewModel/ScreenSaver.cpp \
+    src/ViewModel/NapiManager.cpp \
+    src/ViewModel/SettingsScreenSaver.cpp \
+    src/ViewModel/SettingsPackages.cpp \
+    src/ViewModel/AlarmConfig.cpp \
+    src/ViewModel/SettingsStatus.cpp
 
 
 RESOURCES += resources/qml.qrc
@@ -56,20 +56,20 @@ target.path = /opt
 INSTALLS += target
 
 HEADERS += \
-    src/ViewModel/mainwindow.h \
-    src/ViewModel/sambaconfig.h \
-    src/ViewModel/ftpconfig.h \
-    src/bluetoothctl.h \
-    src/ViewModel/massstorage.h \
-    src/ViewModel/multimediaconfig.h \
-    src/ViewModel/quotes.h \
-    src/screensavermanager.h \
-    src/ViewModel/screensaver.h \
-    src/ViewModel/napimanager.h \
-    src/ViewModel/settingsscreensaver.h \
-    src/ViewModel/settingspackages.h \
-    src/ViewModel/alarmconfig.h \
-    src/ViewModel/settingsStatus.h
+    src/ViewModel/MainWindow.h \
+    src/ViewModel/SambaConfig.h \
+    src/ViewModel/FtpConfig.h \
+    src/Bluetoothctl.h \
+    src/ViewModel/MassStorage.h \
+    src/ViewModel/MultimediaConfig.h \
+    src/ViewModel/Quotes.h \
+    src/ScreenSaverManager.h \
+    src/ViewModel/ScreenSaver.h \
+    src/ViewModel/NapiManager.h \
+    src/ViewModel/SettingsScreenSaver.h \
+    src/ViewModel/SettingsPackages.h \
+    src/ViewModel/AlarmConfig.h \
+    src/ViewModel/SettingsStatus.h
 
 
 FORMS +=

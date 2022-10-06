@@ -12,26 +12,26 @@ find_package(QtSystemd REQUIRED)
 
 
 add_executable(${PROJECT_NAME}
-    src/ViewModel/ftpconfig.cpp
-    src/ViewModel/alarmconfig.cpp
-    src/ViewModel/quotes.cpp
-    src/ViewModel/screensaver.cpp    
-    src/ViewModel/sambaconfig.cpp
-    src/ViewModel/massstorage.cpp
-    src/ViewModel/sambaconfigexternaldevice1.cpp
-    src/ViewModel/sambaconfigexternaldevice2.cpp
-    src/ViewModel/sambaconfigexternaldevice3.cpp
-    src/ViewModel/settingsscreensaver.cpp
-    src/ViewModel/multimediaconfig.cpp  
-    src/ViewModel/sambaconfiglocal.cpp
-    src/ViewModel/sambaconfigglobal.cpp
-    src/ViewModel/napimanager.cpp
-    src/ViewModel/settingsStatus.cpp
-    src/ViewModel/settingspackages.cpp
-    src/ViewModel/settingsscreensaver.cpp
-    src/ViewModel/mainwindow.cpp    
-    src/bluetoothctl.cpp
-    src/screensavermanager.cpp
+    src/ViewModel/FtpConfig.cpp
+    src/ViewModel/AlarmConfig.cpp
+    src/ViewModel/Quotes.cpp
+    src/ViewModel/ScreenSaver.cpp
+    src/ViewModel/SambaConfig.cpp
+    src/ViewModel/MassStorage.cpp
+    src/ViewModel/SambaConfigExternalDevice1.cpp
+    src/ViewModel/SambaConfigExternalDevice2.cpp
+    src/ViewModel/SambaConfigExternalDevice3.cpp
+    src/ViewModel/SettingsScreensaver.cpp
+    src/ViewModel/MultimediaConfig.cpp
+    src/ViewModel/SambaConfigLocal.cpp
+    src/ViewModel/SambaConfigGlobal.cpp
+    src/ViewModel/NapiManager.cpp
+    src/ViewModel/SettingsStatus.cpp
+    src/ViewModel/SettingsPackages.cpp
+    src/ViewModel/SettingsScreensaver.cpp
+    src/ViewModel/MainWindow.cpp
+    src/Bluetoothctl.cpp
+    src/ScreenSaverManager.cpp
     src/start.cpp    
     resources/qml.qrc
 )

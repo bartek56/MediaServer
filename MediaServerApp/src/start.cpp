@@ -3,21 +3,21 @@
 #include <QApplication>
 #include <QtQuick>
 #include <QObject>
-#include "ViewModel/mainwindow.h"
-#include "ViewModel/sambaconfig.h"
-#include "ViewModel/ftpconfig.h"
-#include "src/ViewModel/settingsIpAddress.h"
-#include "src/ViewModel/settingsStatus.h"
-#include "src/ViewModel/settingsWifi.h"
-#include "ViewModel/multimediaconfig.h"
-#include "src/ViewModel/alarmconfig.h"
-#include "ViewModel/massstorage.h"
-#include "ViewModel/screensaver.h"
-#include "ViewModel/napimanager.h"
-#include "ViewModel/settingsscreensaver.h"
-#include "ViewModel/settingspackages.h"
-#include "ViewModel/quotes.h"
-#include "screensavermanager.h"
+#include "ViewModel/MainWindow.h"
+#include "ViewModel/SambaConfig.h"
+#include "ViewModel/FtpConfig.h"
+#include "src/ViewModel/SettingsIpAddress.h"
+#include "src/ViewModel/SettingsStatus.h"
+#include "src/ViewModel/SettingsWifi.h"
+#include "ViewModel/MultimediaConfig.h"
+#include "src/ViewModel/AlarmConfig.h"
+#include "ViewModel/MassStorage.h"
+#include "ViewModel/ScreenSaver.h"
+#include "ViewModel/NapiManager.h"
+#include "ViewModel/SettingsScreenSaver.h"
+#include "ViewModel/SettingsPackages.h"
+#include "ViewModel/Quotes.h"
+#include "ScreenSaverManager.h"
 
 
 QQuickView *MainWindow::mainView;

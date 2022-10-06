@@ -14,7 +14,7 @@ Rectangle{
 
     function startScreenSaver()
     {
-        loaderScreenSaver.setSource("screensaver.qml")
+        loaderScreenSaver.setSource("ScreenSaver.qml")
     }
 
     Connections{
@@ -45,7 +45,7 @@ Rectangle{
 
     Loader {
         anchors.fill:parent
-        source:"screensavermanager.qml";
+        source:"ScreenSaverManager.qml";
     }
 
     ToolBar
@@ -103,7 +103,7 @@ Rectangle{
                 MenuItem {
                     text: "Mass Storage"
                     onClicked: {
-                        loaderConfigWindow.setSource("massStorage.qml")
+                        loaderConfigWindow.setSource("MassStorage.qml")
                     }
                 }
                 MenuSeparator { }
@@ -253,7 +253,7 @@ Rectangle{
 
                 onClicked:
                 {
-                    loaderConfigWindow.setSource("quotes.qml")
+                    loaderConfigWindow.setSource("Quotes.qml")
                 }
             }
 
@@ -324,7 +324,7 @@ Rectangle{
                 }
                 onClicked:
                 {
-                    loaderConfigWindow.setSource("napi.qml")
+                    loaderConfigWindow.setSource("Napi.qml")
                 }
             }
         }
@@ -370,7 +370,7 @@ Rectangle{
                 }
                 onClicked:
                 {
-                    loaderConfigWindow.setSource("sambaConfig.qml")
+                    loaderConfigWindow.setSource("SambaConfig.qml")
                 }
             }
 
@@ -409,7 +409,7 @@ Rectangle{
                 }
                 onClicked:
                 {
-                    loaderConfigWindow.setSource("ftpConfig.qml")
+                    loaderConfigWindow.setSource("FtpConfig.qml")
                 }
             }
 
@@ -446,7 +446,7 @@ Rectangle{
                 }
                 onClicked:
                 {
-                    loaderConfigWindow.setSource("multimediaConfig.qml")
+                    loaderConfigWindow.setSource("MultimediaConfig.qml")
                 }
             }
 
@@ -481,7 +481,7 @@ Rectangle{
                 }
                 onClicked:
                 {
-                    loaderConfigWindow.setSource("alarmConfig.qml")
+                    loaderConfigWindow.setSource("AlarmConfig.qml")
                 }
             }
 
@@ -553,7 +553,7 @@ Rectangle{
                 }
                 onClicked:
                 {
-                    loaderConfigWindow.setSource("settings.qml")
+                    loaderConfigWindow.setSource("Settings.qml")
                 }
             }
         }

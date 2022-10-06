@@ -8,25 +8,25 @@ LIBS += -lQtSystemd
 
 
 SOURCES += \
-    src/ViewModel/settingsIpAddress.cpp \
-    src/ViewModel/settingsWifi.cpp \
-    src/editftpconfigfile.cpp \
-    src/editwificonfigfile.cpp \
-    src/editdlnaconfigfile.cpp \
-    src/mpdconfigfile.cpp \
-    src/editmpdconfigfile.cpp \
-    src/editscreensaverconfigfile.cpp \
-    src/editalarmconfigfile.cpp \
-    src/managementofexternaldevices.cpp
+    src/ViewModel/SettingsIpAddress.cpp \
+    src/ViewModel/SettingsWifi.cpp \
+    src/EditFtpConfigFile.cpp \
+    src/EditWifiConfigFile.cpp \
+    src/EditDlnaConfigFile.cpp \
+    src/MpdConfigFile.cpp \
+    src/EditMpdConfigFile.cpp \
+    src/EditScreenSaverConfigFile.cpp \
+    src/EditAlarmConfigFile.cpp \
+    src/ManagementOfExternalDevices.cpp
 
 HEADERS += \
-    src/ViewModel/settingsIpAddress.h \
-    src/ViewModel/settingsWifi.h \
-    src/editftpconfigfile.h \
-    src/editwificonfigfile.h \
-    src/editdlnaconfigfile.h \
-    src/mpdconfigfile.h \
-    src/editmpdconfigfile.h \
-    src/editscreensaverconfigfile.h \
-    src/managementofexternaldevices.h \
-    src/editalarmconfigfile.h
+    src/ViewModel/SettingsIpAddress.h \
+    src/ViewModel/SettingsWifi.h \
+    src/EditFtpConfigFile.h \
+    src/EditWifiConfigFile.h \
+    src/EditDlnaConfigFile.h \
+    src/MpdConfigFile.h \
+    src/EditMpdConfigFile.h \
+    src/EditScreenSaverConfigFile.h \
+    src/ManagementOfExternalDevices.h \
+    src/EditAlarmConfigFile.h

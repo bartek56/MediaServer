@@ -9,8 +9,10 @@ CONFIG += thread
 DEFINES += PATH_TO_TEST_FILES=\\\"$$PWD\\\"
 
 HEADERS += \
-    ../MediaServerLib/src/editftpconfigfile.h \
+    ../MediaServerLib/src/EditFtpConfigFile.h \
     ../MediaServerLib/src/IFileManager.h
+
+    Mock/MockFileManager.h \
 
 #    ../MediaServerApp/editdlnaconfigfile.h \
 #    ../MediaServerApp/editmpdconfigfile.h \
@@ -19,14 +21,13 @@ HEADERS += \
 
 SOURCES += \
         main.cpp \
-    ../MediaServerLib/src/editftpconfigfile.cpp \
-    ../MediaServerLib/src/editwificonfigfile.cpp \
-    ../MediaServerLib/src/editdlnaconfigfile.cpp \
-    ../MediaServerLib/src/editmpdconfigfile.cpp \
-    ../MediaServerLib/src/editscreensaverconfigfile.cpp \
-    Mock/mockfilemanager.cpp \
-    editftpfiletest.cpp \
-    editwififiletest.cpp \
-    editdlnafiletest.cpp \
-    editmpdfiletest.cpp \
-    editscreensavefiletest.cpp
+    ../MediaServerLib/src/EditFtpConfigFile.cpp \
+    ../MediaServerLib/src/EditWifiConfigFile.cpp \
+    ../MediaServerLib/src/EditDlnaConfigFile.cpp \
+    ../MediaServerLib/src/EditMpdConfigFile.cpp \
+    ../MediaServerLib/src/EditScreenSaverConfigFile.cpp \
+    EditFtpFileTest.cpp \
+    EditWifiFileTest.cpp \
+    EditDlnaFileTest.cpp \
+    EditMpdFileTest.cpp \
+    EditScreenSaverFileTest.cpp

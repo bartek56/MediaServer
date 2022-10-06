@@ -52,3 +52,4 @@ CMakeLists.txt.user*
 BUILD*
 build*
 
+googletest

@@ -23,7 +23,7 @@ LIBS += -lQtSystemd
 
 SOURCES += \
     src/start.cpp \
-    src/mainwindow.cpp
+    src/MainWindow.cpp
 
 RESOURCES += resources/qml.qrc
 
@@ -39,4 +39,4 @@ target.path = /opt
 INSTALLS += target
 
 HEADERS += \
-    src/mainwindow.h
+    src/MainWindow.h
