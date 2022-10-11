@@ -36,21 +36,21 @@ int main(int argc, char *argv[])
     if(view->status() == QQuickView::Error)
         return -1;
 
-    qmlRegisterType<ScreenSaver>("ScreenSaverLib", 1, 0, "ScreenSaver");
-    qmlRegisterType<ScreenSaverManager>("ScreenSaverManagerLib", 1, 0, "ScreenSaverManager");
-    qmlRegisterType<AlarmConfig>("AlarmConfigLib", 1, 0, "AlarmConfig");
-    qmlRegisterType<MultimediaConfig>("MultimediaConfigLib", 1, 0, "MultimediaConfig");
-    qmlRegisterType<NapiManager>("NapiManagerLib", 1, 0, "NapiManager");
-    qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfig");
-    qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfig");
-    qmlRegisterType<SettingsStatus>("SettingsStatusLib", 1, 0, "SettingsStatus");
-    qmlRegisterType<SettingsWifi>("SettingsWifiLib", 1, 0, "SettingsWifi");
-    qmlRegisterType<SettingsIpAddress>("SettingsIpAddressLib", 1, 0, "SettingsIpAddress");
-    qmlRegisterType<SettingsScreensaver>("SettingsScreensaverLib", 1, 0, "SettingsScreensaver");
-    qmlRegisterType<SettingsPackages>("SettingsPackagesLib", 1, 0, "SettingsPackages");
-    qmlRegisterType<MassStorage>("MassStorageLib", 1, 0, "MassStorage");
-    qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindow");
-    qmlRegisterType<Quotes>("QuotesLib", 1, 0, "Quotes");
+    qmlRegisterType<ScreenSaver>("ScreenSaverLib", 1, 0, "ScreenSaverView");
+    qmlRegisterType<ScreenSaverManager>("ScreenSaverManagerLib", 1, 0, "ScreenSaverManagerView");
+    qmlRegisterType<AlarmConfig>("AlarmConfigLib", 1, 0, "AlarmConfigView");
+    qmlRegisterType<MultimediaConfig>("MultimediaConfigLib", 1, 0, "MultimediaConfigView");
+    qmlRegisterType<NapiManager>("NapiManagerLib", 1, 0, "NapiManagerView");
+    qmlRegisterType<SambaConfig>("SambaConfigLib", 1, 0, "SambaConfigView");
+    qmlRegisterType<FtpConfig>("FtpConfigLib", 1, 0, "FtpConfigView");
+    qmlRegisterType<SettingsStatus>("SettingsStatusLib", 1, 0, "SettingsStatusView");
+    qmlRegisterType<SettingsWifi>("SettingsWifiLib", 1, 0, "SettingsWifiView");
+    qmlRegisterType<SettingsIpAddress>("SettingsIpAddressLib", 1, 0, "SettingsIpAddressView");
+    qmlRegisterType<SettingsScreensaver>("SettingsScreensaverLib", 1, 0, "SettingsScreensaverView");
+    qmlRegisterType<SettingsPackages>("SettingsPackagesLib", 1, 0, "SettingsPackagesView");
+    qmlRegisterType<MassStorage>("MassStorageLib", 1, 0, "MassStorageView");
+    qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindowView");
+    qmlRegisterType<Quotes>("QuotesLib", 1, 0, "QuotesView");
 
     view->setWidth(800);
     view->setHeight(480);

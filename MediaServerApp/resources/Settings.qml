@@ -21,25 +21,25 @@ Dialog
     padding: 1
     modal: true
 
-    SettingsIpAddress
+    SettingsIpAddressView
     {
         id: settingsIpAddress
     }
-    SettingsWifi
+    SettingsWifiView
     {
         id: settingsWifi
     }
-    SettingsStatus
+    SettingsStatusView
     {
         id: settingsStatus
     }
 
-    SettingsScreensaver
+    SettingsScreensaverView
     {
         id:settingsScreensaver
     }
 
-    SettingsPackages
+    SettingsPackagesView
     {
         id:settingsPackages
     }

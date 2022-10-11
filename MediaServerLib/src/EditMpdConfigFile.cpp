@@ -7,7 +7,7 @@ EditMpdConfigFile::EditMpdConfigFile(std::shared_ptr<IFileManager> ptrFileManage
 {
 }
 
-bool EditMpdConfigFile::OpenFile(std::unordered_map<QString, QString>& mConfigsParameters)
+bool EditMpdConfigFile::OpenFile(VectorData& mConfigsParameters)
 {
     QString fileData="";
     fileManager->read(fileData);
@@ -16,23 +16,21 @@ bool EditMpdConfigFile::OpenFile(std::unordered_map<QString, QString>& mConfigsP
 
     for (int i = 0; i<lines.size(); i++)
     {
-        if (lines[i] <= 2)
+        if (lines[i] <= 1)
             break;
-
         auto parameter = lines[i].split(" \"");
         if (parameter.size() != 2)
             return false;
         auto parameterName = parameter[0];
         auto parameterValue = parameter[1];
         parameterValue.remove(parameterValue.length()-1,1);
-        mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
+        mConfigsParameters.push_back(ConfigData(parameterName,parameterValue));
     }
     return true;
 }
 
-void EditMpdConfigFile::SaveFile(const std::unordered_map<QString, QString> &mConfigs)
+void EditMpdConfigFile::SaveFile(const VectorData &mConfigs)
 {
-
     QString dataToFile;
     for (const auto& [key, value] : mConfigs)
     {

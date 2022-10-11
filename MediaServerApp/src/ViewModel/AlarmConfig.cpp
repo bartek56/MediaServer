@@ -1,8 +1,10 @@
 #include "AlarmConfig.h"
+#include "src/ConfigFile.h"
+
 #include <QtSystemd/sdmanager.h>
 #include <QtSystemd/unit.h>
 
-AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent)
+AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent), editAlarmConfigFile(std::make_shared<ConfigFile>("/etc/mediaserver/alarm.sh"))
 {
     Systemd::getUnit(Systemd::System, ALARM_SERVICE);//support QDBusAbstractInterfaceSupport
 
@@ -19,15 +21,14 @@ AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent)
 void AlarmConfig::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox, QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox,
                                           QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton, QObject *playlistComboBox)
 {
-    mAlarmConfigs = editAlarmConfigFile.LoadConfiguration();
+    editAlarmConfigFile.LoadConfiguration(mAlarmConfigs);
+    minVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("minVolume")));
+    maxVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("maxVolume")));
+    defaultVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("defaultVolume")));
+    growingVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("growingVolume")));
+    growingSpeedSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("growingSpeed")));
 
-    minVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.at("minVolume")));
-    maxVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.at("maxVolume")));
-    defaultVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.at("defaultVolume")));
-    growingVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.at("growingVolume")));
-    growingSpeedSpinBox->setProperty("value", QVariant(mAlarmConfigs.at("growingSpeed")));
-
-    if(mAlarmConfigs.at("theNewestSongs") == "true")
+    if(mAlarmConfigs.getValueByKey("theNewestSongs") == "true")
     {
         isNewestSongsListRadioButton->setProperty("checked", QVariant(true));
         isPlaylistRadioButton->setProperty("checked", QVariant(false));
@@ -47,7 +48,7 @@ void AlarmConfig::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *ma
     }
     else
     {
-        int indexOfSavedPlaylist = mpdPlaylists.indexOf(mAlarmConfigs.at("playlist"));
+        int indexOfSavedPlaylist = mpdPlaylists.indexOf(mAlarmConfigs.getValueByKey("playlist"));
         playlistComboBox->setProperty("currentIndex", QVariant(indexOfSavedPlaylist));
     }
 }
@@ -93,7 +94,6 @@ bool AlarmConfig::checkAlarmIsActive()
 
 void AlarmConfig::checkAlarmService(QObject *enableAlarmSwitch)
 {
-
     if(checkAlarmIsActive())
     {
         enableAlarmSwitch->setProperty("checked", QVariant(true));
@@ -196,13 +196,13 @@ void AlarmConfig::bSaveAlarm_onClicked(const int minVolume, const int maxVolume,
     QString growingVolumeString = QString::number(growingVolume);
     QString growingSpeedString = QString::number(growingSpeed);
     QString isNewestSongsListString = isNewestSongsList ? "true" : "false";
-    mAlarmConfigs.at("minVolume") = minVolumeString;
-    mAlarmConfigs.at("maxVolume") = maxVolumeString;
-    mAlarmConfigs.at("defaultVolume") = defaultVolumeString;
-    mAlarmConfigs.at("growingVolume") = growingVolumeString;
-    mAlarmConfigs.at("growingSpeed") = growingSpeedString;
-    mAlarmConfigs.at("playlist") = playlist;
-    mAlarmConfigs.at("theNewestSongs") = isNewestSongsListString;
+    mAlarmConfigs.setValueByKey("minVolume", minVolumeString);
+    mAlarmConfigs.setValueByKey("maxVolume", maxVolumeString);
+    mAlarmConfigs.setValueByKey("defaultVolume", defaultVolumeString);
+    mAlarmConfigs.setValueByKey("growingVolume", growingVolumeString);
+    mAlarmConfigs.setValueByKey("growingSpeed", growingSpeedString);
+    mAlarmConfigs.setValueByKey("playlist", playlist);
+    mAlarmConfigs.setValueByKey("theNewestSongs", isNewestSongsListString);
     editAlarmConfigFile.SaveConfiguration(mAlarmConfigs);
 }
 

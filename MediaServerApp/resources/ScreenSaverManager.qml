@@ -3,7 +3,7 @@ import ScreenSaverManagerLib 1.0
 
 MouseArea
 {
-    ScreenSaverManager
+    ScreenSaverManagerView
     {
         id:screensavermanager
     }

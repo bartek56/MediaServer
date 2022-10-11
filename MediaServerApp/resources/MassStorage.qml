@@ -14,7 +14,7 @@ Dialog
     margins: 0
     padding: 1
     modal: true
-    MassStorage
+    MassStorageView
     {
         id: massStorage
     }

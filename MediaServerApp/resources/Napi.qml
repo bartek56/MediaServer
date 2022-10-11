@@ -18,7 +18,7 @@ Dialog
 
     property string videoPath: "file:///mnt/"
 
-    NapiManager
+    NapiManagerView
     {
         id:napiManager
     }

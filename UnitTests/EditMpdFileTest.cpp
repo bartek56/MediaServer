@@ -33,14 +33,14 @@ TEST_F(openMpdConfigFileTest, readFileOneLine)
 
     EditMpdConfigFile editMpdConfigFile(mockReadFile);
 
-    std::unordered_map<QString, QString> fileData;
+    VectorData fileData;
 
     auto result = editMpdConfigFile.OpenFile(fileData);
     EXPECT_TRUE(result);
     EXPECT_EQ(fileData.size(), std::size_t(1));
 
-    EXPECT_EQ(fileData.cbegin()->first.toStdString(), "playlistdir");
-    EXPECT_EQ(fileData.cbegin()->second.toStdString(), "/home/playlistdir");
+    EXPECT_EQ(fileData[0].key.toStdString(), "playlistdir");
+    EXPECT_EQ(fileData[0].value.toStdString(), "/home/playlistdir");
 }
 
 TEST_F(openMpdConfigFileTest, readIncorrectFile)
@@ -69,7 +69,7 @@ TEST_F(openMpdConfigFileTest, readIncorrectFile)
 
     EditMpdConfigFile editMpdConfigFile(mockReadFile);
 
-    std::unordered_map<QString, QString> fileData;
+    VectorData fileData;
 
     auto result = editMpdConfigFile.OpenFile(fileData);
 
@@ -102,7 +102,7 @@ TEST_F(openMpdConfigFileTest, readWholeFileData)
 
     EditMpdConfigFile editMpdConfigFile(mockReadFile);
 
-    std::unordered_map<QString, QString> fileData;
+    VectorData fileData;
 
     auto result = editMpdConfigFile.OpenFile(fileData);
 
@@ -110,16 +110,18 @@ TEST_F(openMpdConfigFileTest, readWholeFileData)
 
     EXPECT_EQ(fileData.size(), std::size_t(3));
 
-    auto it = fileData.end();
+    auto it = fileData.begin();
+    EXPECT_EQ(it->key.toStdString(), "music_directory");
+    EXPECT_EQ(it->value.toStdString(), "/home/Music");
 
-    EXPECT_EQ(it->first.toStdString(), "music_directory");
-    EXPECT_EQ(it->second.toStdString(), "/home/Music");
+    it = std::next(it);
+    EXPECT_EQ(it->key.toStdString(), "playlist_directory");
+    EXPECT_EQ(it->value.toStdString(), "/home/Music/playlists");
 
-    it = std::prev(it);
-    EXPECT_EQ(it->first.toStdString(), "playlist_directory");
-    EXPECT_EQ(it->second.toStdString(), "/home/Music/playlists");
 
-    it = std::prev(it);
-    EXPECT_EQ(it->first.toStdString(), "auto_update");
-    EXPECT_EQ(it->second.toStdString(), "yes");
+    it = std::next(it);
+    EXPECT_EQ(it->key.toStdString(), "auto_update");
+    EXPECT_EQ(it->value.toStdString(), "yes");
+
 }
+

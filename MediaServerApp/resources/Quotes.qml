@@ -21,7 +21,7 @@ Dialog
     property string authorPolish: ""
     property string quotePolish: ""
 
-    Quotes{
+    QuotesView{
         id: quotes
     }
 

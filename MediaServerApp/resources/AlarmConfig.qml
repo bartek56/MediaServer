@@ -15,7 +15,7 @@ Dialog
     padding: 1
     modal: true
 
-    AlarmConfig
+    AlarmConfigView
     {
         id: alarmConfig
     }

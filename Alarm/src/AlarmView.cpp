@@ -1,4 +1,5 @@
 #include "AlarmView.h"
+#include "src/ConfigFile.h"
 #include <QProcess>
 #include <QFile>
 #include <QDebug>
@@ -7,7 +8,7 @@
 #include <QtSystemd/sdmanager.h>
 #include <QApplication>
 
-AlarmView::AlarmView(QObject *parent) : QObject(parent)
+AlarmView::AlarmView(QObject *parent) : QObject(parent), editAlarmConfigFile(std::make_shared<ConfigFile>("/etc/mediaserver/alarm.sh"))
 {
     auto state = Systemd::getUnitFileState(Systemd::System, ALARM_SNOOZE_SERVICE);
 
@@ -44,8 +45,9 @@ void AlarmView::stopAlarm()
         else
             Systemd::stopUnit(Systemd::System, ALARM_SERVICE, Systemd::Unit::Replace);
 
-        auto alarmConfigMap = editAlarmConfigFile.LoadConfiguration();
-        QString defaultVolume = alarmConfigMap["defaultVolume"];
+        VectorData alarmConfigMap;
+        editAlarmConfigFile.LoadConfiguration(alarmConfigMap);
+        QString defaultVolume = alarmConfigMap.getValueByKey("defaultVolume");
         QProcess::startDetached("mpc", QStringList() << "volume" << defaultVolume);
     }
 }

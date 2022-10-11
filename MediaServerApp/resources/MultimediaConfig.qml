@@ -16,7 +16,7 @@ Dialog
     padding: 1
     modal: true
 
-    MultimediaConfig
+    MultimediaConfigView
     {
         id: multimediaConfig
     }

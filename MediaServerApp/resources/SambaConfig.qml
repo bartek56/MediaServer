@@ -23,7 +23,7 @@ Dialog
         source:"ScreenSaverManager.qml";
     }
 
-    SambaConfig
+    SambaConfigView
     {
         id: sambaConfig
     }

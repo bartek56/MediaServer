@@ -16,7 +16,7 @@ Dialog
     property int totalFileCount: folderModel.count
 
 
-    ScreenSaver{
+    ScreenSaverView{
         id: screenSaver
     }
 

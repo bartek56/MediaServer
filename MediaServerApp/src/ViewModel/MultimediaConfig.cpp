@@ -1,8 +1,8 @@
 #include "MultimediaConfig.h"
-#include "src/MpdConfigFile.h"
+#include "src/ConfigFile.h"
 #include <QtSystemd/sdmanager.h>
 
-MultimediaConfig::MultimediaConfig(QObject *parent) : QObject(parent),editMpdConfigFile(std::make_shared<MpdConfigFile>())
+MultimediaConfig::MultimediaConfig(QObject *parent) : QObject(parent),editMpdConfigFile(std::make_shared<ConfigFile>("/etc/mediaserver/minidlna.conf"))
 {
     Systemd::getUnit(Systemd::System, DLNA_SERVICE);//support QDBusAbstractInterfaceSupport
 
@@ -32,8 +32,8 @@ void MultimediaConfig::bAudioFileDialog_onAccepted(QString folderPath, QObject *
     QString path = folderPath.remove(0, 7);
     tfAudioPath->setProperty("text", QVariant(path));
     mDlnaConfigs.at(AUDIODIR) = path;
-    mMpdConfigs.at(MUSIC_DIRECTORY) = path;
-    mMpdConfigs.at(PLAYLIST_DIRECTORY) = path;
+    mMpdConfigs.setValueByKey(MUSIC_DIRECTORY, path);
+    mMpdConfigs.setValueByKey(PLAYLIST_DIRECTORY, path);
 }
 
 void MultimediaConfig::bPicturesFileDialog_onAccepted(QString folderPath, QObject *tfPicturesPath)

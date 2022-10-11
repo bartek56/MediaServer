@@ -3,6 +3,7 @@
 
 #include <QtQuick>
 #include <QObject>
+#include "src/VectorData.h"
 #include "src/EditAlarmConfigFile.h"
 
 class AlarmConfig : public QObject
@@ -19,7 +20,7 @@ private:
 
     QStringList loadMPDPlaylists();
     QProcess testAlarmProcess;
-    std::map<QString, QString> mAlarmConfigs;
+    VectorData mAlarmConfigs;
     EditAlarmConfigFile editAlarmConfigFile;
     void saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time);
     bool checkAlarmIsActive();

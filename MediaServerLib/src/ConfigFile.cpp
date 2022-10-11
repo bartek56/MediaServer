@@ -1,25 +1,41 @@
-#include "MpdConfigFile.h"
+#include "ConfigFile.h"
 #include <QFile>
 #include <QDebug>
 #include <iostream>
 
-bool MpdConfigFile::read(QString& data)
+ConfigFile::ConfigFile(const QString confFile): fileName(confFile)
 {
-    QFile file (fileName);
-
-    std::map<QString, QString> mConfigsParameters;
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return false;
-
-    QTextStream in(&file);
-    data = in.readAll();
-    if (data.size()>0)
-        return true;
-    else
-        return false;
 }
 
-bool MpdConfigFile::save(const QString data)
+bool ConfigFile::read(QString& data)
+{
+    QFile fileToRead(fileName);
+    QString fileString;
+
+    if (fileToRead.open(QIODevice::ReadOnly))
+    {
+        while (!fileToRead.atEnd())
+        {
+            QByteArray line = fileToRead.readLine();
+            if (line[0] == '#')
+            {
+                continue;
+            }
+            fileString.push_back(line);
+        }
+    }
+    else
+    {
+        fileToRead.close();
+        return false;
+    }
+
+    fileToRead.close();
+    data = fileString;
+    return true;
+}
+
+bool ConfigFile::save(const QString data)
 {
     QFile fileToRead(fileName);
     QString fileString;
@@ -34,6 +50,11 @@ bool MpdConfigFile::save(const QString data)
         while (!fileToRead.atEnd())
         {
             QByteArray line = fileToRead.readLine();
+            if (line[0] == '#')
+            {
+                fileString.push_back(line);
+                continue;
+            }
 
             if(lineNumber < numberOfLines)
             {
@@ -52,8 +73,6 @@ bool MpdConfigFile::save(const QString data)
         return false;
 
     fileToRead.close();
-
-    qDebug() << fileString;
 
     QFile fileToWrite(fileName);
     if (fileToWrite.open(QIODevice::WriteOnly))

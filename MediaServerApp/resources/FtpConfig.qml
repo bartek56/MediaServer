@@ -17,7 +17,7 @@ Dialog
     padding: 1
     modal: true
 
-    FtpConfig
+    FtpConfigView
     {
         id: ftpConfig
     }

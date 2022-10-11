@@ -2,16 +2,23 @@
 #define EDITALARMCONFIGFILE_H
 
 #include <QString>
-#include <map>
+#include <memory>
+#include <unordered_map>
 
+#include "VectorData.h"
+#include "IFileManager.h"
 
-class EditAlarmConfigFile
-{
+class EditAlarmConfigFile {
 public:
-    const QString ALARM_SCRIPT="/etc/mediaserver/alarm.sh";
 
-    void SaveConfiguration(const std::map<QString,QString> &mConfigsParameters);
-    std::map<QString,QString> LoadConfiguration();
+  EditAlarmConfigFile(std::shared_ptr<IFileManager> ptrFileManager);
+
+  bool SaveConfiguration(const VectorData &mConfigsParameters);
+  bool LoadConfiguration(VectorData &configuration);
+
+private:
+  std::shared_ptr<IFileManager> fileManager;
+  const QString ALARM_SCRIPT = "/etc/mediaserver/alarm.sh";
 };
 
-#endif // EDITSCREENSAVERCONFIGFILE_H
+#endif // EDITALARMCONFIGFILE_H
