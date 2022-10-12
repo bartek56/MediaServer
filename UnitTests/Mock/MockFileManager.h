@@ -1,4 +1,4 @@
-#include "../MediaServerLib/src/IFileManager.h"
+#include "../MediaServerLib/ConfigFile/IFileManager.h"
 
 #include <gmock/gmock.h>
 

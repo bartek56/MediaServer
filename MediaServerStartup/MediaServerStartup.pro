@@ -22,8 +22,8 @@ LIBS += -L../MediaServerLib -lMediaServerLib
 LIBS += -lQtSystemd
 
 SOURCES += \
-    src/start.cpp \
-    src/MainWindow.cpp
+    MainWindow.cpp \
+    start.cpp
 
 RESOURCES += resources/qml.qrc
 
@@ -39,4 +39,4 @@ target.path = /opt
 INSTALLS += target
 
 HEADERS += \
-    src/MainWindow.h
+    MainWindow.h

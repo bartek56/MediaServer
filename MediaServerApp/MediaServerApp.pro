@@ -19,26 +19,26 @@ LIBS += -L../MediaServerLib -lMediaServerLib
 LIBS += -lQtSystemd
 
 SOURCES += \
-    src/ViewModel/MainWindow.cpp \
-    src/ViewModel/SambaConfig.cpp \
-    src/ViewModel/Quotes.cpp \
-    src/start.cpp \
-    src/ViewModel/SambaConfigExternalDevice1.cpp \
-    src/ViewModel/SambaConfigExternalDevice2.cpp \
-    src/ViewModel/SambaConfigExternalDevice3.cpp \
-    src/ViewModel/SambaConfigLocal.cpp \
-    src/ViewModel/SambaConfigGlobal.cpp \
-    src/ViewModel/FtpConfig.cpp \
-    src/Bluetoothctl.cpp \
-    src/ViewModel/MassStorage.cpp \
-    src/ViewModel/MultimediaConfig.cpp \
-    src/ScreenSaverManager.cpp \
-    src/ViewModel/ScreenSaver.cpp \
-    src/ViewModel/NapiManager.cpp \
-    src/ViewModel/SettingsScreenSaver.cpp \
-    src/ViewModel/SettingsPackages.cpp \
-    src/ViewModel/AlarmConfig.cpp \
-    src/ViewModel/SettingsStatus.cpp
+    ViewModel/MainWindow.cpp \
+    ViewModel/SambaConfig.cpp \
+    ViewModel/Quotes.cpp \
+    ViewModel/SambaConfigExternalDevice1.cpp \
+    ViewModel/SambaConfigExternalDevice2.cpp \
+    ViewModel/SambaConfigExternalDevice3.cpp \
+    ViewModel/SambaConfigLocal.cpp \
+    ViewModel/SambaConfigGlobal.cpp \
+    ViewModel/FtpConfig.cpp \
+    ViewModel/MassStorage.cpp \
+    ViewModel/MultimediaConfig.cpp \
+    ViewModel/ScreenSaver.cpp \
+    ViewModel/NapiManager.cpp \
+    ViewModel/SettingsScreenSaver.cpp \
+    ViewModel/SettingsPackages.cpp \
+    ViewModel/AlarmConfig.cpp \
+    ViewModel/SettingsStatus.cpp \
+    Bluetoothctl.cpp \
+    ScreenSaverManager.cpp \
+    start.cpp
 
 
 RESOURCES += resources/qml.qrc
@@ -56,21 +56,20 @@ target.path = /opt
 INSTALLS += target
 
 HEADERS += \
-    src/ViewModel/MainWindow.h \
-    src/ViewModel/SambaConfig.h \
-    src/ViewModel/FtpConfig.h \
-    src/Bluetoothctl.h \
-    src/ViewModel/MassStorage.h \
-    src/ViewModel/MultimediaConfig.h \
-    src/ViewModel/Quotes.h \
-    src/ScreenSaverManager.h \
-    src/ViewModel/ScreenSaver.h \
-    src/ViewModel/NapiManager.h \
-    src/ViewModel/SettingsScreenSaver.h \
-    src/ViewModel/SettingsPackages.h \
-    src/ViewModel/AlarmConfig.h \
-    src/ViewModel/SettingsStatus.h
-
+    ViewModel/MainWindow.h \
+    ViewModel/SambaConfig.h \
+    ViewModel/FtpConfig.h \
+    ViewModel/MassStorage.h \
+    ViewModel/MultimediaConfig.h \
+    ViewModel/Quotes.h \
+    ViewModel/ScreenSaver.h \
+    ViewModel/NapiManager.h \
+    ViewModel/SettingsScreenSaver.h \
+    ViewModel/SettingsPackages.h \
+    ViewModel/AlarmConfig.h \
+    ViewModel/SettingsStatus.h \
+    Bluetoothctl.h \
+    ScreenSaverManager.h
 
 FORMS +=
 

@@ -8,27 +8,28 @@ LIBS += -lQtSystemd
 
 
 SOURCES += \
-    src/ConfigFile.cpp \
-    src/ViewModel/SettingsIpAddress.cpp \
-    src/ViewModel/SettingsWifi.cpp \
-    src/EditFtpConfigFile.cpp \
-    src/EditWifiConfigFile.cpp \
-    src/EditDlnaConfigFile.cpp \
-    src/EditMpdConfigFile.cpp \
-    src/EditScreenSaverConfigFile.cpp \
-    src/EditAlarmConfigFile.cpp \
-    src/ManagementOfExternalDevices.cpp \
-    src/VectorData.cpp
+    ConfigFile/AlarmConfigFile.cpp \
+    ConfigFile/ConfigFile.cpp \
+    ConfigFile/DlnaConfigFile.cpp \
+    ConfigFile/FtpConfigFile.cpp \
+    ConfigFile/MpdConfigFile.cpp \
+    ConfigFile/ScreenSaverConfigFile.cpp \
+    ConfigFile/WifiConfigFile.cpp \
+    ViewModel/SettingsIpAddress.cpp \
+    ViewModel/SettingsWifi.cpp \
+    Utils/VectorData.cpp \
+    ManagementOfExternalDevices.cpp
 
 HEADERS += \
-    src/ConfigFile.h \
-    src/ViewModel/SettingsIpAddress.h \
-    src/ViewModel/SettingsWifi.h \
-    src/EditFtpConfigFile.h \
-    src/EditWifiConfigFile.h \
-    src/EditDlnaConfigFile.h \
-    src/EditMpdConfigFile.h \
-    src/EditScreenSaverConfigFile.h \
-    src/ManagementOfExternalDevices.h \
-    src/EditAlarmConfigFile.h \
-    src/VectorData.h
+    ConfigFile/AlarmConfigFile.h \
+    ConfigFile/ConfigFile.h \
+    ConfigFile/DlnaConfigFile.h \
+    ConfigFile/FtpConfigFile.h \
+    ConfigFile/IFileManager.h \
+    ConfigFile/MpdConfigFile.h \
+    ConfigFile/ScreenSaverConfigFile.h \
+    ConfigFile/WifiConfigFile.h \
+    ViewModel/SettingsIpAddress.h \
+    ViewModel/SettingsWifi.h \
+    Utils/VectorData.h \
+    ManagementOfExternalDevices.h

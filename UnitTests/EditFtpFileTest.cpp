@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <QDebug>
-#include "../MediaServerLib/src/EditFtpConfigFile.h"
+#include "../MediaServerLib/src/FtpConfigFile.h"
 
 
 class openFtpFileTest : public ::testing::Test {
