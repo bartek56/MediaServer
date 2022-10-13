@@ -29,18 +29,16 @@ bool MpdConfigFile::OpenFile(VectorData& mConfigsParameters)
     return true;
 }
 
-void MpdConfigFile::SaveFile(const VectorData &mConfigs)
+bool MpdConfigFile::SaveFile(const VectorData &mConfigs)
 {
     QString dataToFile;
     for (const auto& [key, value] : mConfigs)
     {
         QString lineData;
         lineData = key + " \"" + value + "\"\n";
-        dataToFile.push_front(lineData);
+        dataToFile.push_back(lineData);
     }
 
     bool result = fileManager->save(dataToFile);
-
-    if(result)
-        qDebug() << "succesfully saved MPD file";
+    return result;
 }

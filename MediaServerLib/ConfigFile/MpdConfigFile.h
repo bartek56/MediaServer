@@ -14,7 +14,7 @@ public:
     MpdConfigFile(std::shared_ptr<IFileManager> ptrFileManager);
 
     bool OpenFile(VectorData& fileData);
-    void SaveFile(const VectorData& mConfigs);
+    bool SaveFile(const VectorData& mConfigs);
 
 private:
     std::shared_ptr<IFileManager> fileManager;

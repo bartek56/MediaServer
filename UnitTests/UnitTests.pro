@@ -10,6 +10,8 @@ DEFINES += PATH_TO_TEST_FILES=\\\"$$PWD\\\"
 HEADERS += \
     ../MediaServerLib/Utils/VectorData.h \
     ../MediaServerLib/ConfigFile/IFileManager.h \
+    ../MediaServerLib/ConfigFile/AlarmConfigFile.h \
+    ../MediaServerLib/ConfigFile/MpdConfigFile.h \
     Mock/MockFileManager.h
 
 SOURCES += \

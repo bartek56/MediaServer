@@ -8,6 +8,7 @@
 
 class AlarmConfigFileTest : public ::testing::Test {
 };
+
 TEST_F(AlarmConfigFileTest, readNotCall)
 {
     std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
@@ -80,7 +81,6 @@ TEST_F(AlarmConfigFileTest, readIncorrectFile)
 
 TEST_F(AlarmConfigFileTest, readWholeFileData)
 {
-
     std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
 
     QString checkData =
@@ -156,8 +156,6 @@ TEST_F(AlarmConfigFileTest, saveWholeFileData)
                       }
               ));
 
-
-
     AlarmConfigFile editAlarmConfigFile(mockReadFile);
 
     VectorData fileData;
@@ -181,4 +179,41 @@ TEST_F(AlarmConfigFileTest, saveWholeFileData)
     EXPECT_EQ(list[2].toStdString(), "playlist=\"alarm\"");
     EXPECT_EQ(list[3].toStdString(), "theNewestSong=true");
 }
+
+class AlarmConfigFileTestParam : public ::testing::TestWithParam<std::string>
+{
+};
+
+TEST_P(AlarmConfigFileTestParam, readFileFailed)
+{
+    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+
+    auto param = GetParam();
+    EXPECT_CALL(*mockReadFile, read(testing::_))
+            .Times(1)
+            .WillOnce(testing::Invoke([&](QString& fileData)
+                      {
+                          fileData = QString::fromStdString(param);
+                          return true;
+                      }
+              ));
+
+    AlarmConfigFile alarmConfigFile(mockReadFile);
+
+    VectorData fileData;
+
+    auto result = alarmConfigFile.LoadConfiguration(fileData);
+
+    EXPECT_FALSE(result);
+}
+
+INSTANTIATE_TEST_SUITE_P(readFileFailed, AlarmConfigFileTestParam,
+                        ::testing::Values(
+"minVolume 5",
+
+"minVolume=5\n\
+maxVolume10",
+
+"minVolume5"
+));
 

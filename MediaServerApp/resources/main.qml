@@ -165,7 +165,7 @@ Rectangle{
         active: true
     }
 
-    MainWindow
+    MainWindowView
     {
         id:mainWindow
     }
