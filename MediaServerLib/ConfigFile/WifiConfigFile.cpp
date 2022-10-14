@@ -1,10 +1,11 @@
 #include "WifiConfigFile.h"
 #include <QFile>
 #include <QTextStream>
+#include <ConfigFile/IConfigFile.h>
 
 std::vector<WifiConfigsName> WifiConfigFile::OpenFile()
 {
-    QFile file (WIFI_CONFIG_FILE);
+    QFile file (WPA_CONFIG_FILE);
     std::vector<WifiConfigsName> vConfigsName;
     std::map<QString, QString> mConfigsParameters;
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))

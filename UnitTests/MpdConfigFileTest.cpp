@@ -1,19 +1,19 @@
 #include <gtest/gtest.h>
-#include <QDebug>
+#include <QStringList>
 #include "../MediaServerLib/ConfigFile/MpdConfigFile.h"
 #include "Mock/MockFileManager.h"
 
-class MpdConfigFileTest : public ::testing::Test {
+class MpdConfigFileTest : public ::testing::Test
+{
 };
 
 TEST_F(MpdConfigFileTest, readNotCall)
 {
     std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
 
-    MpdConfigFile editMpdConfigFile(mockReadFile);
+    MpdConfigFile mpdConfigFile(mockReadFile);
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
-            .Times(0);
+    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(0);
 }
 
 TEST_F(MpdConfigFileTest, readFileOneLine)
@@ -24,18 +24,18 @@ TEST_F(MpdConfigFileTest, readFileOneLine)
 
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](QString& fileData)
-                      {
-                          fileData = checkData;
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](QString &fileData)
+                    {
+                        fileData = checkData;
+                        return true;
+                    }));
 
-    MpdConfigFile editMpdConfigFile(mockReadFile);
+    MpdConfigFile mpdConfigFile(mockReadFile);
 
     VectorData fileData;
 
-    auto result = editMpdConfigFile.OpenFile(fileData);
+    auto result = mpdConfigFile.LoadConfiguration(fileData);
     EXPECT_TRUE(result);
     EXPECT_EQ(fileData.size(), std::size_t(1));
 
@@ -47,31 +47,30 @@ TEST_F(MpdConfigFileTest, readIncorrectFile)
 {
     std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
 
-    QString checkData =
-           "music_directory\"/home/Music\"\n"
-           "playlist_directory \"/home/Music/playlists\"\n"
-            "auto_update \"yes\"\n"
-            "\n"
-            "\n"
-            "audio_output { \n"
-            "    type \"pulse\" \n"
-            "    name \"Local Pulse\" \n"
-            "} \n";
+    QString checkData = "music_directory\"/home/Music\"\n"
+                        "playlist_directory \"/home/Music/playlists\"\n"
+                        "auto_update \"yes\"\n"
+                        "\n"
+                        "\n"
+                        "audio_output { \n"
+                        "    type \"pulse\" \n"
+                        "    name \"Local Pulse\" \n"
+                        "} \n";
 
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](QString& fileData)
-                      {
-                          fileData = checkData;
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](QString &fileData)
+                    {
+                        fileData = checkData;
+                        return true;
+                    }));
 
-    MpdConfigFile editMpdConfigFile(mockReadFile);
+    MpdConfigFile mpdConfigFile(mockReadFile);
 
     VectorData fileData;
 
-    auto result = editMpdConfigFile.OpenFile(fileData);
+    auto result = mpdConfigFile.LoadConfiguration(fileData);
 
     EXPECT_FALSE(result);
 }
@@ -80,31 +79,30 @@ TEST_F(MpdConfigFileTest, readWholeFileData)
 {
     std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
 
-    QString checkData =
-           "music_directory \"/home/Music\"\n"
-           "playlist_directory \"/home/Music/playlists\"\n"
-            "auto_update \"yes\"\n"
-            "\n"
-            "\n"
-            "audio_output { \n"
-            "    type \"pulse\" \n"
-            "    name \"Local Pulse\" \n"
-            "} \n";
+    QString checkData = "music_directory \"/home/Music\"\n"
+                        "playlist_directory \"/home/Music/playlists\"\n"
+                        "auto_update \"yes\"\n"
+                        "\n"
+                        "\n"
+                        "audio_output { \n"
+                        "    type \"pulse\" \n"
+                        "    name \"Local Pulse\" \n"
+                        "} \n";
 
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](QString& fileData)
-                      {
-                          fileData = checkData;
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](QString &fileData)
+                    {
+                        fileData = checkData;
+                        return true;
+                    }));
 
-    MpdConfigFile editMpdConfigFile(mockReadFile);
+    MpdConfigFile mpdConfigFile(mockReadFile);
 
     VectorData fileData;
 
-    auto result = editMpdConfigFile.OpenFile(fileData);
+    auto result = mpdConfigFile.LoadConfiguration(fileData);
 
     EXPECT_TRUE(result);
 
@@ -122,7 +120,6 @@ TEST_F(MpdConfigFileTest, readWholeFileData)
     it = std::next(it);
     EXPECT_EQ(it->key.toStdString(), "auto_update");
     EXPECT_EQ(it->value.toStdString(), "yes");
-
 }
 
 TEST_F(MpdConfigFileTest, saveWholeFileData)
@@ -133,18 +130,18 @@ TEST_F(MpdConfigFileTest, saveWholeFileData)
 
     EXPECT_CALL(*mockReadFile, save(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](const QString& fileData)
-                      {
-                          savingData = fileData;
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](const QString &fileData)
+                    {
+                        savingData = fileData;
+                        return true;
+                    }));
 
     MpdConfigFile mpdConfigFile(mockReadFile);
 
     VectorData fileData;
-    fileData.push_back(ConfigData("music_directory","/mnt/TOSHIBA EXT/muzyka"));
-    fileData.push_back(ConfigData("playlist_directory","/mnt/TOSHIBA EXT/muzyka"));
+    fileData.push_back(ConfigData("music_directory", "/mnt/TOSHIBA EXT/muzyka"));
+    fileData.push_back(ConfigData("playlist_directory", "/mnt/TOSHIBA EXT/muzyka"));
     fileData.push_back(ConfigData("db_file", "/var/lib/mpd/mpd.db"));
     fileData.push_back(ConfigData("log_file", "/var/log/mpd.log"));
     fileData.push_back(ConfigData("pid_file", "/var/run/mpd.pid"));
@@ -152,12 +149,12 @@ TEST_F(MpdConfigFileTest, saveWholeFileData)
     fileData.push_back(ConfigData("auto_update", "yes"));
     fileData.push_back(ConfigData("mixer_type", "software"));
 
-    auto result = mpdConfigFile.SaveFile(fileData);
+    auto result = mpdConfigFile.SaveConfiguration(fileData);
 
     EXPECT_TRUE(result);
 
     QStringList list = savingData.split("\n");
-    list.pop_back(); // remove last empty QString - reason of split
+    list.pop_back();// remove last empty QString - reason of split
 
     EXPECT_EQ(list.size(), 8);
 
@@ -182,29 +179,26 @@ TEST_P(MpdConfigFileTestParam, readFileFailed)
     auto param = GetParam();
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](QString& fileData)
-                      {
-                          fileData = QString::fromStdString(param);
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](QString &fileData)
+                    {
+                        fileData = QString::fromStdString(param);
+                        return true;
+                    }));
 
     MpdConfigFile editMpdConfigFile(mockReadFile);
 
     VectorData fileData;
 
-    auto result = editMpdConfigFile.OpenFile(fileData);
+    auto result = editMpdConfigFile.LoadConfiguration(fileData);
 
     EXPECT_FALSE(result);
 }
 
 INSTANTIATE_TEST_SUITE_P(readFileFailed, MpdConfigFileTestParam,
-                        ::testing::Values(
-"auto_update\"yes\"",
+                         ::testing::Values("auto_update\"yes\"",
 
-"auto_update \"yes\"\n\
+                                           "auto_update \"yes\"\n\
 music_directory=\"/home/music\"",
 
-"gfgfgf"
-));
-
+                                           "gfgfgf"));

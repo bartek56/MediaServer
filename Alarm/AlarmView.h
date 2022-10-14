@@ -24,7 +24,6 @@ private:
     const QString ALARM_SNOOZE_SERVICE = "alarm_snooze.service";
     const QString ALARM_SNOOZE_TIMER = "alarm_snooze.timer";
 
-    QString CONFIG_PATH = "/etc/mediaserver";
     AlarmConfigFile editAlarmConfigFile;
 };
 

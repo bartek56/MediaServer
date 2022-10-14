@@ -17,7 +17,6 @@ struct WifiConfigsName {
 class WifiConfigFile
 {
 private:
-   const QString WIFI_CONFIG_FILE="/etc/mediaserver/wpa_supplicant.conf";
 
 public:
     //WifiConfigFile();

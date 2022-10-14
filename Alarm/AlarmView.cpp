@@ -6,9 +6,9 @@
 #include <QDateTime>
 #include <QtSystemd/unit.h>
 #include <QtSystemd/sdmanager.h>
-#include <QApplication>
 
-AlarmView::AlarmView(QObject *parent) : QObject(parent), editAlarmConfigFile(std::make_shared<ConfigFile>("/etc/mediaserver/alarm.sh"))
+AlarmView::AlarmView(QObject *parent) : QObject(parent)
+  ,editAlarmConfigFile(std::make_shared<ConfigFile>(ALARM_CONFIG_FILE))
 {
     auto state = Systemd::getUnitFileState(Systemd::System, ALARM_SNOOZE_SERVICE);
 
@@ -29,7 +29,7 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent), editAlarmConfigFile(std
     }
     else
     {
-        qDebug() << "alarm service not exist";
+        qWarning() << "alarm service not exist";
     }
 }
 
@@ -72,7 +72,7 @@ void AlarmView::snooze15min()
 
 void AlarmView::snooze(int min)
 {
-    QFile file(CONFIG_PATH + "/" + ALARM_SNOOZE_TIMER);
+    QFile file(QString(CONFIG_PATH) + "/" + ALARM_SNOOZE_TIMER);
 
     QStringList vUsers;
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))

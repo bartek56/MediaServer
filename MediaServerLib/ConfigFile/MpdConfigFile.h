@@ -1,24 +1,22 @@
 #ifndef EDITMPDCONFIGFILE_H
 #define EDITMPDCONFIGFILE_H
 
+#include "IFileManager.h"
+#include "IConfigFile.h"
+
 #include <QString>
 #include <memory>
 
-
-#include "IFileManager.h"
-#include "../Utils/VectorData.h"
-
-class MpdConfigFile
+class MpdConfigFile : public IConfigFile
 {
 public:
     MpdConfigFile(std::shared_ptr<IFileManager> ptrFileManager);
 
-    bool OpenFile(VectorData& fileData);
-    bool SaveFile(const VectorData& mConfigs);
+    bool LoadConfiguration(VectorData& fileData) override;
+    bool SaveConfiguration(const VectorData& mConfigs) override;
 
 private:
     std::shared_ptr<IFileManager> fileManager;
-    const QString MPDCONFIG_PATH="/etc/mediaserver/mpd.conf";
 };
 
 #endif // EDITMPDCONFIGFILE_H

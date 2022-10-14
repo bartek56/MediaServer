@@ -25,11 +25,11 @@ public:
     Q_INVOKABLE void setVideoPath(QObject *object);
 
 private:
-    const QString NAPI_CONFIG_FILE = "/etc/mediaserver/qnapi.ini";
     QString filePath;
     QString folderPath;
     QString fileName;
-    DlnaConfigFile editDlnaConfigFile;
+    DlnaConfigFile dlnaConfigFile;
+    VectorData dlnaConfig;
     NapiConfig napiConfig;
 };
 

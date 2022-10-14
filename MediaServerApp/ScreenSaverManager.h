@@ -15,7 +15,7 @@ public:
 signals:
 
 private:
-    ScreenSaverConfigFile editScreenSaverConfigFile;
+    ScreenSaverConfigFile screenSaverConfigFile;
 };
 
 class ScreenSaverHelper: public QObject{

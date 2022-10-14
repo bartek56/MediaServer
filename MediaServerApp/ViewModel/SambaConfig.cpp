@@ -1,5 +1,5 @@
 #include "SambaConfig.h"
-
+#include "ConfigFile/IConfigFile.h"
 #include <QDebug>
 #include <QObject>
 #include <QFile>
@@ -171,7 +171,7 @@ void SambaConfig::bSave_onClicked()
 
     settings.sync();
     QProcess::startDetached("/bin/bash", QStringList() << "-c"
-                                                       << "sed -i 's/%20/ /g' " + SAMBA_CONFIG_FILE + " ");
+                                                       << "sed -i 's/%20/ /g' " + QString(SAMBA_CONFIG_FILE) + " ");
 
     if(isServiceActive())
     {

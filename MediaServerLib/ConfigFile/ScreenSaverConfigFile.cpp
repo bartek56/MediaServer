@@ -1,45 +1,47 @@
 #include "ScreenSaverConfigFile.h"
+#include "IConfigFile.h"
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
 
-std::map<QString,QString> ScreenSaverConfigFile::LoadConfiguration()
+ScreenSaverConfigFile::ScreenSaverConfigFile(std::shared_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
 {
-    std::map<QString,QString> mConfigsParameters;
-    QFile fileToRead(fileLocation);
-
-    if (fileToRead.open(QIODevice::ReadOnly))
-    {
-        while (!fileToRead.atEnd())
-        {
-            QByteArray line = fileToRead.readLine();
-
-            auto parameter = line.split('=');
-            auto parameterName = parameter[0];
-            auto parameterValue = parameter[1];
-            parameterValue.remove(parameterValue.length()-2,2);
-            parameterValue.remove(0,1);
-            mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
-        }
-    }
-
-    fileToRead.close();
-    return mConfigsParameters;
 }
 
-void ScreenSaverConfigFile::SaveConfiguration(const std::map<QString,QString> &mConfigsParameters)
+bool ScreenSaverConfigFile::LoadConfiguration(VectorData &configs)
 {
-    QFile file(fileLocation);
+    QString fileData = "";
+    fileManager->read(fileData);
 
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-
-    QTextStream out(&file);
-
-    for (auto it = std::begin(mConfigsParameters); it!=std::end(mConfigsParameters); ++it)
+    QStringList lines = fileData.split('\n');
+    for(int i = 0; i < lines.size(); i++)
     {
-        out << it->first << "='" << it->second << "'\n";
+        auto line = lines[i];
+        if(line < 2)
+            break;
+        auto parameter = line.split('=');
+        if(parameter.size() != 2)
+            return false;
 
+        auto parameterName = parameter[0];
+        auto parameterValue = parameter[1];
+        parameterValue.remove(parameterValue.length() - 1, 1);
+        parameterValue.remove(0, 1);
+        configs.push_back(ConfigData(parameterName, parameterValue));
     }
-    file.close();
+    return true;
+}
+
+bool ScreenSaverConfigFile::SaveConfiguration(const VectorData &configs)
+{
+    QString dataToFile;
+    for(const auto &[key, value] : configs)
+    {
+        QString lineData;
+        lineData = key + "=\"" + value + "\"\n";
+        dataToFile.push_back(lineData);
+    }
+
+    bool result = fileManager->save(dataToFile);
+    return result;
 }

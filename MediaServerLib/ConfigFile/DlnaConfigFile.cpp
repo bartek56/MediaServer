@@ -1,62 +1,66 @@
 #include "DlnaConfigFile.h"
+
 #include <QFile>
 #include <QDebug>
 
-std::map<QString, QString> DlnaConfigFile::OpenFile()
+DlnaConfigFile::DlnaConfigFile(std::shared_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
+{}
+
+
+
+bool DlnaConfigFile::LoadConfiguration(VectorData& configuration)
 {
-
-    QFile file(DLNA_CONFIG);
-
-    std::map<QString, QString> mConfigsParameters;
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return mConfigsParameters;
-
-    QByteArray parameterName;
-
-    while (!file.atEnd())
+    QString fileData="";
+    const bool res = fileManager->read(fileData);
+    if (!res)
     {
-        QByteArray line = file.readLine();
-        std::string strLine(line);
+        qDebug() << "Error to read File";
+        return false;
+    }
+
+    QStringList lines = fileData.split('\n');
+
+    for (int i = 0; i<lines.size(); i++)
+    {
+        QString line = lines[i];
+        if (line <= 2)
+            break;
         if(line.contains("media_dir"))
         {
             auto parameter = line.split(',');
+            if(parameter.size()<2)
+                return false;
             auto parameterName = parameter[0];
             auto parameterValue = parameter[1];
-            parameterValue.remove(parameterValue.length()-1,1);
-            mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
+            configuration.push_back(ConfigData(parameterName,parameterValue));
         }
         else
         {
             auto parameter = line.split('=');
+            if(parameter.size()<2)
+                return false;
             auto parameterName = parameter[0];
             auto parameterValue = parameter[1];
-            parameterValue.remove(parameterValue.length()-1,1);
-            mConfigsParameters.insert(std::make_pair(parameterName,parameterValue));
+            configuration.push_back(ConfigData(parameterName,parameterValue));
         }
     }
-    return mConfigsParameters;
+    return true;
 }
 
-void DlnaConfigFile::SaveFile(const std::map<QString, QString> &mConfigs)
+bool DlnaConfigFile::SaveConfiguration(const VectorData &mConfigsParameters)
 {
-    QFile file(DLNA_CONFIG);
-
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-
-    QTextStream out(&file);
-
-    for (auto it = std::begin(mConfigs); it!=std::end(mConfigs); ++it)
+    QString dataToFile;
+    for (const auto& configParam : mConfigsParameters)
     {
-        if(it->first.contains("media_dir"))
-        {
-            out << it->first << "," << it->second << "\n";
-        }
+        QString lineData;
+        if (configParam.key.contains("media_dir"))
+            lineData = configParam.key + "," + configParam.value + "\n";
         else
-        {
-            out << it->first << "=" << it->second << "\n";
-        }
+            lineData = configParam.key + "=" + configParam.value + "\n";
 
+        dataToFile.push_back(lineData);
     }
-    file.close();
+
+    bool result = fileManager->save(dataToFile);
+    return result;
 }

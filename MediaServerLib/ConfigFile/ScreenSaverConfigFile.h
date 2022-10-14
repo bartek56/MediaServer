@@ -1,17 +1,21 @@
 #ifndef EDITSCREENSAVERCONFIGFILE_H
 #define EDITSCREENSAVERCONFIGFILE_H
 
+#include "IConfigFile.h"
+#include "IFileManager.h"
+
 #include <QString>
-#include <map>
+#include <memory>
 
-class ScreenSaverConfigFile
+class ScreenSaverConfigFile : public IConfigFile
 {
-private:
-    QString fileLocation = "/etc/mediaserver/screensaver.conf";
-
 public:
-    void SaveConfiguration(const std::map<QString,QString> &mConfigsParameters);
-    std::map<QString,QString> LoadConfiguration();
+    ScreenSaverConfigFile(std::shared_ptr<IFileManager> ptreFileManager);
+    bool LoadConfiguration(VectorData &mConfigsParameters) override;
+    bool SaveConfiguration(const VectorData& configs) override;
+private:
+    std::shared_ptr<IFileManager> fileManager;
+
 };
 
 #endif // EDITSCREENSAVERCONFIGFILE_H

@@ -7,8 +7,8 @@
 class ScreenSaver : public QObject
 {
 private:
-    ScreenSaverConfigFile editScreenSaverConfigFile;
-    std::map<QString,QString> mConfigsParameters;
+    ScreenSaverConfigFile screenSaverConfigFile;
+    VectorData screenSaverConfigs;
 
     Q_OBJECT
 public:

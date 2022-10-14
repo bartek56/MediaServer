@@ -21,6 +21,7 @@ SOURCES += \
     ManagementOfExternalDevices.cpp
 
 HEADERS += \
+    ConfigFile/IConfigFile.h \
     ConfigFile/AlarmConfigFile.h \
     ConfigFile/ConfigFile.h \
     ConfigFile/DlnaConfigFile.h \

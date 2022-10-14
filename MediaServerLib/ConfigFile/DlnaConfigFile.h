@@ -1,18 +1,20 @@
 #ifndef EDITDLNACONFIGFILE_H
 #define EDITDLNACONFIGFILE_H
-#include <map>
-#include <vector>
-#include <QString>
 
+#include "IFileManager.h"
+#include "IConfigFile.h"
 
-class DlnaConfigFile
+#include <memory>
+
+class DlnaConfigFile : public IConfigFile
 {
-private:
-    const QString DLNA_CONFIG = "/etc/mediaserver/minidlna.conf";
 public:
-    //DlnaConfigFile();
-    std::map<QString, QString>  OpenFile();
-    void SaveFile(const std::map<QString, QString> &mConfigs);
+    DlnaConfigFile(std::shared_ptr<IFileManager> ptrFileManager);
+    bool SaveConfiguration(const VectorData &mConfigsParameters) override;
+    bool LoadConfiguration(VectorData &configuration) override;
+
+private:
+    std::shared_ptr<IFileManager> fileManager;
 };
 
 #endif // EDITDLNACONFIGFILE_H

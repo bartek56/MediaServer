@@ -8,10 +8,9 @@ class SettingsScreensaver : public QObject
 {
 private:
     // Screensaver
-    ScreenSaverConfigFile editScreenSaverConfigFile;
-    std::map<QString, QString> mScreenSaverConfigs;
+    ScreenSaverConfigFile screenSaverConfigFile;
+    VectorData screenSaverConfigs;
     int ConvertTimeFromMiliSecStringToMinutesInt(QString milisec);
-
 
     Q_OBJECT
 public:

@@ -1,24 +1,26 @@
 #ifndef EDITALARMCONFIGFILE_H
 #define EDITALARMCONFIGFILE_H
 
+#include "IFileManager.h"
+#include "IConfigFile.h"
+
+#include "../Utils/VectorData.h"
+
 #include <QString>
 #include <memory>
 #include <unordered_map>
 
-#include "../Utils/VectorData.h"
-#include "IFileManager.h"
-
-class AlarmConfigFile {
+class AlarmConfigFile : public IConfigFile
+{
 public:
 
   AlarmConfigFile(std::shared_ptr<IFileManager> ptrFileManager);
 
-  bool SaveConfiguration(const VectorData &mConfigsParameters);
-  bool LoadConfiguration(VectorData &configuration);
+  bool SaveConfiguration(const VectorData &mConfigsParameters) override;
+  bool LoadConfiguration(VectorData &configuration) override;
 
 private:
   std::shared_ptr<IFileManager> fileManager;
-  const QString ALARM_SCRIPT = "/etc/mediaserver/alarm.sh";
 };
 
 #endif // EDITALARMCONFIGFILE_H

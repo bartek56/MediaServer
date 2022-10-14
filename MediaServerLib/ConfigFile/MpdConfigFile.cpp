@@ -7,7 +7,7 @@ MpdConfigFile::MpdConfigFile(std::shared_ptr<IFileManager> ptrFileManager) : fil
 {
 }
 
-bool MpdConfigFile::OpenFile(VectorData& mConfigsParameters)
+bool MpdConfigFile::LoadConfiguration(VectorData &mConfigsParameters)
 {
     QString fileData="";
     fileManager->read(fileData);
@@ -29,7 +29,7 @@ bool MpdConfigFile::OpenFile(VectorData& mConfigsParameters)
     return true;
 }
 
-bool MpdConfigFile::SaveFile(const VectorData &mConfigs)
+bool MpdConfigFile::SaveConfiguration(const VectorData &mConfigs)
 {
     QString dataToFile;
     for (const auto& [key, value] : mConfigs)

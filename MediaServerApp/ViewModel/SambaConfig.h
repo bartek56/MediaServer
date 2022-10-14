@@ -197,7 +197,6 @@ public:
     Q_INVOKABLE void loadAllConfigs();
 
 private:
-    const QString SAMBA_CONFIG_FILE = "/etc/mediaserver/smb.conf";
     const QString SMB_SERVICE = "smb.service";
     const QString NMB_SERVICE = "nmb.service";
 

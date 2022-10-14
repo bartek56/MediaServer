@@ -38,8 +38,6 @@ public:
 
 private:
     // IP Adress
-    const QString ETHERNET_CONFIG_FILE = "/etc/mediaserver/10-wired.network";
-    const QString WIFI_CONFIG_FILE = "/etc/mediaserver/20-wireless.network";
     std::shared_ptr<NetworkConfig> wifiSettings;
     std::shared_ptr<NetworkConfig> ethSettings;
     std::shared_ptr<NetworkConfig> ipSettings;

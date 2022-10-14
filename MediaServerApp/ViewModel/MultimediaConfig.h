@@ -22,6 +22,7 @@ public:
 
 private:
     bool isServiceActive(QString serviceName);
+    void restartService(const QString &service);
 
     //dlna
     const QString PORT = "port";
@@ -31,19 +32,16 @@ private:
     const QString NAME = "friendly_name";
     const QString DLNA_SERVICE = "minidlnad.service";
     bool systemdDlnaSupport = false;
+    DlnaConfigFile dlnaConfigFile;
+    VectorData dlnaConfigs;
 
     //mpd
     const QString MUSIC_DIRECTORY = "music_directory";
     const QString PLAYLIST_DIRECTORY = "playlist_directory";
     const QString MPD_SERVICE = "mpd.service";
     bool systemdMpdSupport = false;
-
-    DlnaConfigFile editDlnaConfigFile;
-    std::map<QString, QString> mDlnaConfigs;
-
-    MpdConfigFile editMpdConfigFile;
-    VectorData mMpdConfigs;
-    void restartService(const QString &service);
+    MpdConfigFile mpdConfigFile;
+    VectorData mpdConfigs;
 };
 
 #endif// DLNACONFIG_H

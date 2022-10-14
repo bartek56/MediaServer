@@ -1,4 +1,5 @@
 #include "NapiManager.h"
+#include "ConfigFile/ConfigFile.h"
 #include <QtQuick>
 #include <QProcess>
 #include <QDir>
@@ -7,6 +8,7 @@
 #include <QFile>
 
 NapiManager::NapiManager(QObject *parent) : QObject(parent)
+  , dlnaConfigFile(std::make_shared<ConfigFile>(MINIDLNA_CONFIG_FILE))
 {
 }
 
@@ -29,10 +31,16 @@ void NapiManager::init(QObject *englishLanguageRadioButton, QObject *polishLangu
 
 void NapiManager::setVideoPath(QObject *object)
 {
-    auto dlnaConfig = editDlnaConfigFile.OpenFile();
-    QString videoPath = "file://";
-    videoPath += dlnaConfig.at("media_dir=V");
-    object->setProperty("videoPath", QVariant(videoPath));
+    if(dlnaConfigFile.LoadConfiguration(dlnaConfig))
+    {
+        QString videoPath = "file://";
+        videoPath += dlnaConfig.getValueByKey("media_dir=V");
+        object->setProperty("videoPath", QVariant(videoPath));
+    }
+    else
+    {
+        qFatal("Failed to read dlna config");
+    }
 }
 
 void NapiManager::bNapiFileDialog_onAccepted(const QString folderPathFileDialog, const QString fileNameFileDialog)
@@ -60,7 +68,7 @@ void NapiManager::bDownload_onClicked(QObject *text)
     settings.setValue("qnapi/language", QVariant(napiConfig.language));
     settings.sync();
     QProcess process;
-    QString commend = "cd /etc/mediaserver && qnapi -q \"" + filePath + "\"";
+    QString commend = "cd " + QString(CONFIG_PATH) + " && qnapi -q \"" + filePath + "\"";
     QStringList commend_new;
     commend_new << "-c" << commend;
     process.start("bash", commend_new);

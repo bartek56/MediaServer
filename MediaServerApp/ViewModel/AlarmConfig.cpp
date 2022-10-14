@@ -1,10 +1,11 @@
 #include "AlarmConfig.h"
 #include "ConfigFile/ConfigFile.h"
+#include "ConfigFile/IConfigFile.h"
 
 #include <QtSystemd/sdmanager.h>
 #include <QtSystemd/unit.h>
 
-AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent), editAlarmConfigFile(std::make_shared<ConfigFile>("/etc/mediaserver/alarm.sh"))
+AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent), editAlarmConfigFile(std::make_shared<ConfigFile>(ALARM_CONFIG_FILE))
 {
     Systemd::getUnit(Systemd::System, ALARM_SERVICE);//support QDBusAbstractInterfaceSupport
 
@@ -14,7 +15,7 @@ AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent), editAlarmConfigFile
         systemdAlarmSupport = true;
     else
     {
-        qDebug() << "alarm systemd not support";
+        qWarning() << "alarm systemd not support";
     }
 }
 
@@ -107,7 +108,7 @@ void AlarmConfig::checkAlarmService(QObject *enableAlarmSwitch)
 void AlarmConfig::loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, QObject *wedCheckBox, QObject *thuCheckBox, QObject *friCheckBox, QObject *satCheckBox, QObject *sunCheckBox,
                                    QObject *timeHHSpinBox, QObject *timeMMSpinBox)
 {
-    QFile file(CONFIG_PATH + "/" + ALARM_TIMER);
+    QFile file(QString(CONFIG_PATH) + "/" + ALARM_TIMER);
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
@@ -174,7 +175,7 @@ void AlarmConfig::switchEnableAlarm_onClicked(const bool isEnable)
 void AlarmConfig::bStartTestAlarm_onClicked()
 {
     testAlarmProcess.setProcessChannelMode(QProcess::SeparateChannels);
-    testAlarmProcess.start("bash", QStringList() << "-c" << ALARM_SCRIPT);
+    testAlarmProcess.start("bash", QStringList() << "-c" << QString(ALARM_CONFIG_FILE));
 }
 
 void AlarmConfig::bStopTestAlarm_onClicked()
@@ -246,7 +247,7 @@ void AlarmConfig::bSaveAlarmService_onClicked(const bool monCheckBox, const bool
 
 void AlarmConfig::saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time)
 {
-    QFile file(CONFIG_PATH + "/" + ALARM_TIMER);
+    QFile file(QString(CONFIG_PATH) + "/" + ALARM_TIMER);
 
     QStringList strings;
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
