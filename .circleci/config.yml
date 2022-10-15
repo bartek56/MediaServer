@@ -5,9 +5,7 @@ jobs:
       - checkout
       - run:
           name: Install Qt5
-          command: |
-            sudo apt-get install libsystemd-dev qtbase5-dev qtdeclarative5-dev qt5-qmake
+          command: sudo apt-get install libsystemd-dev qtbase5-dev qtdeclarative5-dev qt5-qmake
       - run:
           name: Build app
-          command: |
-            qmake
+          command: qmake
