@@ -1,16 +1,16 @@
 #include "SettingsWifi.h"
+#include "ConfigFile/ConfigFile.h"
 
 #include <QDebug>
-#include <QFile>
 #include <QtSystemd/sdmanager.h>
 #include <QtSystemd/unit.h>
 #include <bitset>
-#include <map>
+#include <memory>
 
-SettingsWifi::SettingsWifi(QObject *parent) : QObject(parent)
+
+SettingsWifi::SettingsWifi(QObject *parent) : QObject(parent), wifiConfigFile(std::make_shared<ConfigFile>(WPA_CONFIG_FILE))
 {
 }
-
 
 void SettingsWifi::updateWifiStatus(QObject *obj)
 {
@@ -59,12 +59,11 @@ void SettingsWifi::searchNetworks(QObject *obj)
 void SettingsWifi::connect(const QString networkName, const QString password)
 {
     bool networkExist = false;
-    for(auto iter = vWifiConfigs.begin(); iter != vWifiConfigs.end(); ++iter)
+    for(auto iter = vSsidConfig.begin(); iter != vSsidConfig.end(); ++iter)
     {
-        auto &mConfigs = iter->configs;
-        if(mConfigs.at("ssid") == networkName)
+        if(iter->getValueByKey("ssid") == networkName)
         {
-            mConfigs.at("psk") = password;
+            iter->setValueByKey("psk", password);
             networkExist = true;
             break;
         }
@@ -72,14 +71,16 @@ void SettingsWifi::connect(const QString networkName, const QString password)
 
     if(!networkExist)
     {
-        std::vector<WifiConfigsName> vConfigsName;
-        std::map<QString, QString> mConfigsParameters;
-        mConfigsParameters.insert(std::make_pair("ssid", networkName));
-        mConfigsParameters.insert(std::make_pair("psk", password));
-        vWifiConfigs.push_back(WifiConfigsName(mConfigsParameters));
+        VectorData wifiConfigs;
+        wifiConfigs.push_back(ConfigData("ssid", networkName));
+        wifiConfigs.push_back(ConfigData("psk", password));
+        vSsidConfig.push_back(wifiConfigs);
     }
 
-    editWifiConfigFile.SaveWifiConfigs(vWifiConfigs);
+    bool result = wifiConfigFile.SaveConfiguration(wifiConfigs, vSsidConfig);
+    if(!result)
+        qCritical("Failed to save Wifi user and password configuration");
+
     Systemd::restartUnit(Systemd::System, WPASUPPLICANT_SERVICE, Systemd::Unit::Replace);
 }
 
@@ -138,5 +139,6 @@ void SettingsWifi::checkWifi(QObject *obj)
 
 void SettingsWifi::loadWifiConfigFile()
 {
-    vWifiConfigs = editWifiConfigFile.OpenFile();
+    if(!wifiConfigFile.LoadConfiguration(wifiConfigs, vSsidConfig))
+        qCritical("Failed to load wifi configuration");
 }

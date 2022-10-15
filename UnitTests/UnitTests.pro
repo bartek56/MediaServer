@@ -14,6 +14,7 @@ HEADERS += \
     ../MediaServerLib/ConfigFile/MpdConfigFile.h \
     ../MediaServerLib/ConfigFile/DlnaConfigFile.h \
     ../MediaServerLib/ConfigFile/ScreenSaverConfigFile.h \
+    ../MediaServerLib/ConfigFile/WifiConfigFile.h \
     Mock/MockFileManager.h
 
 SOURCES += \
@@ -22,8 +23,10 @@ SOURCES += \
     ../MediaServerLib/ConfigFile/MpdConfigFile.cpp \
     ../MediaServerLib/ConfigFile/DlnaConfigFile.cpp \
     ../MediaServerLib/ConfigFile/ScreenSaverConfigFile.cpp \
+    ../MediaServerLib/ConfigFile/WifiConfigFile.cpp \
     AlarmConfigFileTest.cpp \
     MpdConfigFileTest.cpp \
     DlnaConfigFileTest.cpp \
     ScreenSaverConfigFileTest.cpp \
+    WifiFileConfigTest.cpp \
     main.cpp

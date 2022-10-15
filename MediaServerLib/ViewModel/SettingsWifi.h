@@ -32,8 +32,9 @@ private:
     QObject *bConnect;
     QObject *bScanNetwork;
     bool wifiIsOn;
-    WifiConfigFile editWifiConfigFile;
-    std::vector<WifiConfigsName> vWifiConfigs;
+    WifiConfigFile wifiConfigFile;
+    std::vector<VectorData> vSsidConfig;
+    VectorData wifiConfigs;
 };
 
 #endif// SETTINGS_H

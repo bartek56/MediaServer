@@ -1,27 +1,19 @@
 #ifndef EDITWIFICONFIGFILE_H
 #define EDITWIFICONFIGFILE_H
 
-#include <QString>
-#include <vector>
-#include <map>
-
-
-struct WifiConfigsName {
-    std::map<QString, QString> configs;
-    WifiConfigsName(const std::map<QString, QString>  &configs)
-    : configs(configs) {
-    }
-};
-
+#include "IConfigFile.h"
+#include "IFileManager.h"
+#include <memory>
 
 class WifiConfigFile
 {
-private:
-
 public:
-    //WifiConfigFile();
-    std::vector<WifiConfigsName> OpenFile();
-    void SaveWifiConfigs(const std::vector<WifiConfigsName> &vWifiConfig);
+    WifiConfigFile(std::shared_ptr<IFileManager> ptreFileManager);
+    bool LoadConfiguration(VectorData &wifiConfiguration, std::vector<VectorData> &ssidConfiguration);
+    bool SaveConfiguration(const VectorData &wifiConfiguration, const std::vector<VectorData> &ssidConfigs);
+
+private:
+    std::shared_ptr<IFileManager> fileManager;
 };
 
-#endif // EDITWIFICONFIGFILE_H
+#endif// EDITWIFICONFIGFILE_H
