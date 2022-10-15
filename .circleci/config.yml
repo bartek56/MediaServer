@@ -11,6 +11,14 @@ jobs:
             sudo apt-get update
             sudo apt-get install libsystemd-dev qtbase5-dev qtdeclarative5-dev qt5-qmake
       - run:
+          name: Build dependencies
+          command: |
+            git clone https://github.com/bartek56/libsystemd-qt
+            cd libsystemd-qt 
+            cmake ../ -DCMAKE_INSTALL_PREFIX=/usr
+            make
+            sudo make install
+      - run:
           name: Build app
           command: |
             qmake
