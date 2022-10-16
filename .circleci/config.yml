@@ -11,6 +11,11 @@ jobs:
             sudo apt-get update
             sudo apt-get install libsystemd-dev qtbase5-dev qtdeclarative5-dev qt5-qmake
       - run:
+          name: Download googletest
+          command: |
+            cd UnitTests
+            git clone https://github.com/google/googletest
+      - run:        
           name: Build dependencies
           command: |
             git clone https://github.com/bartek56/libsystemd-qt
@@ -25,6 +30,3 @@ jobs:
           command: |
             qmake
             make
-      - store_artifacts:
-          path: test-reports/
-          destination: python_app
