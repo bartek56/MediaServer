@@ -7,6 +7,20 @@ class ScreenSaverConfigFileTest : public ::testing::Test
 {
 };
 
+TEST_F(ScreenSaverConfigFileTest, configFileNotExist)
+{
+    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+
+    ScreenSaverConfigFile screenSaverConfigFile(mockReadFile);
+
+    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+
+    VectorData fileData;
+
+    EXPECT_FALSE(screenSaverConfigFile.LoadConfiguration(fileData));
+    EXPECT_TRUE(fileData.empty());
+}
+
 TEST_F(ScreenSaverConfigFileTest, readNotCall)
 {
     std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();

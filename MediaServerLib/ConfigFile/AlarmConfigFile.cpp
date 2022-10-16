@@ -8,25 +8,28 @@ AlarmConfigFile::AlarmConfigFile(std::shared_ptr<IFileManager> ptrFileManager) :
 {
 }
 
-bool AlarmConfigFile::LoadConfiguration(VectorData& configuration)
+bool AlarmConfigFile::LoadConfiguration(VectorData &configuration)
 {
-    QString fileData="";
-    fileManager->read(fileData);
+    QString fileData = "";
+    const bool result = fileManager->read(fileData);
+
+    if(!result)
+        return false;
 
     QStringList lines = fileData.split('\n');
 
-    for (int i = 0; i<lines.size(); i++)
+    for(int i = 0; i < lines.size(); i++)
     {
-        if (lines[i] <= 2)
+        if(lines[i] <= 2)
             break;
         auto parameter = lines[i].split("=");
-        if (parameter.size() != 2)
+        if(parameter.size() != 2)
             return false;
         auto parameterName = parameter[0];
         auto parameterValue = parameter[1];
 
         parameterValue.remove('"');
-        configuration.push_back(ConfigData(parameterName,parameterValue));
+        configuration.push_back(ConfigData(parameterName, parameterValue));
     }
     return true;
 }
@@ -34,10 +37,10 @@ bool AlarmConfigFile::LoadConfiguration(VectorData& configuration)
 bool AlarmConfigFile::SaveConfiguration(const VectorData &mConfigsParameters)
 {
     QString dataToFile;
-    for (const auto& configParam : mConfigsParameters)
+    for(const auto &configParam : mConfigsParameters)
     {
         QString lineData;
-        if (configParam.key == "playlist")
+        if(configParam.key == "playlist")
             lineData = configParam.key + "=\"" + configParam.value + "\"\n";
         else
             lineData = configParam.key + "=" + configParam.value + "\n";

@@ -11,7 +11,10 @@ QStringList FtpConfigFile::OpenUsersListFile(const QString &fileLocation)
     QStringList vUsers;
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qCritical("Failed to open Ftp users file");
         return vUsers;
+    }
 
     QByteArray parameterName;
 
@@ -34,7 +37,10 @@ QString FtpConfigFile::OpenUserPathFile(const QString &fileLocation)
     QString vUserPath;
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qCritical("Failed to open user path");
         return vUserPath;
+    }
 
     QByteArray parameterName;
 

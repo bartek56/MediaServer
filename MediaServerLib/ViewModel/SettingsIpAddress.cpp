@@ -3,13 +3,23 @@
 #include <QtSystemd/sdmanager.h>
 #include <QtSystemd/unit.h>
 #include <QSettings>
+#include <QFile>
 #include <bitset>
 #include <map>
 
 SettingsIpAddress::SettingsIpAddress(QObject *parent) : QObject(parent)
 {
-    ethSettings = std::make_shared<NetworkConfig>(loadNetworkConfig(ETHERNET_CONFIG_FILE));
-    wifiSettings = std::make_shared<NetworkConfig>(loadNetworkConfig(WIFI_CONFIG_FILE));
+    if(!QFile(ETHERNET_CONFIG_FILE).exists() or !QFile(WIFI_CONFIG_FILE).exists())
+    {
+        configFileExist = false;
+        qCritical("Ethernet or wifi config file doesn't exist");
+    }
+    else
+    {
+        configFileExist = true;
+        ethSettings = std::make_shared<NetworkConfig>(loadNetworkConfig(ETHERNET_CONFIG_FILE));
+        wifiSettings = std::make_shared<NetworkConfig>(loadNetworkConfig(WIFI_CONFIG_FILE));
+    }
 }
 
 SettingsIpAddress::~SettingsIpAddress()
@@ -41,6 +51,9 @@ NetworkConfig SettingsIpAddress::loadNetworkConfig(const QString &configFile)
 void SettingsIpAddress::loadIpAddressConfiguration(const int networkInterfaceComboboxIndex, QObject *dynamicIPRadioButton, QObject *staticIPRadioButton, QObject *ipadressTextField,
                                                    QObject *netmaskTextField, QObject *gatewayTextField, QObject *dnsserverTextField)
 {
+    if(!configFileExist)
+        return;
+
     setCurrentIpAddressConfig(networkInterfaceComboboxIndex);
 
     if(ipSettings->DHCPisEnable)
@@ -75,6 +88,9 @@ void SettingsIpAddress::loadIpAddressConfiguration(const int networkInterfaceCom
 
 void SettingsIpAddress::tfIpAddress_onEditingFinished(QString text)
 {
+    if(!configFileExist)
+        return;
+
     QStringList ipAddressWithMask = ipSettings->ipAddressWithMask.split("/");
     QString netMask = ipAddressWithMask[1];
     QString newIpAddressWithMask = text + "/" + netMask;
@@ -83,11 +99,17 @@ void SettingsIpAddress::tfIpAddress_onEditingFinished(QString text)
 
 void SettingsIpAddress::rbDynamicIP_onClicked()
 {
+    if(!configFileExist)
+        return;
+
     ipSettings->DHCPisEnable = true;
 }
 
 void SettingsIpAddress::rbStaticIP_onClicked(const QString ipAddressTextField, const QString netmaskTextField, const QString gatewayTextField, const QString dnsserverTextField)
 {
+    if(!configFileExist)
+        return;
+
     QString ipAddressWithMask = ipAddressTextField + "/" + convertNetMaskToShort(netmaskTextField);
     ipSettings->DHCPisEnable = false;
     ipSettings->ipAddressWithMask = ipAddressWithMask;
@@ -97,6 +119,9 @@ void SettingsIpAddress::rbStaticIP_onClicked(const QString ipAddressTextField, c
 
 void SettingsIpAddress::tfNetMask_onEditingFinished(QString text)
 {
+    if(!configFileExist)
+        return;
+
     QStringList ipAddressWithMask = ipSettings->ipAddressWithMask.split("/");
     QString ipAddress = ipAddressWithMask[0];
     QString newIpAddressWithMask = ipAddress + "/" + convertNetMaskToShort(text);
@@ -105,16 +130,25 @@ void SettingsIpAddress::tfNetMask_onEditingFinished(QString text)
 
 void SettingsIpAddress::tfGateway_onEditingFinished(QString text)
 {
+    if(!configFileExist)
+        return;
+
     ipSettings->gateway = text;
 }
 
 void SettingsIpAddress::tfDNSServer_onEditingFinished(QString text)
 {
+    if(!configFileExist)
+        return;
+
     ipSettings->dns = text;
 }
 
 void SettingsIpAddress::saveIpAddressConfiguration()
 {
+    if(!configFileExist)
+        return;
+
     QSettings wifiqsettings(WIFI_CONFIG_FILE, QSettings::IniFormat);
     wifiqsettings.clear();
     wifiqsettings.setValue("Match/Name", QVariant("wlan0"));
@@ -148,6 +182,8 @@ void SettingsIpAddress::saveIpAddressConfiguration()
 
 void SettingsIpAddress::setCurrentIpAddressConfig(const int &networkInterfaceComboboxIndex)
 {
+    if(!configFileExist)
+        return;
 
     if(networkInterfaceComboboxIndex == 0)
     {

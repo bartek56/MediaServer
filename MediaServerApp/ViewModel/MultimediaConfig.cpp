@@ -2,94 +2,117 @@
 #include "ConfigFile/ConfigFile.h"
 #include <QtSystemd/sdmanager.h>
 
-MultimediaConfig::MultimediaConfig(QObject *parent) : QObject(parent)
-  ,dlnaConfigFile(std::make_shared<ConfigFile>(MINIDLNA_CONFIG_FILE))
-  ,mpdConfigFile(std::make_shared<ConfigFile>(MPD_CONFIG_FILE))
+MultimediaConfig::MultimediaConfig(QObject *parent) : QObject(parent), dlnaConfigFile(std::make_shared<ConfigFile>(MINIDLNA_CONFIG_FILE)), mpdConfigFile(std::make_shared<ConfigFile>(MPD_CONFIG_FILE))
 {
     Systemd::getUnit(Systemd::System, DLNA_SERVICE);//support QDBusAbstractInterfaceSupport
 
     auto state = Systemd::getUnitFileState(Systemd::System, DLNA_SERVICE);
 
     if(state.contains("able"))
+    {
         systemdDlnaSupport = true;
+    }
     else
+    {
+        systemdDlnaSupport = false;
         qWarning() << "DLNA systemd not support";
+    }
     state = Systemd::getUnitFileState(Systemd::System, MPD_SERVICE);
 
     if(state.contains("able"))
+    {
         systemdMpdSupport = true;
+    }
     else
+    {
+        systemdMpdSupport = false;
         qWarning() << "MPD systemd not support";
+    }
 }
 
 void MultimediaConfig::bVideoFileDialog_onAccepted(QString folderPath, QObject *tfVideoPath)
 {
-    QString path = folderPath.remove(0, 7);
-    tfVideoPath->setProperty("text", QVariant(path));
-    dlnaConfigs.setValueByKey(VIDEODIR,path);
+    if(isDlnaSettingsLoaded)
+    {
+        QString path = folderPath.remove(0, 7);
+        tfVideoPath->setProperty("text", QVariant(path));
+        dlnaConfigs.setValueByKey(VIDEODIR, path);
+    }
 }
 
 void MultimediaConfig::bAudioFileDialog_onAccepted(QString folderPath, QObject *tfAudioPath)
 {
-    QString path = folderPath.remove(0, 7);
-    tfAudioPath->setProperty("text", QVariant(path));
-    dlnaConfigs.setValueByKey(AUDIODIR, path);
-    mpdConfigs.setValueByKey(MUSIC_DIRECTORY, path);
-    mpdConfigs.setValueByKey(PLAYLIST_DIRECTORY, path);
+    if(isDlnaSettingsLoaded and isMpdSettingsLoaded)
+    {
+        QString path = folderPath.remove(0, 7);
+        tfAudioPath->setProperty("text", QVariant(path));
+        dlnaConfigs.setValueByKey(AUDIODIR, path);
+        mpdConfigs.setValueByKey(MUSIC_DIRECTORY, path);
+        mpdConfigs.setValueByKey(PLAYLIST_DIRECTORY, path);
+    }
 }
 
 void MultimediaConfig::bPicturesFileDialog_onAccepted(QString folderPath, QObject *tfPicturesPath)
 {
-    QString path = folderPath.remove(0, 7);
-    tfPicturesPath->setProperty("text", QVariant(path));
-    dlnaConfigs.setValueByKey(PICTURESDIR, path);
+    if(isDlnaSettingsLoaded)
+    {
+        QString path = folderPath.remove(0, 7);
+        tfPicturesPath->setProperty("text", QVariant(path));
+        dlnaConfigs.setValueByKey(PICTURESDIR, path);
+    }
 }
 
 void MultimediaConfig::tfName_onEditingFinished(const QString name)
 {
-    dlnaConfigs.setValueByKey(NAME, name);
+    if(isDlnaSettingsLoaded)
+        dlnaConfigs.setValueByKey(NAME, name);
 }
 
 void MultimediaConfig::tfPort_onEditingFinished(const QString port)
 {
-    dlnaConfigs.setValueByKey(PORT, port);
+    if(isDlnaSettingsLoaded)
+        dlnaConfigs.setValueByKey(PORT, port);
 }
 
-void MultimediaConfig::openConfigFile()
+void MultimediaConfig::loadSettings(QObject *videoPath, QObject *audioPath, QObject *picturePath, QObject *port, QObject *name)
 {
-    if(!dlnaConfigFile.LoadConfiguration(dlnaConfigs))
+    if(dlnaConfigFile.LoadConfiguration(dlnaConfigs))
     {
-        qFatal("failed to load DLNA server configs");
+        isDlnaSettingsLoaded = true;
+        videoPath->setProperty("text", QVariant(dlnaConfigs.getValueByKey(VIDEODIR)));
+        audioPath->setProperty("text", QVariant(dlnaConfigs.getValueByKey(AUDIODIR)));
+        picturePath->setProperty("text", QVariant(dlnaConfigs.getValueByKey(PICTURESDIR)));
     }
-    if(!mpdConfigFile.LoadConfiguration(mpdConfigs))
+    else
     {
-        qFatal("failed to load MPD server configs");
+        isDlnaSettingsLoaded = false;
+        qCritical("Failed to load DLNA configuration");
     }
-}
 
-void MultimediaConfig::loadMediaDirectoryConfigs(QObject *videoPath, QObject *audioPath, QObject *picturePath)
-{
-    videoPath->setProperty("text", QVariant(dlnaConfigs.getValueByKey(VIDEODIR)));
-    audioPath->setProperty("text", QVariant(dlnaConfigs.getValueByKey(AUDIODIR)));
-    picturePath->setProperty("text", QVariant(dlnaConfigs.getValueByKey(PICTURESDIR)));
-}
 
-void MultimediaConfig::loadSettings(QObject *port, QObject *name)
-{
-    port->setProperty("text", QVariant(dlnaConfigs.getValueByKey(PORT)));
-    name->setProperty("text", QVariant(dlnaConfigs.getValueByKey(NAME)));
+    if(mpdConfigFile.LoadConfiguration(mpdConfigs))
+    {
+        isMpdSettingsLoaded = true;
+        port->setProperty("text", QVariant(mpdConfigs.getValueByKey(PORT)));
+        name->setProperty("text", QVariant(mpdConfigs.getValueByKey(NAME)));
+    }
+    else
+    {
+        isMpdSettingsLoaded = false;
+        qCritical("Failed to load MPD configuration");
+    }
 }
 
 void MultimediaConfig::saveConfigs()
 {
     if(!dlnaConfigFile.SaveConfiguration(dlnaConfigs))
-        qFatal("Failed to save DLNA configuration");
+        qCritical("Failed to save DLNA configuration");
 
     if(systemdDlnaSupport)
         restartService(DLNA_SERVICE);
 
-    if(mpdConfigFile.SaveConfiguration(mpdConfigs))
-         qFatal("Failed to save MPD configuration");
+    if(!mpdConfigFile.SaveConfiguration(mpdConfigs))
+        qCritical("Failed to save MPD configuration");
 
     if(systemdMpdSupport)
         restartService(MPD_SERVICE);

@@ -3,21 +3,21 @@
 #include <QDebug>
 #include <iostream>
 
-ConfigFile::ConfigFile(const QString confFile): fileName(confFile)
+ConfigFile::ConfigFile(const QString confFile) : fileName(confFile)
 {
 }
 
-bool ConfigFile::read(QString& data)
+bool ConfigFile::read(QString &data)
 {
     QFile fileToRead(fileName);
     QString fileString;
 
-    if (fileToRead.open(QIODevice::ReadOnly))
+    if(fileToRead.open(QIODevice::ReadOnly))
     {
-        while (!fileToRead.atEnd())
+        while(!fileToRead.atEnd())
         {
             QByteArray line = fileToRead.readLine();
-            if (line[0] == '#')
+            if(line[0] == '#')
             {
                 continue;
             }
@@ -45,12 +45,12 @@ bool ConfigFile::save(const QString data)
 
     int lineNumber = 0;
 
-    if (fileToRead.open(QIODevice::ReadOnly))
+    if(fileToRead.open(QIODevice::ReadOnly))
     {
-        while (!fileToRead.atEnd())
+        while(!fileToRead.atEnd())
         {
             QByteArray line = fileToRead.readLine();
-            if (line[0] == '#')
+            if(line[0] == '#')
             {
                 fileString.push_back(line);
                 continue;
@@ -59,7 +59,7 @@ bool ConfigFile::save(const QString data)
             if(lineNumber < numberOfLines)
             {
                 QString newLine;
-                newLine= dataList[lineNumber]+"\n";
+                newLine = dataList[lineNumber] + "\n";
                 fileString.push_back(newLine);
                 lineNumber++;
             }
@@ -72,14 +72,13 @@ bool ConfigFile::save(const QString data)
     else
         return false;
 
-    fileToRead.close();
 
     QFile fileToWrite(fileName);
-    if (fileToWrite.open(QIODevice::WriteOnly))
+    if(fileToWrite.open(QIODevice::WriteOnly))
     {
         QTextStream stream(&fileToWrite);
 
-        for(auto it :fileString)
+        for(auto it : fileString)
         {
             stream << it;
         }

@@ -56,13 +56,16 @@ int main(int argc, char *argv[])
     view->setHeight(480);
     view->setResizeMode(QQuickView::SizeRootObjectToView);
 
-    ScreenSaverManager screen;
-    screen.Init();
-
     ScreenSaverHelper screensaverhelper;
     view->rootContext()->setContextProperty("screensaverhelper", &screensaverhelper);
 
-    QObject::connect(ScreenSaverManager::timer, &QTimer::timeout, [&screensaverhelper]() { emit screensaverhelper.screensavertimeout(); });
+    ScreenSaverManager screen;
+    const bool resultInit = screen.Init();
+
+    if(resultInit)
+    {
+        QObject::connect(ScreenSaverManager::timer, &QTimer::timeout, [&screensaverhelper]() { emit screensaverhelper.screensavertimeout(); });
+    }
 
     view->setSource(QString("qrc:/main.qml"));
     view->show();

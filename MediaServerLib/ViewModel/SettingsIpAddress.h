@@ -41,6 +41,7 @@ private:
     std::shared_ptr<NetworkConfig> wifiSettings;
     std::shared_ptr<NetworkConfig> ethSettings;
     std::shared_ptr<NetworkConfig> ipSettings;
+    bool configFileExist;
     QStringList splitString(const QString &str, int n);
     QString binToDec(QString bin);
     QString decToBin(QString dev);

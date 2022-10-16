@@ -3,7 +3,8 @@
 #include "../MediaServerLib/ConfigFile/DlnaConfigFile.h"
 #include "Mock/MockFileManager.h"
 
-class DlnaConfigFileTest : public ::testing::Test {
+class DlnaConfigFileTest : public ::testing::Test
+{
 };
 
 TEST_F(DlnaConfigFileTest, readNotCall)
@@ -12,8 +13,21 @@ TEST_F(DlnaConfigFileTest, readNotCall)
 
     DlnaConfigFile dlnaConfigFile(mockReadFile);
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
-            .Times(0);
+    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(0);
+}
+
+TEST_F(DlnaConfigFileTest, configFileNotExist)
+{
+    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+
+    DlnaConfigFile dlnaConfigFile(mockReadFile);
+
+    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+
+    VectorData fileData;
+
+    EXPECT_FALSE(dlnaConfigFile.LoadConfiguration(fileData));
+    EXPECT_TRUE(fileData.empty());
 }
 
 TEST_F(DlnaConfigFileTest, readFileOneLine)
@@ -24,12 +38,12 @@ TEST_F(DlnaConfigFileTest, readFileOneLine)
 
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](QString& fileData)
-                      {
-                          fileData = checkData;
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](QString &fileData)
+                    {
+                        fileData = checkData;
+                        return true;
+                    }));
 
     DlnaConfigFile dlnaConfigFile(mockReadFile);
 
@@ -47,22 +61,21 @@ TEST_F(DlnaConfigFileTest, readwholeFile)
 {
     std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
 
-    QString checkData =
-            "port=8200\n"
-            "media_dir=V,/mnt/video\n"
-            "media_dir=A,/mnt/audio\n"
-            "media_dir=P,/mnt/pictures\n"
-            "friendly_name=My DLNA Server\n"
-            "\n";
+    QString checkData = "port=8200\n"
+                        "media_dir=V,/mnt/video\n"
+                        "media_dir=A,/mnt/audio\n"
+                        "media_dir=P,/mnt/pictures\n"
+                        "friendly_name=My DLNA Server\n"
+                        "\n";
 
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](QString& fileData)
-                      {
-                          fileData = checkData;
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](QString &fileData)
+                    {
+                        fileData = checkData;
+                        return true;
+                    }));
 
     DlnaConfigFile dlnaConfigFile(mockReadFile);
 
@@ -113,22 +126,22 @@ TEST_F(DlnaConfigFileTest, saveWholeFileData)
 
     EXPECT_CALL(*mockReadFile, save(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](const QString& fileData)
-                      {
-                          savingData = fileData;
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](const QString &fileData)
+                    {
+                        savingData = fileData;
+                        return true;
+                    }));
 
     DlnaConfigFile dlnaConfigFile(mockReadFile);
 
     VectorData fileData;
 
-    fileData.push_back(ConfigData("port","8300"));
-    fileData.push_back(ConfigData("media_dir=V","/mnt/video"));
-    fileData.push_back(ConfigData("media_dir=A","/mnt/audio"));
-    fileData.push_back(ConfigData("media_dir=P","/mnt/pictures"));
-    fileData.push_back(ConfigData("friendly_name","My DLNA Server"));
+    fileData.push_back(ConfigData("port", "8300"));
+    fileData.push_back(ConfigData("media_dir=V", "/mnt/video"));
+    fileData.push_back(ConfigData("media_dir=A", "/mnt/audio"));
+    fileData.push_back(ConfigData("media_dir=P", "/mnt/pictures"));
+    fileData.push_back(ConfigData("friendly_name", "My DLNA Server"));
 
 
     auto result = dlnaConfigFile.SaveConfiguration(fileData);
@@ -136,7 +149,7 @@ TEST_F(DlnaConfigFileTest, saveWholeFileData)
     EXPECT_TRUE(result);
 
     QStringList list = savingData.split("\n");
-    list.pop_back(); // remove last empty QString - reason of split
+    list.pop_back();// remove last empty QString - reason of split
 
     EXPECT_EQ(list.size(), 5);
 
@@ -159,12 +172,12 @@ TEST_P(DlnaConfigFileTestParam, readFileFailed)
     auto param = GetParam();
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](QString& fileData)
-                      {
-                          fileData = QString::fromStdString(param);
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](QString &fileData)
+                    {
+                        fileData = QString::fromStdString(param);
+                        return true;
+                    }));
 
     DlnaConfigFile dlnaConfigFile(mockReadFile);
 
@@ -176,12 +189,9 @@ TEST_P(DlnaConfigFileTestParam, readFileFailed)
 }
 
 INSTANTIATE_TEST_SUITE_P(readFileFailed, DlnaConfigFileTestParam,
-                        ::testing::Values(
-"port,8300",
+                         ::testing::Values("port,8300",
 
-"port=8300\n\
+                                           "port=8300\n\
 media_dir=/mnt/video",
 
-"friendly_name,dfdf"
-));
-
+                                           "friendly_name,dfdf"));

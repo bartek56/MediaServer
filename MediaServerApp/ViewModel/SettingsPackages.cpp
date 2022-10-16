@@ -19,6 +19,7 @@ bool SettingsPackages::checkIfServerIsConnected()
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
+        qCritical("Opkg congig file not exist");
         return false;
     }
 
@@ -40,7 +41,7 @@ bool SettingsPackages::checkIfServerIsConnected()
     QEventLoop loop;
     QNetworkReply *reply = manager->get(request);
     connect(reply, &QNetworkReply::finished,
-            [this, reply, &loop, &status]()
+            [reply, &loop, &status]()
             {
                 auto response = reply->readAll();
                 if(response.contains("Index of /all"))

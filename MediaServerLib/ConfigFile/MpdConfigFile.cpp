@@ -9,22 +9,23 @@ MpdConfigFile::MpdConfigFile(std::shared_ptr<IFileManager> ptrFileManager) : fil
 
 bool MpdConfigFile::LoadConfiguration(VectorData &mConfigsParameters)
 {
-    QString fileData="";
-    fileManager->read(fileData);
+    QString fileData = "";
+    if(!fileManager->read(fileData))
+        return false;
 
     QStringList lines = fileData.split('\n');
 
-    for (int i = 0; i<lines.size(); i++)
+    for(int i = 0; i < lines.size(); i++)
     {
-        if (lines[i] <= 1)
+        if(lines[i] <= 1)
             break;
         auto parameter = lines[i].split(" \"");
-        if (parameter.size() != 2)
+        if(parameter.size() != 2)
             return false;
         auto parameterName = parameter[0];
         auto parameterValue = parameter[1];
-        parameterValue.remove(parameterValue.length()-1,1);
-        mConfigsParameters.push_back(ConfigData(parameterName,parameterValue));
+        parameterValue.remove(parameterValue.length() - 1, 1);
+        mConfigsParameters.push_back(ConfigData(parameterName, parameterValue));
     }
     return true;
 }
@@ -32,7 +33,7 @@ bool MpdConfigFile::LoadConfiguration(VectorData &mConfigsParameters)
 bool MpdConfigFile::SaveConfiguration(const VectorData &mConfigs)
 {
     QString dataToFile;
-    for (const auto& [key, value] : mConfigs)
+    for(const auto &[key, value] : mConfigs)
     {
         QString lineData;
         lineData = key + " \"" + value + "\"\n";

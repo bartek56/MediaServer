@@ -6,7 +6,8 @@
 #include <stdio.h>
 
 
-class AlarmConfigFileTest : public ::testing::Test {
+class AlarmConfigFileTest : public ::testing::Test
+{
 };
 
 TEST_F(AlarmConfigFileTest, readNotCall)
@@ -15,9 +16,23 @@ TEST_F(AlarmConfigFileTest, readNotCall)
 
     AlarmConfigFile editAlarmConfigFile(mockReadFile);
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
-            .Times(0);
+    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(0);
 }
+
+TEST_F(AlarmConfigFileTest, configFileNotExist)
+{
+    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+
+    AlarmConfigFile alarmConfigFile(mockReadFile);
+
+    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+
+    VectorData fileData;
+
+    EXPECT_FALSE(alarmConfigFile.LoadConfiguration(fileData));
+    EXPECT_TRUE(fileData.empty());
+}
+
 
 TEST_F(AlarmConfigFileTest, readFileOneLine)
 {
@@ -27,12 +42,12 @@ TEST_F(AlarmConfigFileTest, readFileOneLine)
 
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](QString& fileData)
-                      {
-                          fileData = checkData;
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](QString &fileData)
+                    {
+                        fileData = checkData;
+                        return true;
+                    }));
 
     AlarmConfigFile editAlarmConfigFile(mockReadFile);
 
@@ -50,25 +65,24 @@ TEST_F(AlarmConfigFileTest, readIncorrectFile)
 {
     std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
 
-    QString checkData =
-           "music_directory\"/home/Music\"\n"
-           "playlist_directory \"/home/Music/playlists\"\n"
-            "auto_update \"yes\"\n"
-            "\n"
-            "\n"
-            "audio_output { \n"
-            "    type \"pulse\" \n"
-            "    name \"Local Pulse\" \n"
-            "} \n";
+    QString checkData = "music_directory\"/home/Music\"\n"
+                        "playlist_directory \"/home/Music/playlists\"\n"
+                        "auto_update \"yes\"\n"
+                        "\n"
+                        "\n"
+                        "audio_output { \n"
+                        "    type \"pulse\" \n"
+                        "    name \"Local Pulse\" \n"
+                        "} \n";
 
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](QString& fileData)
-                      {
-                          fileData = checkData;
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](QString &fileData)
+                    {
+                        fileData = checkData;
+                        return true;
+                    }));
 
     AlarmConfigFile editAlarmConfigFile(mockReadFile);
 
@@ -83,27 +97,26 @@ TEST_F(AlarmConfigFileTest, readWholeFileData)
 {
     std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
 
-    QString checkData =
-           "minVolume=5\n"
-           "maxVolume=50\n"
-           "playlist=\"alarm\"\n"
-            "theNewestSong=true\n"
-            "\n"
-            "\n"
-            "set -e\n"
-            "IFS=$\'\\n\' \n"
-            "musicDirectoryTemp=$( cat /etc/mpd.conf | grep music_directory | awk \'{$1=\"\"}1\' )\n"
-            "musicDirectoryTemp=${musicDirectoryTemp:1}\n"
-            "musicDirectory=\"${musicDirectoryTemp//\"}\"\n";
+    QString checkData = "minVolume=5\n"
+                        "maxVolume=50\n"
+                        "playlist=\"alarm\"\n"
+                        "theNewestSong=true\n"
+                        "\n"
+                        "\n"
+                        "set -e\n"
+                        "IFS=$\'\\n\' \n"
+                        "musicDirectoryTemp=$( cat /etc/mpd.conf | grep music_directory | awk \'{$1=\"\"}1\' )\n"
+                        "musicDirectoryTemp=${musicDirectoryTemp:1}\n"
+                        "musicDirectory=\"${musicDirectoryTemp//\"}\"\n";
 
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](QString& fileData)
-                      {
-                          fileData = checkData;
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](QString &fileData)
+                    {
+                        fileData = checkData;
+                        return true;
+                    }));
 
     AlarmConfigFile editAlarmConfigFile(mockReadFile);
 
@@ -149,28 +162,28 @@ TEST_F(AlarmConfigFileTest, saveWholeFileData)
 
     EXPECT_CALL(*mockReadFile, save(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](const QString& fileData)
-                      {
-                          savingData = fileData;
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](const QString &fileData)
+                    {
+                        savingData = fileData;
+                        return true;
+                    }));
 
     AlarmConfigFile editAlarmConfigFile(mockReadFile);
 
     VectorData fileData;
 
-    fileData.push_back(ConfigData("minVolume","5"));
-    fileData.push_back(ConfigData("maxVolume","50"));
-    fileData.push_back(ConfigData("playlist","alarm"));
-    fileData.push_back(ConfigData("theNewestSong","true"));
+    fileData.push_back(ConfigData("minVolume", "5"));
+    fileData.push_back(ConfigData("maxVolume", "50"));
+    fileData.push_back(ConfigData("playlist", "alarm"));
+    fileData.push_back(ConfigData("theNewestSong", "true"));
 
     auto result = editAlarmConfigFile.SaveConfiguration(fileData);
 
     EXPECT_TRUE(result);
 
     QStringList list = savingData.split("\n");
-    list.pop_back(); // remove last empty QString - reason of split
+    list.pop_back();// remove last empty QString - reason of split
 
     EXPECT_EQ(list.size(), 4);
 
@@ -191,12 +204,12 @@ TEST_P(AlarmConfigFileTestParam, readFileFailed)
     auto param = GetParam();
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke([&](QString& fileData)
-                      {
-                          fileData = QString::fromStdString(param);
-                          return true;
-                      }
-              ));
+            .WillOnce(testing::Invoke(
+                    [&](QString &fileData)
+                    {
+                        fileData = QString::fromStdString(param);
+                        return true;
+                    }));
 
     AlarmConfigFile alarmConfigFile(mockReadFile);
 
@@ -208,12 +221,9 @@ TEST_P(AlarmConfigFileTestParam, readFileFailed)
 }
 
 INSTANTIATE_TEST_SUITE_P(readFileFailed, AlarmConfigFileTestParam,
-                        ::testing::Values(
-"minVolume 5",
+                         ::testing::Values("minVolume 5",
 
-"minVolume=5\n\
+                                           "minVolume=5\n\
 maxVolume10",
 
-"minVolume5"
-));
-
+                                           "minVolume5"));

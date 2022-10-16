@@ -19,7 +19,7 @@ private:
     QProcess testAlarmProcess;
     VectorData mAlarmConfigs;
     AlarmConfigFile editAlarmConfigFile;
-    void saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time);
+    bool saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time);
     bool checkAlarmIsActive();
 
     Q_OBJECT

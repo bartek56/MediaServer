@@ -10,7 +10,7 @@ class ScreenSaverManager : public QObject
 public:
     explicit ScreenSaverManager(QObject *parent = nullptr);
     static QTimer *timer;
-    void Init();
+    bool Init();
     Q_INVOKABLE void resetTimer();
 signals:
 
@@ -18,14 +18,14 @@ private:
     ScreenSaverConfigFile screenSaverConfigFile;
 };
 
-class ScreenSaverHelper: public QObject{
+class ScreenSaverHelper : public QObject
+{
 
     Q_OBJECT
 public:
     using QObject::QObject;
 signals:
-   void screensavertimeout();
-
+    void screensavertimeout();
 };
 
 

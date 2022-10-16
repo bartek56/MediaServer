@@ -335,9 +335,7 @@ Dialog
 
     Component.onCompleted:
     {
-        multimediaConfig.openConfigFile();
-        multimediaConfig.loadMediaDirectoryConfigs(videoPathEditText,audioPathEditText,picturePathEditText);
-        multimediaConfig.loadSettings(portEditText,nameEditText);
+        multimediaConfig.loadSettings(videoPathEditText,audioPathEditText,picturePathEditText, portEditText,nameEditText);
     }
 }
 

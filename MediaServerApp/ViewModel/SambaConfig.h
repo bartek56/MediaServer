@@ -197,6 +197,7 @@ public:
     Q_INVOKABLE void loadAllConfigs();
 
 private:
+    bool isConfigFile;
     const QString SMB_SERVICE = "smb.service";
     const QString NMB_SERVICE = "nmb.service";
 

@@ -8,6 +8,12 @@
 
 SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 {
+    isConfigFile = true;
+    if(!QFile(SAMBA_CONFIG_FILE).exists())
+    {
+        isConfigFile = false;
+        qCritical("Smba config file doesn't exist");
+    }
 }
 
 bool SambaConfig::isServiceActive()
@@ -20,6 +26,8 @@ bool SambaConfig::isServiceActive()
 
 void SambaConfig::loadAllConfigs()
 {
+    if(!isConfigFile)
+        return;
     QSettings settings(SAMBA_CONFIG_FILE, QSettings::IniFormat);
 
     auto keys = settings.childGroups();
@@ -146,6 +154,9 @@ void SambaConfig::showConfigsForExternalDisk(const SambaShareObjects &sambaConfi
 
 void SambaConfig::bSave_onClicked()
 {
+    if(!isConfigFile)
+        return;
+
     QSettings settings(SAMBA_CONFIG_FILE, QSettings::IniFormat);
 
     settings.clear();

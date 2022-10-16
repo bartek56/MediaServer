@@ -22,7 +22,12 @@ AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent), editAlarmConfigFile
 void AlarmConfig::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox, QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox,
                                           QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton, QObject *playlistComboBox)
 {
-    editAlarmConfigFile.LoadConfiguration(mAlarmConfigs);
+    if(!editAlarmConfigFile.LoadConfiguration(mAlarmConfigs))
+    {
+        qCritical("Failed to load alarm configuration");
+        return;
+    }
+
     minVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("minVolume")));
     maxVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("maxVolume")));
     defaultVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("defaultVolume")));
@@ -111,7 +116,10 @@ void AlarmConfig::loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, Q
     QFile file(QString(CONFIG_PATH) + "/" + ALARM_TIMER);
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qCritical("Failed to load alarm timer");
         return;
+    }
 
     while(!file.atEnd())
     {
@@ -197,14 +205,23 @@ void AlarmConfig::bSaveAlarm_onClicked(const int minVolume, const int maxVolume,
     QString growingVolumeString = QString::number(growingVolume);
     QString growingSpeedString = QString::number(growingSpeed);
     QString isNewestSongsListString = isNewestSongsList ? "true" : "false";
-    mAlarmConfigs.setValueByKey("minVolume", minVolumeString);
-    mAlarmConfigs.setValueByKey("maxVolume", maxVolumeString);
-    mAlarmConfigs.setValueByKey("defaultVolume", defaultVolumeString);
-    mAlarmConfigs.setValueByKey("growingVolume", growingVolumeString);
-    mAlarmConfigs.setValueByKey("growingSpeed", growingSpeedString);
-    mAlarmConfigs.setValueByKey("playlist", playlist);
-    mAlarmConfigs.setValueByKey("theNewestSongs", isNewestSongsListString);
-    editAlarmConfigFile.SaveConfiguration(mAlarmConfigs);
+    if(!mAlarmConfigs.empty())
+    {
+        mAlarmConfigs.setValueByKey("minVolume", minVolumeString);
+        mAlarmConfigs.setValueByKey("maxVolume", maxVolumeString);
+        mAlarmConfigs.setValueByKey("defaultVolume", defaultVolumeString);
+        mAlarmConfigs.setValueByKey("growingVolume", growingVolumeString);
+        mAlarmConfigs.setValueByKey("growingSpeed", growingSpeedString);
+        mAlarmConfigs.setValueByKey("playlist", playlist);
+        mAlarmConfigs.setValueByKey("theNewestSongs", isNewestSongsListString);
+        const bool result = editAlarmConfigFile.SaveConfiguration(mAlarmConfigs);
+        if(!result)
+            qCritical("Failed to save alarm configuration");
+    }
+    else
+    {
+        qCritical("alarm configuration is empty !!");
+    }
 }
 
 void AlarmConfig::bSaveAlarmService_onClicked(const bool monCheckBox, const bool tueCheckBox, const bool wedCheckBox, const bool thuCheckBox, const bool friCheckBox, const bool satCheckBox,
@@ -239,20 +256,26 @@ void AlarmConfig::bSaveAlarmService_onClicked(const bool monCheckBox, const bool
 
     daysOfWeek.remove(daysOfWeek.length() - 1, 1);// remove ',' on last sign
 
-    saveAlarmIsSystemdTimer(daysOfWeek, time);
+    const bool result = saveAlarmIsSystemdTimer(daysOfWeek, time);
+    if(!result)
+        qCritical("Failed to save alarm configuration");
+    /// TODO stop timer before reload - it resolved problem with auto start after save
     if(systemdAlarmSupport)
         Systemd::reload(Systemd::System);
 }
 
 
-void AlarmConfig::saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time)
+bool AlarmConfig::saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QString &time)
 {
     QFile file(QString(CONFIG_PATH) + "/" + ALARM_TIMER);
 
     QStringList strings;
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
-
+    {
+        qCritical("Failed to open alarm timer file");
+        return false;
+    }
+    bool result = false;
     while(!file.atEnd())
     {
         QByteArray line = file.readLine();
@@ -261,6 +284,7 @@ void AlarmConfig::saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QStri
         if(qstrLine.contains("OnCalendar"))
         {
             strings.push_back("OnCalendar=" + daysOfWeek + " " + time + "\n");
+            result = true;
         }
         else
         {
@@ -271,7 +295,7 @@ void AlarmConfig::saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QStri
     file.close();
 
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
+        return false;
 
     QTextStream out(&file);
     for(auto it = std::begin(strings); it != std::end(strings); ++it)
@@ -279,4 +303,5 @@ void AlarmConfig::saveAlarmIsSystemdTimer(const QString &daysOfWeek, const QStri
         out << *it;
     }
     file.close();
+    return result;
 }

@@ -24,8 +24,11 @@ public:
     Q_INVOKABLE void checkService(QObject *saveButton);
 
 private:
-    const QString FTP_SERVICE = "vsftpd.service";
-    bool serviceExist = false;
+    static constexpr char VSFTPD_USER_CONF_PATH[] = "/etc/vsftpd_user_conf/";
+    static constexpr char FTP_SERVICE[] = "vsftpd.service";
+    static constexpr char VSFTPD_USERS_CONFIG_FILE[] = "/etc/vsftpd/ftpd.passwd";
+    bool serviceExist;
+    bool configFilesExist;
     QObject *cbUsers;
     QObject *tfUser;
     QObject *tfPassword;

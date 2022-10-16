@@ -2,7 +2,6 @@
 #include "IConfigFile.h"
 #include <QFile>
 #include <QTextStream>
-#include <QDebug>
 
 ScreenSaverConfigFile::ScreenSaverConfigFile(std::shared_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
 {
@@ -11,7 +10,9 @@ ScreenSaverConfigFile::ScreenSaverConfigFile(std::shared_ptr<IFileManager> ptrFi
 bool ScreenSaverConfigFile::LoadConfiguration(VectorData &configs)
 {
     QString fileData = "";
-    fileManager->read(fileData);
+    bool ret = fileManager->read(fileData);
+    if(!ret)
+        return false;
 
     QStringList lines = fileData.split('\n');
     for(int i = 0; i < lines.size(); i++)

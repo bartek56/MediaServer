@@ -6,11 +6,22 @@ FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
 {
     auto state = Systemd::getUnitFileState(Systemd::System, FTP_SERVICE);
 
+    if(!QFile(VSFTPD_USERS_CONFIG_FILE).exists())
+    {
+        configFilesExist = true;
+    }
+    else
+    {
+        configFilesExist = false;
+        qCritical("VSFTPD config file not exist");
+    }
+
     if(state.contains("able"))
         serviceExist = true;
     else
     {
-        qDebug() << "ftp systemd not support";
+        serviceExist = false;
+        qWarning() << "ftp systemd not support";
     }
 }
 
@@ -68,7 +79,7 @@ void FtpConfig::bAddUser_onClicked(const QString userName, const QString passwor
 void FtpConfig::setUsersComboBox(QObject *obj)
 {
     cbUsers = obj;
-    QString fileLocation = "/etc/vsftpd/ftpd.passwd";
+    auto fileLocation = QString(VSFTPD_USERS_CONFIG_FILE);
     users = editFile.OpenUsersListFile(fileLocation);
     cbUsers->setProperty("model", QVariant(users));
 }
@@ -78,7 +89,7 @@ void FtpConfig::cbUser_onDisplayTextChanged(const QString userName)
     QString path = getUpdateUserPath(userName);
     if(path == nullptr)
     {
-        QString pathTofile = "/etc/vsftpd_user_conf/";
+        auto pathTofile = QString(VSFTPD_USER_CONF_PATH);
         pathTofile.push_back(userName);
         path = editFile.OpenUserPathFile(pathTofile);
         if(path.size() < 2)
@@ -129,9 +140,12 @@ QString FtpConfig::getNewUserPath(const QString &userName)
 
 void FtpConfig::bSave_onClicked()
 {
-    SaveUsers();
-    UpdateUsers();
-    DeleteUsers();
+    if(configFilesExist)
+    {
+        SaveUsers();
+        UpdateUsers();
+        DeleteUsers();
+    }
     if(serviceExist)
         Systemd::restartUnit(Systemd::System, FTP_SERVICE, Systemd::Unit::Replace);
 }

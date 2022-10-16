@@ -16,6 +16,20 @@ TEST_F(MpdConfigFileTest, readNotCall)
     EXPECT_CALL(*mockReadFile, read(testing::_)).Times(0);
 }
 
+TEST_F(MpdConfigFileTest, configFileNotExist)
+{
+    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+
+    MpdConfigFile mpdConfigFile(mockReadFile);
+
+    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+
+    VectorData fileData;
+
+    EXPECT_FALSE(mpdConfigFile.LoadConfiguration(fileData));
+    EXPECT_TRUE(fileData.empty());
+}
+
 TEST_F(MpdConfigFileTest, readFileOneLine)
 {
     std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
