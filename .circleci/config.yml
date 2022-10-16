@@ -30,3 +30,8 @@ jobs:
           command: |
             qmake
             make
+      - run:
+          name: Unit Tests
+          command: |
+            cd build/UnitTests
+            ./UnitTests
