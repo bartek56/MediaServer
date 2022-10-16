@@ -28,7 +28,9 @@ jobs:
       - run:
           name: Build app
           command: |
-            qmake
+            mkdir build
+            cd build
+            qmake ..
             make
       - run:
           name: Unit Tests
