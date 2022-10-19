@@ -24,10 +24,13 @@ bool SambaConfig::isServiceActive()
 }
 
 
-void SambaConfig::loadAllConfigs()
+void SambaConfig::loadAllConfigs(QObject *isEnabled)
 {
     if(!isConfigFile)
+    {
+        isEnabled->setProperty("isEnabled", QVariant(false));
         return;
+    }
     QSettings settings(SAMBA_CONFIG_FILE, QSettings::IniFormat);
 
     auto keys = settings.childGroups();

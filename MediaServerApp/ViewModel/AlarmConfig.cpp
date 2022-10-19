@@ -100,14 +100,8 @@ bool AlarmConfig::checkAlarmIsActive()
 
 void AlarmConfig::checkAlarmService(QObject *enableAlarmSwitch)
 {
-    if(checkAlarmIsActive())
-    {
-        enableAlarmSwitch->setProperty("checked", QVariant(true));
-    }
-    else
-    {
-        enableAlarmSwitch->setProperty("checked", QVariant(false));
-    }
+    alarmIsEnabled = checkAlarmIsActive();
+    enableAlarmSwitch->setProperty("checked", QVariant(alarmIsEnabled));
 }
 
 void AlarmConfig::loadAlarmService(QObject *monCheckBox, QObject *tueCheckBox, QObject *wedCheckBox, QObject *thuCheckBox, QObject *friCheckBox, QObject *satCheckBox, QObject *sunCheckBox,
@@ -167,6 +161,7 @@ void AlarmConfig::switchEnableAlarm_onClicked(const bool isEnable)
 {
     if(systemdAlarmSupport)
     {
+        alarmIsEnabled = isEnable;
         if(isEnable)
         {
             Systemd::startUnit(Systemd::System, ALARM_TIMER, Systemd::Unit::Replace);
@@ -259,9 +254,20 @@ void AlarmConfig::bSaveAlarmService_onClicked(const bool monCheckBox, const bool
     const bool result = saveAlarmIsSystemdTimer(daysOfWeek, time);
     if(!result)
         qCritical("Failed to save alarm configuration");
-    /// TODO stop timer before reload - it resolved problem with auto start after save
+
     if(systemdAlarmSupport)
-        Systemd::reload(Systemd::System);
+    {
+        if(alarmIsEnabled)
+        {
+            Systemd::stopUnit(Systemd::System, ALARM_TIMER, Systemd::Unit::Replace);
+            Systemd::reload(Systemd::System);
+            Systemd::startUnit(Systemd::System, ALARM_TIMER, Systemd::Unit::Replace);
+        }
+        else
+        {
+            Systemd::reload(Systemd::System);
+        }
+    }
 }
 
 

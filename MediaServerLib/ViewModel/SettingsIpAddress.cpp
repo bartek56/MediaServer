@@ -147,7 +147,10 @@ void SettingsIpAddress::tfDNSServer_onEditingFinished(QString text)
 void SettingsIpAddress::saveIpAddressConfiguration()
 {
     if(!configFileExist)
+    {
+        qCritical("Failed to save IP Address configuration");
         return;
+    }
 
     QSettings wifiqsettings(WIFI_CONFIG_FILE, QSettings::IniFormat);
     wifiqsettings.clear();

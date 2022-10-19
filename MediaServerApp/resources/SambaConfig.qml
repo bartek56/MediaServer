@@ -18,6 +18,8 @@ Dialog
     padding: 1
     modal: true
 
+    property bool isEnabled: true
+
     Loader {
         anchors.fill:parent
         source:"ScreenSaverManager.qml";
@@ -989,10 +991,12 @@ Dialog
 
         Button
         {
+            id:restoreToDefaultButton
             text: "Restore Default"
             checked: false
             width: 160
             height: 40
+            enabled: isEnabled
             onClicked:
             {
                 workgroupTextField.text="WORKGROUP"
@@ -1020,6 +1024,7 @@ Dialog
             width: 160
             height: 40
             text: "Save"
+            enabled: isEnabled
             onClicked:
             {
                 sambaConfig.bSave_onClicked();
@@ -1137,6 +1142,6 @@ Dialog
         sambaConfig.setReadOnlyCheckBox3(readOnly3CheckBox);
         sambaConfig.setEnabled3(enabled3CheckBox);
 
-        sambaConfig.loadAllConfigs();
+        sambaConfig.loadAllConfigs(sambaConfigDialog);
     }
 }

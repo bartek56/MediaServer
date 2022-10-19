@@ -5,6 +5,7 @@
 
 ScreenSaverManager::ScreenSaverManager(QObject *parent) : QObject(parent), screenSaverConfigFile(std::make_shared<ConfigFile>(SCREENSAVER_CONFIG_FILE))
 {
+    timer = new QTimer();
 }
 
 bool ScreenSaverManager::Init()
@@ -17,7 +18,6 @@ bool ScreenSaverManager::Init()
         return false;
     }
 
-    timer = new QTimer();
     if(configs.getValueByKey("enable") == "true")
     {
         QString startTimeString = configs.getValueByKey("startTime");

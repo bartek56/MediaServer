@@ -14,6 +14,7 @@ private:
     const QString BASH = "bash";
 
     bool systemdAlarmSupport = false;
+    bool alarmIsEnabled = false;
 
     QStringList loadMPDPlaylists();
     QProcess testAlarmProcess;

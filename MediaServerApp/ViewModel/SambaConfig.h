@@ -194,7 +194,7 @@ public:
     Q_INVOKABLE void chbReadOnly3_onClicked(bool checked);
     Q_INVOKABLE void bFileDialog3_onAccepted(QString catalog);
 
-    Q_INVOKABLE void loadAllConfigs();
+    Q_INVOKABLE void loadAllConfigs(QObject *isEnabled);
 
 private:
     bool isConfigFile;
