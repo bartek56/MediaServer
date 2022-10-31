@@ -30,6 +30,16 @@ MultimediaConfig::MultimediaConfig(QObject *parent) : QObject(parent), dlnaConfi
     }
 }
 
+bool MultimediaConfig::isFileValid() const
+{
+    if(QFile(MINIDLNA_CONFIG_FILE).exists() and QFile(MPD_CONFIG_FILE).exists())
+    {
+        return true;
+    }
+
+    return false;
+}
+
 void MultimediaConfig::bVideoFileDialog_onAccepted(QString folderPath, QObject *tfVideoPath)
 {
     if(isDlnaSettingsLoaded)
@@ -82,6 +92,8 @@ void MultimediaConfig::loadSettings(QObject *videoPath, QObject *audioPath, QObj
         videoPath->setProperty("text", QVariant(dlnaConfigs.getValueByKey(VIDEODIR)));
         audioPath->setProperty("text", QVariant(dlnaConfigs.getValueByKey(AUDIODIR)));
         picturePath->setProperty("text", QVariant(dlnaConfigs.getValueByKey(PICTURESDIR)));
+        port->setProperty("text", QVariant(dlnaConfigs.getValueByKey(PORT)));
+        name->setProperty("text", QVariant(dlnaConfigs.getValueByKey(NAME)));
     }
     else
     {
@@ -93,8 +105,6 @@ void MultimediaConfig::loadSettings(QObject *videoPath, QObject *audioPath, QObj
     if(mpdConfigFile.LoadConfiguration(mpdConfigs))
     {
         isMpdSettingsLoaded = true;
-        port->setProperty("text", QVariant(mpdConfigs.getValueByKey(PORT)));
-        name->setProperty("text", QVariant(mpdConfigs.getValueByKey(NAME)));
     }
     else
     {

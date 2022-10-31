@@ -23,6 +23,10 @@ public:
     Q_INVOKABLE void bFileDialog2_onAccepted(QString path);
     Q_INVOKABLE void checkService(QObject *saveButton);
 
+    Q_PROPERTY(bool fileValid READ isFileValid)
+
+    bool isFileValid() const;
+
 private:
     static constexpr char VSFTPD_USER_CONF_PATH[] = "/etc/vsftpd_user_conf/";
     static constexpr char FTP_SERVICE[] = "vsftpd.service";

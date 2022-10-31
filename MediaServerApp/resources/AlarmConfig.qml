@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.3
 import AlarmConfigLib 1.0
 
@@ -14,6 +14,19 @@ Dialog
     margins: 0
     padding: 1
     modal: true
+
+    property string errorMessage
+
+
+    MessageDialog
+    {
+        id: fileErrorMessage
+        title: "Warning"
+        icon: StandardIcon.Warning
+        text: errorMessage
+        standardButtons: StandardButton.Close
+        onButtonClicked: alarmConfigDialog.close()
+    }
 
     AlarmConfigView
     {
@@ -338,9 +351,40 @@ Dialog
 
     Component.onCompleted:
     {
-        alarmConfig.loadAlarmConfigurations(minVolumeSpinBox, maxVolumeSpinBox, defaultVolumeSpinBox, growingVolumeSpinBox, growingSpeedSpinBox, newestSongsRadioButton, playlistRadioButton, playlistComboBox)
-        alarmConfig.loadAlarmService(monCheckBox, tueCheckBox, wedCheckBox, thuCheckBox,friCheckBox, satCheckBox, sunCheckBox, timeHHSpinBox, timeMMSpinBox)
-        alarmConfig.checkAlarmService(enableAlarmSwitch)
+        var message = ""
+        var isError = 0
+        if(alarmConfig.systemdSupportExist)
+        {
+            alarmConfig.loadAlarmService(monCheckBox, tueCheckBox, wedCheckBox, thuCheckBox,friCheckBox, satCheckBox, sunCheckBox, timeHHSpinBox, timeMMSpinBox)
+            alarmConfig.checkAlarmService(enableAlarmSwitch)
+        }
+        else
+        {
+            isError = 1
+            message += "Systemd config file doesn't exist"
+        }
+        if(alarmConfig.configFileExist)
+        {
+            if(alarmConfig.configFileValidated)
+            {
+                alarmConfig.loadAlarmConfigurations(minVolumeSpinBox, maxVolumeSpinBox, defaultVolumeSpinBox, growingVolumeSpinBox, growingSpeedSpinBox, newestSongsRadioButton, playlistRadioButton, playlistComboBox)
+            }
+            else
+            {
+                isError = 1
+                message += "\nWrong syntax in config file"
+            }
+        }
+        else
+        {
+            isError = 1
+            message += "\nAlarm config file doesn't exist"
+        }
+        if(isError === 1)
+        {
+        errorMessage = message
+        fileErrorMessage.setVisible(true)
+        }
     }
 }
 

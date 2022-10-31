@@ -8,12 +8,12 @@ FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
 
     if(!QFile(VSFTPD_USERS_CONFIG_FILE).exists())
     {
-        configFilesExist = true;
+        configFilesExist = false;
+        qCritical("VSFTPD config file not exist");
     }
     else
     {
-        configFilesExist = false;
-        qCritical("VSFTPD config file not exist");
+        configFilesExist = true;
     }
 
     if(state.contains("able"))
@@ -25,6 +25,10 @@ FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
     }
 }
 
+bool FtpConfig::isFileValid() const
+{
+    return configFilesExist;
+}
 
 void FtpConfig::checkService(QObject *saveButton)
 {

@@ -16,6 +16,11 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
     }
 }
 
+bool SambaConfig::isFileValid() const
+{
+    return isConfigFile;
+}
+
 bool SambaConfig::isServiceActive()
 {
     Systemd::getUnit(Systemd::System, NMB_SERVICE);//support QDBusAbstractInterfaceSupport

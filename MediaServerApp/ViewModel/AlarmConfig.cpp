@@ -17,17 +17,35 @@ AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent), editAlarmConfigFile
     {
         qWarning() << "alarm systemd not support";
     }
+    if(!editAlarmConfigFile.LoadConfiguration(mAlarmConfigs))
+    {
+        qCritical("Failed to load alarm configuration");
+        configFileValidate = false;
+    }
+    else
+    {
+        configFileValidate = true;
+    }
+}
+
+bool AlarmConfig::isConfigFileExist() const
+{
+    return QFile(ALARM_CONFIG_FILE).exists();
+}
+
+bool AlarmConfig::isConfigFileValidated() const
+{
+    return configFileValidate;
+}
+
+bool AlarmConfig::isSystemdSupport() const
+{
+    return systemdAlarmSupport;
 }
 
 void AlarmConfig::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox, QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox,
                                           QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton, QObject *playlistComboBox)
 {
-    if(!editAlarmConfigFile.LoadConfiguration(mAlarmConfigs))
-    {
-        qCritical("Failed to load alarm configuration");
-        return;
-    }
-
     minVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("minVolume")));
     maxVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("maxVolume")));
     defaultVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("defaultVolume")));

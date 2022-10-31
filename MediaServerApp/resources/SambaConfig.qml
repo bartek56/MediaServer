@@ -2,7 +2,8 @@ import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs 1.1
+
 import QtQuick.VirtualKeyboard 2.1
 import SambaConfigLib 1.0
 
@@ -28,6 +29,15 @@ Dialog
     SambaConfigView
     {
         id: sambaConfig
+    }
+
+    MessageDialog {
+        id: fileErrorMessage
+        title: "Warning"
+        icon: StandardIcon.Warning
+        text: "Samba confg file doesn't exist!"
+        standardButtons: StandardButton.Close
+        onButtonClicked: sambaConfigDialog.close()
     }
 
     FileDialog {
@@ -1091,8 +1101,9 @@ Dialog
 
     Component.onCompleted:
     {
-
-        sambaConfig.setStackLayout(stackLayout);
+        if (sambaConfig.fileValid)
+        {
+          sambaConfig.setStackLayout(stackLayout);
         sambaConfig.setWorkGroupTextField(workgroupTextField);
         sambaConfig.setServerStringTextField(serverStringTextField);
         sambaConfig.setNetBiosTextField(netbiosNameTextField);
@@ -1143,5 +1154,11 @@ Dialog
         sambaConfig.setEnabled3(enabled3CheckBox);
 
         sambaConfig.loadAllConfigs(sambaConfigDialog);
-    }
+
+        }
+        else
+        {
+            fileErrorMessage.setVisible(true)
+        }
+   }
 }

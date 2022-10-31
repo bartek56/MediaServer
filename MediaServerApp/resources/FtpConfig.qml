@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
 
@@ -25,6 +25,15 @@ Dialog
     Loader {
         anchors.fill:parent
         source:"ScreenSaverManager.qml";
+    }
+
+    MessageDialog {
+        id: fileErrorMessage
+        title: "Warning"
+        icon: StandardIcon.Warning
+        text: "FTP confg file doesn't exist!"
+        standardButtons: StandardButton.Close
+        onButtonClicked: ftpConfigDialog.close()
     }
 
     FileDialog {
@@ -332,9 +341,16 @@ Dialog
 
     Component.onCompleted:
     {
+        if (ftpConfig.fileValid)
+        {
         ftpConfig.setPathTextField1(catalogTextField1)
         ftpConfig.setPathTextField2(catalogTextField2)
         ftpConfig.setUsersComboBox(userComboBox)
         ftpConfig.checkService(saveButton)
+        }
+        else
+        {
+            fileErrorMessage.setVisible(true)
+        }
     }
 }

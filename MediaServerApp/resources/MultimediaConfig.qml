@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
 import MultimediaConfigLib 1.0
@@ -19,6 +19,15 @@ Dialog
     MultimediaConfigView
     {
         id: multimediaConfig
+    }
+
+    MessageDialog {
+        id: fileErrorMessage
+        title: "Warning"
+        icon: StandardIcon.Warning
+        text: "Multimedia config files don't exist!"
+        standardButtons: StandardButton.Close
+        onButtonClicked: multimediaConfigDialog.close()
     }
 
     Loader {
@@ -335,7 +344,15 @@ Dialog
 
     Component.onCompleted:
     {
-        multimediaConfig.loadSettings(videoPathEditText,audioPathEditText,picturePathEditText, portEditText,nameEditText);
+        if(multimediaConfig.fileValid)
+        {
+            multimediaConfig.loadSettings(videoPathEditText,audioPathEditText,picturePathEditText, portEditText,nameEditText);
+        }
+        else
+        {
+            fileErrorMessage.setVisible(true)
+        }
     }
+
 }
 

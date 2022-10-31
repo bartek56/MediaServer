@@ -79,6 +79,8 @@ struct SambaShareObjects
 class SambaConfig : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool fileValid READ isFileValid)
+
 public:
     QObject *stackLayout;
 
@@ -92,6 +94,7 @@ public:
     QObject *mapToGuestComboBox;
 
     explicit SambaConfig(QObject *parent = nullptr);
+    bool isFileValid() const;
 
     Q_INVOKABLE void setStackLayout(QObject *obj);
 

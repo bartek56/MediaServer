@@ -14,6 +14,7 @@ private:
     const QString BASH = "bash";
 
     bool systemdAlarmSupport = false;
+    bool configFileValidate = false;
     bool alarmIsEnabled = false;
 
     QStringList loadMPDPlaylists();
@@ -40,8 +41,12 @@ public:
     Q_INVOKABLE void bSaveAlarmService_onClicked(const bool monCheckBox, const bool tueCheckBox, const bool wedCheckBox, const bool thuCheckBox, const bool friCheckBox, const bool satCheckBox,
                                                  const bool sunCheckBox, const int timeHHSpinBox, const int timeMMSpinBox);
 
-
-signals:
+    Q_PROPERTY(bool systemdSupportExist READ isSystemdSupport)
+    Q_PROPERTY(bool configFileExist READ isConfigFileExist)
+    Q_PROPERTY(bool configFileValidated READ isConfigFileValidated)
+    bool isSystemdSupport() const;
+    bool isConfigFileExist() const;
+    bool isConfigFileValidated() const;
 
 public slots:
 };
