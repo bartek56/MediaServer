@@ -26,6 +26,11 @@ SettingsIpAddress::~SettingsIpAddress()
 {
 }
 
+bool SettingsIpAddress::systemdNetworkSupportExist()
+{
+    return configFileExist;
+}
+
 NetworkConfig SettingsIpAddress::loadNetworkConfig(const QString &configFile)
 {
     QSettings settings(configFile, QSettings::IniFormat);

@@ -12,7 +12,7 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
     if(!QFile(SAMBA_CONFIG_FILE).exists())
     {
         isConfigFile = false;
-        qCritical("Smba config file doesn't exist");
+        qCritical("Samba config file doesn't exist");
     }
 }
 

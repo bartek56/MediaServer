@@ -5,6 +5,29 @@
 
 SettingsScreensaver::SettingsScreensaver(QObject *parent) : QObject(parent), screenSaverConfigFile(std::make_shared<ConfigFile>(SCREENSAVER_CONFIG_FILE))
 {
+
+    isConfigValid = false;
+    if(!QFile(SCREENSAVER_CONFIG_FILE).exists())
+    {
+        errorMessage = "Screen saver configuration file not exist";
+        isConfigValid = false;
+    }
+    else
+    {
+        isConfigValid = screenSaverConfigFile.LoadConfiguration(screenSaverConfigs);
+        if(!isConfigValid)
+            errorMessage = "Screen saver configuration file error";
+    }
+}
+
+bool SettingsScreensaver::configValid()
+{
+    return isConfigValid;
+}
+
+QString SettingsScreensaver::getMessage()
+{
+    return errorMessage;
 }
 
 void SettingsScreensaver::screenSaverEnableSwitch_OnClicked(const bool isEnable)
@@ -49,6 +72,7 @@ void SettingsScreensaver::loadScreenSaverConfigurations(QObject *enableSwitch, Q
     const bool result = screenSaverConfigFile.LoadConfiguration(screenSaverConfigs);
     if(result)
     {
+        isConfigValid = true;
         auto startTimeInMinutes = ConvertTimeFromMiliSecStringToMinutesInt(screenSaverConfigs.getValueByKey("startTime"));
 
         startTime->setProperty("value", QVariant(startTimeInMinutes));
@@ -66,6 +90,7 @@ void SettingsScreensaver::loadScreenSaverConfigurations(QObject *enableSwitch, Q
     }
     else
     {
+        isConfigValid = false;
         qCritical("Error to load screensaver configuration");
     }
 }

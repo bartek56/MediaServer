@@ -13,6 +13,7 @@ static constexpr char WPA_CONFIG_FILE[] = "/etc/mediaserver/wpa_supplicant.conf"
 static constexpr char ETHERNET_CONFIG_FILE[] = "/etc/mediaserver/10-wired.network";
 static constexpr char WIFI_CONFIG_FILE[] = "/etc/mediaserver/20-wireless.network";
 static constexpr char SAMBA_CONFIG_FILE[] = "/etc/mediaserver/smb.conf";
+static constexpr char OPKG_CONFIG_FILE[] = "/etc/opkg/opkg.conf";
 
 class IConfigFile
 {

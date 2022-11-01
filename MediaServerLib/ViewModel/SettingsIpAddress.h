@@ -35,6 +35,11 @@ public:
     Q_INVOKABLE void rbDynamicIP_onClicked();
     Q_INVOKABLE void rbStaticIP_onClicked(const QString ipadressTextField, const QString netmaskTextField, const QString gatewayTextField, const QString dnsserverTextField);
     Q_INVOKABLE void saveIpAddressConfiguration();
+    Q_PROPERTY(bool systemdNetworkSupportExist READ systemdNetworkSupportExist NOTIFY systemdNetworkSupportChanged)
+    bool systemdNetworkSupportExist();
+
+signals:
+    bool systemdNetworkSupportChanged();
 
 private:
     // IP Adress

@@ -1,4 +1,5 @@
 #include "SettingsPackages.h"
+#include "../MediaServerLib/ConfigFile/IConfigFile.h"
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QDebug>
@@ -8,20 +9,59 @@
 
 SettingsPackages::SettingsPackages(QObject *parent) : QObject(parent)
 {
+    configIsValid = false;
+    QProcess builder;
+    builder.setProcessChannelMode(QProcess::MergedChannels);
+    builder.start("opkg", QStringList() << "print-architecture");
+
+    while(builder.waitForFinished())
+        ;
+
+    QString info = builder.readAll();
+    if(info.isEmpty())
+    {
+        qCritical() << "opkg is not support";
+        errorMessage = "OPKG is not supported on this system";
+    }
+    else
+    {
+        if(!QFile(OPKG_CONFIG_FILE).exists())
+        {
+            errorMessage = "OPKG config file not exists";
+            qCritical("OPKG config file not exists");
+        }
+        else
+        {
+            const bool serverISRunning = checkIfServerIsConnected();
+            if(!serverISRunning)
+            {
+                errorMessage = "OPKG server is not active";
+                qCritical() << "OPKG server is not active";
+            }
+            else
+            {
+                configIsValid = true;
+            }
+        }
+    }
+}
+
+bool SettingsPackages::configValid()
+{
+    return configIsValid;
+}
+
+QString SettingsPackages::getMessage()
+{
+    return errorMessage;
 }
 
 bool SettingsPackages::checkIfServerIsConnected()
 {
-    QFile file("/etc/opkg/opkg.conf");
+    QFile file(OPKG_CONFIG_FILE);
 
     bool status = false;
     QString serverAddress = "";
-
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        qCritical("Opkg congig file not exist");
-        return false;
-    }
 
     while(!file.atEnd())
     {
@@ -56,57 +96,50 @@ bool SettingsPackages::checkIfServerIsConnected()
 
 void SettingsPackages::bUpdate_onClicked(QObject *updateList, QObject *packageInfo)
 {
-    if(checkIfServerIsConnected())
+    updateList->setProperty("editable", QVariant(true));
+
+    // opkg update
+    QProcess processListUpdate;
+    processListUpdate.setProcessChannelMode(QProcess::MergedChannels);
+    processListUpdate.start("opkg", QStringList() << "update");
+    while(processListUpdate.waitForFinished())
+        ;
+
+    QProcess processListUpgradable;
+    processListUpgradable.setProcessChannelMode(QProcess::MergedChannels);
+    processListUpgradable.start("opkg", QStringList() << "list-upgradable");
+
+    processListUpgradable.setReadChannel(QProcess::StandardOutput);
+    QStringList packagesList;
+    while(processListUpgradable.waitForFinished())
+        ;
+    while(processListUpgradable.canReadLine())
     {
-        updateList->setProperty("editable", QVariant(true));
+        auto line = processListUpgradable.readLine();
+        QString qStrLine = QString(line);
+        auto packageName = qStrLine.section(" - ", 0, 0);
+        packagesList.push_back(packageName);
+    }
 
-        // opkg update
-        QProcess processListUpdate;
-        processListUpdate.setProcessChannelMode(QProcess::MergedChannels);
-        processListUpdate.start("opkg", QStringList() << "update");
-        while(processListUpdate.waitForFinished())
+    //    packagesList.push_back("python-mutagen");
+
+    updateList->setProperty("model", QVariant(packagesList));
+
+    if(packagesList.count() > 0)
+    {
+        QProcess processPackageInfo;
+        processPackageInfo.setProcessChannelMode(QProcess::MergedChannels);
+        processPackageInfo.start("opkg", QStringList() << "info" << packagesList[0]);
+
+        while(processPackageInfo.waitForFinished())
             ;
 
-        QProcess processListUpgradable;
-        processListUpgradable.setProcessChannelMode(QProcess::MergedChannels);
-        processListUpgradable.start("opkg", QStringList() << "list-upgradable");
-
-        processListUpgradable.setReadChannel(QProcess::StandardOutput);
-        QStringList packagesList;
-        while(processListUpgradable.waitForFinished())
-            ;
-        while(processListUpgradable.canReadLine())
-        {
-            auto line = processListUpgradable.readLine();
-            QString qStrLine = QString(line);
-            auto packageName = qStrLine.section(" - ", 0, 0);
-            packagesList.push_back(packageName);
-        }
-
-        //    packagesList.push_back("python-mutagen");
-
-        updateList->setProperty("model", QVariant(packagesList));
-
-        if(packagesList.count() > 0)
-        {
-            QProcess processPackageInfo;
-            processPackageInfo.setProcessChannelMode(QProcess::MergedChannels);
-            processPackageInfo.start("opkg", QStringList() << "info" << packagesList[0]);
-
-            while(processPackageInfo.waitForFinished())
-                ;
-
-            QString packageInformation = processPackageInfo.readAll();
-            packageInfo->setProperty("text", QVariant(packageInformation));
-        }
-        else
-        {
-            packageInfo->setProperty("text", QVariant("No packages"));
-        }
+        QString packageInformation = processPackageInfo.readAll();
+        packageInfo->setProperty("text", QVariant(packageInformation));
     }
     else
     {
-        packageInfo->setProperty("text", QVariant("Server is not available"));
+        packageInfo->setProperty("text", QVariant("No packages"));
     }
 }
 

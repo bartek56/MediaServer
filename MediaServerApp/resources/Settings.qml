@@ -436,10 +436,23 @@ Dialog
         Item
         {
             id: wifiSettingsTag
+
+            RowLayout{
+                id: wifiNotSupportedLayout
+                y:51
+                anchors.left: parent.left
+                anchors.right: parent.right
+                visible: !settingsWifi.iwExist
+                Text{
+                    Layout.alignment: Qt.AlignCenter
+                    text: settingsWifi.message
+                }
+            }
             RowLayout{
                 y:51
                 anchors.left: parent.left
                 anchors.right: parent.right
+                visible: settingsWifi.iwExist
 
                 GridLayout {
                     width: 352
@@ -596,11 +609,24 @@ Dialog
         {
 
             id: ipaddressSettingsTag
+            //    bool systemdNetworkSupportExist();
+            RowLayout{
+                id: ipaddressNotSupportedLayout
+                y:51
+                anchors.left: parent.left
+                anchors.right: parent.right
+                visible: !settingsIpAddress.systemdNetworkSupportExist
+                Text{
+                    Layout.alignment: Qt.AlignCenter
+                    text: "Configuration ip address is not supported"
+                }
+            }
+
             RowLayout{
                 y:51
                 anchors.left: parent.left
                 anchors.right: parent.right
-
+                visible: settingsIpAddress.systemdNetworkSupportExist
                 GridLayout {
                     width: 352
                     columns: 2
@@ -775,7 +801,7 @@ Dialog
                 anchors.rightMargin: 140
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-
+                visible: settingsIpAddress.systemdNetworkSupportExist
                 Button
                 {
                     id: button7
@@ -795,10 +821,22 @@ Dialog
         {
             id: screensaverSettingsTag
             RowLayout{
+                id: screenSaverNotSupportedLayout
                 y:51
                 anchors.left: parent.left
                 anchors.right: parent.right
+                visible: !settingsScreensaver.configValid
+                Text{
+                    Layout.alignment: Qt.AlignCenter
+                    text: settingsScreensaver.message
+                }
+            }
 
+            RowLayout{
+                y:51
+                anchors.left: parent.left
+                anchors.right: parent.right
+                visible: settingsScreensaver.configValid
                 GridLayout {
                     rowSpacing: 28
                     rows: 4
@@ -907,6 +945,7 @@ Dialog
                 anchors.rightMargin: 140
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
+                visible: settingsScreensaver.configValid
 
                 Button
                 {
@@ -932,10 +971,22 @@ Dialog
         {
             id: updateTag
             RowLayout{
+                id: packageManagerNotSupportedLayout
                 y:51
                 anchors.left: parent.left
                 anchors.right: parent.right
+                visible: !settingsPackages.configValid
+                Text{
+                    Layout.alignment: Qt.AlignCenter
+                    text: settingsPackages.message
+                }
+            }
 
+            RowLayout{
+                y:51
+                anchors.left: parent.left
+                anchors.right: parent.right
+                visible: settingsPackages.configValid
                 GridLayout {
                     id: gridLayout
                     width: 378

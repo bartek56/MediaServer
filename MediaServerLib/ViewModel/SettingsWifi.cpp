@@ -10,6 +10,52 @@
 
 SettingsWifi::SettingsWifi(QObject *parent) : QObject(parent), wifiConfigFile(std::make_shared<ConfigFile>(WPA_CONFIG_FILE))
 {
+    ///TODO
+    /// check if iw command exist
+    /// using iw check if wlan0 exist
+    //iw wlan0 info
+
+    QProcess builder;
+    builder.setProcessChannelMode(QProcess::MergedChannels);
+    builder.start("iw", QStringList() << "wlan0"
+                                      << "info");
+
+    while(builder.waitForFinished())
+        ;
+
+    QString info = builder.readAll();
+    if(info.contains("command not found"))
+    {
+        infoMessage = "iw tools not exist - network manager not support";
+        qCritical("command iw not exist");
+        isIWSupported = false;
+    }
+    else if(info.contains("iw [options] command"))
+    {
+        qCritical("interface wlan0 not exist");
+        infoMessage = "interface wlan0 not exist";
+        isIWSupported = false;
+    }
+    else if(info.contains("Intercae wlan0"))
+    {
+        qDebug() << "iw is supported";
+        isIWSupported = true;
+    }
+    else
+    {
+        isIWSupported = false;
+        infoMessage = "unknown result of iw tool";
+        qCritical("unknown result of iw tool");
+    }
+}
+bool SettingsWifi::iwExist()
+{
+    return isIWSupported;
+}
+
+QString SettingsWifi::getMessage()
+{
+    return infoMessage;
 }
 
 void SettingsWifi::updateWifiStatus(QObject *obj)
@@ -139,6 +185,13 @@ void SettingsWifi::checkWifi(QObject *obj)
 
 void SettingsWifi::loadWifiConfigFile()
 {
-    if(!wifiConfigFile.LoadConfiguration(wifiConfigs, vSsidConfig))
-        qCritical("Failed to load wifi configuration");
+    if(isIWSupported)
+    {
+        if(!wifiConfigFile.LoadConfiguration(wifiConfigs, vSsidConfig))
+        {
+            qCritical("Failed to load wifi configuration");
+            infoMessage = "Failed to load wifi configuration";
+            isIWSupported = false;
+        }
+    }
 }

@@ -15,8 +15,20 @@ public:
     Q_INVOKABLE void bUpgradeAll_onClicked();
     Q_INVOKABLE void cbPackage_onDisplayTextChanged(const QString packageName, QObject *packageSpecificationText);
 
+    Q_PROPERTY(QString message READ getMessage NOTIFY messageChanged)
+    Q_PROPERTY(bool configValid READ configValid NOTIFY configValidChanged)
+
+    bool configValid();
+    QString getMessage();
+
+signals:
+    bool configValidChanged();
+    bool messageChanged();
+
 private:
     bool checkIfServerIsConnected();
+    bool configIsValid;
+    QString errorMessage;
 };
 
 
