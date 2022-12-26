@@ -10,11 +10,6 @@
 
 SettingsWifi::SettingsWifi(QObject *parent) : QObject(parent), wifiConfigFile(std::make_shared<ConfigFile>(WPA_CONFIG_FILE))
 {
-    ///TODO
-    /// check if iw command exist
-    /// using iw check if wlan0 exist
-    //iw wlan0 info
-
     QProcess builder;
     builder.setProcessChannelMode(QProcess::MergedChannels);
     builder.start("iw", QStringList() << "wlan0"
@@ -48,6 +43,7 @@ SettingsWifi::SettingsWifi(QObject *parent) : QObject(parent), wifiConfigFile(st
         qCritical("unknown result of iw tool");
     }
 }
+
 bool SettingsWifi::iwExist()
 {
     return isIWSupported;
@@ -151,11 +147,19 @@ void SettingsWifi::sWifiOn_OnCheckedChanged(bool wifiOnSwitch)
     {
         QProcess::execute("ifconfig", QStringList() << "wlan0"
                                                     << "up");
+        QProcess::execute("systemctl", QStringList() << "start"
+                                                     << "wpa_supplicant");
+        QProcess::execute("systemctl", QStringList() << "enable"
+                                                     << "wpa_supplicant");
     }
     else if(!wifiOnSwitch)
     {
         QProcess::execute("ifconfig", QStringList() << "wlan0"
                                                     << "down");
+        QProcess::execute("systemctl", QStringList() << "stop"
+                                                     << "wpa_supplicant");
+        QProcess::execute("systemctl", QStringList() << "disable"
+                                                     << "wpa_supplicant");
     }
 }
 

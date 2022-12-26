@@ -126,7 +126,10 @@ void MultimediaConfig::saveConfigs()
 
     if(systemdMpdSupport)
         restartService(MPD_SERVICE);
+
+    QProcess::execute("mpc", QStringList() << "rescan");
 }
+
 void MultimediaConfig::restartService(const QString &service)
 {
     if(isServiceActive(service))
