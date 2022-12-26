@@ -584,11 +584,8 @@ Dialog
                         }
                         onCheckedChanged:
                         {
+                            settingsWifi.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
                             updatestate()
-                            if(scanNetworkButton.enabled)
-                            {
-                                settingsWifi.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
-                            }
                         }
                         onPressed:{ busySettings.running=true }
                         onReleased:{ busySettings.running=false }
