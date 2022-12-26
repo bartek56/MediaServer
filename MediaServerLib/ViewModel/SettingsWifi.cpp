@@ -122,7 +122,6 @@ void SettingsWifi::connect(const QString networkName, const QString password)
     bool result = wifiConfigFile.SaveConfiguration(wifiConfigs, vSsidConfig);
     if(!result)
         qCritical("Failed to save Wifi user and password configuration");
-
     Systemd::restartUnit(Systemd::System, WPASUPPLICANT_SERVICE, Systemd::Unit::Replace);
 }
 
@@ -143,23 +142,30 @@ void SettingsWifi::cbNetworks_onDisplayTextChanged(QString networkName, QObject 
 
 void SettingsWifi::sWifiOn_OnCheckedChanged(bool wifiOnSwitch)
 {
-    if(wifiOnSwitch)
+    if(!isFirstStateUpdate)
     {
-        QProcess::execute("ifconfig", QStringList() << "wlan0"
-                                                    << "up");
-        QProcess::execute("systemctl", QStringList() << "start"
-                                                     << "wpa_supplicant");
-        QProcess::execute("systemctl", QStringList() << "enable"
-                                                     << "wpa_supplicant");
+        if(wifiOnSwitch)
+        {
+            QProcess::execute("ifconfig", QStringList() << "wlan0"
+                                                        << "up");
+            QProcess::execute("systemctl", QStringList() << "start"
+                                                         << "wpa_supplicant");
+            QProcess::execute("systemctl", QStringList() << "enable"
+                                                         << "wpa_supplicant");
+        }
+        else if(!wifiOnSwitch)
+        {
+            QProcess::execute("ifconfig", QStringList() << "wlan0"
+                                                        << "down");
+            QProcess::execute("systemctl", QStringList() << "stop"
+                                                         << "wpa_supplicant");
+            QProcess::execute("systemctl", QStringList() << "disable"
+                                                         << "wpa_supplicant");
+        }
     }
-    else if(!wifiOnSwitch)
+    else
     {
-        QProcess::execute("ifconfig", QStringList() << "wlan0"
-                                                    << "down");
-        QProcess::execute("systemctl", QStringList() << "stop"
-                                                     << "wpa_supplicant");
-        QProcess::execute("systemctl", QStringList() << "disable"
-                                                     << "wpa_supplicant");
+        isFirstStateUpdate = false;
     }
 }
 
@@ -169,6 +175,7 @@ void SettingsWifi::checkWifi(QObject *obj)
     process.start("iw", QStringList() << "wlan0"
                                       << "info");
 
+    isFirstStateUpdate = true;
     QStringList networksList;
     while(process.waitForFinished())
         ;

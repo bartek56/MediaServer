@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
     view->setHeight(480);
     view->setResizeMode(QQuickView::SizeRootObjectToView);
 
+
     ScreenSaverHelper screensaverhelper;
     view->rootContext()->setContextProperty("screensaverhelper", &screensaverhelper);
 

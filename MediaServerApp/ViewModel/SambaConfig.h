@@ -201,6 +201,7 @@ public:
 
 private:
     bool isConfigFile;
+    bool systemdSupport;
     const QString SMB_SERVICE = "smb.service";
     const QString NMB_SERVICE = "nmb.service";
 

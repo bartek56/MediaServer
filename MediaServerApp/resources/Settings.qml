@@ -584,12 +584,14 @@ Dialog
                         }
                         onCheckedChanged:
                         {
-                            settingsWifi.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
                             updatestate()
+                            if(scanNetworkButton.enabled)
+                            {
+                                settingsWifi.sWifiOn_OnCheckedChanged(wifiOnSwitch.checked)
+                            }
                         }
-                        onPressed: { busySettings.running=true }
+                        onPressed:{ busySettings.running=true }
                         onReleased:{ busySettings.running=false }
-
                     }
 
                     Timer {
@@ -1171,7 +1173,6 @@ Dialog
     Component.onCompleted:
     {
         settingsWifi.checkWifi(wifiOnSwitch)
-        wifiOnSwitch.updatestate()
         settingsWifi.loadWifiConfigFile()
         settingsScreensaver.loadScreenSaverConfigurations(screensaverEnableSwitch,startTimeSpinBox,pathScreenSaverTextField,timeOutSpinBox,randomCheckBox)
         settingsStatus.checkTvHeadEndServiceStatus(tvHeadEndStatusSwitch,tvHeadEndStatusButton)

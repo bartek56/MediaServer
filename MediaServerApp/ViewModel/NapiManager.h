@@ -23,6 +23,8 @@ public:
     Q_INVOKABLE void rbPolish_onClicked();
     Q_INVOKABLE void rbEnglish_onClicked();
     Q_INVOKABLE void setVideoPath(QObject *object);
+    Q_PROPERTY(bool qnapiSupport READ isQNapiSupport)
+    bool isQNapiSupport() const;
 
 private:
     QString filePath;

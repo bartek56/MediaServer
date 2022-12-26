@@ -48,6 +48,7 @@ private:
     VectorData wifiConfigs;
     QString infoMessage;
     bool isIWSupported;
+    bool isFirstStateUpdate;
 };
 
 #endif// SETTINGS_H

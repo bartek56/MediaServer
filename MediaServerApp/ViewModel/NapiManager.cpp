@@ -42,6 +42,23 @@ void NapiManager::setVideoPath(QObject *object)
     }
 }
 
+bool NapiManager::isQNapiSupport() const
+{
+    if(!QFile("/usr/bin/qnapi").exists())
+    {
+        qCritical("QNapi doesn't exist");
+        return false;
+    }
+
+    if(!QFile(NAPI_CONFIG_FILE).exists())
+    {
+        qCritical("QNapi config file doesn't exist");
+        return false;
+    }
+
+    return true;
+}
+
 void NapiManager::bNapiFileDialog_onAccepted(const QString folderPathFileDialog, const QString fileNameFileDialog)
 {
     QString temp = folderPathFileDialog;

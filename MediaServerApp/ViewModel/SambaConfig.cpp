@@ -14,6 +14,17 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
         isConfigFile = false;
         qCritical("Samba config file doesn't exist");
     }
+    auto state = Systemd::getUnitFileState(Systemd::System, NMB_SERVICE);
+
+    if(state.contains("able"))
+    {
+        systemdSupport = true;
+    }
+    else
+    {
+        systemdSupport = false;
+        qWarning() << "Samba systemd not support";
+    }
 }
 
 bool SambaConfig::isFileValid() const
@@ -23,9 +34,13 @@ bool SambaConfig::isFileValid() const
 
 bool SambaConfig::isServiceActive()
 {
-    Systemd::getUnit(Systemd::System, NMB_SERVICE);//support QDBusAbstractInterfaceSupport
-    auto text = Systemd::loadUnit(Systemd::System, NMB_SERVICE)->activeState();
-    return !text.contains("in");
+    if(systemdSupport)
+    {
+        Systemd::getUnit(Systemd::System, NMB_SERVICE);//support QDBusAbstractInterfaceSupport
+        auto text = Systemd::loadUnit(Systemd::System, NMB_SERVICE)->activeState();
+        return !text.contains("in");
+    }
+    return false;
 }
 
 

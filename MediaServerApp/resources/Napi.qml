@@ -17,6 +17,7 @@ Dialog
     modal: true
 
     property string videoPath: "file:///mnt/"
+    property bool isQNapiSupport: false
 
     NapiManagerView
     {
@@ -26,6 +27,15 @@ Dialog
     Loader {
         anchors.fill:parent
         source:"ScreenSaverManager.qml";
+    }
+
+    MessageDialog {
+        id: fileErrorMessage
+        title: "Warning"
+        icon: StandardIcon.Warning
+        text: "QNapi is not supported!"
+        standardButtons: StandardButton.Close
+        onButtonClicked: close()
     }
 
     FileDialog {
@@ -148,6 +158,7 @@ Dialog
             y: 370
             height: 40
             text: "Download"
+            enabled: isQNapiSupport
             onClicked:
             {
                 if(movieTitleTextField.text.length>1)
@@ -189,6 +200,14 @@ Dialog
 
     Component.onCompleted:
     {
+        if (napiManager.qnapiSupport)
+        {
+            isQNapiSupport = true
+        }
+        else
+        {
+            fileErrorMessage.setVisible(true)
+        }
         napiManager.setVideoPath(napiDialog)
         napiManager.init(englishRadioButton, polishRadioButton)
     }
