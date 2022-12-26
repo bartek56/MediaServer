@@ -155,7 +155,7 @@ Rectangle{
         id: loaderConfigWindow
         anchors.fill: parent
         active: true
-        asynchronous: true
+        asynchronous: false
     }
 
     Loader {
