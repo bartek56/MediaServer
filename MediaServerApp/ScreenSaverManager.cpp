@@ -3,7 +3,7 @@
 #include "ConfigFile/ConfigFile.h"
 #include <QProcess>
 
-ScreenSaverManager::ScreenSaverManager(QObject *parent) : QObject(parent), screenSaverConfigFile(std::make_shared<ConfigFile>(SCREENSAVER_CONFIG_FILE))
+ScreenSaverManager::ScreenSaverManager(QObject *parent) : QObject(parent), screenSaverConfigFile(std::make_unique<ConfigFile>(SCREENSAVER_CONFIG_FILE))
 {
     timer = new QTimer();
 }

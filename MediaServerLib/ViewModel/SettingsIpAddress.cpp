@@ -22,10 +22,6 @@ SettingsIpAddress::SettingsIpAddress(QObject *parent) : QObject(parent)
     }
 }
 
-SettingsIpAddress::~SettingsIpAddress()
-{
-}
-
 bool SettingsIpAddress::systemdNetworkSupportExist()
 {
     return configFileExist;

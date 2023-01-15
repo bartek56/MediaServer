@@ -8,7 +8,7 @@
 #include <QtSystemd/sdmanager.h>
 
 AlarmView::AlarmView(QObject *parent) : QObject(parent)
-  ,editAlarmConfigFile(std::make_shared<ConfigFile>(ALARM_CONFIG_FILE))
+  ,editAlarmConfigFile(std::make_unique<ConfigFile>(ALARM_CONFIG_FILE))
 {
     auto state = Systemd::getUnitFileState(Systemd::System, ALARM_SNOOZE_SERVICE);
 

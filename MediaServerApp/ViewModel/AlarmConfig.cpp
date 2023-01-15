@@ -5,7 +5,7 @@
 #include <QtSystemd/sdmanager.h>
 #include <QtSystemd/unit.h>
 
-AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent), editAlarmConfigFile(std::make_shared<ConfigFile>(ALARM_CONFIG_FILE))
+AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent), editAlarmConfigFile(std::make_unique<ConfigFile>(ALARM_CONFIG_FILE))
 {
     Systemd::getUnit(Systemd::System, ALARM_SERVICE);//support QDBusAbstractInterfaceSupport
 

@@ -3,7 +3,7 @@
 #include <QFile>
 #include <QTextStream>
 
-ScreenSaverConfigFile::ScreenSaverConfigFile(std::shared_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
+ScreenSaverConfigFile::ScreenSaverConfigFile(std::unique_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
 {
 }
 

@@ -9,20 +9,21 @@ class MpdConfigFileTest : public ::testing::Test
 
 TEST_F(MpdConfigFileTest, readNotCall)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
-    MpdConfigFile mpdConfigFile(mockReadFile);
+    MpdConfigFile mpdConfigFile(std::move(fileManager));
 
-    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(0);
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(0);
 }
 
 TEST_F(MpdConfigFileTest, configFileNotExist)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
-    MpdConfigFile mpdConfigFile(mockReadFile);
-
-    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+    MpdConfigFile mpdConfigFile(std::move(fileManager));
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
 
     VectorData fileData;
 
@@ -32,11 +33,12 @@ TEST_F(MpdConfigFileTest, configFileNotExist)
 
 TEST_F(MpdConfigFileTest, readFileOneLine)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString checkData = "playlistdir \"/home/playlistdir\"";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -45,7 +47,7 @@ TEST_F(MpdConfigFileTest, readFileOneLine)
                         return true;
                     }));
 
-    MpdConfigFile mpdConfigFile(mockReadFile);
+    MpdConfigFile mpdConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -59,7 +61,8 @@ TEST_F(MpdConfigFileTest, readFileOneLine)
 
 TEST_F(MpdConfigFileTest, readIncorrectFile)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString checkData = "music_directory\"/home/Music\"\n"
                         "playlist_directory \"/home/Music/playlists\"\n"
@@ -71,7 +74,7 @@ TEST_F(MpdConfigFileTest, readIncorrectFile)
                         "    name \"Local Pulse\" \n"
                         "} \n";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -80,7 +83,7 @@ TEST_F(MpdConfigFileTest, readIncorrectFile)
                         return true;
                     }));
 
-    MpdConfigFile mpdConfigFile(mockReadFile);
+    MpdConfigFile mpdConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -91,7 +94,8 @@ TEST_F(MpdConfigFileTest, readIncorrectFile)
 
 TEST_F(MpdConfigFileTest, readWholeFileData)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString checkData = "music_directory \"/home/Music\"\n"
                         "playlist_directory \"/home/Music/playlists\"\n"
@@ -103,7 +107,7 @@ TEST_F(MpdConfigFileTest, readWholeFileData)
                         "    name \"Local Pulse\" \n"
                         "} \n";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -112,7 +116,7 @@ TEST_F(MpdConfigFileTest, readWholeFileData)
                         return true;
                     }));
 
-    MpdConfigFile mpdConfigFile(mockReadFile);
+    MpdConfigFile mpdConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -138,11 +142,12 @@ TEST_F(MpdConfigFileTest, readWholeFileData)
 
 TEST_F(MpdConfigFileTest, saveWholeFileData)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString savingData;
 
-    EXPECT_CALL(*mockReadFile, save(testing::_))
+    EXPECT_CALL(*mockFileManager, save(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](const QString &fileData)
@@ -151,7 +156,7 @@ TEST_F(MpdConfigFileTest, saveWholeFileData)
                         return true;
                     }));
 
-    MpdConfigFile mpdConfigFile(mockReadFile);
+    MpdConfigFile mpdConfigFile(std::move(fileManager));
 
     VectorData fileData;
     fileData.push_back(ConfigData("music_directory", "/mnt/TOSHIBA EXT/muzyka"));
@@ -188,10 +193,11 @@ class MpdConfigFileTestParam : public ::testing::TestWithParam<std::string>
 
 TEST_P(MpdConfigFileTestParam, readFileFailed)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     auto param = GetParam();
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -200,11 +206,11 @@ TEST_P(MpdConfigFileTestParam, readFileFailed)
                         return true;
                     }));
 
-    MpdConfigFile editMpdConfigFile(mockReadFile);
+    MpdConfigFile mpdConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
-    auto result = editMpdConfigFile.LoadConfiguration(fileData);
+    auto result = mpdConfigFile.LoadConfiguration(fileData);
 
     EXPECT_FALSE(result);
 }

@@ -9,12 +9,12 @@
 class DlnaConfigFile : public IConfigFile
 {
 public:
-    DlnaConfigFile(std::shared_ptr<IFileManager> ptrFileManager);
+    DlnaConfigFile(std::unique_ptr<IFileManager> ptrFileManager);
     bool SaveConfiguration(const VectorData &mConfigsParameters) override;
     bool LoadConfiguration(VectorData &configuration) override;
 
 private:
-    std::shared_ptr<IFileManager> fileManager;
+    std::unique_ptr<IFileManager> fileManager;
 };
 
 #endif // EDITDLNACONFIGFILE_H

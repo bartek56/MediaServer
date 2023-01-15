@@ -23,7 +23,6 @@ public:
     Q_OBJECT
 public:
     explicit SettingsIpAddress(QObject *parent = nullptr);
-    ~SettingsIpAddress();
 
     // IP Address
     Q_INVOKABLE void loadIpAddressConfiguration(const int networkInterfaceIndexComboBox, QObject *dynamicIPRadioButton, QObject *staticIPRadioButton, QObject *ipadressTextField,

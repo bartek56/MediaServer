@@ -3,7 +3,7 @@
 #include <QFile>
 #include <QDebug>
 
-DlnaConfigFile::DlnaConfigFile(std::shared_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
+DlnaConfigFile::DlnaConfigFile(std::unique_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
 {}
 
 

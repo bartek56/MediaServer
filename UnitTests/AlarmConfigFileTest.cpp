@@ -12,20 +12,21 @@ class AlarmConfigFileTest : public ::testing::Test
 
 TEST_F(AlarmConfigFileTest, readNotCall)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
-    AlarmConfigFile editAlarmConfigFile(mockReadFile);
+    AlarmConfigFile editAlarmConfigFile(std::move(fileManager));
 
-    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(0);
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(0);
 }
 
 TEST_F(AlarmConfigFileTest, configFileNotExist)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
+    AlarmConfigFile alarmConfigFile(std::move(fileManager));
 
-    AlarmConfigFile alarmConfigFile(mockReadFile);
-
-    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
 
     VectorData fileData;
 
@@ -33,14 +34,14 @@ TEST_F(AlarmConfigFileTest, configFileNotExist)
     EXPECT_TRUE(fileData.empty());
 }
 
-
 TEST_F(AlarmConfigFileTest, readFileOneLine)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString checkData = "playlist=\"Alarm\"";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -49,7 +50,7 @@ TEST_F(AlarmConfigFileTest, readFileOneLine)
                         return true;
                     }));
 
-    AlarmConfigFile editAlarmConfigFile(mockReadFile);
+    AlarmConfigFile editAlarmConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -63,7 +64,8 @@ TEST_F(AlarmConfigFileTest, readFileOneLine)
 
 TEST_F(AlarmConfigFileTest, readIncorrectFile)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString checkData = "music_directory\"/home/Music\"\n"
                         "playlist_directory \"/home/Music/playlists\"\n"
@@ -75,7 +77,7 @@ TEST_F(AlarmConfigFileTest, readIncorrectFile)
                         "    name \"Local Pulse\" \n"
                         "} \n";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -84,7 +86,7 @@ TEST_F(AlarmConfigFileTest, readIncorrectFile)
                         return true;
                     }));
 
-    AlarmConfigFile editAlarmConfigFile(mockReadFile);
+    AlarmConfigFile editAlarmConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -95,7 +97,8 @@ TEST_F(AlarmConfigFileTest, readIncorrectFile)
 
 TEST_F(AlarmConfigFileTest, readWholeFileData)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString checkData = "minVolume=5\n"
                         "maxVolume=50\n"
@@ -109,7 +112,7 @@ TEST_F(AlarmConfigFileTest, readWholeFileData)
                         "musicDirectoryTemp=${musicDirectoryTemp:1}\n"
                         "musicDirectory=\"${musicDirectoryTemp//\"}\"\n";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -118,7 +121,7 @@ TEST_F(AlarmConfigFileTest, readWholeFileData)
                         return true;
                     }));
 
-    AlarmConfigFile editAlarmConfigFile(mockReadFile);
+    AlarmConfigFile editAlarmConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -155,12 +158,12 @@ TEST_F(AlarmConfigFileTest, readWholeFileData)
 
 TEST_F(AlarmConfigFileTest, saveWholeFileData)
 {
-
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString savingData;
 
-    EXPECT_CALL(*mockReadFile, save(testing::_))
+    EXPECT_CALL(*mockFileManager, save(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](const QString &fileData)
@@ -169,7 +172,7 @@ TEST_F(AlarmConfigFileTest, saveWholeFileData)
                         return true;
                     }));
 
-    AlarmConfigFile editAlarmConfigFile(mockReadFile);
+    AlarmConfigFile editAlarmConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -199,10 +202,11 @@ class AlarmConfigFileTestParam : public ::testing::TestWithParam<std::string>
 
 TEST_P(AlarmConfigFileTestParam, readFileFailed)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     auto param = GetParam();
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -211,7 +215,7 @@ TEST_P(AlarmConfigFileTestParam, readFileFailed)
                         return true;
                     }));
 
-    AlarmConfigFile alarmConfigFile(mockReadFile);
+    AlarmConfigFile alarmConfigFile(std::move(fileManager));
 
     VectorData fileData;
 

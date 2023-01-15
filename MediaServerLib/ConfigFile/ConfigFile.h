@@ -13,6 +13,7 @@ public:
     ConfigFile(const QString configFile);
     bool read(QString &fileData) override;
     bool save(const QString fileData) override;
+private:
     QString fileName;
 };
 

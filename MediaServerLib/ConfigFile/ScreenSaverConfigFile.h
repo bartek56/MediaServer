@@ -10,11 +10,11 @@
 class ScreenSaverConfigFile : public IConfigFile
 {
 public:
-    ScreenSaverConfigFile(std::shared_ptr<IFileManager> ptreFileManager);
+    ScreenSaverConfigFile(std::unique_ptr<IFileManager> ptreFileManager);
     bool LoadConfiguration(VectorData &mConfigsParameters) override;
     bool SaveConfiguration(const VectorData& configs) override;
 private:
-    std::shared_ptr<IFileManager> fileManager;
+    std::unique_ptr<IFileManager> fileManager;
 
 };
 

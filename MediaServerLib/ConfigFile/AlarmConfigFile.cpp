@@ -4,7 +4,7 @@
 #include <QTextCodec>
 #include <QDebug>
 
-AlarmConfigFile::AlarmConfigFile(std::shared_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
+AlarmConfigFile::AlarmConfigFile(std::unique_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
 {
 }
 

@@ -9,20 +9,22 @@ class DlnaConfigFileTest : public ::testing::Test
 
 TEST_F(DlnaConfigFileTest, readNotCall)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
-    DlnaConfigFile dlnaConfigFile(mockReadFile);
+    DlnaConfigFile dlnaConfigFile(std::move(fileManager));
 
-    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(0);
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(0);
 }
 
 TEST_F(DlnaConfigFileTest, configFileNotExist)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
-    DlnaConfigFile dlnaConfigFile(mockReadFile);
+    DlnaConfigFile dlnaConfigFile(std::move(fileManager));
 
-    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
 
     VectorData fileData;
 
@@ -32,11 +34,12 @@ TEST_F(DlnaConfigFileTest, configFileNotExist)
 
 TEST_F(DlnaConfigFileTest, readFileOneLine)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString checkData = "port=8200";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -45,7 +48,7 @@ TEST_F(DlnaConfigFileTest, readFileOneLine)
                         return true;
                     }));
 
-    DlnaConfigFile dlnaConfigFile(mockReadFile);
+    DlnaConfigFile dlnaConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -59,7 +62,8 @@ TEST_F(DlnaConfigFileTest, readFileOneLine)
 
 TEST_F(DlnaConfigFileTest, readwholeFile)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString checkData = "port=8200\n"
                         "media_dir=V,/mnt/video\n"
@@ -68,7 +72,7 @@ TEST_F(DlnaConfigFileTest, readwholeFile)
                         "friendly_name=My DLNA Server\n"
                         "\n";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -77,7 +81,7 @@ TEST_F(DlnaConfigFileTest, readwholeFile)
                         return true;
                     }));
 
-    DlnaConfigFile dlnaConfigFile(mockReadFile);
+    DlnaConfigFile dlnaConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -119,12 +123,12 @@ TEST_F(DlnaConfigFileTest, readwholeFile)
 
 TEST_F(DlnaConfigFileTest, saveWholeFileData)
 {
-
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString savingData;
 
-    EXPECT_CALL(*mockReadFile, save(testing::_))
+    EXPECT_CALL(*mockFileManager, save(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](const QString &fileData)
@@ -133,7 +137,7 @@ TEST_F(DlnaConfigFileTest, saveWholeFileData)
                         return true;
                     }));
 
-    DlnaConfigFile dlnaConfigFile(mockReadFile);
+    DlnaConfigFile dlnaConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -167,10 +171,11 @@ class DlnaConfigFileTestParam : public ::testing::TestWithParam<std::string>
 
 TEST_P(DlnaConfigFileTestParam, readFileFailed)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     auto param = GetParam();
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -179,7 +184,7 @@ TEST_P(DlnaConfigFileTestParam, readFileFailed)
                         return true;
                     }));
 
-    DlnaConfigFile dlnaConfigFile(mockReadFile);
+    DlnaConfigFile dlnaConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -195,3 +200,4 @@ INSTANTIATE_TEST_SUITE_P(readFileFailed, DlnaConfigFileTestParam,
 media_dir=/mnt/video",
 
                                            "friendly_name,dfdf"));
+

@@ -5,15 +5,18 @@
 
 class ScreenSaverConfigFileTest : public ::testing::Test
 {
+
+protected:
+    MockFileManager* mockFileManager;
 };
 
 TEST_F(ScreenSaverConfigFileTest, configFileNotExist)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
+    ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
 
-    ScreenSaverConfigFile screenSaverConfigFile(mockReadFile);
-
-    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
 
     VectorData fileData;
 
@@ -23,21 +26,22 @@ TEST_F(ScreenSaverConfigFileTest, configFileNotExist)
 
 TEST_F(ScreenSaverConfigFileTest, readNotCall)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
+    ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
 
-    ScreenSaverConfigFile screenSaverConfigFile(mockReadFile);
-
-    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(0);
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(0);
 }
 
 
 TEST_F(ScreenSaverConfigFileTest, readFileOneLine)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString checkData = "enable=\"false\"";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -46,7 +50,7 @@ TEST_F(ScreenSaverConfigFileTest, readFileOneLine)
                         return true;
                     }));
 
-    ScreenSaverConfigFile screenSaverConfigFile(mockReadFile);
+    ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -60,7 +64,8 @@ TEST_F(ScreenSaverConfigFileTest, readFileOneLine)
 
 TEST_F(ScreenSaverConfigFileTest, readWholeFile)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString checkData = "enable=\"false\"\n"
                         "path=\"/home/Pictures/tapety\"\n"
@@ -69,7 +74,7 @@ TEST_F(ScreenSaverConfigFileTest, readWholeFile)
                         "timeout=\"7\"\n"
                         "\n";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -78,7 +83,7 @@ TEST_F(ScreenSaverConfigFileTest, readWholeFile)
                         return true;
                     }));
 
-    ScreenSaverConfigFile screenSaverConfigFile(mockReadFile);
+    ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
@@ -111,11 +116,12 @@ TEST_F(ScreenSaverConfigFileTest, readWholeFile)
 
 TEST_F(ScreenSaverConfigFileTest, saveWholeFileData)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     QString savingData;
 
-    EXPECT_CALL(*mockReadFile, save(testing::_))
+    EXPECT_CALL(*mockFileManager, save(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](const QString &fileData)
@@ -124,7 +130,7 @@ TEST_F(ScreenSaverConfigFileTest, saveWholeFileData)
                         return true;
                     }));
 
-    ScreenSaverConfigFile screenSaverConfigFile(mockReadFile);
+    ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
 
     VectorData fileData;
     fileData.push_back(ConfigData("enable", "false"));
@@ -156,10 +162,11 @@ class ScreenSaverConfigFileTestParam : public ::testing::TestWithParam<std::stri
 
 TEST_P(ScreenSaverConfigFileTestParam, readFileFailed)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
+    MockFileManager* mockFileManager = new MockFileManager();
+    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     auto param = GetParam();
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -168,11 +175,12 @@ TEST_P(ScreenSaverConfigFileTestParam, readFileFailed)
                         return true;
                     }));
 
-    ScreenSaverConfigFile editMpdConfigFile(mockReadFile);
+
+    ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
 
     VectorData fileData;
 
-    auto result = editMpdConfigFile.LoadConfiguration(fileData);
+    auto result = screenSaverConfigFile.LoadConfiguration(fileData);
 
     EXPECT_FALSE(result);
 }

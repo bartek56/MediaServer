@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <iostream>
 
-MpdConfigFile::MpdConfigFile(std::shared_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
+MpdConfigFile::MpdConfigFile(std::unique_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
 {
 }
 

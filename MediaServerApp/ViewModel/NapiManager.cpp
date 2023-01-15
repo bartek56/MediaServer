@@ -7,7 +7,7 @@
 #include <QString>
 #include <QFile>
 
-NapiManager::NapiManager(QObject *parent) : QObject(parent), dlnaConfigFile(std::make_shared<ConfigFile>(MINIDLNA_CONFIG_FILE))
+NapiManager::NapiManager(QObject *parent) : QObject(parent), dlnaConfigFile(std::make_unique<ConfigFile>(MINIDLNA_CONFIG_FILE))
 {
 }
 
