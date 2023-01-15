@@ -5,40 +5,36 @@
 
 class ScreenSaverConfigFileTest : public ::testing::Test
 {
+    virtual void SetUp() {
+        mockFileManager = new MockFileManager();
+        fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
+        screenSaverConfigFile = std::make_unique<ScreenSaverConfigFile>(std::move(fileManager));
+    }
 
 protected:
     MockFileManager* mockFileManager;
+    std::unique_ptr<IFileManager> fileManager;
+    std::unique_ptr<ScreenSaverConfigFile> screenSaverConfigFile;
 };
 
 TEST_F(ScreenSaverConfigFileTest, configFileNotExist)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-    ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
-
     EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
 
     VectorData fileData;
 
-    EXPECT_FALSE(screenSaverConfigFile.LoadConfiguration(fileData));
+    EXPECT_FALSE(screenSaverConfigFile->LoadConfiguration(fileData));
     EXPECT_TRUE(fileData.empty());
 }
 
 TEST_F(ScreenSaverConfigFileTest, readNotCall)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-    ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
-
     EXPECT_CALL(*mockFileManager, read(testing::_)).Times(0);
 }
 
 
 TEST_F(ScreenSaverConfigFileTest, readFileOneLine)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
     QString checkData = "enable=\"false\"";
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
@@ -50,11 +46,9 @@ TEST_F(ScreenSaverConfigFileTest, readFileOneLine)
                         return true;
                     }));
 
-    ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
-
     VectorData fileData;
 
-    auto result = screenSaverConfigFile.LoadConfiguration(fileData);
+    auto result = screenSaverConfigFile->LoadConfiguration(fileData);
     EXPECT_TRUE(result);
     EXPECT_EQ(fileData.size(), std::size_t(1));
 
@@ -63,10 +57,7 @@ TEST_F(ScreenSaverConfigFileTest, readFileOneLine)
 }
 
 TEST_F(ScreenSaverConfigFileTest, readWholeFile)
-{
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
+{    
     QString checkData = "enable=\"false\"\n"
                         "path=\"/home/Pictures/tapety\"\n"
                         "random=\"true\"\n"
@@ -83,11 +74,9 @@ TEST_F(ScreenSaverConfigFileTest, readWholeFile)
                         return true;
                     }));
 
-    ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
-
     VectorData fileData;
 
-    auto result = screenSaverConfigFile.LoadConfiguration(fileData);
+    auto result = screenSaverConfigFile->LoadConfiguration(fileData);
 
     EXPECT_TRUE(result);
 
@@ -116,9 +105,6 @@ TEST_F(ScreenSaverConfigFileTest, readWholeFile)
 
 TEST_F(ScreenSaverConfigFileTest, saveWholeFileData)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
     QString savingData;
 
     EXPECT_CALL(*mockFileManager, save(testing::_))
@@ -130,8 +116,6 @@ TEST_F(ScreenSaverConfigFileTest, saveWholeFileData)
                         return true;
                     }));
 
-    ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
-
     VectorData fileData;
     fileData.push_back(ConfigData("enable", "false"));
     fileData.push_back(ConfigData("path", "/home/Pictures/tapety"));
@@ -139,7 +123,7 @@ TEST_F(ScreenSaverConfigFileTest, saveWholeFileData)
     fileData.push_back(ConfigData("startTime", "60000"));
     fileData.push_back(ConfigData("timeout", "7"));
 
-    auto result = screenSaverConfigFile.SaveConfiguration(fileData);
+    auto result = screenSaverConfigFile->SaveConfiguration(fileData);
 
     EXPECT_TRUE(result);
 

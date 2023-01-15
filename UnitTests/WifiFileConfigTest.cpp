@@ -6,31 +6,32 @@
 
 class WifiConfigFileTest : public ::testing::Test
 {
+    virtual void SetUp() {
+        mockFileManager = new MockFileManager();
+        fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
+        wifiConfigFile = std::make_unique<WifiConfigFile>(std::move(fileManager));
+    }
+
+protected:
+    MockFileManager* mockFileManager;
+    std::unique_ptr<IFileManager> fileManager;
+    std::unique_ptr<WifiConfigFile> wifiConfigFile;
 };
 
 
 TEST_F(WifiConfigFileTest, readNotCall)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
-
-    WifiConfigFile wifiConfigFile(mockReadFile);
-
-    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(0);
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(0);
 }
 
 TEST_F(WifiConfigFileTest, configFileNotExist)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
-
-    EXPECT_CALL(*mockReadFile, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
-
-    WifiConfigFile wifiConfigFile(mockReadFile);
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
 
     std::vector<VectorData> ssidConfig;
     VectorData globalConfig;
 
-
-    auto result = wifiConfigFile.LoadConfiguration(globalConfig, ssidConfig);
+    auto result = wifiConfigFile->LoadConfiguration(globalConfig, ssidConfig);
 
     EXPECT_FALSE(result);
 }
@@ -38,8 +39,6 @@ TEST_F(WifiConfigFileTest, configFileNotExist)
 
 TEST_F(WifiConfigFileTest, readFileOneSSID)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
-
     QString checkData = "network={\n"
                         "psk=\"hardpassword\"\n"
                         "ssid=\"wifiname\"\n"
@@ -48,7 +47,7 @@ TEST_F(WifiConfigFileTest, readFileOneSSID)
                         "\n"
                         "\n";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -57,17 +56,14 @@ TEST_F(WifiConfigFileTest, readFileOneSSID)
                         return true;
                     }));
 
-    WifiConfigFile wifiConfigFile(mockReadFile);
-
     std::vector<VectorData> ssidData;
     VectorData wificonfigs;
 
-    auto result = wifiConfigFile.LoadConfiguration(wificonfigs, ssidData);
+    auto result = wifiConfigFile->LoadConfiguration(wificonfigs, ssidData);
     EXPECT_TRUE(result);
 
     // wifiConfigs
     EXPECT_EQ(wificonfigs.size(), std::size_t(0));
-
 
     // ssid
     EXPECT_EQ(ssidData.size(), std::size_t(1));
@@ -84,8 +80,6 @@ TEST_F(WifiConfigFileTest, readFileOneSSID)
 
 TEST_F(WifiConfigFileTest, readFileOneSSIDAndGlobalConfigs)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
-
     QString checkData = "ctrl_interface=/var/run/wpa_supplicant\n"
                         "ap_scan=1"
                         "\n"
@@ -99,7 +93,7 @@ TEST_F(WifiConfigFileTest, readFileOneSSIDAndGlobalConfigs)
                         "\n"
                         "\n";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -108,12 +102,10 @@ TEST_F(WifiConfigFileTest, readFileOneSSIDAndGlobalConfigs)
                         return true;
                     }));
 
-    WifiConfigFile wifiConfigFile(mockReadFile);
-
     std::vector<VectorData> ssidData;
     VectorData wificonfigs;
 
-    auto result = wifiConfigFile.LoadConfiguration(wificonfigs, ssidData);
+    auto result = wifiConfigFile->LoadConfiguration(wificonfigs, ssidData);
     EXPECT_TRUE(result);
 
     // wifiConfigs
@@ -139,8 +131,6 @@ TEST_F(WifiConfigFileTest, readFileOneSSIDAndGlobalConfigs)
 
 TEST_F(WifiConfigFileTest, readFileTwoSSIDAndGlobalConfigs)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
-
     QString checkData = "ctrl_interface=/var/run/wpa_supplicant\n"
                         "ap_scan=1"
                         "\n"
@@ -161,7 +151,7 @@ TEST_F(WifiConfigFileTest, readFileTwoSSIDAndGlobalConfigs)
                         "\n"
                         "\n";
 
-    EXPECT_CALL(*mockReadFile, read(testing::_))
+    EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](QString &fileData)
@@ -169,13 +159,10 @@ TEST_F(WifiConfigFileTest, readFileTwoSSIDAndGlobalConfigs)
                         fileData = checkData;
                         return true;
                     }));
-
-    WifiConfigFile wifiConfigFile(mockReadFile);
-
     std::vector<VectorData> ssidData;
     VectorData wificonfigs;
 
-    auto result = wifiConfigFile.LoadConfiguration(wificonfigs, ssidData);
+    auto result = wifiConfigFile->LoadConfiguration(wificonfigs, ssidData);
     EXPECT_TRUE(result);
 
     // wifiConfigs
@@ -184,7 +171,6 @@ TEST_F(WifiConfigFileTest, readFileTwoSSIDAndGlobalConfigs)
     EXPECT_EQ(wificonfigs[0].value.toStdString(), "/var/run/wpa_supplicant");
     EXPECT_EQ(wificonfigs[1].key.toStdString(), "ap_scan");
     EXPECT_EQ(wificonfigs[1].value.toStdString(), "1");
-
 
     // ssid
     EXPECT_EQ(ssidData.size(), std::size_t(2));
@@ -210,11 +196,9 @@ TEST_F(WifiConfigFileTest, readFileTwoSSIDAndGlobalConfigs)
 
 TEST_F(WifiConfigFileTest, saveConfigData)
 {
-    std::shared_ptr<MockFileManager> mockReadFile = std::make_shared<MockFileManager>();
-
     QString savingData;
 
-    EXPECT_CALL(*mockReadFile, save(testing::_))
+    EXPECT_CALL(*mockFileManager, save(testing::_))
             .Times(1)
             .WillOnce(testing::Invoke(
                     [&](const QString &fileData)
@@ -222,8 +206,6 @@ TEST_F(WifiConfigFileTest, saveConfigData)
                         savingData = fileData;
                         return true;
                     }));
-
-    WifiConfigFile wifiConfigFile(mockReadFile);
 
     VectorData globalData;
     globalData.push_back(ConfigData("ctrl_interface", "/var/run/wpa_supplicant"));
@@ -238,8 +220,7 @@ TEST_F(WifiConfigFileTest, saveConfigData)
 
     std::vector<VectorData> ssidConfig = {net1, net2};
 
-
-    auto result = wifiConfigFile.SaveConfiguration(globalData, ssidConfig);
+    auto result = wifiConfigFile->SaveConfiguration(globalData, ssidConfig);
     EXPECT_TRUE(result);
 
     QStringList list = savingData.split("\n");

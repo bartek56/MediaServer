@@ -5,38 +5,35 @@
 
 class DlnaConfigFileTest : public ::testing::Test
 {
+    virtual void SetUp() {
+        mockFileManager = new MockFileManager();
+        fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
+        dlnaConfigFile = std::make_unique<DlnaConfigFile>(std::move(fileManager));
+    }
+
+protected:
+    MockFileManager* mockFileManager;
+    std::unique_ptr<IFileManager> fileManager;
+    std::unique_ptr<DlnaConfigFile> dlnaConfigFile;
 };
 
 TEST_F(DlnaConfigFileTest, readNotCall)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
-    DlnaConfigFile dlnaConfigFile(std::move(fileManager));
-
     EXPECT_CALL(*mockFileManager, read(testing::_)).Times(0);
 }
 
 TEST_F(DlnaConfigFileTest, configFileNotExist)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
-    DlnaConfigFile dlnaConfigFile(std::move(fileManager));
-
     EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
 
     VectorData fileData;
 
-    EXPECT_FALSE(dlnaConfigFile.LoadConfiguration(fileData));
+    EXPECT_FALSE(dlnaConfigFile->LoadConfiguration(fileData));
     EXPECT_TRUE(fileData.empty());
 }
 
 TEST_F(DlnaConfigFileTest, readFileOneLine)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
     QString checkData = "port=8200";
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
@@ -47,12 +44,9 @@ TEST_F(DlnaConfigFileTest, readFileOneLine)
                         fileData = checkData;
                         return true;
                     }));
-
-    DlnaConfigFile dlnaConfigFile(std::move(fileManager));
-
     VectorData fileData;
 
-    auto result = dlnaConfigFile.LoadConfiguration(fileData);
+    auto result = dlnaConfigFile->LoadConfiguration(fileData);
     EXPECT_TRUE(result);
     EXPECT_EQ(fileData.size(), std::size_t(1));
 
@@ -62,9 +56,6 @@ TEST_F(DlnaConfigFileTest, readFileOneLine)
 
 TEST_F(DlnaConfigFileTest, readwholeFile)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
     QString checkData = "port=8200\n"
                         "media_dir=V,/mnt/video\n"
                         "media_dir=A,/mnt/audio\n"
@@ -81,11 +72,9 @@ TEST_F(DlnaConfigFileTest, readwholeFile)
                         return true;
                     }));
 
-    DlnaConfigFile dlnaConfigFile(std::move(fileManager));
-
     VectorData fileData;
 
-    auto result = dlnaConfigFile.LoadConfiguration(fileData);
+    auto result = dlnaConfigFile->LoadConfiguration(fileData);
 
     EXPECT_TRUE(result);
 
@@ -123,9 +112,6 @@ TEST_F(DlnaConfigFileTest, readwholeFile)
 
 TEST_F(DlnaConfigFileTest, saveWholeFileData)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
     QString savingData;
 
     EXPECT_CALL(*mockFileManager, save(testing::_))
@@ -137,8 +123,6 @@ TEST_F(DlnaConfigFileTest, saveWholeFileData)
                         return true;
                     }));
 
-    DlnaConfigFile dlnaConfigFile(std::move(fileManager));
-
     VectorData fileData;
 
     fileData.push_back(ConfigData("port", "8300"));
@@ -147,8 +131,7 @@ TEST_F(DlnaConfigFileTest, saveWholeFileData)
     fileData.push_back(ConfigData("media_dir=P", "/mnt/pictures"));
     fileData.push_back(ConfigData("friendly_name", "My DLNA Server"));
 
-
-    auto result = dlnaConfigFile.SaveConfiguration(fileData);
+    auto result = dlnaConfigFile->SaveConfiguration(fileData);
 
     EXPECT_TRUE(result);
 

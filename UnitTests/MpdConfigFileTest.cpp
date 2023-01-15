@@ -5,37 +5,35 @@
 
 class MpdConfigFileTest : public ::testing::Test
 {
+    virtual void SetUp() {
+        mockFileManager = new MockFileManager();
+        fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
+        mpdConfigFile = std::make_unique<MpdConfigFile>(std::move(fileManager));
+    }
+
+protected:
+    MockFileManager* mockFileManager;
+    std::unique_ptr<IFileManager> fileManager;
+    std::unique_ptr<MpdConfigFile> mpdConfigFile;
 };
 
 TEST_F(MpdConfigFileTest, readNotCall)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
-    MpdConfigFile mpdConfigFile(std::move(fileManager));
-
     EXPECT_CALL(*mockFileManager, read(testing::_)).Times(0);
 }
 
 TEST_F(MpdConfigFileTest, configFileNotExist)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
-    MpdConfigFile mpdConfigFile(std::move(fileManager));
     EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
 
     VectorData fileData;
 
-    EXPECT_FALSE(mpdConfigFile.LoadConfiguration(fileData));
+    EXPECT_FALSE(mpdConfigFile->LoadConfiguration(fileData));
     EXPECT_TRUE(fileData.empty());
 }
 
 TEST_F(MpdConfigFileTest, readFileOneLine)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
     QString checkData = "playlistdir \"/home/playlistdir\"";
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
@@ -47,11 +45,9 @@ TEST_F(MpdConfigFileTest, readFileOneLine)
                         return true;
                     }));
 
-    MpdConfigFile mpdConfigFile(std::move(fileManager));
-
     VectorData fileData;
 
-    auto result = mpdConfigFile.LoadConfiguration(fileData);
+    auto result = mpdConfigFile->LoadConfiguration(fileData);
     EXPECT_TRUE(result);
     EXPECT_EQ(fileData.size(), std::size_t(1));
 
@@ -61,9 +57,6 @@ TEST_F(MpdConfigFileTest, readFileOneLine)
 
 TEST_F(MpdConfigFileTest, readIncorrectFile)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
     QString checkData = "music_directory\"/home/Music\"\n"
                         "playlist_directory \"/home/Music/playlists\"\n"
                         "auto_update \"yes\"\n"
@@ -83,20 +76,15 @@ TEST_F(MpdConfigFileTest, readIncorrectFile)
                         return true;
                     }));
 
-    MpdConfigFile mpdConfigFile(std::move(fileManager));
-
     VectorData fileData;
 
-    auto result = mpdConfigFile.LoadConfiguration(fileData);
+    auto result = mpdConfigFile->LoadConfiguration(fileData);
 
     EXPECT_FALSE(result);
 }
 
 TEST_F(MpdConfigFileTest, readWholeFileData)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
     QString checkData = "music_directory \"/home/Music\"\n"
                         "playlist_directory \"/home/Music/playlists\"\n"
                         "auto_update \"yes\"\n"
@@ -116,11 +104,9 @@ TEST_F(MpdConfigFileTest, readWholeFileData)
                         return true;
                     }));
 
-    MpdConfigFile mpdConfigFile(std::move(fileManager));
-
     VectorData fileData;
 
-    auto result = mpdConfigFile.LoadConfiguration(fileData);
+    auto result = mpdConfigFile->LoadConfiguration(fileData);
 
     EXPECT_TRUE(result);
 
@@ -142,9 +128,6 @@ TEST_F(MpdConfigFileTest, readWholeFileData)
 
 TEST_F(MpdConfigFileTest, saveWholeFileData)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
-    std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
-
     QString savingData;
 
     EXPECT_CALL(*mockFileManager, save(testing::_))
@@ -156,8 +139,6 @@ TEST_F(MpdConfigFileTest, saveWholeFileData)
                         return true;
                     }));
 
-    MpdConfigFile mpdConfigFile(std::move(fileManager));
-
     VectorData fileData;
     fileData.push_back(ConfigData("music_directory", "/mnt/TOSHIBA EXT/muzyka"));
     fileData.push_back(ConfigData("playlist_directory", "/mnt/TOSHIBA EXT/muzyka"));
@@ -168,7 +149,7 @@ TEST_F(MpdConfigFileTest, saveWholeFileData)
     fileData.push_back(ConfigData("auto_update", "yes"));
     fileData.push_back(ConfigData("mixer_type", "software"));
 
-    auto result = mpdConfigFile.SaveConfiguration(fileData);
+    auto result = mpdConfigFile->SaveConfiguration(fileData);
 
     EXPECT_TRUE(result);
 
