@@ -10,7 +10,6 @@ set(CMAKE_AUTORCC ON)
 
 add_executable(${PROJECT_NAME}
     src/AlarmView.cpp
-    src/Quotes.cpp
     src/Main.cpp
     resources/qml.qrc
 )

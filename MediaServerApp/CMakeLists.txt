@@ -14,7 +14,6 @@ find_package(QtSystemd REQUIRED)
 add_executable(${PROJECT_NAME}
     src/ViewModel/FtpConfig.cpp
     src/ViewModel/AlarmConfig.cpp
-    src/ViewModel/Quotes.cpp
     src/ViewModel/ScreenSaver.cpp
     src/ViewModel/SambaConfig.cpp
     src/ViewModel/MassStorage.cpp
