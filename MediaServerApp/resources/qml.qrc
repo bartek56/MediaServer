@@ -20,7 +20,6 @@
         <file>ScreenSaverManager.qml</file>
         <file>ScreenSaver.qml</file>
         <file>Napi.qml</file>
-        <file>Quotes.qml</file>
         <file>icons/weather.png</file>
     </qresource>
 </RCC>

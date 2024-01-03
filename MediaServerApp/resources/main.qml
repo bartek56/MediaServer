@@ -250,11 +250,6 @@ Rectangle{
                     horizontalAlignment: Text.AlignHCenter
                     font.pointSize: 17
                 }
-
-                onClicked:
-                {
-                    loaderConfigWindow.setSource("Quotes.qml")
-                }
             }
 
             ToolButton {

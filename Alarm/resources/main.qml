@@ -15,12 +15,6 @@ Rectangle{
     {
         id:alarmView
     }
-    Loader {
-        id: loaderWindow
-        anchors.fill: parent
-        active: true
-        asynchronous: true
-    }
 
     GridLayout {
         x: 20
@@ -130,7 +124,7 @@ Rectangle{
             onClicked:
             {
                 alarmView.stopAlarm()
-                loaderWindow.setSource("Quotes.qml")
+                Qt.callLater(Qt.quit)
             }
             onPressed: { busyAlarm.running=true }
             onReleased:{ busyAlarm.running=false }

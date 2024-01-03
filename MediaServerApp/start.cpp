@@ -16,7 +16,6 @@
 #include "ViewModel/NapiManager.h"
 #include "ViewModel/SettingsScreenSaver.h"
 #include "ViewModel/SettingsPackages.h"
-#include "ViewModel/Quotes.h"
 #include "ScreenSaverManager.h"
 
 
@@ -50,7 +49,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<SettingsPackages>("SettingsPackagesLib", 1, 0, "SettingsPackagesView");
     qmlRegisterType<MassStorage>("MassStorageLib", 1, 0, "MassStorageView");
     qmlRegisterType<MainWindow>("MainWindowLib", 1, 0, "MainWindowView");
-    qmlRegisterType<Quotes>("QuotesLib", 1, 0, "QuotesView");
 
     view->setWidth(800);
     view->setHeight(480);

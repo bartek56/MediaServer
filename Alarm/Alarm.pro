@@ -19,12 +19,10 @@ LIBS += -lQtSystemd
 
 SOURCES += \
         AlarmView.cpp \
-        Quotes.cpp \
         main.cpp
 
 HEADERS += \
-        AlarmView.h \
-        Quotes.h
+        AlarmView.h
         
 
 RESOURCES += resources/qml.qrc

@@ -13,9 +13,7 @@ MainWindow::MainWindow(QObject *parent) : QObject(parent)
 
 void MainWindow::startWeatherApplication()
 {
-    QProcess appProcess;
-    appProcess.startDetached("systemctl", QStringList() << "start"
-                                                        << "weather.service");
+    // not supported
 }
 
 void MainWindow::startMusicApplication()

@@ -1,5 +1,4 @@
 #include "AlarmView.h"
-#include "Quotes.h"
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickView>
@@ -15,7 +14,6 @@ int main(int argc, char *argv[])
         return -1;
 
     qmlRegisterType<AlarmView>("AlarmViewLib", 1, 0, "AlarmView");
-    qmlRegisterType<Quotes>("QuotesLib", 1, 0, "Quotes");
     QObject::connect((QObject *) view.engine(), SIGNAL(quit()), &app, SLOT(quit()));
     view.setWidth(800);
     view.setHeight(480);

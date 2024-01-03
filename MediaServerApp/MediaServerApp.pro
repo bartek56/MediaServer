@@ -21,7 +21,6 @@ LIBS += -lQtSystemd
 SOURCES += \
     ViewModel/MainWindow.cpp \
     ViewModel/SambaConfig.cpp \
-    ViewModel/Quotes.cpp \
     ViewModel/SambaConfigExternalDevice1.cpp \
     ViewModel/SambaConfigExternalDevice2.cpp \
     ViewModel/SambaConfigExternalDevice3.cpp \
@@ -61,7 +60,6 @@ HEADERS += \
     ViewModel/FtpConfig.h \
     ViewModel/MassStorage.h \
     ViewModel/MultimediaConfig.h \
-    ViewModel/Quotes.h \
     ViewModel/ScreenSaver.h \
     ViewModel/NapiManager.h \
     ViewModel/SettingsScreenSaver.h \
