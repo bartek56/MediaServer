@@ -7,9 +7,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt5DBus REQUIRED)
-find_package(QtSystemd REQUIRED)
-
 add_executable(${PROJECT_NAME}
     ViewModel/MainWindow/Bluetoothctl.cpp
     ViewModel/MainWindow/MainWindow.cpp
