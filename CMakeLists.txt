@@ -13,4 +13,4 @@ add_subdirectory(MediaServerLib)
 add_subdirectory(MediaServerStartup)
 add_subdirectory(MediaServerApp)
 add_subdirectory(Alarm)
-
+add_subdirectory(UnitTests)
