@@ -9,7 +9,7 @@ jobs:
           name: Install Qt5
           command: |
             sudo apt-get update
-            sudo apt-get install libsystemd-dev qtbase5-dev qtdeclarative5-dev
+            sudo apt-get install libsystemd-dev qtbase5-dev qtdeclarative5-dev cmake
       - run:
           name: Download googletest
           command: |
@@ -26,14 +26,21 @@ jobs:
             make
             sudo make install
       - run:
-          name: Build app
+          name: Build app by cmake
           command: |
-            mkdir build
-            cd build
+            mkdir buildCmake
+            cd buildCmake
+            cmake ..
+            make
+      - run:
+          name: Build app by qmake
+          command: |
+            mkdir buildQmake
+            cd buildQmake
             qmake ..
             make
       - run:
           name: Unit Tests
           command: |
-            cd build/UnitTests
+            cd buildQmake/UnitTests
             ./UnitTests
