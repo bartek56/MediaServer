@@ -28,10 +28,14 @@ jobs:
       - run:
           name: Build app by cmake
           command: |
-            mkdir buildCmake
+            cmake -B buildCmake
             cd buildCmake
-            cmake ..
             make
+      - run:
+          name: Unit tests CMake build
+          command: |
+            cd buildCmake/UnitTests
+            ./tests
       - run:
           name: Build app by qmake
           command: |
@@ -40,7 +44,7 @@ jobs:
             qmake ..
             make
       - run:
-          name: Unit Tests
+          name: Unit Tests QMake build
           command: |
             cd buildQmake/UnitTests
             ./UnitTests
