@@ -4,7 +4,7 @@
 #include <QThread>
 #include <QTimer>
 
-#include "../ScreenSaverManager.h"
+#include "ViewModel/ScreenSaver/ScreenSaverManager.h"
 
 MainWindow::MainWindow(QObject *parent) : QObject(parent)
 {

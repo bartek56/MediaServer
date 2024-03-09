@@ -1,9 +1,8 @@
 #include "ScreenSaver.h"
-#include "../ScreenSaverManager.h"
+#include "ViewModel/ScreenSaver/ScreenSaverManager.h"
 #include "ConfigFile/ConfigFile.h"
 
-ScreenSaver::ScreenSaver(QObject *parent) : QObject(parent)
-  , screenSaverConfigFile(std::make_unique<ConfigFile>(SCREENSAVER_CONFIG_FILE))
+ScreenSaver::ScreenSaver(QObject *parent) : QObject(parent), screenSaverConfigFile(std::make_unique<ConfigFile>(SCREENSAVER_CONFIG_FILE))
 {
 }
 
@@ -16,7 +15,7 @@ void ScreenSaver::init(QObject *timer, QObject *folderModel, QObject *screenSave
 
     if(result)
     {
-        QString path="file:" + screenSaverConfigs.getValueByKey("path");
+        QString path = "file:" + screenSaverConfigs.getValueByKey("path");
         folderModel->setProperty("folder", QVariant(path));
 
         if(screenSaverConfigs.getValueByKey("random") == "true")
@@ -25,10 +24,10 @@ void ScreenSaver::init(QObject *timer, QObject *folderModel, QObject *screenSave
             screenSaverDialog->setProperty("isRandom", QVariant(false));
 
         int interval = screenSaverConfigs.getValueByKey("timeout").toInt();
-        interval=interval*1000;
+        interval = interval * 1000;
 
-        timer->setProperty("interval",QVariant(interval));
-        timer->setProperty("running",QVariant(true));
+        timer->setProperty("interval", QVariant(interval));
+        timer->setProperty("running", QVariant(true));
     }
     else
     {

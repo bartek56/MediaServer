@@ -1,4 +1,4 @@
-#include "AlarmView.h"
+#include "ViewModel/AlarmView.h"
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickView>

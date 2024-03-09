@@ -1,7 +1,7 @@
 #ifndef ICONFIGFILE_H
 #define ICONFIGFILE_H
 
-#include "../Utils/VectorData.h"
+#include "Utils/VectorData.h"
 
 static constexpr char CONFIG_PATH[] = "/etc/mediaserver";
 static constexpr char MPD_CONFIG_FILE[] = "/etc/mediaserver/mpd.conf";

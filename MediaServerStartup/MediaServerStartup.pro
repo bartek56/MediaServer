@@ -21,8 +21,11 @@ INCLUDEPATH += ../MediaServerLib
 LIBS += -L../MediaServerLib -lMediaServerLib
 LIBS += -lQtSystemd
 
+HEADERS += \
+    ViewModel/MainWindow.h
+
 SOURCES += \
-    MainWindow.cpp \
+    ViewModel/MainWindow.cpp \
     start.cpp
 
 RESOURCES += resources/qml.qrc
@@ -37,6 +40,3 @@ QML_DESIGNER_IMPORT_PATH =
 
 target.path = /opt
 INSTALLS += target
-
-HEADERS += \
-    MainWindow.h

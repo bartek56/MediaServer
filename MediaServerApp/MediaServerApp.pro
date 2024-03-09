@@ -19,24 +19,24 @@ LIBS += -L../MediaServerLib -lMediaServerLib
 LIBS += -lQtSystemd
 
 SOURCES += \
-    ViewModel/MainWindow.cpp \
-    ViewModel/SambaConfig.cpp \
-    ViewModel/SambaConfigExternalDevice1.cpp \
-    ViewModel/SambaConfigExternalDevice2.cpp \
-    ViewModel/SambaConfigExternalDevice3.cpp \
-    ViewModel/SambaConfigLocal.cpp \
-    ViewModel/SambaConfigGlobal.cpp \
+    ViewModel/MainWindow/MainWindow.cpp \
+    ViewModel/Samba/SambaConfig.cpp \
+    ViewModel/Samba/SambaConfigExternalDevice1.cpp \
+    ViewModel/Samba/SambaConfigExternalDevice2.cpp \
+    ViewModel/Samba/SambaConfigExternalDevice3.cpp \
+    ViewModel/Samba/SambaConfigLocal.cpp \
+    ViewModel/Samba/SambaConfigGlobal.cpp \
     ViewModel/FtpConfig.cpp \
     ViewModel/MassStorage.cpp \
     ViewModel/MultimediaConfig.cpp \
-    ViewModel/ScreenSaver.cpp \
+    ViewModel/ScreenSaver/ScreenSaver.cpp \
     ViewModel/NapiManager.cpp \
-    ViewModel/SettingsScreenSaver.cpp \
-    ViewModel/SettingsPackages.cpp \
+    ViewModel/Settings/SettingsScreenSaver.cpp \
+    ViewModel/Settings/SettingsPackages.cpp \
     ViewModel/AlarmConfig.cpp \
-    ViewModel/SettingsStatus.cpp \
-    Bluetoothctl.cpp \
-    ScreenSaverManager.cpp \
+    ViewModel/Settings/SettingsStatus.cpp \
+    ViewModel/MainWindow/Bluetoothctl.cpp \
+    ViewModel/ScreenSaver/ScreenSaverManager.cpp \
     start.cpp
 
 
@@ -55,19 +55,19 @@ target.path = /opt
 INSTALLS += target
 
 HEADERS += \
-    ViewModel/MainWindow.h \
-    ViewModel/SambaConfig.h \
+    ViewModel/MainWindow/MainWindow.h \
+    ViewModel/Samba/SambaConfig.h \
     ViewModel/FtpConfig.h \
     ViewModel/MassStorage.h \
     ViewModel/MultimediaConfig.h \
-    ViewModel/ScreenSaver.h \
+    ViewModel/ScreenSaver/ScreenSaver.h \
     ViewModel/NapiManager.h \
-    ViewModel/SettingsScreenSaver.h \
-    ViewModel/SettingsPackages.h \
+    ViewModel/Settings/SettingsScreenSaver.h \
+    ViewModel/Settings/SettingsPackages.h \
     ViewModel/AlarmConfig.h \
-    ViewModel/SettingsStatus.h \
-    Bluetoothctl.h \
-    ScreenSaverManager.h
+    ViewModel/Settings/SettingsStatus.h \
+    ViewModel/MainWindow/Bluetoothctl.h \
+    ViewModel/ScreenSaver/ScreenSaverManager.h
 
 FORMS +=
 

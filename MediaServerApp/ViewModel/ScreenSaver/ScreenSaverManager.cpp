@@ -1,5 +1,5 @@
 #include "ScreenSaverManager.h"
-#include "ViewModel/MainWindow.h"
+#include "ViewModel/MainWindow/MainWindow.h"
 #include "ConfigFile/ConfigFile.h"
 #include <QProcess>
 

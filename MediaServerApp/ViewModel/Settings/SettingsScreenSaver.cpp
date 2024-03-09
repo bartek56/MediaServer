@@ -1,7 +1,7 @@
 #include "SettingsScreenSaver.h"
-#include "MainWindow.h"
+#include "ViewModel/MainWindow/MainWindow.h"
 #include "ConfigFile/ConfigFile.h"
-#include "../ScreenSaverManager.h"
+#include "ViewModel/ScreenSaver/ScreenSaverManager.h"
 
 SettingsScreensaver::SettingsScreensaver(QObject *parent) : QObject(parent), screenSaverConfigFile(std::make_unique<ConfigFile>(SCREENSAVER_CONFIG_FILE))
 {

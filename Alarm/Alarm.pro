@@ -18,11 +18,11 @@ LIBS += -L../MediaServerLib -lMediaServerLib
 LIBS += -lQtSystemd
 
 SOURCES += \
-        AlarmView.cpp \
+        ViewModel/AlarmView.cpp \
         main.cpp
 
 HEADERS += \
-        AlarmView.h
+        ViewModel/AlarmView.h
         
 
 RESOURCES += resources/qml.qrc

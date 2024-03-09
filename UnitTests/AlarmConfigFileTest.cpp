@@ -7,15 +7,16 @@
 
 
 class AlarmConfigFileTest : public ::testing::Test
-{    
-    virtual void SetUp() {
+{
+    virtual void SetUp()
+    {
         mockFileManager = new MockFileManager();
         fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
         alarmConfigFile = std::make_unique<AlarmConfigFile>(std::move(fileManager));
     }
 
 protected:
-    MockFileManager* mockFileManager;
+    MockFileManager *mockFileManager;
     std::unique_ptr<IFileManager> fileManager;
     std::unique_ptr<AlarmConfigFile> alarmConfigFile;
 };
@@ -183,7 +184,7 @@ class AlarmConfigFileTestParam : public ::testing::TestWithParam<std::string>
 
 TEST_P(AlarmConfigFileTestParam, readFileFailed)
 {
-    MockFileManager* mockFileManager = new MockFileManager();
+    MockFileManager *mockFileManager = new MockFileManager();
     std::unique_ptr<IFileManager> fileManager = std::unique_ptr<MockFileManager>(mockFileManager);
 
     auto param = GetParam();

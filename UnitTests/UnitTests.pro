@@ -7,6 +7,8 @@ CONFIG += thread
 
 DEFINES += PATH_TO_TEST_FILES=\\\"$$PWD\\\"
 
+INCLUDEPATH += ../MediaServerLib
+
 HEADERS += \
     ../MediaServerLib/Utils/VectorData.h \
     ../MediaServerLib/ConfigFile/IFileManager.h \

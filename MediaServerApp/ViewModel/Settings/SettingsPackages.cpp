@@ -1,5 +1,5 @@
 #include "SettingsPackages.h"
-#include "../MediaServerLib/ConfigFile/IConfigFile.h"
+#include "ConfigFile/IConfigFile.h"
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QDebug>

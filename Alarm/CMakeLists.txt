@@ -9,22 +9,22 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 add_executable(${PROJECT_NAME}
-    src/AlarmView.cpp
-    src/Main.cpp
+    ViewModel/AlarmView.cpp
+    main.cpp
     resources/qml.qrc
 )
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE
-  ../MediaServerLib
+    ${CMAKE_SOURCE_DIR}/MediaServerLib
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-        MediaServerLib
-        Qt5::Quick
-        Qt5::Widgets        
-        QtSystemd
-        Qt5::DBus
-        )
+    MediaServerLib
+    Qt5::Quick
+    Qt5::Widgets
+    QtSystemd
+    Qt5::DBus
+)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION "/opt")
 

@@ -1,6 +1,6 @@
 #include <QApplication>
 #include <QtQuick>
-#include "MainWindow.h"
+#include "ViewModel/MainWindow.h"
 #include "ViewModel/SettingsIpAddress.h"
 #include "ViewModel/SettingsWifi.h"
 

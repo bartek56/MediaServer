@@ -10,43 +10,40 @@ set(CMAKE_AUTORCC ON)
 find_package(Qt5DBus REQUIRED)
 find_package(QtSystemd REQUIRED)
 
-
 add_executable(${PROJECT_NAME}
-    src/ViewModel/FtpConfig.cpp
-    src/ViewModel/AlarmConfig.cpp
-    src/ViewModel/ScreenSaver.cpp
-    src/ViewModel/SambaConfig.cpp
-    src/ViewModel/MassStorage.cpp
-    src/ViewModel/SambaConfigExternalDevice1.cpp
-    src/ViewModel/SambaConfigExternalDevice2.cpp
-    src/ViewModel/SambaConfigExternalDevice3.cpp
-    src/ViewModel/SettingsScreensaver.cpp
-    src/ViewModel/MultimediaConfig.cpp
-    src/ViewModel/SambaConfigLocal.cpp
-    src/ViewModel/SambaConfigGlobal.cpp
-    src/ViewModel/NapiManager.cpp
-    src/ViewModel/SettingsStatus.cpp
-    src/ViewModel/SettingsPackages.cpp
-    src/ViewModel/SettingsScreensaver.cpp
-    src/ViewModel/MainWindow.cpp
-    src/Bluetoothctl.cpp
-    src/ScreenSaverManager.cpp
-    src/start.cpp    
+    ViewModel/MainWindow/Bluetoothctl.cpp
+    ViewModel/MainWindow/MainWindow.cpp
+    ViewModel/Samba/SambaConfig.cpp
+    ViewModel/Samba/SambaConfigExternalDevice1.cpp
+    ViewModel/Samba/SambaConfigExternalDevice2.cpp
+    ViewModel/Samba/SambaConfigExternalDevice3.cpp
+    ViewModel/Samba/SambaConfigGlobal.cpp
+    ViewModel/Samba/SambaConfigLocal.cpp
+    ViewModel/ScreenSaver/ScreenSaver.cpp
+    ViewModel/ScreenSaver/ScreenSaverManager.cpp
+    ViewModel/Settings/SettingsPackages.cpp
+    ViewModel/Settings/SettingsScreenSaver.cpp
+    ViewModel/Settings/SettingsStatus.cpp
+    ViewModel/AlarmConfig.cpp
+    ViewModel/FtpConfig.cpp
+    ViewModel/MassStorage.cpp
+    ViewModel/MultimediaConfig.cpp
+    ViewModel/NapiManager.cpp
+    start.cpp
     resources/qml.qrc
 )
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE
-  ../MediaServerLib
+    ${CMAKE_SOURCE_DIR}/MediaServerLib
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-        MediaServerLib
-        QtSystemd
-        Qt5::Quick
-        Qt5::Widgets
-        Qt5::DBus
-        pthread
+    MediaServerLib
+    QtSystemd
+    Qt5::Quick
+    Qt5::Widgets
+    Qt5::DBus
+    pthread
 )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION "/opt")
-
