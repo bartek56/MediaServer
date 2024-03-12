@@ -15,8 +15,8 @@ SOURCES += \
     ConfigFile/MpdConfigFile.cpp \
     ConfigFile/ScreenSaverConfigFile.cpp \
     ConfigFile/WifiConfigFile.cpp \
-    ViewModel/SettingsIpAddress.cpp \
-    ViewModel/SettingsWifi.cpp \
+    ViewModel/Settings/SettingsIpAddress.cpp \
+    ViewModel/Settings/SettingsWifi.cpp \
     Utils/VectorData.cpp \
     ManagementOfExternalDevices.cpp
 
@@ -30,7 +30,7 @@ HEADERS += \
     ConfigFile/MpdConfigFile.h \
     ConfigFile/ScreenSaverConfigFile.h \
     ConfigFile/WifiConfigFile.h \
-    ViewModel/SettingsIpAddress.h \
-    ViewModel/SettingsWifi.h \
+    ViewModel/Settings/SettingsIpAddress.h \
+    ViewModel/Settings/SettingsWifi.h \
     Utils/VectorData.h \
     ManagementOfExternalDevices.h

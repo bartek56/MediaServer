@@ -17,8 +17,8 @@ add_library(${PROJECT_NAME}
     ConfigFile/ScreenSaverConfigFile.cpp
     ConfigFile/WifiConfigFile.cpp
     Utils/VectorData.cpp
-    ViewModel/SettingsWifi.cpp
-    ViewModel/SettingsIpAddress.cpp
+    ViewModel/Settings/SettingsWifi.cpp
+    ViewModel/Settings/SettingsIpAddress.cpp
     ManagementOfExternalDevices.cpp
 )
 
