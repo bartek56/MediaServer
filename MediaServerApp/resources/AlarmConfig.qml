@@ -176,7 +176,7 @@ Dialog
 
 
             Button {
-                id: button
+                id: testButton
                 text: qsTr("Test")
                 font.pointSize: 14
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -187,10 +187,15 @@ Dialog
                         text="Stop"
                         alarmConfig.bStartTestAlarm_onClicked()
                     }
-                    else
+                    else if (text === "Stop")
                     {
                         text="Test"
                         alarmConfig.bStopTestAlarm_onClicked()
+                    }
+                    else if(text === "Stop snooze")
+                    {
+                        text="Test"
+                        alarmConfig.bStopSnooze_onClicked()
                     }
 
                 }
@@ -355,7 +360,8 @@ Dialog
         var isError = 0
         if(alarmConfig.systemdSupportExist)
         {
-            alarmConfig.loadAlarmService(monCheckBox, tueCheckBox, wedCheckBox, thuCheckBox,friCheckBox, satCheckBox, sunCheckBox, timeHHSpinBox, timeMMSpinBox)
+            alarmConfig.loadAlarmService(monCheckBox, tueCheckBox, wedCheckBox, thuCheckBox, friCheckBox,
+                                         satCheckBox, sunCheckBox, timeHHSpinBox, timeMMSpinBox)
             alarmConfig.checkAlarmService(enableAlarmSwitch)
         }
         else
@@ -367,7 +373,10 @@ Dialog
         {
             if(alarmConfig.configFileValidated)
             {
-                alarmConfig.loadAlarmConfigurations(minVolumeSpinBox, maxVolumeSpinBox, defaultVolumeSpinBox, growingVolumeSpinBox, growingSpeedSpinBox, newestSongsRadioButton, playlistRadioButton, playlistComboBox)
+                alarmConfig.loadAlarmConfigurations(minVolumeSpinBox, maxVolumeSpinBox, defaultVolumeSpinBox,
+                                                    growingVolumeSpinBox, growingSpeedSpinBox, newestSongsRadioButton,
+                                                    playlistRadioButton, playlistComboBox, testButton)
+
             }
             else
             {
@@ -382,8 +391,8 @@ Dialog
         }
         if(isError === 1)
         {
-        errorMessage = message
-        fileErrorMessage.setVisible(true)
+            errorMessage = message
+            fileErrorMessage.setVisible(true)
         }
     }
 }

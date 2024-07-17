@@ -44,13 +44,19 @@ bool AlarmConfig::isSystemdSupport() const
 }
 
 void AlarmConfig::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox, QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox,
-                                          QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton, QObject *playlistComboBox)
+                                          QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton, QObject *playlistComboBox, QObject *testButton)
 {
     minVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("minVolume")));
     maxVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("maxVolume")));
     defaultVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("defaultVolume")));
     growingVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("growingVolume")));
     growingSpeedSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("growingSpeed")));
+
+    if(checkAlarmSnoozeIsActive())
+    {
+        testButton->setProperty("text", "Stop snooze");
+    }
+
 
     if(mAlarmConfigs.getValueByKey("theNewestSongs") == "true")
     {
@@ -115,6 +121,20 @@ bool AlarmConfig::checkAlarmIsActive()
         return false;
     }
 }
+
+bool AlarmConfig::checkAlarmSnoozeIsActive()
+{
+    if(systemdAlarmSupport)
+    {
+        auto text = Systemd::loadUnit(Systemd::System, ALARM_SNOOZE_TIMER)->activeState();
+        return !text.contains("in");
+    }
+    else
+    {
+        return false;
+    }
+}
+
 
 void AlarmConfig::checkAlarmService(QObject *enableAlarmSwitch)
 {
@@ -207,6 +227,11 @@ void AlarmConfig::bStopTestAlarm_onClicked()
     while(builder.waitForFinished())
         ;
     testAlarmProcess.kill();
+}
+
+void AlarmConfig::bStopSnooze_onClicked()
+{
+    Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_TIMER, Systemd::Unit::Replace);
 }
 
 void AlarmConfig::bSaveAlarm_onClicked(const int minVolume, const int maxVolume, const int defaultVolume, const int growingVolume, const int growingSpeed, const bool isNewestSongsList,
