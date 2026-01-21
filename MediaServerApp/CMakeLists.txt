@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 add_executable(${PROJECT_NAME}
-    ViewModel/MainWindow/Bluetoothctl.cpp
+    ViewModel/MainWindow/BluetoothAgent.cpp
     ViewModel/MainWindow/MainWindow.cpp
     ViewModel/Samba/SambaConfig.cpp
     ViewModel/Samba/SambaConfigExternalDevice1.cpp

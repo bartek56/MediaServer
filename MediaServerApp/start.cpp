@@ -3,7 +3,10 @@
 #include <QApplication>
 #include <QtQuick>
 #include <QObject>
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include "ViewModel/MainWindow/MainWindow.h"
+#include "ViewModel/MainWindow/BluetoothAgent.h"
 #include "ViewModel/Samba/SambaConfig.h"
 #include "ViewModel/FtpConfig.h"
 #include "ViewModel/Settings/SettingsIpAddress.h"
@@ -24,12 +27,16 @@ QTimer *ScreenSaverManager::timer;
 
 int main(int argc, char *argv[])
 {
+    // App
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
     QCoreApplication::setOrganizationName("MediaServer");
     QCoreApplication::setOrganizationDomain("MediaServer");
     QCoreApplication::setApplicationName("Media Server");
+
+
+    // Main Window
     QQuickView *view = new QQuickView;
     MainWindow::init(view);
     if(view->status() == QQuickView::Error)
@@ -60,6 +67,7 @@ int main(int argc, char *argv[])
     view->setResizeMode(QQuickView::SizeRootObjectToView);
 
 
+    // Screensaver
     ScreenSaverHelper screensaverhelper;
     view->rootContext()->setContextProperty("screensaverhelper", &screensaverhelper);
 
@@ -69,6 +77,31 @@ int main(int argc, char *argv[])
     if(resultInit)
     {
         QObject::connect(ScreenSaverManager::timer, &QTimer::timeout, [&screensaverhelper]() { emit screensaverhelper.screensavertimeout(); });
+    }
+
+
+    // Bluetooth
+    QDBusConnection bus = QDBusConnection::systemBus();
+    BluetoothAgent agent;
+    bool isDbusBtConnection = bus.isConnected();
+    if (!isDbusBtConnection) {
+        qCritical() << "Cannot connect to system bus";
+    }
+    else
+    {
+        bus.registerObject(AGENT_PATH, &agent, QDBusConnection::ExportAllSlots);
+
+        QDBusMessage registerAgent = QDBusMessage::createMethodCall(
+                "org.bluez", "/org/bluez", "org.bluez.AgentManager1", "RegisterAgent");
+        registerAgent << QDBusObjectPath(AGENT_PATH) << "KeyboardDisplay";
+        bus.call(registerAgent);
+
+        QDBusMessage requestDefault = QDBusMessage::createMethodCall(
+                "org.bluez", "/org/bluez", "org.bluez.AgentManager1", "RequestDefaultAgent");
+        requestDefault << QDBusObjectPath(AGENT_PATH);
+        bus.call(requestDefault);
+
+        view->rootContext()->setContextProperty("btAgent", &agent);
     }
 
     view->setSource(QString("qrc:/main.qml"));

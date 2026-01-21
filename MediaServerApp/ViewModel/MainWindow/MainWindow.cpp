@@ -8,7 +8,6 @@
 
 MainWindow::MainWindow(QObject *parent) : QObject(parent)
 {
-    bluetoothctl = new Bluetoothctl();
 }
 
 void MainWindow::startWeatherApplication()
@@ -25,26 +24,6 @@ void MainWindow::startMusicApplication()
 
 void MainWindow::startBrowser()
 {
-}
-
-void MainWindow::pairWithBluetoothDevice()
-{
-    bluetoothctl->pair();
-}
-
-void MainWindow::pairAndTrustWithBluetoothDevice()
-{
-    bluetoothctl->trust();
-}
-
-void MainWindow::cancelPairWithBluetoothDevice()
-{
-    bluetoothctl->cancel();
-}
-
-void MainWindow::getPairBluetoothMessage(QObject *messageDialog)
-{
-    bluetoothctl->setMessageDialog(messageDialog);
 }
 
 void MainWindow::rebootButton_OnClicked()

@@ -15,7 +15,7 @@ SOURCES += \
     main.cpp
 
 
-RESOURCES += resources/qml.qrc
+RESOURCES +=
 
 TEMPLATE = app
 
@@ -31,3 +31,4 @@ INSTALLS += target
 
 HEADERS +=
 FORMS +=
+

@@ -1,4 +1,4 @@
-QT += quick widgets
+QT += quick widgets dbus
 CONFIG += c++17
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -35,7 +35,7 @@ SOURCES += \
     ViewModel/Settings/SettingsPackages.cpp \
     ViewModel/AlarmConfig.cpp \
     ViewModel/Settings/SettingsStatus.cpp \
-    ViewModel/MainWindow/Bluetoothctl.cpp \
+    ViewModel/MainWindow/BluetoothAgent.cpp \
     ViewModel/ScreenSaver/ScreenSaverManager.cpp \
     start.cpp
 
@@ -66,7 +66,7 @@ HEADERS += \
     ViewModel/Settings/SettingsPackages.h \
     ViewModel/AlarmConfig.h \
     ViewModel/Settings/SettingsStatus.h \
-    ViewModel/MainWindow/Bluetoothctl.h \
+    ViewModel/MainWindow/BluetoothAgent.h \
     ViewModel/ScreenSaver/ScreenSaverManager.h
 
 FORMS +=

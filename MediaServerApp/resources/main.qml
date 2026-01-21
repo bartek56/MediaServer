@@ -19,6 +19,7 @@ Rectangle{
 
     Connections{
             target: screensaverhelper
+
             onScreensavertimeout:
             {
                 mainRectangle.startScreenSaver();
@@ -31,16 +32,39 @@ Rectangle{
 
     }
 
+    Connections {
+        target: btAgent
+
+        function onConfirmPairingRequested(devicePath, passkey) {
+            pairDialog.text = "New bluetooth device: " + devicePath + "\nPasskey: " + passkey + ", accept?"
+            pairDialog.open()
+        }
+
+        function onAuthorizationRequested(devicePath) {
+            authDialog.text = "Authorize device: Allow?"
+            authDialog.open()
+        }
+    }
 
     MessageDialog {
-        id: bluetoothPairMessage
-        title: "Bluetooth"
+        id: pairDialog
+        title: "Bluetooth pairing"
         icon: StandardIcon.Question
-        text: "Do You want pair with Bluetooth device?"
-        standardButtons: StandardButton.Yes | StandardButton.No | StandardButton.Apply
-        onYes: mainWindow.pairAndTrustWithBluetoothDevice();
-        onApply: mainWindow.pairWithBluetoothDevice();
-        onNo: mainWindow.cancelPairWithBluetoothDevice();
+        standardButtons: StandardButton.Yes | StandardButton.No
+
+        onYes: btAgent.respondConfirmation(true)
+        onNo:  btAgent.respondConfirmation(false)
+    }
+
+    MessageDialog {
+        id: authDialog
+        title: "Bluetooth authorization"
+        icon: StandardIcon.Question
+        text: ""
+        standardButtons: StandardButton.Yes | StandardButton.No
+
+        onYes: btAgent.respondAuthorization(true)
+        onNo:  btAgent.respondAuthorization(false)
     }
 
     Loader {
@@ -575,6 +599,5 @@ Rectangle{
     Component.onCompleted:
     {
         busyMainWindow.running=false
-        mainWindow.getPairBluetoothMessage(bluetoothPairMessage)
     }
 }
