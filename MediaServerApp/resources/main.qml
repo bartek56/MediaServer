@@ -36,7 +36,7 @@ Rectangle{
         target: btAgent
 
         function onConfirmPairingRequested(devicePath, passkey) {
-            pairDialog.text = "New bluetooth device: " + devicePath + "\nPasskey: " + passkey + ", accept?"
+            pairDialog.text = devicePath + "\nPasskey:" + passkey + ", accept?"
             pairDialog.open()
         }
     }
