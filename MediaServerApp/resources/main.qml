@@ -39,11 +39,6 @@ Rectangle{
             pairDialog.text = "New bluetooth device: " + devicePath + "\nPasskey: " + passkey + ", accept?"
             pairDialog.open()
         }
-
-        function onAuthorizationRequested(devicePath) {
-            authDialog.text = "Authorize device: Allow?"
-            authDialog.open()
-        }
     }
 
     MessageDialog {
@@ -54,17 +49,6 @@ Rectangle{
 
         onYes: btAgent.respondConfirmation(true)
         onNo:  btAgent.respondConfirmation(false)
-    }
-
-    MessageDialog {
-        id: authDialog
-        title: "Bluetooth authorization"
-        icon: StandardIcon.Question
-        text: ""
-        standardButtons: StandardButton.Yes | StandardButton.No
-
-        onYes: btAgent.respondAuthorization(true)
-        onNo:  btAgent.respondAuthorization(false)
     }
 
     Loader {

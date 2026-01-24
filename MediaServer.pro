@@ -17,7 +17,6 @@ TEMPLATE = subdirs
 SUBDIRS = MediaServerLib \
     MediaServerApp \
     Alarm \
-    MediaServerBluetooth \
     MediaServerStartup 
 #    UnitTests
 
