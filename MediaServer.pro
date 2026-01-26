@@ -18,7 +18,7 @@ SUBDIRS = MediaServerLib \
     MediaServerApp \
     Alarm \
     MediaServerStartup 
-#    UnitTests
+    UnitTests
 
 MediaServerApp.depends = MediaServerLib
 MediaServerStartup.depends = MediaServerLib
