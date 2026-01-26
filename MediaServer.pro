@@ -17,7 +17,7 @@ TEMPLATE = subdirs
 SUBDIRS = MediaServerLib \
     MediaServerApp \
     Alarm \
-    MediaServerStartup 
+    MediaServerStartup \
     UnitTests
 
 MediaServerApp.depends = MediaServerLib
