@@ -10,7 +10,9 @@ Libraries:
 - Qt Network
 
 Dependencies:
+- qml-module-qtquick-controls
 - qml-module-qtquick-controls2
+- qml-module-qtquick-layouts
 - qtvirtualkeyboard-plugin
 - qml-module-qt-labs-folderlistmodel
 - [QtSystemd](https://github.com/bartek56/libsystemd-qt)
