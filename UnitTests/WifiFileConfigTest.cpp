@@ -26,7 +26,7 @@ TEST_F(WifiConfigFileTest, readNotCall)
 
 TEST_F(WifiConfigFileTest, configFileNotExist)
 {
-    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce([&](QString &) { return false; });
 
     std::vector<VectorData> ssidConfig;
     VectorData globalConfig;
@@ -49,12 +49,11 @@ TEST_F(WifiConfigFileTest, readFileOneSSID)
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = checkData;
                         return true;
-                    }));
+                    });
 
     std::vector<VectorData> ssidData;
     VectorData wificonfigs;
@@ -95,12 +94,11 @@ TEST_F(WifiConfigFileTest, readFileOneSSIDAndGlobalConfigs)
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = checkData;
                         return true;
-                    }));
+                    });
 
     std::vector<VectorData> ssidData;
     VectorData wificonfigs;
@@ -153,12 +151,11 @@ TEST_F(WifiConfigFileTest, readFileTwoSSIDAndGlobalConfigs)
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = checkData;
                         return true;
-                    }));
+                    });
     std::vector<VectorData> ssidData;
     VectorData wificonfigs;
 
@@ -200,12 +197,11 @@ TEST_F(WifiConfigFileTest, saveConfigData)
 
     EXPECT_CALL(*mockFileManager, save(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](const QString &fileData)
+            .WillOnce([&](const QString &fileData)
                     {
                         savingData = fileData;
                         return true;
-                    }));
+                    });
 
     VectorData globalData;
     globalData.push_back(ConfigData("ctrl_interface", "/var/run/wpa_supplicant"));
@@ -251,12 +247,11 @@ TEST_P(WifiConfigFileTestParam, readFileFailed)
     auto param = GetParam();
     EXPECT_CALL(*mockReadFile, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = QString::fromStdString(param);
                         return true;
-                    }));
+                    });
 
     WifiConfigFile wifiConfigFile(mockReadFile);
 

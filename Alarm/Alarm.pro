@@ -23,7 +23,7 @@ SOURCES += \
 
 HEADERS += \
         ViewModel/AlarmView.h
-        
+
 
 RESOURCES += resources/qml.qrc
 

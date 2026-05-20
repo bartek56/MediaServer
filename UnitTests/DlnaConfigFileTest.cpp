@@ -24,7 +24,7 @@ TEST_F(DlnaConfigFileTest, readNotCall)
 
 TEST_F(DlnaConfigFileTest, configFileNotExist)
 {
-    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce([&](QString &) { return false; });
 
     VectorData fileData;
 
@@ -38,12 +38,11 @@ TEST_F(DlnaConfigFileTest, readFileOneLine)
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = checkData;
                         return true;
-                    }));
+                      });
     VectorData fileData;
 
     auto result = dlnaConfigFile->LoadConfiguration(fileData);
@@ -65,12 +64,11 @@ TEST_F(DlnaConfigFileTest, readwholeFile)
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = checkData;
                         return true;
-                    }));
+                    });
 
     VectorData fileData;
 
@@ -116,12 +114,11 @@ TEST_F(DlnaConfigFileTest, saveWholeFileData)
 
     EXPECT_CALL(*mockFileManager, save(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](const QString &fileData)
+            .WillOnce([&](const QString &fileData)
                     {
                         savingData = fileData;
                         return true;
-                    }));
+                    });
 
     VectorData fileData;
 
@@ -160,12 +157,11 @@ TEST_P(DlnaConfigFileTestParam, readFileFailed)
     auto param = GetParam();
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = QString::fromStdString(param);
                         return true;
-                    }));
+                    });
 
     DlnaConfigFile dlnaConfigFile(std::move(fileManager));
 

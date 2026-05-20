@@ -24,7 +24,7 @@ TEST_F(MpdConfigFileTest, readNotCall)
 
 TEST_F(MpdConfigFileTest, configFileNotExist)
 {
-    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce([&](QString &) { return false; });
 
     VectorData fileData;
 
@@ -38,13 +38,11 @@ TEST_F(MpdConfigFileTest, readFileOneLine)
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = checkData;
                         return true;
-                    }));
-
+                      });
     VectorData fileData;
 
     auto result = mpdConfigFile->LoadConfiguration(fileData);
@@ -69,12 +67,11 @@ TEST_F(MpdConfigFileTest, readIncorrectFile)
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = checkData;
                         return true;
-                    }));
+                    });
 
     VectorData fileData;
 
@@ -97,13 +94,11 @@ TEST_F(MpdConfigFileTest, readWholeFileData)
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = checkData;
                         return true;
-                    }));
-
+                      });
     VectorData fileData;
 
     auto result = mpdConfigFile->LoadConfiguration(fileData);
@@ -132,12 +127,11 @@ TEST_F(MpdConfigFileTest, saveWholeFileData)
 
     EXPECT_CALL(*mockFileManager, save(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](const QString &fileData)
+            .WillOnce([&](const QString &fileData)
                     {
                         savingData = fileData;
                         return true;
-                    }));
+                    });
 
     VectorData fileData;
     fileData.push_back(ConfigData("music_directory", "/mnt/TOSHIBA EXT/muzyka"));
@@ -180,12 +174,11 @@ TEST_P(MpdConfigFileTestParam, readFileFailed)
     auto param = GetParam();
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = QString::fromStdString(param);
                         return true;
-                    }));
+                    });
 
     MpdConfigFile mpdConfigFile(std::move(fileManager));
 

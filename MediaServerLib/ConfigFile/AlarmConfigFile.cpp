@@ -3,51 +3,48 @@
 #include <QTextStream>
 #include <QTextCodec>
 #include <QDebug>
+#include <QSettings>
 
-AlarmConfigFile::AlarmConfigFile(std::unique_ptr<IFileManager> ptrFileManager) : fileManager(std::move(ptrFileManager))
+AlarmConfigFile::AlarmConfigFile(const QString &configFilePath) : filePath(configFilePath)
 {
 }
 
 bool AlarmConfigFile::LoadConfiguration(VectorData &configuration)
 {
-    QString fileData = "";
-    const bool result = fileManager->read(fileData);
+    QSettings settings(filePath, QSettings::IniFormat);
 
-    if(!result)
+    if(settings.status() != QSettings::NoError)
         return false;
 
-    QStringList lines = fileData.split('\n');
+    settings.beginGroup("alarm");
+    const QStringList keys = settings.allKeys();
 
-    for(int i = 0; i < lines.size(); i++)
+    for(const QString &key : keys)
     {
-        if(lines[i] <= 2)
-            break;
-        auto parameter = lines[i].split("=");
-        if(parameter.size() != 2)
-            return false;
-        auto parameterName = parameter[0];
-        auto parameterValue = parameter[1];
-
-        parameterValue.remove('"');
-        configuration.push_back(ConfigData(parameterName, parameterValue));
+        QString value = settings.value(key).toString();
+        configuration.push_back(ConfigData(key, value));
     }
-    return true;
+    settings.endGroup();
+
+    return settings.status() == QSettings::NoError;
 }
 
 bool AlarmConfigFile::SaveConfiguration(const VectorData &mConfigsParameters)
 {
-    QString dataToFile;
+    QSettings settings(filePath, QSettings::IniFormat);
+
+    if(settings.status() != QSettings::NoError)
+        return false;
+
+    settings.beginGroup("alarm");
+
     for(const auto &configParam : mConfigsParameters)
     {
-        QString lineData;
-        if(configParam.key == "playlist")
-            lineData = configParam.key + "=\"" + configParam.value + "\"\n";
-        else
-            lineData = configParam.key + "=" + configParam.value + "\n";
-
-        dataToFile.push_back(lineData);
+        settings.setValue(configParam.key, configParam.value);
     }
 
-    bool result = fileManager->save(dataToFile);
-    return result;
+    settings.endGroup();
+    settings.sync();
+
+    return settings.status() == QSettings::NoError;
 }

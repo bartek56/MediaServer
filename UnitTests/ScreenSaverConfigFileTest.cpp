@@ -19,7 +19,7 @@ protected:
 
 TEST_F(ScreenSaverConfigFileTest, configFileNotExist)
 {
-    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce(testing::Invoke([&](QString &) { return false; }));
+    EXPECT_CALL(*mockFileManager, read(testing::_)).Times(1).WillOnce([&](QString &) { return false; });
 
     VectorData fileData;
 
@@ -39,12 +39,11 @@ TEST_F(ScreenSaverConfigFileTest, readFileOneLine)
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = checkData;
                         return true;
-                    }));
+                    });
 
     VectorData fileData;
 
@@ -67,12 +66,11 @@ TEST_F(ScreenSaverConfigFileTest, readWholeFile)
 
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = checkData;
                         return true;
-                    }));
+                    });
 
     VectorData fileData;
 
@@ -109,12 +107,11 @@ TEST_F(ScreenSaverConfigFileTest, saveWholeFileData)
 
     EXPECT_CALL(*mockFileManager, save(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](const QString &fileData)
+            .WillOnce([&](const QString &fileData)
                     {
                         savingData = fileData;
                         return true;
-                    }));
+                    });
 
     VectorData fileData;
     fileData.push_back(ConfigData("enable", "false"));
@@ -152,12 +149,11 @@ TEST_P(ScreenSaverConfigFileTestParam, readFileFailed)
     auto param = GetParam();
     EXPECT_CALL(*mockFileManager, read(testing::_))
             .Times(1)
-            .WillOnce(testing::Invoke(
-                    [&](QString &fileData)
+            .WillOnce([&](QString &fileData)
                     {
                         fileData = QString::fromStdString(param);
                         return true;
-                    }));
+                    });
 
 
     ScreenSaverConfigFile screenSaverConfigFile(std::move(fileManager));
