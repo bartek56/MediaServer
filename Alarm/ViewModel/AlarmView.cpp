@@ -47,7 +47,7 @@ void AlarmView::stopAlarm()
 
         VectorData alarmConfigMap;
         editAlarmConfigFile.LoadConfiguration(alarmConfigMap);
-        QString defaultVolume = alarmConfigMap.getValueByKey("defaultVolume");
+        QString defaultVolume = alarmConfigMap.getValueByKey("default_volume");
         QProcess::startDetached("mpc", QStringList() << "volume" << defaultVolume);
     }
 }

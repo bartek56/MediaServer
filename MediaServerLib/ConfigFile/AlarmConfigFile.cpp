@@ -26,6 +26,8 @@ bool AlarmConfigFile::LoadConfiguration(VectorData &configuration)
     }
     settings.endGroup();
 
+    if (configuration.empty()) return false; // empty files
+
     return settings.status() == QSettings::NoError;
 }
 

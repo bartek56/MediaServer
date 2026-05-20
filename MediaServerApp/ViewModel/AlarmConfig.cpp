@@ -46,11 +46,11 @@ bool AlarmConfig::isSystemdSupport() const
 void AlarmConfig::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *maxVolumeSpinBox, QObject *defaultVolumeSpinBox, QObject *growingVolumeSpinBox, QObject *growingSpeedSpinBox,
                                           QObject *isNewestSongsListRadioButton, QObject *isPlaylistRadioButton, QObject *playlistComboBox, QObject *testButton)
 {
-    minVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("minVolume")));
-    maxVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("maxVolume")));
-    defaultVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("defaultVolume")));
-    growingVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("growingVolume")));
-    growingSpeedSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("growingSpeed")));
+    minVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("min_volume")));
+    maxVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("max_volume")));
+    defaultVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("default_volume")));
+    growingVolumeSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("growing_volume")));
+    growingSpeedSpinBox->setProperty("value", QVariant(mAlarmConfigs.getValueByKey("growing_speed")));
 
     if(checkAlarmSnoozeIsActive())
     {
@@ -58,7 +58,7 @@ void AlarmConfig::loadAlarmConfigurations(QObject *minVolumeSpinBox, QObject *ma
     }
 
 
-    if(mAlarmConfigs.getValueByKey("theNewestSongs") == "true")
+    if(mAlarmConfigs.getValueByKey("the_newest_songs") == "true")
     {
         isNewestSongsListRadioButton->setProperty("checked", QVariant(true));
         isPlaylistRadioButton->setProperty("checked", QVariant(false));
@@ -245,13 +245,13 @@ void AlarmConfig::bSaveAlarm_onClicked(const int minVolume, const int maxVolume,
     QString isNewestSongsListString = isNewestSongsList ? "true" : "false";
     if(!mAlarmConfigs.empty())
     {
-        mAlarmConfigs.setValueByKey("minVolume", minVolumeString);
-        mAlarmConfigs.setValueByKey("maxVolume", maxVolumeString);
-        mAlarmConfigs.setValueByKey("defaultVolume", defaultVolumeString);
-        mAlarmConfigs.setValueByKey("growingVolume", growingVolumeString);
-        mAlarmConfigs.setValueByKey("growingSpeed", growingSpeedString);
+        mAlarmConfigs.setValueByKey("min_volume", minVolumeString);
+        mAlarmConfigs.setValueByKey("max_volume", maxVolumeString);
+        mAlarmConfigs.setValueByKey("default_volume", defaultVolumeString);
+        mAlarmConfigs.setValueByKey("growing_volume", growingVolumeString);
+        mAlarmConfigs.setValueByKey("growing_speed", growingSpeedString);
         mAlarmConfigs.setValueByKey("playlist", playlist);
-        mAlarmConfigs.setValueByKey("theNewestSongs", isNewestSongsListString);
+        mAlarmConfigs.setValueByKey("the_newest_songs", isNewestSongsListString);
         const bool result = editAlarmConfigFile.SaveConfiguration(mAlarmConfigs);
         if(!result)
             qCritical("Failed to save alarm configuration");

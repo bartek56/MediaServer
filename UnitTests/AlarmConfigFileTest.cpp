@@ -61,8 +61,8 @@ TEST_F(AlarmConfigFileTest, readWholeFileData)
 {
     QSettings settings(tempFilePath, QSettings::IniFormat);
     settings.beginGroup("alarm");
-    settings.setValue("minVolume", "5");
-    settings.setValue("maxVolume", "50");
+    settings.setValue("min_volume", "5");
+    settings.setValue("max_volume", "50");
     settings.setValue("playlist", "alarm");
     settings.setValue("theNewestSong", "true");
     settings.endGroup();
@@ -76,20 +76,21 @@ TEST_F(AlarmConfigFileTest, readWholeFileData)
 
     EXPECT_EQ(fileData.size(), std::size_t(4));
 
-    EXPECT_EQ(fileData.getValueByKey(QString("minVolume")).toStdString(), "5");
-    EXPECT_EQ(fileData.getValueByKey(QString("maxVolume")).toStdString(), "50");
+    EXPECT_EQ(fileData.getValueByKey(QString("min_volume")).toStdString(), "5");
+    EXPECT_EQ(fileData.getValueByKey(QString("max_volume")).toStdString(), "50");
     EXPECT_EQ(fileData.getValueByKey(QString("playlist")).toStdString(), "alarm");
     EXPECT_EQ(fileData.getValueByKey(QString("theNewestSong")).toStdString(), "true");
 
     EXPECT_TRUE(fileData.setValueByKey(QString("theNewestSong"), QString("false")));
 
     auto it = fileData.begin();
-    EXPECT_EQ(it->key.toStdString(), "minVolume");
-    EXPECT_EQ(it->value.toStdString(), "5");
+    EXPECT_EQ(it->key.toStdString(), "max_volume");
+    EXPECT_EQ(it->value.toStdString(), "50");
+
 
     it = std::next(it);
-    EXPECT_EQ(it->key.toStdString(), "maxVolume");
-    EXPECT_EQ(it->value.toStdString(), "50");
+    EXPECT_EQ(it->key.toStdString(), "min_volume");
+    EXPECT_EQ(it->value.toStdString(), "5");
 
     it = std::next(it);
     EXPECT_EQ(it->key.toStdString(), "playlist");
@@ -104,8 +105,8 @@ TEST_F(AlarmConfigFileTest, saveWholeFileData)
 {
     VectorData fileData;
 
-    fileData.push_back(ConfigData("minVolume", "5"));
-    fileData.push_back(ConfigData("maxVolume", "50"));
+    fileData.push_back(ConfigData("min_volume", "5"));
+    fileData.push_back(ConfigData("max_volume", "50"));
     fileData.push_back(ConfigData("playlist", "alarm"));
     fileData.push_back(ConfigData("theNewestSong", "true"));
 
@@ -117,8 +118,8 @@ TEST_F(AlarmConfigFileTest, saveWholeFileData)
     QSettings settings(tempFilePath, QSettings::IniFormat);
     settings.beginGroup("alarm");
 
-    EXPECT_EQ(settings.value("minVolume").toString().toStdString(), "5");
-    EXPECT_EQ(settings.value("maxVolume").toString().toStdString(), "50");
+    EXPECT_EQ(settings.value("min_volume").toString().toStdString(), "5");
+    EXPECT_EQ(settings.value("max_volume").toString().toStdString(), "50");
     EXPECT_EQ(settings.value("playlist").toString().toStdString(), "alarm");
     EXPECT_EQ(settings.value("theNewestSong").toString().toStdString(), "true");
 
