@@ -1,11 +1,8 @@
 #include "FtpConfig.h"
-#include <QtSystemd/unit.h>
-#include <QtSystemd/sdmanager.h>
+#include "SystemdManager.h"
 
 FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
 {
-    auto state = Systemd::getUnitFileState(Systemd::System, FTP_SERVICE);
-
     if(!QFile(VSFTPD_USERS_CONFIG_FILE).exists())
     {
         configFilesExist = false;
@@ -16,7 +13,7 @@ FtpConfig::FtpConfig(QObject *parent) : QObject(parent)
         configFilesExist = true;
     }
 
-    if(state.contains("able"))
+    if(SystemdManager::unitFileExists(FTP_SERVICE))
         serviceExist = true;
     else
     {
@@ -34,8 +31,7 @@ void FtpConfig::checkService(QObject *saveButton)
 {
     if(serviceExist)
     {
-        auto text = Systemd::getUnit(Systemd::System, FTP_SERVICE).data()->activeState();
-        saveButton->setProperty("enabled", QVariant(!text.contains("in")));
+        saveButton->setProperty("enabled", QVariant(SystemdManager::isUnitActive(FTP_SERVICE)));
     }
 }
 
@@ -151,7 +147,7 @@ void FtpConfig::bSave_onClicked()
         DeleteUsers();
     }
     if(serviceExist)
-        Systemd::restartUnit(Systemd::System, FTP_SERVICE, Systemd::Unit::Replace);
+        SystemdManager::restartUnit(FTP_SERVICE);
 }
 
 void FtpConfig::SaveUsers()

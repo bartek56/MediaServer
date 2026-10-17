@@ -4,25 +4,21 @@
 #include <QFile>
 #include <QDebug>
 #include <QDateTime>
-#include <QtSystemd/unit.h>
-#include <QtSystemd/sdmanager.h>
+#include "SystemdManager.h"
 
 AlarmView::AlarmView(QObject *parent) : QObject(parent)
   ,editAlarmConfigFile(ALARM_CONFIG_FILE)
 {
-    auto state = Systemd::getUnitFileState(Systemd::System, ALARM_SNOOZE_SERVICE);
-
-    if(state.contains("able"))
+    if(SystemdManager::unitFileExists(ALARM_SNOOZE_SERVICE))
     {
-        Systemd::getUnit(Systemd::System, ALARM_SNOOZE_SERVICE);//support QDBusAbstractInterfaceSupport
-        auto alarmSnoozeState = Systemd::loadUnit(Systemd::System, ALARM_SNOOZE_SERVICE)->activeState();
-        auto alarmState = Systemd::loadUnit(Systemd::System, ALARM_SERVICE)->activeState();
+        const bool alarmSnoozeActive = SystemdManager::isUnitActive(ALARM_SNOOZE_SERVICE);
+        const bool alarmActive = SystemdManager::isUnitActive(ALARM_SERVICE);
 
-        if(!alarmSnoozeState.contains("in"))
+        if(alarmSnoozeActive)
         {
             isSnooze = true;
         }
-        if(!alarmSnoozeState.contains("in") || !alarmState.contains("in"))
+        if(alarmSnoozeActive || alarmActive)
         {
             systemdSupportExist = true;
         }
@@ -37,13 +33,13 @@ void AlarmView::stopAlarm()
 {
     if(systemdSupportExist)
     {
-        Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_TIMER, Systemd::Unit::Replace);
+        SystemdManager::stopUnit(ALARM_SNOOZE_TIMER);
 
         if(isSnooze)
-            Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_SERVICE, Systemd::Unit::Replace);
+            SystemdManager::stopUnit(ALARM_SNOOZE_SERVICE);
 
         else
-            Systemd::stopUnit(Systemd::System, ALARM_SERVICE, Systemd::Unit::Replace);
+            SystemdManager::stopUnit(ALARM_SERVICE);
 
         VectorData alarmConfigMap;
         editAlarmConfigFile.LoadConfiguration(alarmConfigMap);
@@ -107,13 +103,13 @@ void AlarmView::snooze(int min)
     }
     file.close();
 
-    Systemd::reload(Systemd::System);
+    SystemdManager::reload();
 
     QProcess::startDetached("mpc", QStringList() << "stop");
-    Systemd::restartUnit(Systemd::System, ALARM_SNOOZE_TIMER, Systemd::Unit::Replace);
+    SystemdManager::restartUnit(ALARM_SNOOZE_TIMER);
 
     if(isSnooze)
-        Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_SERVICE, Systemd::Unit::Replace);
+        SystemdManager::stopUnit(ALARM_SNOOZE_SERVICE);
     else
-        Systemd::stopUnit(Systemd::System, ALARM_SERVICE, Systemd::Unit::Replace);
+        SystemdManager::stopUnit(ALARM_SERVICE);
 }

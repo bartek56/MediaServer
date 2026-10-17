@@ -2,9 +2,7 @@ TEMPLATE = lib
 CONFIG += staticlib
 CONFIG -= app_bundle
 CONFIG += c++17
-QT += quick
-
-LIBS += -lQtSystemd
+QT += core quick dbus
 
 
 SOURCES += \
@@ -18,6 +16,7 @@ SOURCES += \
     ViewModel/Settings/SettingsIpAddress.cpp \
     ViewModel/Settings/SettingsWifi.cpp \
     Utils/VectorData.cpp \
+    SystemdManager.cpp \
     ManagementOfExternalDevices.cpp
 
 HEADERS += \
@@ -33,4 +32,5 @@ HEADERS += \
     ViewModel/Settings/SettingsIpAddress.h \
     ViewModel/Settings/SettingsWifi.h \
     Utils/VectorData.h \
+    SystemdManager.h \
     ManagementOfExternalDevices.h

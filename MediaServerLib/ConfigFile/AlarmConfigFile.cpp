@@ -1,7 +1,6 @@
 #include "AlarmConfigFile.h"
 #include <QFile>
 #include <QTextStream>
-#include <QTextCodec>
 #include <QDebug>
 #include <QSettings>
 

@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include <QApplication>
 #include <QtQuick>
 #include <QObject>
@@ -29,7 +30,9 @@ int main(int argc, char *argv[])
 {
     // App
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
     QApplication app(argc, argv);
     QCoreApplication::setOrganizationName("MediaServer");
     QCoreApplication::setOrganizationDomain("MediaServer");
@@ -38,6 +41,7 @@ int main(int argc, char *argv[])
 
     // Main Window
     QQuickView *view = new QQuickView;
+    view->rootContext()->setContextProperty("qtMajorVersion", QT_VERSION_MAJOR);
     MainWindow::init(view);
     if(view->status() == QQuickView::Error)
         return -1;

@@ -1,6 +1,5 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
 import MultimediaConfigLib 1.0
@@ -21,12 +20,12 @@ Dialog
         id: multimediaConfig
     }
 
-    MessageDialog {
+    MediaMessageDialog {
         id: fileErrorMessage
         title: "Warning"
-        icon: StandardIcon.Warning
+        icon: "warning"
         text: "Multimedia config files don't exist!"
-        standardButtons: StandardButton.Close
+        standardButtons: "close"
         onButtonClicked: multimediaConfigDialog.close()
     }
 
@@ -35,7 +34,7 @@ Dialog
         source:"ScreenSaverManager.qml";
     }
 
-    FileDialog {
+    MediaFileDialog {
         id: videoFileDialog
         folder: shortcuts.home
         //folder: shortcuts.mnt
@@ -53,7 +52,7 @@ Dialog
         }
     }
 
-    FileDialog {
+    MediaFileDialog {
         id: audioFileDialog
         folder: shortcuts.home
         width: parent.width
@@ -70,7 +69,7 @@ Dialog
         }
     }
 
-    FileDialog {
+    MediaFileDialog {
         id: picturesFileDialog
         folder: shortcuts.home
         width: parent.width

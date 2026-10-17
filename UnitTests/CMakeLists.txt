@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 project(UnitTests)
+
+enable_testing()
 
 add_subdirectory(googletest)
 
@@ -21,7 +23,7 @@ set(SOURCES
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
-    Qt5::Quick
+    Qt${QT_VERSION_MAJOR}::Core
 )
 
 # unit test binary
@@ -37,3 +39,5 @@ set(TEST_SOURCES
 add_executable(tests ${TEST_SOURCES})
 
 target_link_libraries(tests ${PROJECT_NAME} gtest gmock)
+
+add_test(NAME MediaServerUnitTests COMMAND tests)

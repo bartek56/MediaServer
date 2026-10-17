@@ -2,16 +2,11 @@
 #include "ConfigFile/ConfigFile.h"
 #include "ConfigFile/IConfigFile.h"
 
-#include <QtSystemd/sdmanager.h>
-#include <QtSystemd/unit.h>
+#include "SystemdManager.h"
 
 AlarmConfig::AlarmConfig(QObject *parent) : QObject(parent), editAlarmConfigFile(ALARM_CONFIG_FILE)
 {
-    Systemd::getUnit(Systemd::System, ALARM_SERVICE);//support QDBusAbstractInterfaceSupport
-
-    auto state = Systemd::getUnitFileState(Systemd::System, ALARM_SERVICE);
-
-    if(state.contains("able"))
+    if(SystemdManager::unitFileExists(ALARM_SERVICE))
         systemdAlarmSupport = true;
     else
     {
@@ -113,8 +108,7 @@ bool AlarmConfig::checkAlarmIsActive()
 {
     if(systemdAlarmSupport)
     {
-        auto text = Systemd::loadUnit(Systemd::System, ALARM_TIMER)->activeState();
-        return !text.contains("in");
+        return SystemdManager::isUnitActive(ALARM_TIMER);
     }
     else
     {
@@ -126,8 +120,7 @@ bool AlarmConfig::checkAlarmSnoozeIsActive()
 {
     if(systemdAlarmSupport)
     {
-        auto text = Systemd::loadUnit(Systemd::System, ALARM_SNOOZE_TIMER)->activeState();
-        return !text.contains("in");
+        return SystemdManager::isUnitActive(ALARM_SNOOZE_TIMER);
     }
     else
     {
@@ -202,13 +195,13 @@ void AlarmConfig::switchEnableAlarm_onClicked(const bool isEnable)
         alarmIsEnabled = isEnable;
         if(isEnable)
         {
-            Systemd::startUnit(Systemd::System, ALARM_TIMER, Systemd::Unit::Replace);
-            Systemd::enableUnitFiles(Systemd::System, QStringList() << ALARM_TIMER, true, true);
+            SystemdManager::startUnit(ALARM_TIMER);
+            SystemdManager::enableUnitFiles(QStringList() << ALARM_TIMER, true, true);
         }
         else
         {
-            Systemd::stopUnit(Systemd::System, ALARM_TIMER, Systemd::Unit::Replace);
-            Systemd::disableUnitFiles(Systemd::System, QStringList() << ALARM_TIMER, true);
+            SystemdManager::stopUnit(ALARM_TIMER);
+            SystemdManager::disableUnitFiles(QStringList() << ALARM_TIMER, true);
         }
     }
 }
@@ -231,7 +224,7 @@ void AlarmConfig::bStopTestAlarm_onClicked()
 
 void AlarmConfig::bStopSnooze_onClicked()
 {
-    Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_TIMER, Systemd::Unit::Replace);
+    SystemdManager::stopUnit(ALARM_SNOOZE_TIMER);
 }
 
 void AlarmConfig::bSaveAlarm_onClicked(const int minVolume, const int maxVolume, const int defaultVolume, const int growingVolume, const int growingSpeed, const bool isNewestSongsList,
@@ -302,13 +295,13 @@ void AlarmConfig::bSaveAlarmService_onClicked(const bool monCheckBox, const bool
     {
         if(alarmIsEnabled)
         {
-            Systemd::stopUnit(Systemd::System, ALARM_TIMER, Systemd::Unit::Replace);
-            Systemd::reload(Systemd::System);
-            Systemd::startUnit(Systemd::System, ALARM_TIMER, Systemd::Unit::Replace);
+            SystemdManager::stopUnit(ALARM_TIMER);
+            SystemdManager::reload();
+            SystemdManager::startUnit(ALARM_TIMER);
         }
         else
         {
-            Systemd::reload(Systemd::System);
+            SystemdManager::reload();
         }
     }
 }

@@ -1,7 +1,6 @@
 #include "SettingsIpAddress.h"
 
-#include <QtSystemd/sdmanager.h>
-#include <QtSystemd/unit.h>
+#include "SystemdManager.h"
 #include <QSettings>
 #include <QFile>
 #include <bitset>
@@ -181,7 +180,7 @@ void SettingsIpAddress::saveIpAddressConfiguration()
     ethqsettings.sync();
 
 
-    Systemd::restartUnit(Systemd::System, "systemd-networkd", Systemd::Unit::Replace);
+    SystemdManager::restartUnit(QStringLiteral("systemd-networkd"));
 }
 
 void SettingsIpAddress::setCurrentIpAddressConfig(const int &networkInterfaceComboboxIndex)

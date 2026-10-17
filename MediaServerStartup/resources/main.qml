@@ -1,6 +1,5 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
 import MainWindowLib 1.0
@@ -568,12 +567,12 @@ Rectangle
         }
     }
 
-    MessageDialog
+    MediaMessageDialog
     {
         id: message
         title: "Updating"
         visible: false
-        icon:StandardIcon.Question
+        icon: "question"
         text: "Please wait 3-5 minutes to configure system.\nSystem will restart automatically"
     }
 

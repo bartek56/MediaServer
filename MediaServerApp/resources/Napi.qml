@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.1
 import NapiManagerLib 1.0
 
 
@@ -29,16 +28,16 @@ Dialog
         source:"ScreenSaverManager.qml";
     }
 
-    MessageDialog {
+    MediaMessageDialog {
         id: fileErrorMessage
         title: "Warning"
-        icon: StandardIcon.Warning
+        icon: "warning"
         text: "QNapi is not supported!"
-        standardButtons: StandardButton.Close
+        standardButtons: "close"
         onButtonClicked: close()
     }
 
-    FileDialog {
+    MediaFileDialog {
         id: movieFileDialog
         folder: videoPath
         width: parent.width

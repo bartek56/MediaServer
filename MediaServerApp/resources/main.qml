@@ -2,7 +2,6 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import MainWindowLib 1.0
-import QtQuick.Dialogs 1.1
 
 
 Rectangle{
@@ -41,11 +40,11 @@ Rectangle{
         }
     }
 
-    MessageDialog {
+    MediaMessageDialog {
         id: pairDialog
         title: "Bluetooth pairing"
-        icon: StandardIcon.Question
-        standardButtons: StandardButton.Yes | StandardButton.No
+        icon: "question"
+        standardButtons: "yesno"
 
         onYes: btAgent.respondConfirmation(true)
         onNo:  btAgent.respondConfirmation(false)
@@ -69,20 +68,20 @@ Rectangle{
             family: "Comic Sans MS"
             pixelSize: 20
         }
-        MessageDialog {
+        MediaMessageDialog {
             id: shutdownMessage
             title: "Shutdown"
-            icon: StandardIcon.Question
+            icon: "question"
             text: "Are You sure to Power Off device?"
-            standardButtons: StandardButton.Yes | StandardButton.No
+            standardButtons: "yesno"
             onYes: mainWindow.shutdownButton_OnClicked();
         }
-        MessageDialog {
+        MediaMessageDialog {
             id: rebootMessage
             title: "Reboot"
-            icon: StandardIcon.Question
+            icon: "question"
             text: "Are You sure to Reboot device?"
-            standardButtons: StandardButton.Yes | StandardButton.No
+            standardButtons: "yesno"
             onYes: mainWindow.rebootButton_OnClicked();
         }
 

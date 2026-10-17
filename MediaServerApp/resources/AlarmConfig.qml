@@ -1,6 +1,5 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.3
 import AlarmConfigLib 1.0
 
@@ -18,13 +17,13 @@ Dialog
     property string errorMessage
 
 
-    MessageDialog
+    MediaMessageDialog
     {
         id: fileErrorMessage
         title: "Warning"
-        icon: StandardIcon.Warning
+        icon: "warning"
         text: errorMessage
-        standardButtons: StandardButton.Close
+        standardButtons: "close"
         onButtonClicked: alarmConfigDialog.close()
     }
 

@@ -1,13 +1,11 @@
 #include "SettingsStatus.h"
 
-#include <QtSystemd/sdmanager.h>
-#include <QtSystemd/unit.h>
+#include "SystemdManager.h"
 #include <QProcess>
+#include <QVariant>
 
 SettingsStatus::SettingsStatus(QObject *parent) : QObject(parent)
 {
-    ///TODO QDBusAbstractInterface: type UnitConditionList must be registered with Qt D-Bus before it can be used to read property
-    Systemd::getUnit(Systemd::System, MPD_SERVICE);
 }
 
 void SettingsStatus::checkTvHeadEndServiceStatus(QObject *statusSwitch, QObject *statusButton)
@@ -134,36 +132,30 @@ void SettingsStatus::torrentClientStatusButton_OnClicked(QObject *torrentClientS
 
 bool SettingsStatus::checkSystemdStatusIsActive(const QString &serviceName)
 {
-    auto text = Systemd::loadUnit(Systemd::System, serviceName)->activeState();
-    return !text.contains("in");
+    return SystemdManager::isUnitActive(serviceName);
 }
 
 bool SettingsStatus::checkSystemdStatusIsEnabled(const QString &serviceName)
 {
-    auto state = Systemd::getUnitFileState(Systemd::System, serviceName);
-    return state.contains("enabled");
+    return SystemdManager::isUnitEnabled(serviceName);
 }
 
 bool SettingsStatus::checkSystemdStatusExist(const QString &serviceName)
 {
-    auto state = Systemd::getUnitFileState(Systemd::System, serviceName);
-    return state.contains("able");
+    return SystemdManager::unitFileExists(serviceName);
 }
 
 void SettingsStatus::checkSystemdStatus(QObject *statusSwitch, QObject *statusButton, const QString &serviceName)
 {
-    auto serviceExist = false;
-    auto state = Systemd::getUnitFileState(Systemd::System, serviceName);
-
-    if(state.contains("able"))
-        serviceExist = true;
+    const auto state = SystemdManager::getUnitFileState(serviceName);
+    const auto serviceExist = !state.isEmpty();
 
     statusButton->setProperty("enabled", QVariant(serviceExist));
     statusSwitch->setProperty("enabled", QVariant(serviceExist));
 
     if(serviceExist)
     {
-        bool serviceIsEnable = state.contains("enabled");
+        bool serviceIsEnable = state == QLatin1String("enabled");
         statusSwitch->setProperty("checked", QVariant(serviceIsEnable));
         auto serviceIsActive = checkSystemdStatusIsActive(serviceName);
 
@@ -181,21 +173,21 @@ void SettingsStatus::checkSystemdStatus(QObject *statusSwitch, QObject *statusBu
 void SettingsStatus::StatusSwitch_onClicked(const bool statusSwitchIsChecked, const QString &serviceName)
 {
     if(statusSwitchIsChecked)
-        Systemd::enableUnitFiles(Systemd::System, QStringList() << serviceName, false, true);
+        SystemdManager::enableUnitFiles(QStringList() << serviceName, false, true);
     else
-        Systemd::disableUnitFiles(Systemd::System, QStringList() << serviceName, false);
+        SystemdManager::disableUnitFiles(QStringList() << serviceName, false);
 }
 
 void SettingsStatus::StatusButton_onClicked(QObject *statusButton, const QString statusButtonText, const QString &serviceName)
 {
     if(statusButtonText.contains("start"))
     {
-        Systemd::startUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
+        SystemdManager::startUnit(serviceName);
         statusButton->setProperty("text", QVariant("stop"));
     }
     else
     {
-        Systemd::stopUnit(Systemd::System, serviceName, Systemd::Unit::Replace);
+        SystemdManager::stopUnit(serviceName);
         statusButton->setProperty("text", QVariant("start"));
     }
 }

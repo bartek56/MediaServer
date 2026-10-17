@@ -23,7 +23,7 @@ bool DlnaConfigFile::LoadConfiguration(VectorData& configuration)
     for (int i = 0; i<lines.size(); i++)
     {
         QString line = lines[i];
-        if (line <= 2)
+        if(line.isEmpty())
             break;
         if(line.contains("media_dir"))
         {
