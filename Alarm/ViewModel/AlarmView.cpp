@@ -27,6 +27,56 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent)
     {
         qWarning() << "alarm service not exist";
     }
+
+    loadAlarmTime();
+}
+
+void AlarmView::loadAlarmTime()
+{
+    const QString timer = isSnooze ? ALARM_SNOOZE_TIMER : ALARM_TIMER;
+    QFile file(QString(CONFIG_PATH) + "/" + timer);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    while(!file.atEnd())
+    {
+        const QString line = QString::fromUtf8(file.readLine()).trimmed();
+        if(!line.startsWith("OnCalendar="))
+            continue;
+
+        const QStringList parts = line.mid(QStringLiteral("OnCalendar=").size()).split(' ');
+        if(parts.size() > 1)
+        {
+            const QString time = parts.at(1);
+            if(time.size() >= 5)
+                m_alarmTime = time.left(5);
+        }
+        break;
+    }
+}
+
+void AlarmView::refreshCurrentSong()
+{
+    QProcess mpc;
+    mpc.start("mpc", QStringList() << "-f" << "%title% — %artist%" << "current");
+
+    if(!mpc.waitForFinished(1000))
+        return;
+
+    QString song = QString::fromUtf8(mpc.readAllStandardOutput()).trimmed();
+    if(song.isEmpty())
+        song = tr("Odtwarzanie alarmu");
+
+    setCurrentSong(song);
+}
+
+void AlarmView::setCurrentSong(const QString &song)
+{
+    if(m_currentSong == song)
+        return;
+
+    m_currentSong = song;
+    emit currentSongChanged();
 }
 
 void AlarmView::stopAlarm()

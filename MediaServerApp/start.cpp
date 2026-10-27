@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
 {
     // App
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+    qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Basic"));
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -109,6 +110,7 @@ int main(int argc, char *argv[])
     }
 
     view->setSource(QString("qrc:/main.qml"));
+
     view->show();
 
     return app.exec();
