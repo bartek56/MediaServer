@@ -4,25 +4,21 @@
 #include <QFile>
 #include <QDebug>
 #include <QDateTime>
-#include <QtSystemd/unit.h>
-#include <QtSystemd/sdmanager.h>
+#include "SystemdManager.h"
 
 AlarmView::AlarmView(QObject *parent) : QObject(parent)
   ,editAlarmConfigFile(ALARM_CONFIG_FILE)
 {
-    auto state = Systemd::getUnitFileState(Systemd::System, ALARM_SNOOZE_SERVICE);
-
-    if(state.contains("able"))
+    if(SystemdManager::unitFileExists(ALARM_SNOOZE_SERVICE))
     {
-        Systemd::getUnit(Systemd::System, ALARM_SNOOZE_SERVICE);//support QDBusAbstractInterfaceSupport
-        auto alarmSnoozeState = Systemd::loadUnit(Systemd::System, ALARM_SNOOZE_SERVICE)->activeState();
-        auto alarmState = Systemd::loadUnit(Systemd::System, ALARM_SERVICE)->activeState();
+        const bool alarmSnoozeActive = SystemdManager::isUnitActive(ALARM_SNOOZE_SERVICE);
+        const bool alarmActive = SystemdManager::isUnitActive(ALARM_SERVICE);
 
-        if(!alarmSnoozeState.contains("in"))
+        if(alarmSnoozeActive)
         {
             isSnooze = true;
         }
-        if(!alarmSnoozeState.contains("in") || !alarmState.contains("in"))
+        if(alarmSnoozeActive || alarmActive)
         {
             systemdSupportExist = true;
         }
@@ -31,19 +27,69 @@ AlarmView::AlarmView(QObject *parent) : QObject(parent)
     {
         qWarning() << "alarm service not exist";
     }
+
+    loadAlarmTime();
+}
+
+void AlarmView::loadAlarmTime()
+{
+    const QString timer = isSnooze ? ALARM_SNOOZE_TIMER : ALARM_TIMER;
+    QFile file(QString(CONFIG_PATH) + "/" + timer);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    while(!file.atEnd())
+    {
+        const QString line = QString::fromUtf8(file.readLine()).trimmed();
+        if(!line.startsWith("OnCalendar="))
+            continue;
+
+        const QStringList parts = line.mid(QStringLiteral("OnCalendar=").size()).split(' ');
+        if(parts.size() > 1)
+        {
+            const QString time = parts.at(1);
+            if(time.size() >= 5)
+                m_alarmTime = time.left(5);
+        }
+        break;
+    }
+}
+
+void AlarmView::refreshCurrentSong()
+{
+    QProcess mpc;
+    mpc.start("mpc", QStringList() << "-f" << "%title% — %artist%" << "current");
+
+    if(!mpc.waitForFinished(1000))
+        return;
+
+    QString song = QString::fromUtf8(mpc.readAllStandardOutput()).trimmed();
+    if(song.isEmpty())
+        song = tr("Odtwarzanie alarmu");
+
+    setCurrentSong(song);
+}
+
+void AlarmView::setCurrentSong(const QString &song)
+{
+    if(m_currentSong == song)
+        return;
+
+    m_currentSong = song;
+    emit currentSongChanged();
 }
 
 void AlarmView::stopAlarm()
 {
     if(systemdSupportExist)
     {
-        Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_TIMER, Systemd::Unit::Replace);
+        SystemdManager::stopUnit(ALARM_SNOOZE_TIMER);
 
         if(isSnooze)
-            Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_SERVICE, Systemd::Unit::Replace);
+            SystemdManager::stopUnit(ALARM_SNOOZE_SERVICE);
 
         else
-            Systemd::stopUnit(Systemd::System, ALARM_SERVICE, Systemd::Unit::Replace);
+            SystemdManager::stopUnit(ALARM_SERVICE);
 
         VectorData alarmConfigMap;
         editAlarmConfigFile.LoadConfiguration(alarmConfigMap);
@@ -107,13 +153,13 @@ void AlarmView::snooze(int min)
     }
     file.close();
 
-    Systemd::reload(Systemd::System);
+    SystemdManager::reload();
 
     QProcess::startDetached("mpc", QStringList() << "stop");
-    Systemd::restartUnit(Systemd::System, ALARM_SNOOZE_TIMER, Systemd::Unit::Replace);
+    SystemdManager::restartUnit(ALARM_SNOOZE_TIMER);
 
     if(isSnooze)
-        Systemd::stopUnit(Systemd::System, ALARM_SNOOZE_SERVICE, Systemd::Unit::Replace);
+        SystemdManager::stopUnit(ALARM_SNOOZE_SERVICE);
     else
-        Systemd::stopUnit(Systemd::System, ALARM_SERVICE, Systemd::Unit::Replace);
+        SystemdManager::stopUnit(ALARM_SERVICE);
 }

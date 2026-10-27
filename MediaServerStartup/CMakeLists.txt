@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.16)
 project(MediaServerStartup)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -19,8 +19,9 @@ target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     MediaServerLib
-    Qt5::Quick
-    Qt5::Widgets
+    Qt${QT_VERSION_MAJOR}::Quick
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Network
 )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION "/opt")

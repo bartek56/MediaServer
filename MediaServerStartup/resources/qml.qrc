@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file alias="MediaMessageDialog.qml">../../qml/MediaMessageDialog.qml</file>
+        <file alias="MediaMessageDialogQt5.qml">../../qml/MediaMessageDialogQt5.qml</file>
+        <file alias="MediaMessageDialogQt6.qml">../../qml/MediaMessageDialogQt6.qml</file>
     </qresource>
 </RCC>

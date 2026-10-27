@@ -1,6 +1,6 @@
-QT += core quick qml widgets
+QT += core quick qml widgets dbus
 
-CONFIG += c++14
+CONFIG += c++17
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -15,7 +15,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 INCLUDEPATH += ../MediaServerLib
 LIBS += -L../MediaServerLib -lMediaServerLib
-LIBS += -lQtSystemd
 
 SOURCES += \
         ViewModel/AlarmView.cpp \

@@ -1,7 +1,5 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.0
-import QtQuick.Dialogs 1.1
 import QtQuick.Layouts 1.3
 import QtQuick.VirtualKeyboard 2.1
 import SettingsStatusLib 1.0
@@ -54,7 +52,7 @@ Dialog
         source:"ScreenSaverManager.qml"
     }
 
-    FileDialog {
+    MediaFileDialog {
         id: screenSaverFileDialog
         width: parent.width
         height: parent.height

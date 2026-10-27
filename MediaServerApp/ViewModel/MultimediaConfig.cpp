@@ -1,14 +1,10 @@
 #include "MultimediaConfig.h"
 #include "ConfigFile/ConfigFile.h"
-#include <QtSystemd/sdmanager.h>
+#include "SystemdManager.h"
 
 MultimediaConfig::MultimediaConfig(QObject *parent) : QObject(parent), dlnaConfigFile(std::make_unique<ConfigFile>(MINIDLNA_CONFIG_FILE)), mpdConfigFile(std::make_unique<ConfigFile>(MPD_CONFIG_FILE))
 {
-    Systemd::getUnit(Systemd::System, DLNA_SERVICE);//support QDBusAbstractInterfaceSupport
-
-    auto state = Systemd::getUnitFileState(Systemd::System, DLNA_SERVICE);
-
-    if(state.contains("able"))
+    if(SystemdManager::unitFileExists(DLNA_SERVICE))
     {
         systemdDlnaSupport = true;
     }
@@ -17,9 +13,7 @@ MultimediaConfig::MultimediaConfig(QObject *parent) : QObject(parent), dlnaConfi
         systemdDlnaSupport = false;
         qWarning() << "DLNA systemd not support";
     }
-    state = Systemd::getUnitFileState(Systemd::System, MPD_SERVICE);
-
-    if(state.contains("able"))
+    if(SystemdManager::unitFileExists(MPD_SERVICE))
     {
         systemdMpdSupport = true;
     }
@@ -133,11 +127,10 @@ void MultimediaConfig::saveConfigs()
 void MultimediaConfig::restartService(const QString &service)
 {
     if(isServiceActive(service))
-        Systemd::restartUnit(Systemd::System, service, Systemd::Unit::Replace);
+        SystemdManager::restartUnit(service);
 }
 
 bool MultimediaConfig::isServiceActive(QString serviceName)
 {
-    auto text = Systemd::loadUnit(Systemd::System, serviceName)->activeState();
-    return !text.contains("in");
+    return SystemdManager::isUnitActive(serviceName);
 }

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.16)
 project(MediaServerApp)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -36,10 +36,10 @@ target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     MediaServerLib
-    QtSystemd
-    Qt5::Quick
-    Qt5::Widgets
-    Qt5::DBus
+    Qt${QT_VERSION_MAJOR}::Quick
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::DBus
+    Qt${QT_VERSION_MAJOR}::Network
     pthread
 )
 

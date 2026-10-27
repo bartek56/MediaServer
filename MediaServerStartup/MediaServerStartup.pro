@@ -1,4 +1,4 @@
-QT += core qml quick widgets
+QT += core qml quick widgets network dbus
 
 CONFIG += c++17
 
@@ -19,7 +19,6 @@ static {
 
 INCLUDEPATH += ../MediaServerLib
 LIBS += -L../MediaServerLib -lMediaServerLib
-LIBS += -lQtSystemd
 
 HEADERS += \
     ViewModel/MainWindow.h

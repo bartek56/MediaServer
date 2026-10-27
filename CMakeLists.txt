@@ -1,14 +1,26 @@
-cmake_minimum_required(VERSION 3.13)
-project(MediaServer)
+cmake_minimum_required(VERSION 3.16)
+project(MediaServer LANGUAGES CXX)
 
-find_package(Qt5 COMPONENTS Core Widgets Quick DBus)
-find_package(QtSystemd REQUIRED)
+enable_testing()
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Prefer Qt6, but keep the project buildable with Qt5 while downstream
+# distributions transition to the newer Qt version.
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets Quick Qml DBus Network)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets Quick Qml DBus Network)
+
+if(QT_VERSION_MAJOR EQUAL 6 AND Qt6_VERSION VERSION_LESS 6.3)
+    message(FATAL_ERROR
+        "Qt6.3 or newer is required because the QML compatibility layer uses FolderDialog.")
+endif()
+
 # -DCMAKE_FIND_DEBUG_MODE=1
 
-#-DCMAKE_PREFIX_PATH=/opt/qt5.15.2
-#set(Qt5Core_DIR "/opt/qt5.15.2/lib/cmake/Qt5Core")
-#set(Qt5_DIR "/opt/qt5.15.2/lib/cmake/Qt5")
-#set(QT_QMAKE_EXECUTABLE "/opt/qt5.15.2/bin/qmake")
+# Example for a custom Qt installation:
+# cmake -S . -B build -DCMAKE_PREFIX_PATH=/opt/Qt/6.6.3
 
 add_subdirectory(MediaServerLib)
 add_subdirectory(MediaServerStartup)

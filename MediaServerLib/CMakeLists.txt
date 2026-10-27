@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.16)
 project(MediaServerLib)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -17,15 +17,18 @@ add_library(${PROJECT_NAME}
     ConfigFile/ScreenSaverConfigFile.cpp
     ConfigFile/WifiConfigFile.cpp
     Utils/VectorData.cpp
+    SystemdManager.h
+    SystemdManager.cpp
     ViewModel/Settings/SettingsWifi.cpp
     ViewModel/Settings/SettingsIpAddress.cpp
     ManagementOfExternalDevices.cpp
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC)
+target_include_directories(${PROJECT_NAME} PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
-target_link_libraries(${PROJECT_NAME}
-    Qt5::Quick
-    Qt5::DBus
-    QtSystemd
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    Qt${QT_VERSION_MAJOR}::Quick
+    Qt${QT_VERSION_MAJOR}::DBus
 )

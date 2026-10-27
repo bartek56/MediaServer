@@ -1,5 +1,6 @@
 #include "MassStorage.h"
 #include <QDebug>
+#include <QVariant>
 
 MassStorage::MassStorage(QObject *parent) : QObject(parent)
 {
@@ -28,7 +29,7 @@ void MassStorage::cbDevices_onDisplayTextChanged(QString deviceName, QObject *de
 void MassStorage::bMount_onClicked(const QString mountpoint,const QString deviceName, QString deviceLabel, const bool autoMount, const QString type)
 {
     //fstab_manager.sh true sda7 "/mnt/TOSHIBA EXT2" ntfs-3g
-    if(mountpoint.count()>2) // umount
+    if(mountpoint.size()>2) // umount
     {
         QProcess::execute("bash", QStringList() << "-c" << "/opt/fstab_manager.sh false " + deviceName);
 

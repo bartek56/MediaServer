@@ -2,8 +2,7 @@
 #include "ConfigFile/ConfigFile.h"
 
 #include <QDebug>
-#include <QtSystemd/sdmanager.h>
-#include <QtSystemd/unit.h>
+#include "SystemdManager.h"
 #include <bitset>
 #include <memory>
 
@@ -122,7 +121,7 @@ void SettingsWifi::connect(const QString networkName, const QString password)
     bool result = wifiConfigFile.SaveConfiguration(wifiConfigs, vSsidConfig);
     if(!result)
         qCritical("Failed to save Wifi user and password configuration");
-    Systemd::restartUnit(Systemd::System, WPASUPPLICANT_SERVICE, Systemd::Unit::Replace);
+    SystemdManager::restartUnit(WPASUPPLICANT_SERVICE);
 }
 
 void SettingsWifi::cbNetworks_onDisplayTextChanged(QString networkName, QObject *obj)

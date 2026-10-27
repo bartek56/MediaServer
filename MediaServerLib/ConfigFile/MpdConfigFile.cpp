@@ -17,7 +17,7 @@ bool MpdConfigFile::LoadConfiguration(VectorData &mConfigsParameters)
 
     for(int i = 0; i < lines.size(); i++)
     {
-        if(lines[i] <= 1)
+        if(lines[i].isEmpty())
             break;
         auto parameter = lines[i].split(" \"");
         if(parameter.size() != 2)

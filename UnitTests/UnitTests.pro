@@ -1,9 +1,10 @@
 include(gtest_dependency.pri)
 
 TEMPLATE = app
+QT += core
 #CONFIG += console
 CONFIG -= app_bundle
-CONFIG += thread
+CONFIG += thread c++17
 
 DEFINES += PATH_TO_TEST_FILES=\\\"$$PWD\\\"
 

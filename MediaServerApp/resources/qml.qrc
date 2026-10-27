@@ -20,6 +20,12 @@
         <file>ScreenSaverManager.qml</file>
         <file>ScreenSaver.qml</file>
         <file>Napi.qml</file>
+        <file alias="MediaFileDialog.qml">../../qml/MediaFileDialog.qml</file>
+        <file alias="MediaFileDialogQt5.qml">../../qml/MediaFileDialogQt5.qml</file>
+        <file alias="MediaFileDialogQt6.qml">../../qml/MediaFileDialogQt6.qml</file>
+        <file alias="MediaMessageDialog.qml">../../qml/MediaMessageDialog.qml</file>
+        <file alias="MediaMessageDialogQt5.qml">../../qml/MediaMessageDialogQt5.qml</file>
+        <file alias="MediaMessageDialogQt6.qml">../../qml/MediaMessageDialogQt6.qml</file>
         <file>icons/weather.png</file>
     </qresource>
 </RCC>

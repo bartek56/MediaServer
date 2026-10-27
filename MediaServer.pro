@@ -1,5 +1,10 @@
 QT += core
 CONFIG += ordered
+CONFIG += c++17
+
+greaterThan(QT_MAJOR_VERSION, 5):lessThan(QT_MINOR_VERSION, 3) {
+    error("Qt 6.3 or newer is required when building with Qt6")
+}
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings

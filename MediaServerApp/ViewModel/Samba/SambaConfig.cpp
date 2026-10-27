@@ -3,8 +3,7 @@
 #include <QDebug>
 #include <QObject>
 #include <QFile>
-#include <QtSystemd/sdmanager.h>
-#include <QtSystemd/unit.h>
+#include "SystemdManager.h"
 
 SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
 {
@@ -14,9 +13,7 @@ SambaConfig::SambaConfig(QObject *parent) : QObject(parent)
         isConfigFile = false;
         qCritical("Samba config file doesn't exist");
     }
-    auto state = Systemd::getUnitFileState(Systemd::System, NMB_SERVICE);
-
-    if(state.contains("able"))
+    if(SystemdManager::unitFileExists(NMB_SERVICE))
     {
         systemdSupport = true;
     }
@@ -36,9 +33,7 @@ bool SambaConfig::isServiceActive()
 {
     if(systemdSupport)
     {
-        Systemd::getUnit(Systemd::System, NMB_SERVICE);//support QDBusAbstractInterfaceSupport
-        auto text = Systemd::loadUnit(Systemd::System, NMB_SERVICE)->activeState();
-        return !text.contains("in");
+        return SystemdManager::isUnitActive(NMB_SERVICE);
     }
     return false;
 }
@@ -209,8 +204,8 @@ void SambaConfig::bSave_onClicked()
 
     if(isServiceActive())
     {
-        Systemd::restartUnit(Systemd::System, NMB_SERVICE, Systemd::Unit::Replace);
-        Systemd::restartUnit(Systemd::System, SMB_SERVICE, Systemd::Unit::Replace);
+        SystemdManager::restartUnit(NMB_SERVICE);
+        SystemdManager::restartUnit(SMB_SERVICE);
     }
 }
 

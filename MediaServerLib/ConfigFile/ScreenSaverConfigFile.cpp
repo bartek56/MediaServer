@@ -18,7 +18,7 @@ bool ScreenSaverConfigFile::LoadConfiguration(VectorData &configs)
     for(int i = 0; i < lines.size(); i++)
     {
         auto line = lines[i];
-        if(line < 2)
+        if(line.isEmpty())
             break;
         auto parameter = line.split('=');
         if(parameter.size() != 2)
